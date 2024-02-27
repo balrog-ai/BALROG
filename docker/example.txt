@@ -1,0 +1,1 @@
+docker run -p 5005:8888 --user $(id -u):$(id -g) --gpus all --volume $(pwd):/app --name sc -it scoward
