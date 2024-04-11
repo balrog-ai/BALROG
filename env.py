@@ -3,89 +3,41 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 from nle_language_wrapper import NLELanguageWrapper
 import difflib
+from prompt_builder import NLEDiffPromptBuilder, NLEConcatPromptBuilder, nle_text_obs
 
 # what call this?
 class NLEExtendedLanguageWrapper(NLELanguageWrapper):
     def __init__(self, env, *, max_history=None, max_length=None, use_diff_history=False, action_token="<|action|>", obs_token="<|observation|>"):
         super().__init__(env)
-        self._action_names = [action_strs[0] for action, action_strs in self.all_nle_action_map.items() if action in env.actions]
-        self._max_history = max_history
-        self._max_length = max_length
-        self._obs_history = []
-        self._action_history = []
-        self._format_history = self._diff_history if use_diff_history else self._concat_history
-        self._action_token = action_token
-        self._obs_token = obs_token
+        action_names = [action_strs[0] for action, action_strs in self.all_nle_action_map.items() if action in env.actions]
+        prefix = "You are an agent playing NetHack. Predict the next keypresses.\n\n"
+        prefix += f"Output only one of the following actions:\n\n" + ", ".join(action_names) + "\n\n"
+        if use_diff_history:
+            self._prompt_builder = NLEDiffPromptBuilder(max_history, max_length, prefix, action_token, obs_token)
+        else:
+            self._prompt_builder = NLEConcatPromptBuilder(max_history, max_length, prefix, action_token, obs_token)
 
     # override
     def pre_reset(self):
-        self._obs_history = []
-        self._action_history = []
+        self._prompt_builder.reset()
         return super().pre_reset()
 
     # override
     def post_reset(self, nle_obsv):
-        obsv = self._text_obs_concate(super().post_step(nle_obsv))
-        self._obs_history.append(obsv)
-        return self._format()
+        obsv = nle_text_obs(super().post_step(nle_obsv))
+        self._prompt_builder.append_observation(obsv)
+        return self._prompt_builder.get_prompt()
     
     # override
     def pre_step(self, action):
-        self._action_history.append(action)
+        self._prompt_builder.append_action(action)
         return super().pre_step(action)
     
     # override
     def post_step(self, nle_obsv):
-        obsv = self._text_obs_concate(super().post_step(nle_obsv))
-        self._obs_history.append(obsv)
-        return self._format()
-    
-    # ===
-    
-    def _text_obs_concate(self, text_obsv):
-        key_name_pairs = [
-            ("text_blstats", "statistics"),
-            ("text_glyphs", "glyphs"),
-            ("text_message", "message"),
-            ("text_inventory", "inventory"),
-            ("text_cursor", "cursor"),
-        ]
-        return "\n".join([f"{name}[\n{text_obsv[key]}\n]" for key, name in key_name_pairs])
-
-    def _format(self):
-        n_steps = len(self._action_history)
-        start_idx = min(self._max_history or len(self._action_history), n_steps + 1)
-        
-        if self._max_length is None:
-            return self._format_history(self._obs_history[-start_idx-1:], self._action_history[-start_idx:])
-        
-        for i in reversed(range(1, start_idx+1)):
-            text = self._format_history(self._obs_history[-i-1:], self._action_history[-i:])
-            num_tokens = len(text.encode('utf-8')) # Ideal world, we know exactly how many tokens this string is, but estimate using num bytes
-            if num_tokens <= self._max_length:
-                return text
-            
-        raise ValueError("Unable to generate context that fits within max_length.")
-
-    def _diff_history(self, obs_history, action_history):
-        text = "You are an agent playing NetHack. Predict the next keypresses.\n\n"
-        text += f"Output only one of the following actions:\n\n" + ", ".join(self._action_names) + "\n\n"
-        text += f"{self._obs_token}" + obs_history[0]
-        for action, (prev_obs, obs) in zip(action_history, zip(obs_history[:-1], obs_history[1:])):
-            prev_obs = prev_obs.strip().splitlines()
-            obs = obs.strip().splitlines()
-            obs = "\n".join(difflib.unified_diff(prev_obs, obs, n=0, lineterm=""))
-            text += f"{self._action_token}" + action + f"{self._obs_token}" + obs
-        text += f"{self._action_token}"
-        return text
-
-    def _concat_history(self, obs_history, action_history):
-        text = "You are an agent playing NetHack. Predict the next keypresses.\n\n"
-        text += f"Output only one of the following actions:\n\n" + ", ".join(self._action_names) + "\n\n"
-        for obs, action in zip(obs_history[:-1], action_history):
-            text += f"{self._obs_token}" + obs + f"{self._action_token}" + action
-        text += f"{self._obs_token}" + obs_history[-1] + f"{self._action_token}"
-        return text
+        obsv = nle_text_obs(super().post_step(nle_obsv))
+        self._prompt_builder.append_observation(obsv)
+        return self._prompt_builder.get_prompt()
 
 if __name__ == '__main__':
     from nle.env import tasks
