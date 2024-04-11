@@ -4,6 +4,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 from nle_language_wrapper import NLELanguageWrapper
 import difflib
 from prompt_builder import DiffPromptBuilder, ConcatPromptBuilder, nle_text_obs
+from progress import Progress
 
 # what call this?
 class NLEExtendedLanguageWrapper(NLELanguageWrapper):
@@ -16,10 +17,12 @@ class NLEExtendedLanguageWrapper(NLELanguageWrapper):
             self._prompt_builder = DiffPromptBuilder(max_history=max_history, max_length=max_length, prefix=prefix, action_token=action_token, obs_token=obs_token)
         else:
             self._prompt_builder = ConcatPromptBuilder(max_history=max_history, max_length=max_length, prefix=prefix, action_token=action_token, obs_token=obs_token)
+        self._progress = Progress()
 
     # override
     def pre_reset(self):
         self._prompt_builder.reset()
+        self._progress.reset()
         return super().pre_reset()
 
     # override
@@ -35,9 +38,19 @@ class NLEExtendedLanguageWrapper(NLELanguageWrapper):
     
     # override
     def post_step(self, nle_obsv):
-        obsv = nle_text_obs(super().post_step(nle_obsv))
+        obsv = super().post_step(nle_obsv)
+        self._progress.update(obsv["text_message"], obsv["text_blstats"])
+        obsv = nle_text_obs(obsv)
         self._prompt_builder.append_observation(obsv)
         return self._prompt_builder.get_prompt()
+    
+    # override
+    def step(self, action):
+        obs, reward, done, info = super().step(action)
+        info["progress"] = self._progress.get_progress()
+        info["highest_achievement"] = self._progress.get_highest_achievement()
+        info["achievements"] = self._progress.get_achievements()
+        return obs, reward, done, info
 
 if __name__ == '__main__':
     from nle.env import tasks
@@ -74,7 +87,6 @@ if __name__ == '__main__':
     for n_steps in range(100000):
         print(obs)
         action = pipe(obs, max_length=1000)[0]['generated_text']
-        if action in env.all_nle_action_map:
-            obs, reward, done, info = env.step(action)
-        else:
-            raise ValueError(f"Invalid action: {action}")
+        obs, reward, done, info = env.step("north")
+        print(info)
+        quit()

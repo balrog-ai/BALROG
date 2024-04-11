@@ -1,7 +1,7 @@
 from typing import List, Optional, Dict, Union
 from pathlib import Path
 import json
-
+import re
 
 class Progress:
     """
@@ -25,9 +25,9 @@ class Progress:
             spam = f.readlines()
             self.spam = [line.strip() for line in spam]
 
+    def reset(self):
         self.achievement_list = ["Welcome to experience level 1"]
         self.dlvl_list = [self.achievements_dict[self.achievement_list[0]]]
-
         self.highest_achievement = None
         self.progression = 0
 
@@ -43,7 +43,6 @@ class Progress:
             float: The progression of the player.
         """
         for achievement in self.achievements_dict.keys():
-
             if (
                 achievement in message
                 and achievement not in self.achievement_list
@@ -99,7 +98,5 @@ class Progress:
         Returns:
             str: The dungeong lvl
         """
-        return string.split("$")[0]
-
-
-progress = Progress()
+        return "Dlvl:" + re.search(r'Depth:\s*(\d+)', string).group(1)
+        # return string.split("$")[0]
