@@ -5,6 +5,9 @@ from argparse import ArgumentParser
 from tqdm import tqdm
 import gym
 from nle.nethack.actions import ACTIONS
+from autoascend.env_wrapper import EnvWrapper
+from nle_language_wrapper.nle_language_obsv import NLELanguageObsv
+from prompt_builder import ConcatPromptBuilder, DiffPromptBuilder, nle_text_obs
 
 nle_action_textmap = {
     "UnsafeActions.HELP": "help",
@@ -138,16 +141,13 @@ nle_action_textmap = {
     "TextCharacters.DOLLAR": "$",
 }
 
-from autoascend.env_wrapper import EnvWrapper
-from nle_language_wrapper.nle_language_obsv import NLELanguageObsv
-
 
 NH_ACTION_STR_TO_IDX = {str(ACTIONS[i]): i for i in range(len(ACTIONS))}
-NH_ACTION_IDX_TO_STR = {v: k for (k, v) in NH_ACTION_STR_TO_IDX.items()}
+# NH_ACTION_IDX_TO_STR = {v: k for (k, v) in NH_ACTION_STR_TO_IDX.items()}
 
 
 def gen_and_write_episode(
-    idx, start_idx, total_rollouts, data_dir, vision_version=False
+    idx, start_idx, total_rollouts, data_dir, max_length
 ):
     nle_language = NLELanguageObsv()
 
@@ -158,44 +158,38 @@ def gen_and_write_episode(
                 agent_args=dict(panic_on_errors=True, verbose=False),
                 step_limit=10000000000,
             )
-
+            
             try:
                 env.main()
             except BaseException:
                 pass
-            summary = env.get_summary()
-
-            json_safe_summary = {}
-            for key, val in summary.items():
-                if (
-                    isinstance(val, int)
-                    or isinstance(val, str)
-                    or isinstance(val, float)
-                    or isinstance(val, tuple)
-                ):
-                    json_safe_summary[key] = val
-                else:
-                    json_safe_summary[key] = val.item()
-
-            text_data = [json_safe_summary]
+            
+            # # Don't really need this either
+            # summary = env.get_summary()
+            # json_safe_summary = {}
+            # for key, val in summary.items():
+            #     if (
+            #         isinstance(val, int)
+            #         or isinstance(val, str)
+            #         or isinstance(val, float)
+            #         or isinstance(val, tuple)
+            #     ):
+            #         json_safe_summary[key] = val
+            #     else:
+            #         json_safe_summary[key] = val.item()
+            # text_data = [json_safe_summary]
 
             data = env.get_data()
 
+            datarows = []
+            prompt_builder = ConcatPromptBuilder(max_length=max_length, prefix="You are an agent playing NetHack. Predict the next keypresses.\n\n")
             for ts in range(len(data)):
                 datum = data[ts]
 
-                txt_blstats = nle_language.text_blstats(datum["blstats"]).decode(
-                    "latin-1"
-                )
-                txt_glyphs = nle_language.text_glyphs(
-                    datum["glyphs"], datum["blstats"]
-                ).decode("latin-1")
-                txt_message = nle_language.text_message(datum["tty_chars"]).decode(
-                    "latin-1"
-                )
-                txt_inventory = nle_language.text_inventory(
-                    datum["inv_strs"], datum["inv_letters"]
-                ).decode("latin-1")
+                txt_blstats = nle_language.text_blstats(datum["blstats"]).decode("latin-1")
+                txt_glyphs = nle_language.text_glyphs(datum["glyphs"], datum["blstats"]).decode("latin-1")
+                txt_message = nle_language.text_message(datum["tty_chars"]).decode("latin-1")
+                txt_inventory = nle_language.text_inventory(datum["inv_strs"], datum["inv_letters"]).decode("latin-1")
                 txt_cursor = (
                     nle_language.text_cursor(
                         datum["glyphs"], datum["blstats"], datum["tty_chars"]
@@ -206,35 +200,37 @@ def gen_and_write_episode(
                 else:
                     txt_action = "esc"
 
-                text_datum = {
-                    "txt_blstats": txt_blstats,
-                    "txt_glyphs": txt_glyphs,
-                    "txt_message": txt_message,
-                    "txt_inventory": txt_inventory,
-                    "txt_cursor": txt_cursor,
-                    "txt_action": txt_action,
-                }
+                text_obs = nle_text_obs({
+                    "text_blstats": txt_blstats,
+                    "text_glyphs": txt_glyphs,
+                    "text_message": txt_message,
+                    "text_inventory": txt_inventory,
+                    "text_cursor": txt_cursor,
+                    # "text_action": txt_action,
+                })
+                prompt_builder.append_observation(text_obs)
+                
+                datarows.append({"prompt": prompt_builder.get_prompt(), "completion": txt_action})
 
-                if vision_version:
-                    vision_datum = {
-                        "tty_chars": datum["tty_chars"].tolist(),
-                        "tty_colors": datum["tty_colors"].tolist(),
-                        "tty_cursor": datum["tty_cursor"].tolist(),
-                    }
-                    if ts < len(data) - 1:
-                        action = NH_ACTION_STR_TO_IDX[data[ts + 1]["action"]]
-                    else:
-                        action = NH_ACTION_STR_TO_IDX["Command.ESC"]
-                    vision_datum["int_action"] = action
+                # # Not doing this for now
+                # if vision_version:
+                #     vision_datum = {
+                #         "tty_chars": datum["tty_chars"].tolist(),
+                #         "tty_colors": datum["tty_colors"].tolist(),
+                #         "tty_cursor": datum["tty_cursor"].tolist(),
+                #     }
+                #     if ts < len(data) - 1:
+                #         action = NH_ACTION_STR_TO_IDX[data[ts + 1]["action"]]
+                #     else:
+                #         action = NH_ACTION_STR_TO_IDX["Command.ESC"]
+                #     vision_datum["int_action"] = action
+                #     text_datum = {**text_datum, **vision_datum}
 
-                    text_datum = {**text_datum, **vision_datum}
-
-                text_data += [text_datum]
+                # text_data += [text_datum]
 
             fn = f"{game_id}_{len(data)}.jsonl"
-
             with jsonlines.open(os.path.join(data_dir, fn), "w") as writer:
-                writer.write_all(text_data)
+                writer.write_all(datarows)
 
             pbar.update(1)
 
@@ -254,7 +250,7 @@ def create_dataset(args, use_multiprocessing=True):
         tasks = []
         start_idx = 0
         for process_id, episode_count in enumerate(episode_counts):
-            tasks.append(pool.apply_async(gen_and_write_episode, (process_id, start_idx, episode_count, data_dir, args.vision_version)))
+            tasks.append(pool.apply_async(gen_and_write_episode, (process_id, start_idx, episode_count, data_dir, args.max_length)))
             start_idx += episode_count
 
         # Wait for all tasks to complete
@@ -263,7 +259,7 @@ def create_dataset(args, use_multiprocessing=True):
         pool.join()
     else:
         # Sequential processing
-        gen_and_write_episode(0, 0, args.episodes, data_dir, args.vision_version)
+        gen_and_write_episode(0, 0, args.episodes, data_dir, args.max_length)
 
     print("Dataset generation complete.")
 
@@ -273,9 +269,10 @@ def parse_args():
         "--base_dir", default="data", type=str, help="dir where to store data"
     )
     parser.add_argument("--vision_version", default=0, type=int) # currently unused
-    parser.add_argument("-n", "--episodes", type=int, default=10)
+    parser.add_argument("-n", "--episodes", type=int, default=1000)
     parser.add_argument("--panic-on-errors", default=True, action="store_true") # what do?
     parser.add_argument("--cores_to_reserve", type=int, default=0) # what do?
+    parser.add_argument("--max_length", type=int, default=8000) # what do?
     args = parser.parse_args()
 
     print("ARGS:", args)

@@ -3,7 +3,7 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 from nle_language_wrapper import NLELanguageWrapper
 import difflib
-from prompt_builder import NLEDiffPromptBuilder, NLEConcatPromptBuilder, nle_text_obs
+from prompt_builder import DiffPromptBuilder, ConcatPromptBuilder, nle_text_obs
 
 # what call this?
 class NLEExtendedLanguageWrapper(NLELanguageWrapper):
@@ -13,9 +13,9 @@ class NLEExtendedLanguageWrapper(NLELanguageWrapper):
         prefix = "You are an agent playing NetHack. Predict the next keypresses.\n\n"
         prefix += f"Output only one of the following actions:\n\n" + ", ".join(action_names) + "\n\n"
         if use_diff_history:
-            self._prompt_builder = NLEDiffPromptBuilder(max_history, max_length, prefix, action_token, obs_token)
+            self._prompt_builder = DiffPromptBuilder(max_history=max_history, max_length=max_length, prefix=prefix, action_token=action_token, obs_token=obs_token)
         else:
-            self._prompt_builder = NLEConcatPromptBuilder(max_history, max_length, prefix, action_token, obs_token)
+            self._prompt_builder = ConcatPromptBuilder(max_history=max_history, max_length=max_length, prefix=prefix, action_token=action_token, obs_token=obs_token)
 
     # override
     def pre_reset(self):

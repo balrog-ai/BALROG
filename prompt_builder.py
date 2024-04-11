@@ -1,8 +1,9 @@
+from nle_language_wrapper import NLELanguageWrapper
 import difflib
 
-class NLEPromptBuilder(object):
-    def __init__(self, max_history=None, max_length=None, prefix="", action_token="<|action|>", obs_token="<|observation|>"):
-        self._prefix = prefix
+class PromptBuilder(object):
+    def __init__(self, *, max_history=None, max_length=None, prefix="", action_token="<|action|>", obs_token="<|observation|>"):
+        self._prefix  = prefix
         self._max_history = max_history
         self._max_length = max_length
         self._obs_history = []
@@ -41,7 +42,7 @@ class NLEPromptBuilder(object):
     def _format_history(self, obs_history, action_history):
         raise NotImplementedError
     
-class NLEConcatPromptBuilder(NLEPromptBuilder):
+class ConcatPromptBuilder(PromptBuilder):
     def _format_history(self, obs_history, action_history):
         text = ""
         for obs, action in zip(obs_history[:-1], action_history):
@@ -49,7 +50,7 @@ class NLEConcatPromptBuilder(NLEPromptBuilder):
         text += f"{self._obs_token}" + obs_history[-1] + f"{self._action_token}"
         return text
     
-class NLEDiffPromptBuilder(NLEPromptBuilder):
+class DiffPromptBuilder(PromptBuilder):
     def _format_history(self, obs_history, action_history):
         text = f"{self._obs_token}" + obs_history[0]
         for action, (prev_obs, obs) in zip(action_history, zip(obs_history[:-1], obs_history[1:])):
@@ -59,6 +60,12 @@ class NLEDiffPromptBuilder(NLEPromptBuilder):
             text += f"{self._action_token}" + action + f"{self._obs_token}" + obs
         text += f"{self._action_token}"
         return text
+    
+def get_default_prefix():
+    # action_names = [action_strs[0] for action, action_strs in self.all_nle_action_map.items() if action in env.actions]
+    prefix = "You are an agent playing NetHack. Predict the next keypresses.\n\n"
+    return prefix
+    # prefix += f"Output only one of the following actions:\n\n" + ", ".join(action_names) + "\n\n"
 
 def nle_text_obs(text_obsv):
     key_name_pairs = [
