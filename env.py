@@ -6,7 +6,7 @@ import difflib
 
 # what call this?
 class NLEExtendedLanguageWrapper(NLELanguageWrapper):
-    def __init__(self, env, *, max_history=None, max_length=None, use_diff_history=False):
+    def __init__(self, env, *, max_history=None, max_length=None, use_diff_history=False, action_token="<|action|>", obs_token="<|observation|>"):
         super().__init__(env)
         self._action_names = [action_strs[0] for action, action_strs in self.all_nle_action_map.items() if action in env.actions]
         self._max_history = max_history
@@ -14,6 +14,8 @@ class NLEExtendedLanguageWrapper(NLELanguageWrapper):
         self._obs_history = []
         self._action_history = []
         self._format_history = self._diff_history if use_diff_history else self._concat_history
+        self._action_token = action_token
+        self._obs_token = obs_token
 
     # override
     def pre_reset(self):
@@ -68,21 +70,21 @@ class NLEExtendedLanguageWrapper(NLELanguageWrapper):
     def _diff_history(self, obs_history, action_history):
         text = "You are an agent playing NetHack. Predict the next keypresses.\n\n"
         text += f"Output only one of the following actions:\n\n" + ", ".join(self._action_names) + "\n\n"
-        text += "**OBSERVATION**:\n\n" + obs_history[0] + "\n\n"
+        text += f"{self._obs_token}" + obs_history[0]
         for action, (prev_obs, obs) in zip(action_history, zip(obs_history[:-1], obs_history[1:])):
             prev_obs = prev_obs.strip().splitlines()
             obs = obs.strip().splitlines()
             obs = "\n".join(difflib.unified_diff(prev_obs, obs, n=0, lineterm=""))
-            text += "**ACTION**:\n\n" + action + "\n\n" + "**OBSERVATION**:\n\n" + obs + "\n\n"
-        text += "**ACTION**:\n\n"
+            text += f"{self._action_token}" + action + f"{self._obs_token}" + obs
+        text += f"{self._action_token}"
         return text
 
     def _concat_history(self, obs_history, action_history):
         text = "You are an agent playing NetHack. Predict the next keypresses.\n\n"
         text += f"Output only one of the following actions:\n\n" + ", ".join(self._action_names) + "\n\n"
         for obs, action in zip(obs_history[:-1], action_history):
-            text += "**OBSERVATION**:\n\n" + obs + "\n\n" + "**ACTION**:\n\n" + action + "\n\n"
-        text += "**OBSERVATION**:\n\n" + obs_history[-1] + "\n\n" + "**ACTION**:\n\n"
+            text += f"{self._obs_token}" + obs + f"{self._action_token}" + action
+        text += f"{self._obs_token}" + obs_history[-1] + f"{self._action_token}"
         return text
 
 if __name__ == '__main__':

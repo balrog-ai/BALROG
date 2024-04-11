@@ -39,4 +39,4 @@ RUN pip install --upgrade transformers accelerate nle-language-wrapper
 RUN pip install --upgrade matplotlib notebook pytest wandb moviepy imageio
 
 # Install unnecessary bullshit
-RUN pip install opencv-python pandas datasets numba
+RUN pip install opencv-python pandas datasets numba nltk jsonlines h5py seaborn
