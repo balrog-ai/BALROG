@@ -8,7 +8,6 @@ import difflib
 class NLEExtendedLanguageWrapper(NLELanguageWrapper):
     def __init__(self, env, *, max_history=None, max_length=None, use_diff_history=False):
         super().__init__(env)
-        # self._tokenizer = tokenizer
         self._action_names = [action_strs[0] for action, action_strs in self.all_nle_action_map.items() if action in env.actions]
         self._max_history = max_history
         self._max_length = max_length
@@ -53,15 +52,14 @@ class NLEExtendedLanguageWrapper(NLELanguageWrapper):
 
     def _format(self):
         n_steps = len(self._action_history)
-        start_idx = min(self._max_history or float('inf'), n_steps + 1)
+        start_idx = min(self._max_history or len(self._action_history), n_steps + 1)
         
         if self._max_length is None:
             return self._format_history(self._obs_history[-start_idx-1:], self._action_history[-start_idx:])
         
         for i in reversed(range(1, start_idx+1)):
             text = self._format_history(self._obs_history[-i-1:], self._action_history[-i:])
-            # num_tokens = self._tokenizer(text, return_length=True)['length'][0]
-            num_tokens = len(text.encode('utf-8')) # this is not accurate, but it's good enough
+            num_tokens = len(text.encode('utf-8')) # Ideal world, we know exactly how many tokens this string is, but estimate using num bytes
             if num_tokens <= self._max_length:
                 return text
             
@@ -86,10 +84,7 @@ class NLEExtendedLanguageWrapper(NLELanguageWrapper):
             text += "**OBSERVATION**:\n\n" + obs + "\n\n" + "**ACTION**:\n\n" + action + "\n\n"
         text += "**OBSERVATION**:\n\n" + obs_history[-1] + "\n\n" + "**ACTION**:\n\n"
         return text
-        # return "You are an agent playing NetHack. Predict the next keypresses.\n\n" + '\n'.join(
-        #     map(''.join, zip(obs_history[:-1], action_history))
-        # ) + '\n' + obs_history[-1]
-    
+
 if __name__ == '__main__':
     from nle.env import tasks
     
@@ -110,12 +105,12 @@ if __name__ == '__main__':
             penalty_time=0.0,
             penalty_mode="constant",
             no_progress_timeout=100,
-            save_ttyrec_every=1,
+            # save_ttyrec_every=1,
         )
     )
     
-    tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b")
-    model = AutoModelForCausalLM.from_pretrained("google/gemma-2b", device_map="auto")
+    tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b-it")
+    model = AutoModelForCausalLM.from_pretrained("google/gemma-2b-it", device_map="auto")
     pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, max_length=100000, return_full_text=False)
 
     env = NLEExtendedLanguageWrapper(base_env, use_diff_history=True)
