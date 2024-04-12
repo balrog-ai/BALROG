@@ -1,5 +1,6 @@
 from nle_language_wrapper import NLELanguageWrapper
 import difflib
+from const import ACTION_NAMES
 
 class PromptBuilder(object):
     def __init__(self, *, max_history=None, max_length=None, prefix="", action_token="<|action|>", obs_token="<|observation|>"):
@@ -18,7 +19,7 @@ class PromptBuilder(object):
         self._obs_history.append(obs)
         
     def get_prompt(self):
-        return self._prefix + self._format()
+        return self._prefix + self._format() + self._suffix
     
     def reset(self):
         self._obs_history = []
@@ -42,6 +43,13 @@ class PromptBuilder(object):
     def _format_history(self, obs_history, action_history):
         raise NotImplementedError
     
+class QAPromptBuilder(PromptBuilder):
+    def __init__(self, *, max_history=None, max_length=None, action_token="<|action|>", obs_token="<|observation|>"):
+        super().__init__(max_history=max_history, max_length=max_length, action_token=action_token, obs_token=obs_token)
+    
+    def get_prompt(self):
+        return super().get_prompt()
+
 class ConcatPromptBuilder(PromptBuilder):
     def _format_history(self, obs_history, action_history):
         text = ""
