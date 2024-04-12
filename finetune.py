@@ -297,8 +297,8 @@ def main():
     #     **dataset_args,
     # )
 
-    tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b-it")
-    model = AutoModelForCausalLM.from_pretrained("google/gemma-2b-it", device_map="auto")
+    tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b")
+    model = AutoModelForCausalLM.from_pretrained("google/gemma-2b", device_map="auto")
     
     # If these tokens aren't already in the tokenizer, add them
     num_added_tokens = tokenizer.add_special_tokens(

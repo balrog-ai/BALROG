@@ -269,7 +269,7 @@ def parse_args():
         "--base_dir", default="data", type=str, help="dir where to store data"
     )
     parser.add_argument("--vision_version", default=0, type=int) # currently unused
-    parser.add_argument("-n", "--episodes", type=int, default=1000)
+    parser.add_argument("-n", "--episodes", type=int, default=10)
     parser.add_argument("--panic-on-errors", default=True, action="store_true") # what do?
     parser.add_argument("--cores_to_reserve", type=int, default=0) # what do?
     parser.add_argument("--max_length", type=int, default=8000) # what do?
@@ -281,7 +281,6 @@ def parse_args():
 def main():
     args = parse_args()
     create_dataset(args)
-
 
 if __name__ == "__main__":
     main()
