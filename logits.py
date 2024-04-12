@@ -72,7 +72,6 @@ model.eval()
 
 actions = [
     "north",
-    "east",
     "south",
     "west",
     "northeast",
@@ -94,6 +93,7 @@ actions = [
     "jump",
     "kick",
     "pay",
+    "east",
     "pickup",
     "pray",
     "puton",
@@ -101,13 +101,20 @@ actions = [
     "search",
 ]
 
+actions = [
+    tokenizer(action, return_tensors="pt").input_ids.to("cuda")[0][1]
+    for action in actions
+]
+
+print(type(actions[0]))
+
 
 @torch.no_grad()
 def predict_action(
     model: AutoModelForCausalLM,
     tokenizer: AutoTokenizer,
     observation: str,
-    actions: List[str],
+    actions: List[torch.Tensor],
 ) -> str:
     """
     Predict the next action using logits of the model
@@ -130,15 +137,11 @@ def predict_action(
     last_token_logits = logits[0, -1, :]
 
     # Get the logit position of each action token
-    action_logits = {
-        action: last_token_logits[
-            tokenizer(action, return_tensors="pt").input_ids.to("cuda")[0][1]
-        ]
-        for action in actions
-    }
+    action_logits = {action: last_token_logits[action] for action in actions}
     # Get the action with the highest logit
-    best_action = max(action_logits, key=action_logits.get)
-    return best_action
+    best_action_token = max(action_logits, key=action_logits.get)
+    return best_action_token
 
 
-next_action = predict_action(model, tokenizer, observation, actions)
+next_action = tokenizer.decode(predict_action(model, tokenizer, observation, actions))
+print(next_action)
