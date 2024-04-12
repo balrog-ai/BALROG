@@ -3,8 +3,9 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 from nle_language_wrapper import NLELanguageWrapper
 import difflib
-from prompt_builder import DiffPromptBuilder, ConcatPromptBuilder, nle_text_obs
+from prompt_builder import DiffPromptBuilder, ConcatPromptBuilder, SimpleQAPromptBuilder, nle_text_obs
 from progress import Progress
+from const import SIMPLE_ACTIONS
 
 # what call this?
 class NLEExtendedLanguageWrapper(NLELanguageWrapper):
@@ -12,11 +13,12 @@ class NLEExtendedLanguageWrapper(NLELanguageWrapper):
         super().__init__(env)
         action_names = [action_strs[0] for action, action_strs in self.all_nle_action_map.items() if action in env.actions]
         prefix = "You are an agent playing NetHack. Predict the next keypresses.\n\n"
-        prefix += f"Output only one of the following actions:\n\n" + ", ".join(action_names) + "\n\n"
         if use_diff_history:
+            prefix += f"Output only one of the following actions:\n\n" + ", ".join(action_names) + "\n\n"
             self._prompt_builder = DiffPromptBuilder(max_history=max_history, max_length=max_length, prefix=prefix, action_token=action_token, obs_token=obs_token)
         else:
-            self._prompt_builder = ConcatPromptBuilder(max_history=max_history, max_length=max_length, prefix=prefix, action_token=action_token, obs_token=obs_token)
+            self._prompt_builder = SimpleQAPromptBuilder(max_history=max_history, max_length=max_length, prefix=prefix)
+            # self._prompt_builder = ConcatPromptBuilder(max_history=max_history, max_length=max_length, prefix=prefix, action_token=action_token, obs_token=obs_token)
         self._progress = Progress()
 
     # override
@@ -78,11 +80,30 @@ if __name__ == '__main__':
     
     tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b-it")
     model = AutoModelForCausalLM.from_pretrained("google/gemma-2b-it", device_map="auto")
+    
+    print([tokenizer(action, return_tensors="pt").input_ids.to("cuda")[0][1]] for action in SIMPLE_ACTIONS)
+    quit()
+    
+    action_logits = {
+        action: last_token_logits[
+            tokenizer(action, return_tensors="pt").input_ids.to("cuda")[0][1]
+        ]
+        for action in SIMPLE_ACTIONS
+    }
+    
+    
     pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, max_length=100000, return_full_text=False)
 
     env = NLEExtendedLanguageWrapper(base_env, use_diff_history=True)
     
     obs = env.reset()
+    
+    action_logits = {
+        action: last_token_logits[
+            tokenizer(action, return_tensors="pt").input_ids.to("cuda")[0][1]
+        ]
+        for action in actions
+    }
     
     for n_steps in range(100000):
         print(obs)
