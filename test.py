@@ -1,55 +1,50 @@
-import gym
-import nle
-from nle_language_wrapper import NLELanguageWrapper
+from datasets import Dataset, DatasetDict, load_dataset
 from transformers import AutoTokenizer, AutoModelForCausalLM
-import random
+from torch.utils.data import DataLoader
+from transformers import DataCollatorForSeq2Seq
 
-tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b-it")
-model = AutoModelForCausalLM.from_pretrained("google/gemma-2b-it", device_map="auto")
+def create_dataset(data_files, tokenizer, split_ratios={'train': 0.8, 'test': 0.2}):
+    # Load a dataset from a CSV file
+    dataset = load_dataset('csv', data_files={'data': data_files})
 
-env = NLELanguageWrapper(gym.make("NetHack-v0"))
-
-action_names = [action_strs[0] for action, action_strs in env.all_nle_action_map.items() if action in env.env.actions]
-
-def get_text_obs(obsv):
-    text_obsv = ""
-    text_obsv += f"Inventory:\n{obsv['text_inventory']}\n\n"
-    text_obsv += f"Stats:\n{obsv['text_blstats']}\n\n"
-    text_obsv += f"Cursor:\n{obsv['text_cursor']}\n\n"
-    text_obsv += f"Stats:\n{obsv['text_glyphs']}\n\n"
-    text_obsv += f"Message:\n{obsv['text_message']}\n\n"
-    random.shuffle(action_names)
-    text_obsv += f"Output only one of the following actions:\n\n" + ", ".join(action_names) + ".\n\n"
-    return text_obsv
-
-obsv = env.reset()
-
-done = False
-# while not done:
-for i in range(10):
-    prompt = get_text_obs(obsv)
-    input_ids = tokenizer(prompt, return_tensors="pt").to("cuda")
-    print(input_ids.keys())
-    outputs = model.generate(
-        **input_ids,
-        # Parameters that control the length of the output
-        max_length=10000,       # Adjust this to generate longer sequences
-        # Parameters that control the generation strategy
-        do_sample=True,
-        # Parameters for manipulation of the model output logits
-        temperature=10.0,       # Adjust for creativity (lower is more deterministic)
-        top_k=50,               # Sample from the top k most likely tokens
-        top_p=0.95,             # Use nucleus sampling with this probability threshold
-        no_repeat_ngram_size=2, # Prevent repeating n-grams)
-        # Parameters that define the output variables of `generate`
-        num_return_sequences=1, # Generate 1 sequence (adjust as needed)
-    )
+    # Tokenization function
+    def tokenize_function(examples):
+        # Tokenize the prompts with truncation
+        model_inputs = tokenizer(examples['prompt'], truncation=True)
+        
+        # Prepare labels which are the tokenized completions without padding
+        with tokenizer.as_target_tokenizer():
+            labels = tokenizer(examples['completion'], truncation=True)
+        
+        # We do not pad here; padding will be handled dynamically during batch preparation in training
+        model_inputs["labels"] = labels["input_ids"]
+        return model_inputs
     
-    print(outputs[0].shape)
+    # Apply tokenization without padding
+    return dataset.map(tokenize_function, batched=True, remove_columns=['prompt', 'completion'])
     
-    print(tokenizer.decode(outputs[0]))
-    print(tokenizer.decode(outputs[0]).replace(prompt, ""))
-    
-    # env.render()
-    quit()
-    obsv, reward, done, info = env.step(input())
+    return tokenized_datasets
+
+tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b")
+model = AutoModelForCausalLM.from_pretrained("google/gemma-2b", device_map="auto")
+dataset = create_dataset("./data/10/data.csv", tokenizer)
+
+train_dataloader = DataLoader(
+    dataset["data"],
+    shuffle=True,
+    collate_fn=DataCollatorForSeq2Seq(
+        tokenizer=tokenizer, model=model, padding="longest"
+    ),
+    batch_size=8,
+)
+
+for step, batch in enumerate(train_dataloader):
+    print(batch)
+    if step > 3:
+        break
+
+# breakpoint()
+
+# # dataset = load_dataset('csv', data_files={'data': data_files})
+# dataset = load_dataset('csv', data_files=data_files)
+# breakpoint()
