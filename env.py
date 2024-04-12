@@ -6,6 +6,7 @@ import difflib
 from prompt_builder import DiffPromptBuilder, ConcatPromptBuilder, SimpleQAPromptBuilder, nle_text_obs
 from progress import Progress
 from const import SIMPLE_ACTIONS
+from logits import predict_action
 
 # what call this?
 class NLEExtendedLanguageWrapper(NLELanguageWrapper):
@@ -78,36 +79,20 @@ if __name__ == '__main__':
         )
     )
     
+    
     tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b-it")
     model = AutoModelForCausalLM.from_pretrained("google/gemma-2b-it", device_map="auto")
     
-    print([tokenizer(action, return_tensors="pt").input_ids.to("cuda")[0][1]] for action in SIMPLE_ACTIONS)
-    quit()
-    
-    action_logits = {
-        action: last_token_logits[
-            tokenizer(action, return_tensors="pt").input_ids.to("cuda")[0][1]
-        ]
+    actions = [
+        tokenizer(action, return_tensors="pt").input_ids.to("cuda")[0][1]
         for action in SIMPLE_ACTIONS
-    }
+    ]
     
-    
-    pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, max_length=100000, return_full_text=False)
-
     env = NLEExtendedLanguageWrapper(base_env, use_diff_history=True)
-    
-    obs = env.reset()
-    
-    action_logits = {
-        action: last_token_logits[
-            tokenizer(action, return_tensors="pt").input_ids.to("cuda")[0][1]
-        ]
-        for action in actions
-    }
     
     for n_steps in range(100000):
         print(obs)
-        action = pipe(obs, max_length=1000)[0]['generated_text']
-        obs, reward, done, info = env.step("north")
+        action = tokenizer.decode(predict_action(model, tokenizer, obs, actions))
+        # action = tokenizer.decode(predict_action(model, tokenizer, obs))
+        obs, reward, done, info = env.step(action)
         print(info)
-        quit()
