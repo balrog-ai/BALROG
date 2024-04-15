@@ -54,7 +54,7 @@ class Progress:
                     self.highest_achievement = achievement
 
             dlvl = self._get_dlvl(stats)
-            if dlvl not in self.dlvl_list:
+            if dlvl not in self.dlvl_list and dlvl in self.achievements_dict.keys():
                 self.dlvl_list.append(dlvl)
                 if self.achievements_dict[dlvl] > self.progression:
                     self.progression = self.achievements_dict[dlvl]

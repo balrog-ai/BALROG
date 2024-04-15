@@ -1,12 +1,8 @@
 # Super minimized version of what diff_history does
 
-from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 from nle_language_wrapper import NLELanguageWrapper
-import difflib
 from prompt_builder import DiffPromptBuilder, ConcatPromptBuilder, SimpleQAPromptBuilder, nle_text_obs
 from progress import Progress
-from const import SIMPLE_ACTIONS
-from logits import predict_action
 
 # what call this?
 class NLEExtendedLanguageWrapper(NLELanguageWrapper):
@@ -18,8 +14,8 @@ class NLEExtendedLanguageWrapper(NLELanguageWrapper):
             prefix += f"Output only one of the following actions:\n\n" + ", ".join(action_names) + "\n\n"
             self._prompt_builder = DiffPromptBuilder(max_history=max_history, max_length=max_length, prefix=prefix, action_token=action_token, obs_token=obs_token)
         else:
-            self._prompt_builder = SimpleQAPromptBuilder(max_history=max_history, max_length=max_length, prefix=prefix)
-            # self._prompt_builder = ConcatPromptBuilder(max_history=max_history, max_length=max_length, prefix=prefix, action_token=action_token, obs_token=obs_token)
+            # self._prompt_builder = SimpleQAPromptBuilder(max_history=max_history, max_length=max_length, prefix=prefix)
+            self._prompt_builder = ConcatPromptBuilder(max_history=max_history, max_length=max_length, prefix=prefix, action_token=action_token, obs_token=obs_token)
         self._progress = Progress()
 
     # override
@@ -54,45 +50,11 @@ class NLEExtendedLanguageWrapper(NLELanguageWrapper):
         info["highest_achievement"] = self._progress.get_highest_achievement()
         info["achievements"] = self._progress.get_achievements()
         return obs, reward, done, info
-
-if __name__ == '__main__':
-    from nle.env import tasks
     
-    base_env = tasks.NetHackChallenge(
-        **dict(
-            # savedir="./experiment_outputs/dummy_ttyrec",
-            character="@",
-            max_episode_steps=100000000,
-            observation_keys=(
-                "blstats",
-                "tty_chars",
-                "tty_cursor",
-                "glyphs",
-                "inv_strs",
-                "inv_letters",
-            ),
-            penalty_step=0.0,
-            penalty_time=0.0,
-            penalty_mode="constant",
-            no_progress_timeout=100,
-            # save_ttyrec_every=1,
-        )
-    )
-    
-    
-    tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b-it")
-    model = AutoModelForCausalLM.from_pretrained("google/gemma-2b-it", device_map="auto")
-    
-    actions = [
-        tokenizer(action, return_tensors="pt").input_ids.to("cuda")[0][1]
-        for action in SIMPLE_ACTIONS
-    ]
-    
-    env = NLEExtendedLanguageWrapper(base_env, use_diff_history=True)
-    
-    for n_steps in range(100000):
-        print(obs)
-        action = tokenizer.decode(predict_action(model, tokenizer, obs, actions))
-        # action = tokenizer.decode(predict_action(model, tokenizer, obs))
-        obs, reward, done, info = env.step(action)
-        print(info)
+    def history(self):
+        text = ""
+        for obs, action in zip(self._prompt_builder._obs_history[:-1], self._prompt_builder._action_history):
+            text += f"OBSERVATION\n===========\n" + obs + "\n\nACTION\n======\n" + action + "\n\n"
+        # text += f"OBSERVATION:\n" + self._prompt_builder._obs_history[-1]
+        text += "GAMEOVER"
+        return text

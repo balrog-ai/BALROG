@@ -1,0 +1,8191 @@
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 1
+Position: 22|4
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+vertical wall far west
+horizontal wall near north and northwest
+gold piece near west
+vertical wall adjacent northeast and east
+southeast corner adjacent southeast
+horizontal wall adjacent south and southwest
+tame little dog adjacent northwest
+]
+message[
+Hello Agent, welcome to NetHack!  You are a neutral female human Barbarian.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+north
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 2
+Position: 22|3
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+vertical wall far west
+gold piece near westsouthwest
+horizontal wall very near north, south, southwest, and northwest
+vertical wall adjacent northeast, east, and southeast
+stairs up adjacent south
+tame little dog adjacent west
+]
+message[
+
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+fight
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 2
+Position: 22|3
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+vertical wall far west
+gold piece near westsouthwest
+horizontal wall very near north, south, southwest, and northwest
+vertical wall adjacent northeast, east, and southeast
+stairs up adjacent south
+tame little dog adjacent west
+]
+message[
+
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+fight
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 2
+Position: 22|3
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+vertical wall far west
+gold piece near westsouthwest
+horizontal wall very near north, south, southwest, and northwest
+vertical wall adjacent northeast, east, and southeast
+stairs up adjacent south
+tame little dog adjacent west
+]
+message[
+Invalid direction for 'F' prefix.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+fight
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 2
+Position: 22|3
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+vertical wall far west
+gold piece near westsouthwest
+horizontal wall very near north, south, southwest, and northwest
+vertical wall adjacent northeast, east, and southeast
+stairs up adjacent south
+tame little dog adjacent west
+]
+message[
+Invalid direction for 'F' prefix.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+fight
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 2
+Position: 22|3
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+vertical wall far west
+gold piece near westsouthwest
+horizontal wall very near north, south, southwest, and northwest
+vertical wall adjacent northeast, east, and southeast
+stairs up adjacent south
+tame little dog adjacent west
+]
+message[
+Invalid direction for 'F' prefix.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+fight
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 2
+Position: 22|3
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+vertical wall far west
+gold piece near westsouthwest
+horizontal wall very near north, south, southwest, and northwest
+vertical wall adjacent northeast, east, and southeast
+stairs up adjacent south
+tame little dog adjacent west
+]
+message[
+Invalid direction for 'F' prefix.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 2
+Position: 22|3
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+vertical wall far west
+gold piece near westsouthwest
+horizontal wall very near north, south, southwest, and northwest
+vertical wall adjacent northeast, east, and southeast
+stairs up adjacent south
+tame little dog adjacent west
+]
+message[
+Invalid direction for 'F' prefix.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 2
+Position: 22|3
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+vertical wall far west
+gold piece near westsouthwest
+horizontal wall very near north, south, southwest, and northwest
+vertical wall adjacent northeast, east, and southeast
+stairs up adjacent south
+tame little dog adjacent west
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+north
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 3
+Position: 22|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+doorway far west
+dark area far west
+horizontal wall near south and southwest
+gold piece near westsouthwest
+tame little dog near westsouthwest
+stairs up very near south
+horizontal wall adjacent north and northwest
+northeast room corner adjacent northeast
+vertical wall adjacent east and southeast
+]
+message[
+
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 3
+Position: 22|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+doorway far west
+dark area far west
+horizontal wall near south and southwest
+gold piece near westsouthwest
+tame little dog near westsouthwest
+stairs up very near south
+horizontal wall adjacent north and northwest
+northeast room corner adjacent northeast
+vertical wall adjacent east and southeast
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 3
+Position: 22|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+doorway far west
+dark area far west
+horizontal wall near south and southwest
+gold piece near westsouthwest
+tame little dog near westsouthwest
+stairs up very near south
+horizontal wall adjacent north and northwest
+northeast room corner adjacent northeast
+vertical wall adjacent east and southeast
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 3
+Position: 22|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+doorway far west
+dark area far west
+horizontal wall near south and southwest
+gold piece near westsouthwest
+tame little dog near westsouthwest
+stairs up very near south
+horizontal wall adjacent north and northwest
+northeast room corner adjacent northeast
+vertical wall adjacent east and southeast
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 3
+Position: 22|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+doorway far west
+dark area far west
+horizontal wall near south and southwest
+gold piece near westsouthwest
+tame little dog near westsouthwest
+stairs up very near south
+horizontal wall adjacent north and northwest
+northeast room corner adjacent northeast
+vertical wall adjacent east and southeast
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 3
+Position: 22|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+doorway far west
+dark area far west
+horizontal wall near south and southwest
+gold piece near westsouthwest
+tame little dog near westsouthwest
+stairs up very near south
+horizontal wall adjacent north and northwest
+northeast room corner adjacent northeast
+vertical wall adjacent east and southeast
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+force
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 4
+Position: 22|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+doorway far west
+dark area far west
+horizontal wall near south and southwest
+gold piece near westsouthwest
+stairs up very near south
+tame little dog very near westsouthwest
+horizontal wall adjacent north and northwest
+northeast room corner adjacent northeast
+vertical wall adjacent east and southeast
+]
+message[
+You decide not to force the issue.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+wait
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 5
+Position: 22|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+doorway far west
+dark area far west
+horizontal wall near south and southwest
+gold piece near westsouthwest
+tame little dog near westsouthwest
+stairs up very near south
+horizontal wall adjacent north and northwest
+northeast room corner adjacent northeast
+vertical wall adjacent east and southeast
+]
+message[
+
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 5
+Position: 22|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+doorway far west
+dark area far west
+horizontal wall near south and southwest
+gold piece near westsouthwest
+tame little dog near westsouthwest
+stairs up very near south
+horizontal wall adjacent north and northwest
+northeast room corner adjacent northeast
+vertical wall adjacent east and southeast
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+force
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 6
+Position: 22|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+doorway far west
+dark area far west
+horizontal wall near south and southwest
+gold piece near westsouthwest
+stairs up very near south
+tame little dog very near westsouthwest
+horizontal wall adjacent north and northwest
+northeast room corner adjacent northeast
+vertical wall adjacent east and southeast
+]
+message[
+You decide not to force the issue.  You hear a door open.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 6
+Position: 22|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+doorway far west
+dark area far west
+horizontal wall near south and southwest
+gold piece near westsouthwest
+stairs up very near south
+tame little dog very near westsouthwest
+horizontal wall adjacent north and northwest
+northeast room corner adjacent northeast
+vertical wall adjacent east and southeast
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 6
+Position: 22|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+doorway far west
+dark area far west
+horizontal wall near south and southwest
+gold piece near westsouthwest
+stairs up very near south
+tame little dog very near westsouthwest
+horizontal wall adjacent north and northwest
+northeast room corner adjacent northeast
+vertical wall adjacent east and southeast
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+east
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 6
+Position: 22|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+doorway far west
+dark area far west
+horizontal wall near south and southwest
+gold piece near westsouthwest
+stairs up very near south
+tame little dog very near westsouthwest
+horizontal wall adjacent north and northwest
+northeast room corner adjacent northeast
+vertical wall adjacent east and southeast
+]
+message[
+It's a wall.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 6
+Position: 22|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+doorway far west
+dark area far west
+horizontal wall near south and southwest
+gold piece near westsouthwest
+stairs up very near south
+tame little dog very near westsouthwest
+horizontal wall adjacent north and northwest
+northeast room corner adjacent northeast
+vertical wall adjacent east and southeast
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+force
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 7
+Position: 22|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+doorway far west
+dark area far west
+horizontal wall near south and southwest
+gold piece near westsouthwest
+stairs up very near south
+tame little dog very near southsouthwest
+horizontal wall adjacent north and northwest
+northeast room corner adjacent northeast
+vertical wall adjacent east and southeast
+]
+message[
+You decide not to force the issue.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 7
+Position: 22|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+doorway far west
+dark area far west
+horizontal wall near south and southwest
+gold piece near westsouthwest
+stairs up very near south
+tame little dog very near southsouthwest
+horizontal wall adjacent north and northwest
+northeast room corner adjacent northeast
+vertical wall adjacent east and southeast
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+west
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 8
+Position: 21|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+dark area far west
+horizontal wall near south and southwest
+gold piece near westsouthwest
+doorway near west
+vertical wall very near east and southeast
+stairs up very near southsoutheast
+tame little dog very near southsouthwest
+horizontal wall adjacent north, northeast, and northwest
+]
+message[
+
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+north
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 8
+Position: 21|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+dark area far west
+horizontal wall near south and southwest
+gold piece near westsouthwest
+doorway near west
+vertical wall very near east and southeast
+stairs up very near southsoutheast
+tame little dog very near southsouthwest
+horizontal wall adjacent north, northeast, and northwest
+]
+message[
+It's a wall.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+force
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 9
+Position: 21|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+dark area far west
+horizontal wall near south and southwest
+gold piece near westsouthwest
+doorway near west
+vertical wall very near east and southeast
+stairs up very near southsoutheast
+tame little dog very near southsouthwest
+horizontal wall adjacent north, northeast, and northwest
+]
+message[
+You decide not to force the issue.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+south
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 10
+Position: 21|3
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+gold piece near westsouthwest
+vertical wall near west
+horizontal wall very near north, south, southwest, and northwest
+northeast room corner very near northeast
+vertical wall very near east
+southeast corner very near southeast
+tame little dog very near west
+stairs up adjacent southeast
+]
+message[
+
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+wait
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 11
+Position: 21|3
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+gold piece near westsouthwest
+vertical wall near west
+horizontal wall very near north, south, southwest, and northwest
+northeast room corner very near northeast
+vertical wall very near east
+southeast corner very near southeast
+tame little dog very near westnorthwest
+stairs up adjacent southeast
+]
+message[
+
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+force
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 12
+Position: 21|3
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+gold piece near westsouthwest
+vertical wall near west
+horizontal wall very near north, south, southwest, and northwest
+northeast room corner very near northeast
+vertical wall very near east
+southeast corner very near southeast
+stairs up adjacent southeast
+tame little dog adjacent southwest
+]
+message[
+You decide not to force the issue.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+north
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 13
+Position: 21|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+dark area far west
+horizontal wall near south and southwest
+gold piece near westsouthwest
+doorway near west
+vertical wall very near east and southeast
+stairs up very near southsoutheast
+tame little dog very near south
+horizontal wall adjacent north, northeast, and northwest
+]
+message[
+
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+wait
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 14
+Position: 21|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+dark area far west
+horizontal wall near south and southwest
+gold piece near westsouthwest
+doorway near west
+vertical wall very near east and southeast
+stairs up very near southsoutheast
+tame little dog very near south
+horizontal wall adjacent north, northeast, and northwest
+]
+message[
+
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+west
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 15
+Position: 20|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+vertical wall near east
+southeast corner near southeast
+horizontal wall near south and southwest
+gold piece near westsouthwest
+doorway near west
+dark area near west
+stairs up very near southeast
+tame little dog very near south
+horizontal wall adjacent north, northeast, and northwest
+]
+message[
+
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+east
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 16
+Position: 21|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+dark area far west
+horizontal wall near south and southwest
+gold piece near westsouthwest
+doorway near west
+vertical wall very near east and southeast
+stairs up very near southsoutheast
+tame little dog very near southwest
+horizontal wall adjacent north, northeast, and northwest
+]
+message[
+
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+west
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 17
+Position: 20|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+vertical wall near east
+southeast corner near southeast
+horizontal wall near south and southwest
+gold piece near westsouthwest
+doorway near west
+dark area near west
+stairs up very near southeast
+tame little dog very near southwest
+horizontal wall adjacent north, northeast, and northwest
+]
+message[
+
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+force
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 18
+Position: 20|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+vertical wall near east
+southeast corner near southeast
+horizontal wall near south and southwest
+gold piece near westsouthwest
+doorway near west
+dark area near west
+stairs up very near southeast
+tame little dog very near southwest
+horizontal wall adjacent north, northeast, and northwest
+]
+message[
+You decide not to force the issue.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+west
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 19
+Position: 19|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+vertical wall near east
+stairs up near eastsoutheast
+horizontal wall near southeast and south
+southwest corner near southwest
+doorway near west
+dark area near west
+tame little dog very near southsoutheast
+gold piece very near southwest
+horizontal wall adjacent north, northeast, and northwest
+]
+message[
+
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+west
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 20
+Position: 18|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+vertical wall near east
+stairs up near eastsoutheast
+horizontal wall near southeast and south
+dark area near west
+tame little dog very near southsoutheast
+gold piece very near southsouthwest
+vertical wall very near southwest
+doorway very near west
+dark area very near northwest
+horizontal wall adjacent north and northeast
+doorway adjacent northwest
+]
+message[
+
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 20
+Position: 18|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+vertical wall near east
+stairs up near eastsoutheast
+horizontal wall near southeast and south
+dark area near west
+tame little dog very near southsoutheast
+gold piece very near southsouthwest
+vertical wall very near southwest
+doorway very near west
+dark area very near northwest
+horizontal wall adjacent north and northeast
+doorway adjacent northwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 20
+Position: 18|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+vertical wall near east
+stairs up near eastsoutheast
+horizontal wall near southeast and south
+dark area near west
+tame little dog very near southsoutheast
+gold piece very near southsouthwest
+vertical wall very near southwest
+doorway very near west
+dark area very near northwest
+horizontal wall adjacent north and northeast
+doorway adjacent northwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 20
+Position: 18|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+vertical wall near east
+stairs up near eastsoutheast
+horizontal wall near southeast and south
+dark area near west
+tame little dog very near southsoutheast
+gold piece very near southsouthwest
+vertical wall very near southwest
+doorway very near west
+dark area very near northwest
+horizontal wall adjacent north and northeast
+doorway adjacent northwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+north
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 20
+Position: 18|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+vertical wall near east
+stairs up near eastsoutheast
+horizontal wall near southeast and south
+dark area near west
+tame little dog very near southsoutheast
+gold piece very near southsouthwest
+vertical wall very near southwest
+doorway very near west
+dark area very near northwest
+horizontal wall adjacent north and northeast
+doorway adjacent northwest
+]
+message[
+It's a wall.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+north
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 20
+Position: 18|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+vertical wall near east
+stairs up near eastsoutheast
+horizontal wall near southeast and south
+dark area near west
+tame little dog very near southsoutheast
+gold piece very near southsouthwest
+vertical wall very near southwest
+doorway very near west
+dark area very near northwest
+horizontal wall adjacent north and northeast
+doorway adjacent northwest
+]
+message[
+It's a wall.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+north
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 20
+Position: 18|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+vertical wall near east
+stairs up near eastsoutheast
+horizontal wall near southeast and south
+dark area near west
+tame little dog very near southsoutheast
+gold piece very near southsouthwest
+vertical wall very near southwest
+doorway very near west
+dark area very near northwest
+horizontal wall adjacent north and northeast
+doorway adjacent northwest
+]
+message[
+It's a wall.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+west
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 21
+Position: 17|2
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+vertical wall far east
+stairs up near eastsoutheast
+horizontal wall near southeast and south
+dark area very near north and west
+tame little dog very near southsoutheast
+gold piece very near south
+doorway adjacent north and west
+horizontal wall adjacent northeast
+vertical wall adjacent southwest
+northwest room corner adjacent northwest
+]
+message[
+
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+north
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 22
+Position: 17|1
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+horizontal wall near southeast and south
+tame little dog near southsoutheast
+gold piece near south
+dark area very near southwest
+dark area adjacent northeast and northwest
+horizontal wall adjacent east
+doorway adjacent southwest
+northwest room corner adjacent west
+]
+message[
+
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+west
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 22
+Position: 17|1
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+horizontal wall near southeast and south
+tame little dog near southsoutheast
+gold piece near south
+dark area very near southwest
+dark area adjacent northeast and northwest
+horizontal wall adjacent east
+doorway adjacent southwest
+northwest room corner adjacent west
+]
+message[
+It's a wall.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+north
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 23
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+tame little dog very near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+west
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 23
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+tame little dog very near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+It's solid stone.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+north
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 24
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+tame little dog adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You have already gone as far north as possible.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+north
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 25
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You have already gone as far north as possible.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+north
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 26
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+tame little dog adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You have already gone as far north as possible.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 26
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+tame little dog adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 26
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+tame little dog adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 26
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+tame little dog adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+search
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+OBSERVATION
+===========
+statistics[
+Strength: 20/19
+Dexterity: 16
+Constitution: 18
+Intelligence: 7
+Wisdom: 8
+Charisma: 6
+Depth: 1
+Gold: 0
+HP: 16/16
+Energy: 2/2
+AC: 7
+XP: 1/0
+Time: 27
+Position: 17|0
+Hunger: Not Hungry
+Monster Level: 0
+Encumbrance: Unencumbered
+Dungeon Number: 0
+Level Number: 1
+Score: 0
+Alignment: Neutral
+Condition: None
+]
+glyphs[
+stairs up near eastsoutheast
+gold piece near south
+horizontal wall near south
+dark area adjacent east and west
+horizontal wall adjacent southeast
+doorway adjacent south
+northwest room corner adjacent southwest
+]
+message[
+You don't have anything to read.
+]
+inventory[
+a: a +0 two-handed sword (weapon in hands)
+b: a +0 axe (alternate weapon; not wielded)
+c: an uncursed +0 ring mail (being worn)
+d: an uncursed food ration
+]
+cursor[
+Yourself a barbarian
+]
+
+ACTION
+======
+read
+
+GAMEOVER

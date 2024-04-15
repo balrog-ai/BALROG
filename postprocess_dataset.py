@@ -11,12 +11,11 @@ if __name__ == '__main__':
     args = parser.parse_args()
     dataset_path = args.dataset_path
     
-    data = {"prompt": [], "completion": []}
+    data = {"text": []}
     for filename in glob.glob(os.path.join(dataset_path, '*.jsonl')):
         with jsonlines.open(filename) as reader:
             for row in tqdm(reader):
-                data["prompt"].append(row["prompt"])
-                data["completion"].append(row["completion"])
+                data["text"].append(row["prompt"] + "### Response:" + row["completion"])
                 
     df = pd.DataFrame(data)
     df.to_csv(os.path.join(dataset_path, 'data.csv'), index=False)

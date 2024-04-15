@@ -19,7 +19,7 @@ class PromptBuilder(object):
         self._obs_history.append(obs)
         
     def get_prompt(self):
-        return self._prefix + self._format() + self._suffix
+        return self._prefix + self._format()
     
     def reset(self):
         self._obs_history = []
@@ -43,12 +43,6 @@ class PromptBuilder(object):
     def _format_history(self, obs_history, action_history):
         raise NotImplementedError
     
-class SimpleQAPromptBuilder(PromptBuilder):
-    def __init__(self, *, max_history=None, max_length=None):
-        super().__init__(max_history=max_history, max_length=max_length, action_token="ACTION:", obs_token="OBSEVATION:")
-    
-    def get_prompt(self):
-        return super().get_prompt() + "output one of the following:\n" + '\n'.join(SIMPLE_ACTIONS)
 
 class ConcatPromptBuilder(PromptBuilder):
     def _format_history(self, obs_history, action_history):
@@ -67,6 +61,20 @@ class DiffPromptBuilder(PromptBuilder):
             obs = "\n".join(difflib.unified_diff(prev_obs, obs, n=0, lineterm=""))
             text += f"{self._action_token}" + action + f"{self._obs_token}" + obs
         text += f"{self._action_token}"
+        return text
+    
+class SimpleQAPromptBuilder(PromptBuilder):
+    def __init__(self, *, max_history=None, max_length=None, **kwargs):
+        super().__init__(max_history=max_history, max_length=max_length, action_token="ACTION:", obs_token="OBSEVATION:")
+    
+    def get_prompt(self):
+        return super().get_prompt() + "output one of the following:\n" + '\n'.join(SIMPLE_ACTIONS)
+    
+    def _format_history(self, obs_history, action_history):
+        text = ""
+        for obs, action in zip(obs_history[:-1], action_history):
+            text += f"{self._obs_token}" + obs + f"{self._action_token}" + action
+        text += f"{self._obs_token}" + obs_history[-1]
         return text
     
 def get_default_prefix():
