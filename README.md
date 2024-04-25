@@ -1,3 +1,46 @@
+# NetHack benchmark for LLM agents
+
+# Observation
+```
+Inventory:
+a: a +0 katana (weapon in hand)
+b: a +0 wakizashi (alternate weapon; not wielded)
+c: a +0 yumi
+d: 43 +0 ya (in quiver)
+e: a blessed rustproof +0 splint mail (being worn)
+
+Map observation:
+ebony wand very near eastnortheast
+tame little dog very near west
+
+
+
+                                                                                
+                                                                                
+                                                                                
+                                                           --------------       
+                                                           |..../.......|       
+                                                          #-d.@.........|       
+                                                          #|............|       
+                                                -----     #|............|       
+                                            ####....|   ###|............|       
+                                            #   |...|   #  --------------       
+                                            #   |.^.| ###                       
+                               ------------ #   |...-##                         
+                               .<.........| #   |...|                           
+                               |..........| #   -----                           
+                               |..........| #                                   
+                               |..........| #                                   
+                               |..........|##                                   
+                               ...........-#                                    
+                               ------------                                     
+                                                                                
+                                                                                
+                                                                                
+Agent the Hatamoto             St:14 Dx:18 Co:16 In:9 Wi:9 Ch:7 Lawful S:0      
+Dlvl:1 $:0 HP:15(15) Pw:2(2) AC:4 Xp:1/0 T:72
+```
+
 # Installation
 NLE requires python>=3.5, cmake>=3.15 to be installed and available both when building the package, and at runtime.
 
