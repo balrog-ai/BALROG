@@ -70,14 +70,6 @@ conda activate nle
 pip install nle
 ```
 
-NOTE: If you want to extend / develop NLE, please install the package as follows:
-
-```
-git clone https://github.com/facebookresearch/nle --recursive
-pip install -e ".[dev]"
-pre-commit install
-```
-
 # Install modified nle-language-wrapper
 ```
 cd external/nle-language-wrapper
