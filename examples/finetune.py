@@ -3,39 +3,41 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, TrainingArguments,
 from datasets import load_dataset
 from trl import SFTTrainer, DataCollatorForCompletionOnlyLM
 from peft import LoraConfig
+import accelerate
 
 def load(model_name):
     tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForCausalLM.from_pretrained(model_name)
-    # model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto")
+    # model = AutoModelForCausalLM.from_pretrained(model_name, device_map=f'cuda:{accelerate.Accelerator().process_index}')
+    model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto")
     
-    # If these tokens aren't already in the tokenizer, add them
-    num_new_tokens = tokenizer.add_special_tokens(
-        {
-            "bos_token": "<s>",
-            "eos_token": "</s>",
-            "unk_token": "<unk>",
-            "pad_token": "<pad>",
-        }
-    )
+    # # If these tokens aren't already in the tokenizer, add them
+    # num_new_tokens = tokenizer.add_special_tokens(
+    #     {
+    #         "bos_token": "<s>",
+    #         "eos_token": "</s>",
+    #         "unk_token": "<unk>",
+    #         "pad_token": "<pad>",
+    #     }
+    # )
     
-    # Add special action and observation delimiter tokens
-    action_token = "<|action|>"
-    observation_token = "<|observation|>"
-    num_new_tokens += tokenizer.add_tokens([action_token, observation_token])
+    # # Add special action and observation delimiter tokens
+    # action_token = "<|action|>"
+    # observation_token = "<|observation|>"
+    # num_new_tokens += tokenizer.add_tokens([action_token, observation_token])
     
-    # resize the model embedding to match the tokenizer
-    embedding_size = model.get_input_embeddings().weight.shape[0]
-    if len(tokenizer) > embedding_size:
-        model.resize_token_embeddings(len(tokenizer))
-    assert len(tokenizer) == model.get_input_embeddings().weight.shape[0]
+    # # resize the model embedding to match the tokenizer
+    # embedding_size = model.get_input_embeddings().weight.shape[0]
+    # if len(tokenizer) > embedding_size:
+    #     model.resize_token_embeddings(len(tokenizer))
+    # assert len(tokenizer) == model.get_input_embeddings().weight.shape[0]
     
     return tokenizer, model
 
-if __name__ == "__main__":    
-    # MODEL_NAME = "gogole/gemma-2b"
-    # MODEL_NAME = "gogole/gemma-7b"
-    MODEL_NAME = "meta-llama/Llama-2-7b-hf"
+@errors.record
+def main():
+    MODEL_NAME = "google/gemma-2b"
+    # MODEL_NAME = "google/gemma-7b"
+    # MODEL_NAME = "meta-llama/Llama-2-7b-hf"
     
     tokenizer, model = load(MODEL_NAME)
     dataset = load_dataset("csv", data_files="data/10/data.csv", split="train")
@@ -50,7 +52,7 @@ if __name__ == "__main__":
     
     training_args = TrainingArguments(
         output_dir=os.path.join("models", MODEL_NAME),
-        # per_device_train_batch_size=4,
+        per_device_train_batch_size=1,
         gradient_accumulation_steps=4, 
         save_steps=100,
         logging_steps=10,
@@ -82,3 +84,6 @@ if __name__ == "__main__":
     )
     
     trainer.train()
+    
+if __name__ == "__main__":    
+    main()
