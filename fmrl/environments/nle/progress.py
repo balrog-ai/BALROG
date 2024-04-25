@@ -3,31 +3,21 @@ from pathlib import Path
 import json
 import re
 
+with open("./achievements.json", "r") as f:
+    ACHIEVEMENTS = json.load(f)
+
+with open("./spam.txt", "r") as f:
+    spam = f.readlines()
+    SPAM = [line.strip() for line in spam]
+
 class Progress:
     """
     Class to keep track of the user's progress in the game.
     """
 
-    def __init__(
-        self,
-        achievements: Path = Path("achievements.json"),
-        spam_file: Path = Path("spam.txt"),
-    ):
-        """
-        Args:
-            achievements (Path): A path to a json file containing the achievements dictionary.
-        """
-
-        with open(achievements, "r") as f:
-            self.achievements_dict = json.load(f)
-
-        with open(spam_file, "r") as f:
-            spam = f.readlines()
-            self.spam = [line.strip() for line in spam]
-
     def reset(self):
         self.achievement_list = ["Welcome to experience level 1"]
-        self.dlvl_list = [self.achievements_dict[self.achievement_list[0]]]
+        self.dlvl_list = [ACHIEVEMENTS[self.achievement_list[0]]]
         self.highest_achievement = None
         self.progression = 0
 
@@ -42,22 +32,22 @@ class Progress:
         Returns:
             float: The progression of the player.
         """
-        for achievement in self.achievements_dict.keys():
+        for achievement in ACHIEVEMENTS.keys():
             if (
                 achievement in message
                 and achievement not in self.achievement_list
-                and message not in self.spam
+                and message not in SPAM
             ):
                 self.achievement_list.append(achievement)
-                if self.achievements_dict[achievement] > self.progression:
-                    self.progression = self.achievements_dict[achievement]
+                if ACHIEVEMENTS[achievement] > self.progression:
+                    self.progression = ACHIEVEMENTS[achievement]
                     self.highest_achievement = achievement
 
             dlvl = self._get_dlvl(stats)
-            if dlvl not in self.dlvl_list:
+            if dlvl not in self.dlvl_list and dlvl in ACHIEVEMENTS.keys():
                 self.dlvl_list.append(dlvl)
-                if self.achievements_dict[dlvl] > self.progression:
-                    self.progression = self.achievements_dict[dlvl]
+                if ACHIEVEMENTS[dlvl] > self.progression:
+                    self.progression = ACHIEVEMENTS[dlvl]
                     self.highest_achievement = dlvl
 
         return self.progression

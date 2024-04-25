@@ -36,7 +36,7 @@ RUN pip install --upgrade torch torchvision torchaudio --index-url https://downl
 RUN pip install --upgrade transformers accelerate nle-language-wrapper
 
 # Common libraries
-RUN pip install --upgrade matplotlib notebook pytest wandb moviepy imageio
+RUN pip install --upgrade matplotlib notebook pytest wandb moviepy imageio trl peft bitsandbytes
 
 # Install unnecessary bullshit
 RUN pip install opencv-python pandas datasets numba nltk jsonlines h5py seaborn
