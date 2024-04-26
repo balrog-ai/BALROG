@@ -1,15 +1,23 @@
 # Super minimized version of what diff_history does
 
 from nle_language_wrapper import NLELanguageWrapper
-from prompt.prompt_builder import DiffPromptBuilder, ConcatPromptBuilder, SimpleQAPromptBuilder, nle_text_obs
+from prompt.prompt_builder import (
+    DiffPromptBuilder,
+    ConcatPromptBuilder,
+    SimpleQAPromptBuilder,
+    nle_text_obs,
+)
 from progress import Progress
+
 
 # what call this?
 class NLEExtendedLanguageWrapper(NLELanguageWrapper):
     def __init__(self, env, *, prompt_builder=None, max_history=None, max_length=None):
         super().__init__(env)
         if prompt_builder is None:
-            self._prompt_builder = ConcatPromptBuilder(max_history=max_history, max_length=max_length)
+            self._prompt_builder = ConcatPromptBuilder(
+                max_history=max_history, max_length=max_length
+            )
         self._progress = Progress()
 
     # override
@@ -23,12 +31,12 @@ class NLEExtendedLanguageWrapper(NLELanguageWrapper):
         obsv = nle_text_obs(super().post_step(nle_obsv))
         self._prompt_builder.append_observation(obsv)
         return self._prompt_builder.get_prompt()
-    
+
     # override
     def pre_step(self, action):
         self._prompt_builder.append_action(action)
         return super().pre_step(action)
-    
+
     # override
     def post_step(self, nle_obsv):
         obsv = super().post_step(nle_obsv)
@@ -36,7 +44,7 @@ class NLEExtendedLanguageWrapper(NLELanguageWrapper):
         obsv = nle_text_obs(obsv)
         self._prompt_builder.append_observation(obsv)
         return self._prompt_builder.get_prompt()
-    
+
     # override
     def step(self, action):
         obs, reward, done, info = super().step(action)

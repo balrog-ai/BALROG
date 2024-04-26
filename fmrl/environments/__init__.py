@@ -1,1 +1,1 @@
-from .nle import NLEAsciiWrapper, NLETextWrapper
+from .nle import NLEAsciiWrapper, NLETextWrapper, NLEHybridWrapper, NLEAnsiWrapper
