@@ -13,7 +13,8 @@ class NLEAnsiWrapper(NLELanguageWrapper):
         self.observation_space = spaces.Space()
 
     def nle_process_obsv(self, nle_obsv):
-        # ASCII with ANSI color codes
+
+        message, nle_obsv = super().clean_message(nle_obsv)
         nle_obsv["prompt"] = tty_render(
             nle_obsv["tty_chars"], nle_obsv["tty_colors"], nle_obsv["tty_cursor"]
         )

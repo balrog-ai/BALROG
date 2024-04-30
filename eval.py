@@ -5,6 +5,7 @@ from fmrl.environments import (
     NLEAsciiWrapper,
     NLEHybridWrapper,
     NLEAnsiWrapper,
+    NLEFullWrapper,
 )
 from fmrl.prompt_builder import ChatPromptBuilder
 import argparse
@@ -52,7 +53,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--obs_style",
-        choices=["ascii_map", "language", "hybrid", "ansi_map"],
+        choices=["ascii_map", "language", "hybrid", "ansi_map", "full"],
         default="language",
     )
     parser.add_argument(
@@ -91,6 +92,8 @@ if __name__ == "__main__":
         env = NLEHybridWrapper(env)
     elif args.obs_style == "ansi_map":
         env = NLEAnsiWrapper(env)
+    elif args.obs_style == "full":
+        env = NLEFullWrapper(env)
     else:
         raise ValueError(f"Unknown obs_style: {args.obs_style}")
 
