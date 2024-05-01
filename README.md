@@ -45,11 +45,11 @@ Dlvl:1 $:0 HP:15(15) Pw:2(2) AC:4 Xp:1/0 T:72
 NLE requires python>=3.5, cmake>=3.15 to be installed and available both when building the package, and at runtime.
 
 On MacOS, one can use Homebrew as follows:
+```
+brew install cmake
+```
 
-$ brew install cmake
 On a plain Ubuntu 18.04 distribution, cmake and other dependencies can be installed by doing:
-
-# Python and most build deps
 ```
 sudo apt-get install -y build-essential autoconf libtool pkg-config \
     python3-dev python3-pip python3-numpy git flex bison libbz2-dev

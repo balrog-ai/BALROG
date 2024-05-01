@@ -1,0 +1,1 @@
+python eval.py --model_id="meta-llama/Meta-Llama-3-70b-Instruct" --savedir="outputs/meta-llama/Meta-Llama-3-70b-Instruct"

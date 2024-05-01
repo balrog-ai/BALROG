@@ -7,7 +7,7 @@ import gym
 from nle.nethack.actions import ACTIONS
 from autoascend.env_wrapper import EnvWrapper
 from nle_language_wrapper.nle_language_obsv import NLELanguageObsv
-from prompt_builder import ConcatPromptBuilder, DiffPromptBuilder, nle_text_obs
+from prompt_builder import ConcatPromptBuilder, DiffPromptBuilder
 
 nle_action_textmap = {
     "UnsafeActions.HELP": "help",
@@ -146,9 +146,19 @@ NH_ACTION_STR_TO_IDX = {str(ACTIONS[i]): i for i in range(len(ACTIONS))}
 # NH_ACTION_IDX_TO_STR = {v: k for (k, v) in NH_ACTION_STR_TO_IDX.items()}
 
 
-def gen_and_write_episode(
-    idx, start_idx, total_rollouts, data_dir, max_length
-):
+# Inefficient. Ideally we want to use the C code to render the tty_chars directly
+def ascii_render(chars):
+    rows, cols = chars.shape
+    result = ""
+    for i in range(rows):
+        result += "\n"
+        for j in range(cols):
+            entry = chr(chars[i, j])
+            result += entry
+    return result
+
+
+def gen_and_write_episode(idx, start_idx, total_rollouts, data_dir, max_length):
     nle_language = NLELanguageObsv()
 
     with tqdm(total=total_rollouts, position=idx) as pbar:
@@ -158,12 +168,12 @@ def gen_and_write_episode(
                 agent_args=dict(panic_on_errors=True, verbose=False),
                 step_limit=10000000000,
             )
-            
+
             try:
                 env.main()
             except BaseException:
                 pass
-            
+
             # # Don't really need this either
             # summary = env.get_summary()
             # json_safe_summary = {}
@@ -182,35 +192,58 @@ def gen_and_write_episode(
             data = env.get_data()
 
             datarows = []
-            prompt_builder = ConcatPromptBuilder(max_length=max_length, prefix="You are an agent playing NetHack. Predict the next keypresses.\n\n")
+            prompt_builder = ConcatPromptBuilder(
+                max_length=max_length,
+                prefix="You are an agent playing NetHack. Predict the next keypresses.\n\n",
+            )
             for ts in range(len(data)):
                 datum = data[ts]
 
-                txt_blstats = nle_language.text_blstats(datum["blstats"]).decode("latin-1")
-                txt_glyphs = nle_language.text_glyphs(datum["glyphs"], datum["blstats"]).decode("latin-1")
-                txt_message = nle_language.text_message(datum["tty_chars"]).decode("latin-1")
-                txt_inventory = nle_language.text_inventory(datum["inv_strs"], datum["inv_letters"]).decode("latin-1")
-                txt_cursor = (
-                    nle_language.text_cursor(
-                        datum["glyphs"], datum["blstats"], datum["tty_chars"]
-                    ).decode("latin-1"),
-                )
+                ascii_map = ascii_render(datum["tty_chars"])
+
+                hybrid_obsv = f"""\nInventory:\n{nle_language.text_inventory(
+                    datum["inv_strs"], datum["inv_letters"]
+                ).decode("latin-1")}\nMap observation:\n{nle_language.text_glyphs(
+                        datum["glyphs"], datum["blstats"]
+                    ).decode("latin-1")}\n{ascii_map}\n"""
+
+                # Previous observation
+                # txt_blstats = nle_language.text_blstats(datum["blstats"]).decode(
+                #     "latin-1"
+                # )
+                # txt_glyphs =
+                # txt_message = nle_language.text_message(datum["tty_chars"]).decode(
+                #     "latin-1"
+                # )
+                # txt_inventory = nle_language.text_inventory(
+                #     datum["inv_strs"], datum["inv_letters"]
+                # ).decode("latin-1")
+                # txt_cursor = (
+                #     nle_language.text_cursor(
+                #         datum["glyphs"], datum["blstats"], datum["tty_chars"]
+                #     ).decode("latin-1"),
+                # )
+
                 if ts < len(data) - 1:
                     txt_action = nle_action_textmap[data[ts + 1]["action"]]
                 else:
                     txt_action = "esc"
 
-                text_obs = nle_text_obs({
-                    "text_blstats": txt_blstats,
-                    "text_glyphs": txt_glyphs,
-                    "text_message": txt_message,
-                    "text_inventory": txt_inventory,
-                    "text_cursor": txt_cursor,
-                    # "text_action": txt_action,
-                })
-                prompt_builder.append_observation(text_obs)
-                
-                datarows.append({"prompt": prompt_builder.get_prompt(), "completion": txt_action})
+                # text_obs = nle_text_obs(
+                #     {
+                #         "text_blstats": txt_blstats,
+                #         "text_glyphs": txt_glyphs,
+                #         "text_message": txt_message,
+                #         "text_inventory": txt_inventory,
+                #         "text_cursor": txt_cursor,
+                #         # "text_action": txt_action,
+                #     }
+                # )
+                prompt_builder.append_observation(hybrid_obsv)
+
+                datarows.append(
+                    {"prompt": prompt_builder.get_prompt(), "completion": txt_action}
+                )
 
                 # # Not doing this for now
                 # if vision_version:
@@ -236,21 +269,34 @@ def gen_and_write_episode(
 
     return 1
 
+
 def create_dataset(args, use_multiprocessing=True):
     # Configure data directory based on roles and episodes
     data_dir = os.path.join(args.base_dir, f"{args.episodes}")
     os.makedirs(data_dir, exist_ok=True)
-    
+
     if use_multiprocessing:
         # Calculate number of processes and distribution of work using multiprocessing
         total_eps = args.episodes
         num_procs = min(multiprocessing.cpu_count() - args.cores_to_reserve, total_eps)
-        episode_counts = [(total_eps // num_procs) + 1 if i < total_eps % num_procs else (total_eps // num_procs) for i in range(num_procs)]
+        episode_counts = [
+            (
+                (total_eps // num_procs) + 1
+                if i < total_eps % num_procs
+                else (total_eps // num_procs)
+            )
+            for i in range(num_procs)
+        ]
         pool = multiprocessing.Pool(num_procs)
         tasks = []
         start_idx = 0
         for process_id, episode_count in enumerate(episode_counts):
-            tasks.append(pool.apply_async(gen_and_write_episode, (process_id, start_idx, episode_count, data_dir, args.max_length)))
+            tasks.append(
+                pool.apply_async(
+                    gen_and_write_episode,
+                    (process_id, start_idx, episode_count, data_dir, args.max_length),
+                )
+            )
             start_idx += episode_count
 
         # Wait for all tasks to complete
@@ -263,24 +309,29 @@ def create_dataset(args, use_multiprocessing=True):
 
     print("Dataset generation complete.")
 
+
 def parse_args():
     parser = ArgumentParser()
     parser.add_argument(
         "--base_dir", default="data", type=str, help="dir where to store data"
     )
-    parser.add_argument("--vision_version", default=0, type=int) # currently unused
+    parser.add_argument("--vision_version", default=0, type=int)  # currently unused
     parser.add_argument("-n", "--episodes", type=int, default=10)
-    parser.add_argument("--panic-on-errors", default=True, action="store_true") # what do?
-    parser.add_argument("--cores_to_reserve", type=int, default=0) # what do?
-    parser.add_argument("--max_length", type=int, default=8000) # what do?
+    parser.add_argument(
+        "--panic-on-errors", default=True, action="store_true"
+    )  # what do?
+    parser.add_argument("--cores_to_reserve", type=int, default=0)  # what do?
+    parser.add_argument("--max_length", type=int, default=8000)  # what do?
     args = parser.parse_args()
 
     print("ARGS:", args)
     return args
 
+
 def main():
     args = parse_args()
     create_dataset(args)
+
 
 if __name__ == "__main__":
     main()
