@@ -10,6 +10,7 @@ with open("./spam.txt", "r") as f:
     spam = f.readlines()
     SPAM = [line.strip() for line in spam]
 
+
 class Progress:
     """
     Class to keep track of the user's progress in the game.
@@ -32,12 +33,13 @@ class Progress:
         Returns:
             float: The progression of the player.
         """
+
+        for spam_m in SPAM:
+            if spam_m in message:
+                return self.progression
+
         for achievement in ACHIEVEMENTS.keys():
-            if (
-                achievement in message
-                and achievement not in self.achievement_list
-                and message not in SPAM
-            ):
+            if achievement in message and achievement not in self.achievement_list:
                 self.achievement_list.append(achievement)
                 if ACHIEVEMENTS[achievement] > self.progression:
                     self.progression = ACHIEVEMENTS[achievement]
@@ -88,5 +90,5 @@ class Progress:
         Returns:
             str: The dungeong lvl
         """
-        return "Dlvl:" + re.search(r'Depth:\s*(\d+)', string).group(1)
-        # return string.split("$")[0]
+        dlvl = string.split("$")[0]
+        return dlvl
