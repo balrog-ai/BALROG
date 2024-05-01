@@ -25,6 +25,8 @@ RUN useradd -m -u ${UID} -g ${GID} user
 USER user
 WORKDIR /home/user/workspace
 
+ENV PATH="${PATH}:/home/user/.local/bin"
+
 # Jax and asscociated libraries
 RUN pip install --upgrade "jax[cuda11_pip]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
 RUN pip install --upgrade optax flax chex distrax gymnax craftax
@@ -40,3 +42,5 @@ RUN pip install --upgrade matplotlib notebook pytest wandb moviepy imageio trl p
 
 # Install unnecessary bullshit
 RUN pip install opencv-python pandas datasets numba nltk jsonlines h5py seaborn
+
+RUN pip install vllm

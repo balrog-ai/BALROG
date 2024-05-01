@@ -1,3 +1,4 @@
+import os
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 from nle.env import tasks
 from fmrl.environments import NLETextWrapper, NLEAsciiWrapper
@@ -8,6 +9,8 @@ from nle_language_wrapper import NLELanguageWrapper
 from render import tty_render_image, tty_render_image_action_history
 from PIL import Image
 import wandb
+import imageio
+import glob
 import matplotlib.pyplot as plt
 
 ACTION_NAMES = [action_strs[0] for action, action_strs in NLELanguageWrapper.all_nle_action_map.items() if action in ACTIONS]
@@ -95,11 +98,13 @@ if __name__=="__main__":
     wandb.login()
     wandb.init(project="nle-language-model-test", config=args)
     
+    if args.savedir and not os.path.exists(args.savedir):
+        os.makedirs(args.savedir)
+    
     cumreward = 0
     failed_generation_counter = 0
     action_counter = {action: 0 for action in ACTION_NAMES}
     action_history = []
-    # tty_images = []
     
     for step in range(args.max_steps):
         with open(f"./outputs/observations.txt", "a") as f:
@@ -121,16 +126,25 @@ if __name__=="__main__":
             continue
         action_counter[action] += 1
         action_history.append(action)
-        tty_image = Image.fromarray(tty_render_image_action_history(obs["tty_chars"], obs["tty_colors"], action_history))
-        tty_image.save(f"./outputs/{step:09}.png")
-        # tty_images.append(tty_image)
+        if args.savedir is not None:
+            tty_image = Image.fromarray(tty_render_image_action_history(obs["tty_chars"], obs["tty_colors"], action_history))
+            tty_image.save(f"{args.savedir}/{step:09}.png")
         prompt_builder.update_action(action)
         prompt_builder.update_observation(obs["prompt"])        
         cumreward += reward
         wandb.log({
             "cumreward": cumreward,
-            "image": wandb.Image(tty_image),
+            # "image": wandb.Image(tty_image),
             "action_counter": wandb.plot.bar(wandb.Table(data=list(action_counter.items()), columns=["action", "count"]), "action", "count", title="Action Counts"),
         })
         if done:
             break
+        
+    # generate gif
+    if args.savedir is not None:
+        images = []
+        for image_file in glob.glob(os.path.join(args.savedir, "*.png")):
+            image = imageio.imread(image_file)
+            images.append(image)
+        gif_path = os.path.join(args.savedir, "animation.gif")
+        imageio.mimsave(gif_path, images, duration=0.2)
