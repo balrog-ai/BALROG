@@ -1,11 +1,14 @@
-FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
+# FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
+FROM nvidia/cuda:12.1.1-cudnn8-devel-ubuntu22.04
 
 ARG UID=1000
 ARG GID=1000
+ARG GIT_ACCESS_TOKEN=""
 
 RUN apt-get update && apt-get install -y \
     python3-pip \
     python3-dev \
+    python3-venv \
     vim \
     tmux \
     git \
@@ -22,25 +25,29 @@ RUN ln -s /usr/bin/python3 /usr/bin/python
 
 RUN useradd -m -u ${UID} -g ${GID} user
 
+# dirty hack
+RUN mkdir -p /home/user/.cache && chown -R ${UID}:${GID} /home/user/.cache
+
 USER user
-WORKDIR /home/user/workspace
+# ENV PATH="/home/user/.local/bin:${PATH}"
+RUN pip install --upgrade pip
 
-ENV PATH="${PATH}:/home/user/.local/bin"
-
-# Jax and asscociated libraries
-RUN pip install --upgrade "jax[cuda11_pip]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
+RUN pip install --upgrade "jax[cuda12_pip]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
 RUN pip install --upgrade optax flax chex distrax gymnax craftax
+RUN pip install --upgrade torch
+RUN pip install --upgrade transformers datasets accelerate trl peft bitsandbytes
+RUN pip install --upgrade matplotlib notebook pytest wandb moviepy imageio
+RUN pip install --upgrade vllm
 
-# Torch and associated libraries
-RUN pip install --upgrade torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+WORKDIR /home/user
+RUN git clone https://dramacow:${GIT_ACCESS_TOKEN}@github.com/DramaCow/jaxued
+WORKDIR /home/user/jaxued
+RUN pip install .
 
-# Huggingface and associated libraries
-RUN pip install --upgrade transformers accelerate nle-language-wrapper
+WORKDIR /home/user
+RUN git clone https://dramacow:${GIT_ACCESS_TOKEN}@github.com/DavidePaglieri/nle-language-wrapper.git --recursive
+WORKDIR /home/user/nle-language-wrapper
+RUN pip install ".[dev]"
+# RUN rm -r /home/user/nle-language-wrapper
 
-# Common libraries
-RUN pip install --upgrade matplotlib notebook pytest wandb moviepy imageio trl peft bitsandbytes
-
-# Install unnecessary bullshit
-RUN pip install opencv-python pandas datasets numba nltk jsonlines h5py seaborn
-
-RUN pip install vllm
+WORKDIR /home/user/workspace

@@ -1,3 +1,0 @@
-[submodule "external/nle-language-wrapper"]
-	path = external/nle-language-wrapper
-	url = git@github.com:DavidePaglieri/nle-language-wrapper.git
