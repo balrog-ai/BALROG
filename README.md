@@ -72,6 +72,7 @@ pip install nle
 
 # Install modified nle-language-wrapper
 ```
-cd external/nle-language-wrapper
+git clone git@github.com:DramaCow/fmrl.git --recursive
+cd fmrl/external/nle-language-wrapper
 pip install -e ".[dev]"
 ```
