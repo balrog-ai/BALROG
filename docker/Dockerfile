@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     python3-dev \
     python3-venv \
+    unzip \
     vim \
     tmux \
     git \
@@ -38,6 +39,7 @@ RUN pip install --upgrade torch
 RUN pip install --upgrade transformers datasets accelerate trl peft bitsandbytes
 RUN pip install --upgrade matplotlib notebook pytest wandb moviepy imageio
 RUN pip install --upgrade vllm
+RUN pip install --upgrade nltk jsonlines opencv-python
 
 WORKDIR /home/user
 RUN git clone https://dramacow:${GIT_ACCESS_TOKEN}@github.com/DramaCow/jaxued
@@ -49,5 +51,7 @@ RUN git clone https://dramacow:${GIT_ACCESS_TOKEN}@github.com/DavidePaglieri/nle
 WORKDIR /home/user/nle-language-wrapper
 RUN pip install ".[dev]"
 # RUN rm -r /home/user/nle-language-wrapper
+
+RUN pip install envpool
 
 WORKDIR /home/user/workspace

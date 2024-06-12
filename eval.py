@@ -13,6 +13,7 @@ import argparse
 from nle.nethack import ACTIONS
 from nle_language_wrapper import NLELanguageWrapper
 from render import tty_render_image, tty_render_image_action_history
+from render_rgb import rgb_render_image
 from PIL import Image
 import wandb
 import imageio
@@ -45,7 +46,7 @@ Don't just output the example actions above, output the action that you think wi
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_id", type=str, default="google/gemma-2b-it")
+    parser.add_argument("--model_id", type=str, default="meta-llama/Meta-Llama-3-70b-Instruct")
     parser.add_argument("--max_steps", type=int, default=100000)
     parser.add_argument("--savedir", type=str, default=None)
     parser.add_argument(
@@ -63,7 +64,11 @@ if __name__ == "__main__":
         "--prompt_builder_strategy", choices=["simple", "chat"], default="chat"
     )
     args = parser.parse_args()
-
+    config = vars(args)
+    
+    if config["savedir"] is None:
+        config["savedir"] = os.path.join(".", "outputs", config["model_id"])
+    
     env = tasks.NetHackChallenge(
         **dict(
             # savedir="./experiment_outputs/dummy_ttyrec",
@@ -87,27 +92,27 @@ if __name__ == "__main__":
     )
 
     # Set how language observations are represented
-    if args.obs_style == "ascii_map":
+    if config["obs_style"] == "ascii_map":
         env = NLEAsciiWrapper(env)
-    elif args.obs_style == "language":
+    elif config["obs_style"] == "language":
         env = NLETextWrapper(env)
-    elif args.obs_style == "hybrid":
+    elif config["obs_style"] == "hybrid":
         env = NLEHybridWrapper(env)
-    elif args.obs_style == "ansi_map":
+    elif config["obs_style"] == "ansi_map":
         env = NLEAnsiWrapper(env)
-    elif args.obs_style == "full":
+    elif config["obs_style"] == "full":
         env = NLEFullWrapper(env)
     else:
-        raise ValueError(f"Unknown obs_style: {args.obs_style}")
+        raise ValueError(f"Unknown obs_style: {config['obs_style']}")
 
     # Set how prompts are built
-    if args.prompt_builder_strategy == "simple":
+    if config["prompt_builder_strategy"] == "simple":
         raise NotImplementedError
-    elif args.prompt_builder_strategy == "chat":
+    elif config["prompt_builder_strategy"] == "chat":
         prompt_builder = ChatPromptBuilder(INSTRUCTION_PROMPT)
-
-    tokenizer = AutoTokenizer.from_pretrained(args.model_id)
-    model = AutoModelForCausalLM.from_pretrained(args.model_id, device_map="auto")
+        
+    tokenizer = AutoTokenizer.from_pretrained(config["model_id"])
+    model = AutoModelForCausalLM.from_pretrained(config["model_id"], device_map="auto")
     generator = pipeline(
         "text-generation", model=model, tokenizer=tokenizer, max_new_tokens=2
     )
@@ -116,26 +121,31 @@ if __name__ == "__main__":
         "temperature": 0.8,
         # "top_k": 50,
         "top_p": 0.95,
-        "num_return_sequences": args.num_tries,
+        "num_return_sequences": config["num_tries"],
         # "no_repeat_ngram_size": 3,
         "do_sample": True,
     }
+    
+    print("MODEL LOADED")
 
     obs = env.reset()
     prompt_builder.update_observation(obs["prompt"])
 
     wandb.login()
-    wandb.init(project="nle-language-model-test", config=args)
+    wandb.init(project="nle-language-model-test", config=config)
 
-    if args.savedir and not os.path.exists(args.savedir):
-        os.makedirs(args.savedir)
+    if config["savedir"] and not os.path.exists(config["savedir"]):
+        os.makedirs(config["savedir"])
     
     cumreward = 0
     failed_generation_counter = 0
     action_counter = {action: 0 for action in ACTION_NAMES}
     action_history = []
+    
+    print("STARTING EVAL")
 
-    for step in range(args.max_steps):
+    for step in range(config["max_steps"]):
+        print(f"Step {step} / {config['max_steps']}")
         with open(f"./outputs/observations.txt", "a") as f:
             f.write(
                 f"======================\nOBSERVATION (t={step})\n======================\n\n"
@@ -144,7 +154,7 @@ if __name__ == "__main__":
             )
         prompt = prompt_builder.get_prompt()
         outputs = generator(prompt, return_full_text=False, **generate_kwargs)
-        # outputs = [{"generated_text": input()},] * args.num_tries
+        # outputs = [{"generated_text": input()},] * config["num_tries"]
         for i, output in enumerate(outputs):
             action = output["generated_text"]
             try:
@@ -159,9 +169,10 @@ if __name__ == "__main__":
             continue
         action_counter[action] += 1
         action_history.append(action)
-        if args.savedir is not None:
-            tty_image = Image.fromarray(tty_render_image_action_history(obs["tty_chars"], obs["tty_colors"], action_history))
-            tty_image.save(f"{args.savedir}/{step:09}.png")
+        if config["savedir"] is not None:
+            tty_image = Image.fromarray(rgb_render_image(obs["glyphs"]))
+            # tty_image = Image.fromarray(tty_render_image_action_history(obs["tty_chars"], obs["tty_colors"], action_history))
+            tty_image.save(f"{config['savedir']}/{step:09}.png")
         prompt_builder.update_action(action)
         prompt_builder.update_observation(obs["prompt"])
         cumreward += reward
@@ -174,10 +185,10 @@ if __name__ == "__main__":
             break
         
     # generate gif
-    if args.savedir is not None:
+    if config["savedir"] is not None:
         images = []
-        for image_file in glob.glob(os.path.join(args.savedir, "*.png")):
+        for image_file in glob.glob(os.path.join(config["savedir"], "*.png")):
             image = imageio.imread(image_file)
             images.append(image)
-        gif_path = os.path.join(args.savedir, "animation.gif")
+        gif_path = os.path.join(config["savedir"], "animation.gif")
         imageio.mimsave(gif_path, images, duration=0.2)
