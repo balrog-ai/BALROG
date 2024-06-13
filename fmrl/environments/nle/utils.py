@@ -3,6 +3,18 @@ from nle_language_wrapper.nle_language_obsv import NLELanguageObsv
 
 nle_language = NLELanguageObsv()
 
+
+def ascii_render(chars):
+    rows, cols = chars.shape
+    result = ""
+    for i in range(rows):
+        for j in range(cols):
+            entry = chr(chars[i, j])
+            result += entry
+        result += "\n"
+    return result
+
+
 def tty_render(nle_obsv):
     """Returns chars as string with ANSI escape sequences.
 
@@ -15,11 +27,11 @@ def tty_render(nle_obsv):
     Returns:
       A string with chars decorated by ANSI escape sequences.
     """
-    
+
     chars = nle_obsv["tty_chars"]
     colors = nle_obsv["tty_colors"]
     cursor = nle_obsv["tty_cursor"]
-    
+
     rows, cols = chars.shape
     # if cursor is None:
     #     cursor = (-1, -1)
@@ -42,6 +54,7 @@ def tty_render(nle_obsv):
     # return result + "\033[0m"
     return result
 
+
 def nle_obsv_to_language(nle_obsv):
     """Translate NLE Observation into a language observation.
     Args:
@@ -56,19 +69,18 @@ def nle_obsv_to_language(nle_obsv):
     inv_letters = nle_obsv["inv_letters"]
     tty_chars = nle_obsv["tty_chars"]
     return {
-        "text_glyphs": nle_language.text_glyphs(glyphs, blstats).decode(
-            "latin-1"
-        ),
+        "text_glyphs": nle_language.text_glyphs(glyphs, blstats).decode("latin-1"),
         "text_message": nle_language.text_message(tty_chars).decode("latin-1"),
         "text_blstats": nle_language.text_blstats(blstats).decode("latin-1"),
-        "text_inventory": nle_language.text_inventory(
-            inv_strs, inv_letters
-        ).decode("latin-1"),
-        "text_cursor": nle_language.text_cursor(
-            glyphs, blstats, tty_cursor
-        ).decode("latin-1"),
+        "text_inventory": nle_language.text_inventory(inv_strs, inv_letters).decode(
+            "latin-1"
+        ),
+        "text_cursor": nle_language.text_cursor(glyphs, blstats, tty_cursor).decode(
+            "latin-1"
+        ),
     }
-    
+
+
 def text_render(nle_obsv):
     key_name_pairs = [
         ("text_blstats", "statistics"),
@@ -78,17 +90,23 @@ def text_render(nle_obsv):
         ("text_cursor", "cursor"),
     ]
     text_obsv = nle_obsv_to_language(nle_obsv)
-    return "\n".join(
-        [f"{name}[\n{text_obsv[key]}\n]" for key, name in key_name_pairs]
-    )
-    
-if __name__=="__main__":
+    return "\n".join([f"{name}[\n{text_obsv[key]}\n]" for key, name in key_name_pairs])
+
+
+def render_human_data(render, inventory, cursor):
+    # The above are strings, so we can just concatenate them.
+    return f"""Inventory: {inventory}
+Observation\n{render}
+Cursor: {cursor}"""
+
+
+if __name__ == "__main__":
     import nle
     import gym
-    
+
     env = gym.make("NetHackChallenge-v0", no_progress_timeout=100)
     obs = env.reset()
-    
+
     print(tty_render(obs))
-    
+
     breakpoint()

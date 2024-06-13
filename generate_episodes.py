@@ -7,8 +7,12 @@ import gym
 from nle.nethack.actions import ACTIONS
 from autoascend.env_wrapper import EnvWrapper
 from nle_language_wrapper.nle_language_obsv import NLELanguageObsv
-from fmrl.prompt_builder import ConcatHistoryPromptBuilder as ConcatPromptBuilder, DiffHistoryPromptBuilder as DiffPromptBuilder
+from fmrl.prompt_builder import (
+    ConcatHistoryPromptBuilder as ConcatPromptBuilder,
+    DiffHistoryPromptBuilder as DiffPromptBuilder,
+)
 import pickle
+from collections import defaultdict
 
 nle_action_textmap = {
     "UnsafeActions.HELP": "help",
@@ -146,6 +150,7 @@ nle_action_textmap = {
 NH_ACTION_STR_TO_IDX = {str(ACTIONS[i]): i for i in range(len(ACTIONS))}
 # NH_ACTION_IDX_TO_STR = {v: k for (k, v) in NH_ACTION_STR_TO_IDX.items()}
 
+
 def gen_and_write_episode(game_id, data_dir, score_threshold):
     env = EnvWrapper(
         gym.make("NetHackChallenge-v0", no_progress_timeout=100),
@@ -159,23 +164,24 @@ def gen_and_write_episode(game_id, data_dir, score_threshold):
         pass
 
     summary = env.get_summary()
-    
+
     # low quality, try again
-    if summary["score"] < score_threshold: 
+    if summary["score"] < score_threshold:
         return gen_and_write_episode(game_id, data_dir, score_threshold)
 
     data = env.get_data()
     data = [data[t] for t in range(len(data))]
-        
+
     with open(os.path.join(data_dir, f"{game_id}_summary.pkl"), "wb") as f:
         pickle.dump(summary, f)
-        
+
     with open(os.path.join(data_dir, f"{game_id}_data.pkl"), "wb") as f:
         pickle.dump(data, f)
 
     # success!
     return 1
-    
+
+
 def worker(job_queue, result_queue, data_dir, score_threshold):
     while True:
         game_id = job_queue.get()
@@ -184,11 +190,14 @@ def worker(job_queue, result_queue, data_dir, score_threshold):
         result = gen_and_write_episode(game_id, data_dir, score_threshold)
         result_queue.put(result)
 
+
 def generate_episodes(args, use_multiprocessing=True):
     data_dir = args.base_dir
     os.makedirs(data_dir, exist_ok=True)
     if use_multiprocessing:
-        num_procs = min(multiprocessing.cpu_count() - args.cores_to_reserve, args.episodes)
+        num_procs = min(
+            multiprocessing.cpu_count() - args.cores_to_reserve, args.episodes
+        )
 
         job_queue = multiprocessing.Queue()
         result_queue = multiprocessing.Queue()
@@ -201,10 +210,13 @@ def generate_episodes(args, use_multiprocessing=True):
         print(f"Launching {num_procs} processes")
         processes = []
         for _ in range(num_procs):
-            p = multiprocessing.Process(target=worker, args=(job_queue, result_queue, data_dir, args.score_threshold))
+            p = multiprocessing.Process(
+                target=worker,
+                args=(job_queue, result_queue, data_dir, args.score_threshold),
+            )
             p.start()
             processes.append(p)
-            
+
         # track completed episodes
         results = []
         with tqdm(total=args.episodes) as pbar:
@@ -226,12 +238,15 @@ def parse_args():
     parser = ArgumentParser()
     parser.add_argument("--base_dir", default="data", type=str)
     parser.add_argument("-n", "--episodes", type=int, default=1000)
-    parser.add_argument("--panic-on-errors", default=True, action="store_true") # what do?
-    parser.add_argument("--cores_to_reserve", type=int, default=0) # what do?
+    parser.add_argument(
+        "--panic-on-errors", default=True, action="store_true"
+    )  # what do?
+    parser.add_argument("--cores_to_reserve", type=int, default=0)  # what do?
     # parser.add_argument("--max_length", type=int, default=8000) # what do?
-    parser.add_argument("--score_threshold", type=int, default=10000) # what do?
+    parser.add_argument("--score_threshold", type=int, default=10000)  # what do?
     args = parser.parse_args()
     return args
+
 
 if __name__ == "__main__":
     generate_episodes(parse_args())
