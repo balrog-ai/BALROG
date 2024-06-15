@@ -81,7 +81,7 @@ def main():
         )
 
         idm = IDM()
-        actions, inventory = idm.label_game("game.npz")
+        actions, inventory, summary = idm.label_game("game.npz")
 
         np.savez_compressed(
             f"{gameid}_data.npz",
@@ -90,6 +90,7 @@ def main():
             tty_colors=tty_colors,
             action=actions,
             inventory=inventory,
+            summary=summary,
         )
     # Save the gameids to a file
     with open("gameids.txt", "w") as f:

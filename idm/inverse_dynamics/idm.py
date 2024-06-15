@@ -31,7 +31,13 @@ class IDM:
     # TODO: ADD ANNOTATE! WE CAN ATTOTATE DUNGEON LEVELS. (# annotate) Useful to teleport there later on I guess
     # TODO: finish what do you want to put on (not working yet, with rings/amulets we know what is being put on)
     # TODO: Dagger/weapon/arrow throwing needs to be improved! (12222)
+    # TODO: Add # overview (to see the map levels)
+    # TODO: Add movement actions when you fall into a pit! (17116)
     # TODO: Teleport actions
+    # TODO: There is a difference between (?) and (*) when menu interacting! (*) is ALL items
+    # while (?) is all the items of a certain type we are interacting with (armor for example)
+    # TODO: In some cases though, we may want to use (*), for example to throw food rations to new pets
+    # TODO: Solve double saved inventory items
 
     def __init__(self):
         self.last_direction = "N"
@@ -92,13 +98,21 @@ class IDM:
 
         actions = []
         inventory = []
+        messages = []
 
         print(len(self.tty_chars))
         for i in range(self.tty_chars.shape[0] - 2):
             actions.append(self.detect_action(self.tty_chars, self.tty_cursor, i))
             inventory.append(self.inventory.get_inventory())
+            messages.append(obs_to_message(self.tty_chars[i]))
 
-        return actions, inventory
+        for message in messages:
+            if "You are a" in message:
+                summary = message.split("You are a")[1].split(".")[0].strip()
+                print(summary)
+                break
+
+        return actions, inventory, summary
 
     def detect_action(self, obs, cursor, timestep):
         """

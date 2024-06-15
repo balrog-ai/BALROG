@@ -127,7 +127,19 @@ def get_timestep(stats):
     Dlvl:1 $:9 HP:56(56) Pw:21(21) AC:1 Xp:6/429 T:9680 Weak
     Where T:9680 is the timestep
     """
+    if "T:" not in stats:
+        return ""
     return stats.split("T:")[1].split(" ")[0]
+
+
+def get_hp(stats):
+    """stats is of the form:
+    Dlvl:1 $:9 HP:56(56) Pw:21(21) AC:1 Xp:6/429 T:9680 Weak
+    Where HP:56(56) is the health. We want to have 56 as output
+    """
+    if "HP:" not in stats:
+        return ""
+    return stats.split("HP:")[1].split("(")[0]
 
 
 def get_dlvl(stats):

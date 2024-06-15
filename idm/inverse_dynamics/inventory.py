@@ -61,7 +61,8 @@ class Inventory:
     def get_inventory(self):
         inventory = ""
         for inv_type, items in self.inventory.items():
-            inventory += f"{inv_type}:\n{items}\n"
+            if items != "":
+                inventory += f"{inv_type}\n{items}\n"
         return inventory
 
     def get_inventory_item(self, target_item):

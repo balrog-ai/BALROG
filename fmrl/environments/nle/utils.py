@@ -93,13 +93,6 @@ def text_render(nle_obsv):
     return "\n".join([f"{name}[\n{text_obsv[key]}\n]" for key, name in key_name_pairs])
 
 
-def render_human_data(render, inventory, cursor):
-    # The above are strings, so we can just concatenate them.
-    return f"""Inventory: {inventory}
-Observation\n{render}
-Cursor: {cursor}"""
-
-
 if __name__ == "__main__":
     import nle
     import gym
