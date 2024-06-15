@@ -38,6 +38,7 @@ class IDM:
     # while (?) is all the items of a certain type we are interacting with (armor for example)
     # TODO: In some cases though, we may want to use (*), for example to throw food rations to new pets
     # TODO: Solve double saved inventory items
+    # TODO: SOME GAMES USE SYMBOLS OTHER THAN THE DEFAULT @ FOR THE PLAYER... IGNORE THOSE GAMES
 
     def __init__(self):
         self.last_direction = "N"
@@ -109,9 +110,8 @@ class IDM:
         for message in messages:
             if "You are a" in message:
                 summary = message.split("You are a")[1].split(".")[0].strip()
-                print(summary)
                 break
-
+        print(f"Labeled game {data_file} with {len(actions)} actions")
         return actions, inventory, summary
 
     def detect_action(self, obs, cursor, timestep):
@@ -445,10 +445,6 @@ class IDM:
         ):
 
             if find_n_of_m_end(map_a) and not find_n_of_m_end(map_b):
-                # print("HERE??? HOW???")
-                # pattern_a = find_n_of_m_end_patterns(map_a)
-                # pattern_b = find_n_of_m_end_patterns(map_b)
-                # print(pattern_a, pattern_b)
                 if "Never mind" in message_b:
                     self.last_action = ""
                     return "esc"
@@ -493,6 +489,8 @@ class IDM:
                     item = re.findall(
                         r"What do you want to name (this|these) (.*?)\?", message_b
                     )[0][1]
+                    # Got an error on item = re.findall(...)
+                    # IndexError: list index out of range
                 elif "What do you want to name th" in message_c:
                     item = re.findall(
                         r"What do you want to name (this|these) (.*?)\?", message_c
@@ -503,7 +501,6 @@ class IDM:
             pattern_b = find_n_of_m_patterns(map_b)
             # Check that pattern_a is not of the type (n of n)
             self.last_action = ""
-            # print(pattern_a, pattern_b)
             if pattern_a[0] != pattern_a[3] and pattern_a != pattern_b:
                 return "more"
 
@@ -648,6 +645,7 @@ class IDM:
             or ("What do you want to write" in message_b and "[" not in message_b)
             or "What do you want to add to the writing" in message_b
             or "Call a" in message_b
+            or "For what do you wish?" in message_b
         ):
             self.last_action = "writing"
 
@@ -921,7 +919,7 @@ class IDM:
                     return None
 
         elif "What do you want to dip a" in message_b:
-            print("DIPPING TO BE IMPLEMENTED")
+            # print("DIPPING TO BE IMPLEMENTED")
             # TODO: Dipping objects in potions for example
             pass
             # item = message_b.split("dip a ")[1].split(" into")[0].strip()
