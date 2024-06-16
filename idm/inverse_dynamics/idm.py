@@ -39,6 +39,7 @@ class IDM:
     # TODO: In some cases though, we may want to use (*), for example to throw food rations to new pets
     # TODO: Solve double saved inventory items
     # TODO: SOME GAMES USE SYMBOLS OTHER THAN THE DEFAULT @ FOR THE PLAYER... IGNORE THOSE GAMES
+    # TODO: Scrolls message_to_message
 
     def __init__(self):
         self.last_direction = "N"
@@ -106,6 +107,7 @@ class IDM:
             actions.append(self.detect_action(self.tty_chars, self.tty_cursor, i))
             inventory.append(self.inventory.get_inventory())
             messages.append(obs_to_message(self.tty_chars[i]))
+            self.timestep = i
 
         for message in messages:
             if "You are a" in message:
@@ -113,6 +115,75 @@ class IDM:
                 break
         print(f"Labeled game {data_file} with {len(actions)} actions")
         return actions, inventory, summary
+
+    def read_scroll(self, obs_a, obs_b, obs_c, obs_d):
+        # Decent enough implementation. Could still be improved
+        message_a = obs_to_message(obs_a)
+        message_b = obs_to_message(obs_b)
+        message_c = obs_to_message(obs_c)
+        message_d = obs_to_message(obs_d)
+        previous_message = obs_to_message(self.tty_chars[self.timestep - 1])
+        if self.last_action == "read" and (
+            "As you read" in message_c or "As you read" in message_b
+        ):
+            if "Scrolls" in message_a:
+                scrolls = get_menu_message(obs_a)
+                scrolls = scrolls.split("\n", 1)[1]
+                self.inventory.update_type("Scrolls", scrolls)
+            elif re.search(r"\[\s*([a-zA-Z])\s*or", message_a):
+                scroll = re.search(r"\[\s*([a-zA-Z])\s*or", message_a).group(1)
+                return scroll
+            else:
+                scrolls = self.inventory.get_inventory_type("Scrolls")
+
+            item = ""
+            if (
+                "identify" in message_c
+                or "identify" in message_d
+                or " - " in message_c  # Lucky scroll the identifies everything!
+                or " - " in message_d
+            ):
+                self.last_action = "menu interaction"
+                item = self.inventory.get_inventory_item("identify")
+
+            if "glows silver" in message_c or "glows silver" in message_d:
+                item = self.inventory.get_inventory_item("enchant armor")
+
+            if "blue" in message_c or "blue" in message_d:
+                item = self.inventory.get_inventory_item("enchant weapon")
+
+            if (
+                "What do you want to charge?" in message_c
+                or "What do you want to charge?" in message_d
+            ):
+                self.last_action = "menu interaction"
+                # Need to complete the menu interaction, it willl decide what to charge
+                item = self.inventory.get_inventory_item("scroll of charging")
+
+            if "A map coalesces" in message_c or "A map coalesces" in message_d:
+                item = self.inventory.get_inventory_item("magic mapping")
+
+            # TODO: Scroll of genocide
+            if (
+                "do you wish to genocide?" in message_c
+                or "do you wish to to genocide?" in message_d
+            ):
+                self.last_action = "menu interaction"
+                item = self.inventory.get_inventory_item("scroll of genocide")
+
+            # TODO: Scroll of teleportation
+
+            if len(item) == 1 and item.isalpha():
+                return item
+            else:
+                scrolls = scrolls.splitlines()
+                len_scrolls = max(len(scrolls) - 1, 0)
+                if len_scrolls == 0:
+                    return " "
+                number = np.random.randint(0, len_scrolls)
+                random_item = scrolls[number][0]
+                return random_item
+        return None
 
     def detect_action(self, obs, cursor, timestep):
         """
@@ -242,7 +313,7 @@ class IDM:
                 return "<"
 
         if "--More" in message_a:
-            return " "
+            return "more"
 
         if "You have a little trouble lifting" in message_b:
             if not "Continue" in message_b:
@@ -312,32 +383,34 @@ class IDM:
             return "esc"
 
         ########### READ ############
-        # If we don't know what we are reading, for the moment read a random
-        # We know we don't want to read unknown scrolls, so we can skip those... We can
-        # automatically read by random one of the scrolls named something
-        message_c = obs_to_message(obs_c)
-        message_d = obs_to_message(obs_d)
-        if self.last_action == "read" and "As you read" in message_c:
-            if "Scrolls" in message_a:
-                scrolls = get_menu_message(obs_a)
-                scrolls = scrolls.split("\n", 1)[1]
-                self.inventory.update_type("Scrolls", scrolls)
-            else:
-                scrolls = self.inventory.get_inventory_type("Scrolls")
+        action = self.read_scroll(obs_a, obs_b, obs_c, obs_d)
+        if action:
+            return action
+        # # If we don't know what we are reading, for the moment read a random
+        # # We know we don't want to read unknown scrolls, so we can skip those... We can
+        # # automatically read by random one of the scrolls named something
 
-            item = ""
-            if "identify" in message_d:
-                self.last_action = "menu interaction"
-                item = self.inventory.get_inventory_item("identify")
+        # if self.last_action == "read" and "As you read" in message_c:
+        #     if "Scrolls" in message_a:
+        #         scrolls = get_menu_message(obs_a)
+        #         scrolls = scrolls.split("\n", 1)[1]
+        #         self.inventory.update_type("Scrolls", scrolls)
+        #     else:
+        #         scrolls = self.inventory.get_inventory_type("Scrolls")
 
-            if len(item) == 1 and item.isalpha():
-                return item
-            else:
-                # get random number between 0 and len(scrolls)
-                scrolls = "\n".join(scrolls.split("\n"))
-                number = np.random.randint(0, len(scrolls) - 1)
-                random_item = scrolls[number][0]
-                return random_item
+        #     item = ""
+        #     if "identify" in message_d:
+        #         self.last_action = "menu interaction"
+        #         item = self.inventory.get_inventory_item("identify")
+
+        #     if len(item) == 1 and item.isalpha():
+        #         return item
+        #     else:
+        #         # get random number between 0 and len(scrolls)
+        #         scrolls = "\n".join(scrolls.split("\n"))
+        #         number = np.random.randint(0, len(scrolls) - 1)
+        #         random_item = scrolls[number][0]
+        #         return random_item
 
         ########### TRAVEL ############
         if "Where do you want to travel to" in message_b:
@@ -415,7 +488,7 @@ class IDM:
         map_b = ascii_render(obs_b)
 
         if "--More--" in map_a:
-            return " "
+            return "more"
 
         if (
             "Drop what type of items" in message_a
@@ -472,7 +545,7 @@ class IDM:
 
         ## CALL/NAME ##
         if find_n_of_m(map_a) and not find_n_of_m(map_b):
-
+            message_c = obs_to_message(obs_c)
             if self.last_action == "call" and (
                 any(
                     call_msg in message_b or call_msg in message_c
@@ -510,6 +583,13 @@ class IDM:
             or "What do you want to remove?" in message_a
         ) and "towel" in message_b:
             return self.inventory.get_inventory_item("towel")
+
+        ########### CAST SPELL ############
+        # TODO: Plenty of spells to cast, we need to implement the menu interaction...
+        # Not very easy to know which spell was cast actually...
+        if "Choose which spell to cast" in message_b:
+            self.last_action = "cast"
+            return "cast"
 
         ########### DROP ############
         if "Drop what type of items?" in message_b:
@@ -597,6 +677,17 @@ class IDM:
         cursor_a = cursor[timestep]
         cursor_b = cursor[timestep + 1]
 
+        if timestep + 2 >= len(obs):
+            obs_c = obs_b
+        else:
+            obs_c = obs[timestep + 2]
+
+        # obs_d
+        if timestep + 3 >= len(obs):
+            obs_d = obs_c
+        else:
+            obs_d = obs[timestep + 3]
+
         message_a = obs_to_message(obs_a)
         message_b = obs_to_message(obs_b)
 
@@ -628,7 +719,14 @@ class IDM:
 
         if "# chat" in message_a:
             # To be completed!
+            # Will ask in what direction
             return "chat"
+
+        if self.last_action == "read" and "As you read" in message_b:
+            return self.read_scroll(obs_a, obs_b, obs_c, obs_d)
+
+        if "--More--" in message_a:
+            return "more"
 
         if "# name" in message_b:
             return "name"
@@ -646,12 +744,18 @@ class IDM:
             or "What do you want to add to the writing" in message_b
             or "Call a" in message_b
             or "For what do you wish?" in message_b
+            or "What type of scroll do you want to write" in message_b
+            or "do you wish to genocide?" in message_b
         ):
             self.last_action = "writing"
 
             if (cursor_a[0] - 1) == cursor_b[0]:
                 return "delete"
             return message_b[cursor_a[0]]
+
+        if "Wiped out" in message_b:
+            self.last_action = ""
+            return "more"
 
         if "Do you want to add to the current engraving?" in message_b:
             self.last_action = "engrave"
@@ -836,8 +940,13 @@ class IDM:
             return "quaff"
         elif "What do you want to rub?" in message_b:
             return "rub"
+        ######### ZAP WAND ############
         elif "What do you want to zap?" in message_b:
+            self.last_action = "zap"
             return "zap"
+        # elif self.last_action = ""
+
+        ###############################
         elif "What do you want to put on?" in message_b:
             return "puton"
         elif "Choose which spell to cast" in message_b:
@@ -902,6 +1011,10 @@ class IDM:
 
         elif "Sell it?" in message_a and "You sold" in message_b:
             return "y"
+
+        ########### SCROLLS ############
+        elif self.last_action == "read" and "As you read" in message_b:
+            return self.read_scroll(obs_a, obs_b, obs_c, obs_d)
 
         ########### DIP ############
         elif "Dip" in message_b and (
@@ -1053,6 +1166,7 @@ class IDM:
             for what_do_you_want in WHAT_DO_YOU_WANT_MESSAGES.keys()
         ) and any(inventory_type in message_b for inventory_type in INVENTORY_TYPES):
             self.inventory.update_inventory_from_single_map(obs_b)
+            # This is not totally correct. It could be either * or ? depending on the message after
             return "*"
             # return self.get_inventory_item(message_b)
         elif "Never mind." in message_b:
@@ -1185,12 +1299,15 @@ class IDM:
             self.last_action = "call"
             return "*"
 
+        ############# SCROLLS ##############
         elif "What do you want to read" in message_a and (
             "Scrolls" in message_b or "Spellbooks" in message_b
         ):
             self.inventory.update_inventory_from_single_map(obs_b)
             self.last_action = "read"
-            return "*"
+            return "?"
+
+        ####################################
 
         elif "Sell it?" in message_a and "You sold" in message_b:
             return "y"
