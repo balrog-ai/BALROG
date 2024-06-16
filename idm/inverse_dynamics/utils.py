@@ -202,6 +202,7 @@ def get_changes(obs_a, obs_b, line_0_offset=False, ascii=False):
         if line.startswith("+ "):
             changes.append(line[2:])
 
+    start_idx = 0
     if line_0_offset:
         # Get the index of the first character that is not a letter in line 0
         idx = 0
@@ -222,6 +223,8 @@ def get_changes(obs_a, obs_b, line_0_offset=False, ascii=False):
             elif char.isalpha():
                 break
 
+    # BUG: nboundLocalError: local variable 'start_idx' referenced before assignment
+    # Now fixed, but need to check when this happens to make sure it labels correctly
     idx = start_idx
     changes = [line[idx:] for line in changes]
     changes = "\n".join(changes)

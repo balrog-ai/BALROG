@@ -11,13 +11,10 @@ class IDM:
     # TODO: Finish dipping objects (almost done)
     # TODO: STILL NEED TO IMPLEMENT THE DROP ALL ITEMS IN MENU (single item done)
     # TODO: Really attack [yn] and such, if we want to say no, we should instead say esc (not n) (7175)
-    # TODO: You find a hidden passage! (20s or similar). important and needs to be implemented (searching)
     # TODO: READing IS IMPORTANT
-    # TODO: (12688) When you read the scroll of identify, the menu opens with: "What would you like to identify first?" (IMPORTANT)
     # TODO: ENHANCE! Level up skills. It happens after a message like: You are more confident in your skills.
     # TODO: pick an object (look objects, move the cursor and not the player. / and ; commands)
     # TODO: apply magic marger, asks: "What do you want to write on?""
-    # TODO: Menu interaction after: (As you read the scroll, it disappears.--More--) (5275) (
     # TODO: RUB items (rubbing the lamp, gem stones) Need menu
     # particularly we could merge the menu interaction of the bag of holding staff with this)
     # TODO: THROW ITEMS
@@ -39,7 +36,6 @@ class IDM:
     # TODO: In some cases though, we may want to use (*), for example to throw food rations to new pets
     # TODO: Solve double saved inventory items
     # TODO: SOME GAMES USE SYMBOLS OTHER THAN THE DEFAULT @ FOR THE PLAYER... IGNORE THOSE GAMES
-    # TODO: Scrolls message_to_message
 
     def __init__(self):
         self.last_direction = "N"
