@@ -1,17 +1,15 @@
+import os
 import numpy as np
-from inverse_dynamics.idm import *
+from idm.inverse_dynamics.idm import IDM
 from copy import deepcopy
 import nle.dataset as nld
+from multiprocessing import Pool
+import sys
 
 
 def setup_dataset(path_to_nld_nao_data):
     # concatenate the path to the dbfilename
-    dbfilename = (
-        "/home/davidepaglieri/"
-        + path_to_nld_nao_data
-        + "/nld-nao-unzipped"
-        + "/ttyrecs_nao.db"
-    )
+    dbfilename = path_to_nld_nao_data + "/ttyrecs_nao.db"
 
     print(dbfilename)
 
@@ -19,9 +17,7 @@ def setup_dataset(path_to_nld_nao_data):
         # Create the db and add the directory
         print("Creating dataset")
         nld.db.create(dbfilename)
-        nld.add_altorg_directory(
-            path_to_nld_nao_data + "/nld-nao-unzipped", "nld-nao-dataset", dbfilename
-        )
+        nld.add_altorg_directory(path_to_nld_nao_data, "nld-nao-dataset", dbfilename)
 
     # Create a connection to specify the database to use
     db_conn = nld.db.connect(filename=dbfilename)
@@ -34,37 +30,10 @@ def setup_dataset(path_to_nld_nao_data):
     return dbfilename
 
 
-def main(argv):
+def process_gameid(args):
+    gameid, dbfilename = args
 
-    base_path = argv[1]
-
-    # base_path = "/Users/davidepaglieri/Desktop/repos/nle/nld-nao"
-    dbfilename = setup_dataset(base_path)
-
-    # Adjust here to select the games you want to label
-    query = f"""SELECT gameid
-    FROM games
-    WHERE version != '3.4.3' 
-    AND death = 'ascended' 
-    AND turns >= 38600
-    AND turns <= 40000
-    AND role = 'Val' 
-    AND race = 'Dwa' 
-    AND align = 'Law'"""
-
-    dataset = nld.TtyrecDataset(
-        "nld-nao-dataset",
-        batch_size=1,
-        seq_length=1000,
-        rows=24,
-        cols=120,
-        dbfilename=dbfilename,
-        subselect_sql=query,
-    )
-    gameids = dataset._gameids
-    print(f"Found {len(gameids)} games")
-
-    for gameid in gameids:
+    try:
         dataset = nld.TtyrecDataset(
             "nld-nao-dataset",
             batch_size=1,
@@ -79,7 +48,10 @@ def main(argv):
         tty_cursors = []
         tty_colors = []
 
-        game_path = f"/home/davidepaglieri/fmrl/human_labeled/{gameid}.npz"
+        game_path = f"human_labeled/{gameid}.npz"
+
+        if not os.path.exists("human_labeled"):
+            os.makedirs("human_labeled")
 
         for idx, mb in enumerate(dataset):
             if not finished:
@@ -120,19 +92,61 @@ def main(argv):
             inventory=inventory,
             summary=summary,
         )
-    # Save the gameids to a file
-    with open("/home/davidepaglieri/fmrl/human_labeled/gameids.txt", "a") as f:
-        for gameid in gameids:
-            f.write(f"{gameid}\n")
-
-    # TODO: SOME GAMES USE SYMBOLS OTHER THAN THE DEFAULT @ FOR THE PLAYER... IGNORE THOSE GAMES
-
-    # TODO: Post process after labeling: Sometimes the ttyrecs are longer than 80cols (map).
-    # After having labelled the actions, we might want to save the game again, but with only the first 80 cols
-    # for map frames where nothing is written (menu)
+    except Exception as e:
+        print(f"Error processing gameid {gameid}: {e}")
 
 
-import sys
+import sqlite3
+
+
+def main():
+    base_path = "nld-nao/nld-nao-unzipped"
+    max_games = 8
+
+    dbfilename = setup_dataset(base_path)
+
+    conn = sqlite3.connect(f"{base_path}/ttyrecs_nao.db")
+    cursor = conn.cursor()
+
+    # We don't want games that are too short or too long. Very short games might have
+    # been very lucky (early wished and so on), long games are probably from not great
+    # players.
+    query = f"""SELECT gameid
+    FROM games
+    WHERE version != '3.4.3' 
+    AND death = 'ascended' 
+    AND turns >= 30000
+    AND turns <= 55000
+    AND role = 'Val' 
+    AND race = 'Dwa' 
+    AND align = 'Law'"""
+
+    cursor.execute(query)
+    gameids = cursor.fetchall()
+
+    gameids = [gameid[0] for gameid in gameids]
+    print(gameids)
+
+    gameids_processed = []
+
+    # Read corrupted game list, and remove any of the gameids that are in that list
+    with open("idm/corrupted_games.txt", "r") as file:
+        corrupted_games = [int(gameid) for gameid in file.readlines()]
+    print(len(corrupted_games))
+
+    gameids = [gameid for gameid in gameids if gameid not in corrupted_games]
+    gameids = gameids[:max_games]
+    print(gameids)
+
+    with Pool(processes=8) as pool:
+        pool.map(process_gameid, [(gameid, dbfilename) for gameid in gameids])
+        gameids_processed.extend(gameids)
+
+    # Write the gameids processed to a file
+    with open("human_labeled/gameids.txt", "w") as file:
+        for gameid in gameids_processed:
+            file.write(f"{gameid}\n")
+
 
 if __name__ == "__main__":
-    main(sys.argv)
+    main()

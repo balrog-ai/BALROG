@@ -65,7 +65,7 @@ sudo apt-get update && apt-get --allow-unauthenticated install -y \
 Afterwards it's a matter of setting up your environment. We advise using a conda environment for this:
 
 ```
-conda create -y -n nle python=3.8
+conda create -y -n nle python=3.10
 conda activate nle
 pip install nle
 ```
@@ -75,3 +75,19 @@ pip install nle
 cd external/nle-language-wrapper
 pip install -e ".[dev]"
 ```
+
+## Download dataset and setup dataset
+Instructions to download human data here: https://github.com/facebookresearch/nle/blob/main/DATASET.md
+
+Make sure you have a `nld-nao/nld-nao-unzipped` dataset, and unzip all the files including the xlog files and blacklist in it. 
+
+# RUN
+
+### 1 - Run IDM to Label human games
+`python label_human_games.py`
+
+### 2 - Generate dataset .csv
+`python generate_human_dataset.py`
+
+### 3 - Run finetuning
+`python finetune.py --config config/finetune.yaml`

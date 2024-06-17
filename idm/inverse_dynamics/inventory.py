@@ -3,7 +3,7 @@ import difflib
 
 # from utils import *
 
-from inverse_dynamics.utils import *
+from idm.inverse_dynamics.utils import *
 
 INVENTORY_TYPES = {
     "Amulets": "",

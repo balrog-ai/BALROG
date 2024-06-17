@@ -218,6 +218,10 @@ def get_changes(obs_a, obs_b, line_0_offset=False, ascii=False):
                 break
     else:
         idx = 0
+        # Check if changes is empty
+        if not changes:
+            print("No changes found")
+            return ""
         for char in changes[0]:
             if not char.isalpha():
                 idx += 1

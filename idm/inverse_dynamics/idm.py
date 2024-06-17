@@ -1,9 +1,9 @@
 import numpy as np
 import difflib
 import re
-from inverse_dynamics.monsters import MONSTER_DICT
-from inverse_dynamics.utils import *
-from inverse_dynamics.inventory import *
+from idm.inverse_dynamics.monsters import MONSTER_DICT
+from idm.inverse_dynamics.utils import *
+from idm.inverse_dynamics.inventory import *
 
 
 class IDM:
@@ -177,8 +177,13 @@ class IDM:
                 if len_scrolls == 0:
                     return " "
                 number = np.random.randint(0, len_scrolls)
-                random_item = scrolls[number][0]
-                return random_item
+                random_item = scrolls[number]
+                # If the random item is longer than 0 return the first character
+                if len(random_item) > 0:
+                    return random_item[0]
+                else:
+                    print("Random item is empty")
+                    return None
         return None
 
     def detect_action(self, obs, cursor, timestep):
@@ -1197,11 +1202,12 @@ class IDM:
         elif (
             ("[yn]" in message_a or "[ynq]" in message_a)
             and ")" in message_b
+            and len(message_b.split(") ")) > 1
             and not "save" in message_a
         ):
             return message_b.split(") ")[1].strip()
         elif "[rl]" in message_a:
-            if "]" in message_b:
+            if "]" in message_b and len(message_b.split("] ")) > 1:
                 return message_b.split("] ")[1].strip()
             elif "right" in message_b:
                 return "r"
@@ -1412,7 +1418,9 @@ class IDM:
                 return self.find_door(obs_a, cursor_a)
             else:
                 # TODO: ANIMATIONS WILL BE DETECTED AS NO MOVEMENTS! BUT NO ACTION IS TAKEN!
-
+                # TODO: A lot of the no movement actions are just game messages being displayed in
+                # the next screen (like): You hear a gurgling noise. or "You hear a door open."
+                # We could probably remove all the "no movement detected" actions to " "
                 return "no movement detected"
         else:
             return "unknown action"
