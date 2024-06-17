@@ -11,14 +11,12 @@ class IDM:
     # TODO: Finish dipping objects (almost done)
     # TODO: STILL NEED TO IMPLEMENT THE DROP ALL ITEMS IN MENU (single item done)
     # TODO: Really attack [yn] and such, if we want to say no, we should instead say esc (not n) (7175)
-    # TODO: READing IS IMPORTANT
     # TODO: ENHANCE! Level up skills. It happens after a message like: You are more confident in your skills.
     # TODO: pick an object (look objects, move the cursor and not the player. / and ; commands)
     # TODO: apply magic marger, asks: "What do you want to write on?""
     # TODO: RUB items (rubbing the lamp, gem stones) Need menu
     # particularly we could merge the menu interaction of the bag of holding staff with this)
     # TODO: THROW ITEMS
-    # TODO: ADD WISHES INTERACTIONS (find a game where they do wish)
     # TODO: # offer (What do you want to sacrifice?)
     # TODO: Wear and takeoff. Wear armor it's impossible to know what was worn, so we can choose randomly
     # while when taking off we know what is being take off from a message
