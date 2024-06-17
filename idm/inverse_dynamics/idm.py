@@ -747,6 +747,8 @@ class IDM:
 
             if (cursor_a[0] - 1) == cursor_b[0]:
                 return "delete"
+            elif cursor_a[0] > 79 or cursor_a[0] < 0:
+                return ""
             return message_b[cursor_a[0]]
 
         if "Wiped out" in message_b:

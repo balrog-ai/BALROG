@@ -147,6 +147,8 @@ def get_dlvl(stats):
     Dlvl:1 $:9 HP:56(56) Pw:21(21) AC:1 Xp:6/429 T:9680 Weak
     Where Dlvl:1 is the dungeon level. We want to have 1 as output
     """
+    if "Dlvl:" not in stats:
+        return ""
     return stats.split("Dlvl:")[1].split(" ")[0]
 
 

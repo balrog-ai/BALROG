@@ -14,10 +14,20 @@ def ascii_render(chars):
     rows, cols = chars.shape
     result = ""
     for i in range(rows):
+        line = ""
         for j in range(cols):
             entry = chr(chars[i, j])
-            result += entry
-        result += "\n"
+            line += entry
+
+        # If the line is longer than 80 characters, check for trailing spaces to strip
+        if len(line) > 80:
+            trimmed_line = line[:80].rstrip()
+            if line[80:].strip():  # Check if there's more text after column 80
+                result += line + "\n"
+            else:
+                result += trimmed_line + "\n"
+        else:
+            result += line + "\n"
     return result
 
 
@@ -27,7 +37,7 @@ def postprocess_human(data):
 
     prompt_builder = HumanHistoryPromptBuilder(
         max_length=8000,
-        max_history=32,
+        max_history=16,
         summary=summary,
     )
 
@@ -58,24 +68,21 @@ def load_dataset(path, game_ids):
     for game_id in game_ids:
         print(path)
 
-        data = np.load(f"{path}/{game_id}_data.npz")
+        data = np.load(f"{path}/{game_id}.npz")
         samples.extend(postprocess_human(data))
 
     df = pd.DataFrame(samples)
-    df.to_csv(f"{game_id}_timesteps.csv", index=False)
+    df.to_csv(f"human_dataset.csv", index=False)
     print("WROTE CSV")
 
+
+import sys
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--directory",
         type=str,
-    )
-    parser.add_argument(
-        "--dataset_type",
-        type=str,
-        default="autoascend",
     )
     parser.add_argument(
         "--gameids",
@@ -92,4 +99,5 @@ if __name__ == "__main__":
     else:
         gameids = [1]
 
+    print(gameids)
     load_dataset(path, gameids)
