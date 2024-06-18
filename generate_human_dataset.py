@@ -80,14 +80,8 @@ import sys
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--directory",
-        type=str,
-    )
-    parser.add_argument(
-        "--gameids",
-        type=str,
-    )
+    parser.add_argument("--directory", type=str, default="human_labeled")
+    parser.add_argument("--gameids", type=str, default="human_labeled/gameids.txt")
 
     args = parser.parse_args()
     path = args.directory
