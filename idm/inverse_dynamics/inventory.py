@@ -116,9 +116,9 @@ class Inventory:
         else:
             self.inventory = {"Miscellaneous": item}
 
-    def update_inventory_from_single_map(self, map, ascii=False):
+    def update_inventory_from_single_map(self, map, ascii=False, delete_old=False):
         menu = get_menu_message(map, ascii=ascii)
-        self.update_inventory_from_changes(changes=menu)
+        self.update_inventory_from_changes(changes=menu, delete_old=delete_old)
 
     def update_inventory_from_maps(self, obs_a, obs_b, delete_old=False, ascii=False):
         changes = get_changes(obs_a, obs_b, ascii=ascii)
@@ -138,8 +138,16 @@ class Inventory:
         for inv_type, new_items in new_inventory.items():
             if new_items == "":
                 continue
-            else:
-                self.inventory[inv_type] = new_items
+            existing_items = self.inventory[inv_type].split("\n")
+            new_items_list = new_items.split("\n")
+            combined_items = existing_items.copy()
+            for item in new_items_list:
+                if item not in existing_items:
+                    combined_items.append(item)
+            self.inventory[inv_type] = "\n".join(
+                item for item in combined_items if item.strip()
+            )
+
         # Clean miscellaneous items
         if "Miscellaneous" in self.inventory:
             self.inventory["Miscellaneous"] = ""
