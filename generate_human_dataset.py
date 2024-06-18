@@ -37,7 +37,7 @@ def postprocess_human(data):
 
     prompt_builder = HumanHistoryPromptBuilder(
         max_length=8000,
-        max_history=16,
+        max_history=8,
         summary=summary,
     )
 
