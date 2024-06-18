@@ -25,7 +25,6 @@ INVENTORY_TYPES = {
 class Inventory:
     def __init__(self, items=None):
         self.inventory = items if items else INVENTORY_TYPES
-        self.raw_inventory_message = ""
 
     def _parse_inventory(self, message):
         inventory_dict = {}
@@ -73,7 +72,6 @@ class Inventory:
         Returns:
             The letter corresponding to the item in the inventory.
         """
-        self.raw_inventory_message = ""
         inventory = [item for key, item in self.inventory.items()]
         inventory = "\n".join(inventory)
         inventory = inventory.split("\n")
@@ -127,27 +125,16 @@ class Inventory:
 
     def update_inventory_from_changes(self, changes, delete_old=False):
         if delete_old:
-            self.raw_inventory_message = ""
             self.inventory = INVENTORY_TYPES
 
-        self.raw_inventory_message += "\n"
-        self.raw_inventory_message += changes
-        new_inventory = self._parse_inventory(self.raw_inventory_message)
+        new_inventory = self._parse_inventory(changes)
 
         # Override the new inventory items
         for inv_type, new_items in new_inventory.items():
             if new_items == "":
                 continue
-            existing_items = self.inventory[inv_type].split("\n")
-            new_items_list = new_items.split("\n")
-            combined_items = existing_items.copy()
-            for item in new_items_list:
-                if item not in existing_items:
-                    combined_items.append(item)
-            self.inventory[inv_type] = "\n".join(
-                item for item in combined_items if item.strip()
-            )
-
+            else:
+                self.inventory[inv_type] = new_items
         # Clean miscellaneous items
         if "Miscellaneous" in self.inventory:
             self.inventory["Miscellaneous"] = ""
