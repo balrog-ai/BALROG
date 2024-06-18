@@ -72,7 +72,7 @@ def load_dataset(path, game_ids):
         samples.extend(postprocess_human(data))
 
     df = pd.DataFrame(samples)
-    df.to_csv(f"human_dataset.csv", index=False)
+    df.to_csv(f"human_dataset.csv", index=False, escapechar="\\")
     print("WROTE CSV")
 
 
