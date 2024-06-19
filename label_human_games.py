@@ -31,7 +31,7 @@ def setup_dataset(path_to_nld_nao_data):
 
 
 def process_gameid(args):
-    gameid, dbfilename = args
+    gameid, dbfilename, dlvl_cutoff = args
 
     try:
         dataset = nld.TtyrecDataset(
@@ -81,7 +81,7 @@ def process_gameid(args):
         )
 
         idm = IDM()
-        actions, inventory, summary = idm.label_game(game_path)
+        actions, inventory, summary = idm.label_game(game_path, dlvl_cutoff=dlvl_cutoff)
 
         np.savez_compressed(
             game_path,
@@ -99,9 +99,9 @@ def process_gameid(args):
 import sqlite3
 
 
-def main():
+def main(args):
     base_path = "nld-nao/nld-nao-unzipped"
-    max_games = 8
+    max_games = args.max_games
 
     dbfilename = setup_dataset(base_path)
 
@@ -138,8 +138,11 @@ def main():
     gameids = gameids[:max_games]
     print(gameids)
 
-    with Pool(processes=8) as pool:
-        pool.map(process_gameid, [(gameid, dbfilename) for gameid in gameids])
+    with Pool(processes=args.processes) as pool:
+        pool.map(
+            process_gameid,
+            [(gameid, dbfilename, args.dlvl_cutoff) for gameid in gameids],
+        )
         gameids_processed.extend(gameids)
 
     # Write the gameids processed to a file
@@ -148,5 +151,14 @@ def main():
             file.write(f"{gameid}\n")
 
 
+import argparse
+
 if __name__ == "__main__":
-    main()
+    # Take number of processes as an argument
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--processes", type=int, default=8)
+    parser.add_argument("--max_games", type=int, default=100)
+    parser.add_argument("--dlvl_cutoff", type=int, default=15)
+    args = parser.parse_args()
+
+    main(args)

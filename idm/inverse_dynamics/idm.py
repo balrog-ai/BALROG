@@ -16,7 +16,7 @@ class IDM:
     # TODO: apply magic marger, asks: "What do you want to write on?""
     # TODO: RUB items (rubbing the lamp, gem stones) Need menu
     # particularly we could merge the menu interaction of the bag of holding staff with this)
-    # TODO: THROW ITEMS
+    # TODO: THROW ITEMS (Mjolrnir, arrows, daggers, etc)
     # TODO: # offer (What do you want to sacrifice?)
     # TODO: Wear and takeoff. Wear armor it's impossible to know what was worn, so we can choose randomly
     # while when taking off we know what is being take off from a message
@@ -83,7 +83,7 @@ class IDM:
                 f.write("\n")
         return output_file
 
-    def label_game(self, data_file):
+    def label_game(self, data_file, dlvl_cutoff=15):
         data = np.load(data_file)
         print(type(data))
         self.tty_chars = data["tty_chars"]
@@ -101,7 +101,10 @@ class IDM:
             actions.append(self.detect_action(self.tty_chars, self.tty_cursor, i))
             inventory.append(self.inventory.get_inventory())
             messages.append(obs_to_message(self.tty_chars[i]))
-            self.timestep = i
+
+            dlvl = get_dlvl(obs_to_stats(self.tty_chars[i]))
+            if dlvl and int(dlvl) > dlvl_cutoff:
+                break
 
         for message in messages:
             if "You are a" in message:
