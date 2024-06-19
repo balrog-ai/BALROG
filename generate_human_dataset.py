@@ -36,7 +36,7 @@ def postprocess_human(data):
     summary = data["summary"]
 
     prompt_builder = HumanHistoryPromptBuilder(
-        max_length=8000,
+        max_length=16000,
         max_history=8,
         summary=summary,
     )
@@ -47,16 +47,26 @@ def postprocess_human(data):
     tty_inventory = data["inventory"]
     samples = []
 
-    for i in tqdm(range(tty_chars.shape[0] - 2)):
-        inventory = tty_inventory[i]
-        render = ascii_render(tty_chars[i])
-        cursor = f"Cursor: {np.array2string(tty_cursor[i])}"
-        action = tty_actions[i]
+    with open("game_.txt", "a") as f:
+        for i in tqdm(range(tty_chars.shape[0] - 2)):
+            inventory = tty_inventory[i]
+            render = ascii_render(tty_chars[i])
+            cursor = f"{np.array2string(tty_cursor[i])}"
+            action = tty_actions[i]
+            
+            f.write(inventory)
+            f.write(render)
+            f.write(cursor)
+            f.write("ACTION:")
+            f.write(action)
+            f.write("\n")
+            f.write("#" * 80)
+            f.write("\n")
 
-        prompt_builder.update_history(inventory, render, cursor, action)
-        samples.append({"text": prompt_builder.get_prompt() + "### Response:" + action})
+            prompt_builder.update_history(inventory, render, cursor, action)
+            samples.append({"text": prompt_builder.get_prompt() + "### Response:" + action})
 
-    return samples
+        return samples
 
 
 import pandas as pd

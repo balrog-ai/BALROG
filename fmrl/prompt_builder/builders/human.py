@@ -80,7 +80,7 @@ class HumanHistoryPromptBuilder(PromptBuilder, ABC):
                 + cursor_diff
                 + "\n"
             )
-            self._diff_history.append((diff, len(diff.encode("utf-8"))))
+            self._diff_history.append((diff, len(diff.encode("utf-8")))) # THIS IS WAAAY OFF
         self.previous_action = action
 
     def reset(self):
@@ -98,20 +98,22 @@ class HumanHistoryPromptBuilder(PromptBuilder, ABC):
             f"\nCurrent observation\n{inventory}\n" + "Map\n" + current_obs
         )  # We are not adding this but okay
         cur_tokens = current_obs_tokens + inventory_tokens
+        count = 0
         for i in range(len(self._diff_history) - 1, -1, -1):
 
             diff, diff_tokens = self._diff_history[i]
-
+            count += 1
             if cur_tokens + diff_tokens >= self._max_length:
-                print("Max length reached")
+                print(i, cur_tokens + diff_tokens, self._max_length)
                 break
 
             history = diff + history
         prompt = (
-            f"You are a {self.summary}\nHistory\n"
+            self._obs_delim
+            + f"You are a {self.summary}\nHistory\n"
             + history
             + self._cursor_history[-1][0]
             + "\n"
-            + "Action: "
+            + self._action_delim
         )
         return prompt
