@@ -43,6 +43,7 @@ def ascii_render(chars):
 
     # Join the lines back together
     result = "\n".join(lines)
+    return result
 
 
 NO_ACTIONS = {
