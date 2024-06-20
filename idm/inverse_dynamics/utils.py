@@ -88,6 +88,8 @@ INVENTORY_LOOK_SYMBOLS = {
     "What do you want to sacrifice": "?",
 }
 
+MENU_INTERACTION_MSG = ("What would you like to drop", "Pick up what?")
+
 ANIMATION_FILLERS = (
     "You see here",
     "You hear",
@@ -99,6 +101,8 @@ ANIMATION_FILLERS = (
     "hits",
     "Welcome to",
     "Welcome again",
+    "Your sacrifice is consumed",
+    "You feel that",
 )
 
 NOT_FILLERS = ("The door closes", "The door resists")
@@ -218,16 +222,25 @@ def attack_in_message(attacks, message):
 
 
 def menu_interaction(obs_a, obs_b, ascii=False):
+    # Could be further improved to select only some submenus
     changes = get_changes(obs_a, obs_b, line_0_offset=True, ascii=ascii)
+
+    multiple_changes = False
+    if len(changes.split("\n")) > 1:
+        multiple_changes = True
 
     minus_index = changes.find("-")
     plus_index = changes.find("+")
 
     if minus_index != -1 and (plus_index == -1 or minus_index < plus_index):
         item = changes.split("-")[0].strip()
+        if multiple_changes:
+            return "-"
         return item
     elif plus_index != -1 and (minus_index == -1 or plus_index < minus_index):
         item = changes.split("+")[0].strip()
+        if multiple_changes:
+            return "."
         return item
     else:
         return "unknown selection"
@@ -278,6 +291,10 @@ def get_changes(obs_a, obs_b, line_0_offset=False, ascii=False):
     changes = [line[idx:] for line in changes]
     changes = "\n".join(changes)
     return changes
+
+
+def find_single_option(message):
+    return re.search(r"\[\s*([a-zA-Z])\s*or", message)
 
 
 def get_menu_message(obs, ascii=False):

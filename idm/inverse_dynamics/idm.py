@@ -9,14 +9,11 @@ import random
 class IDM:
     # TODO: FINHISH MENU INTERACTIONS! THEY ARE IMPORTANT! (almost all done)
     # TODO: Finish dipping objects (almost done)
-    # TODO: STILL NEED TO IMPLEMENT THE DROP ALL ITEMS IN MENU (single item done)
     # TODO: Really attack [yn] and such, if we want to say no, we should instead say esc (not n) (7175)
     # TODO: pick an object (look objects, move the cursor and not the player. / and ; commands)
     # TODO: apply magic marger, asks: "What do you want to write on?""
-    # TODO: RUB items (rubbing the lamp, gem stones) Need menu
     # particularly we could merge the menu interaction of the bag of holding staff with this)
     # TODO: THROW ITEMS (Mjolrnir, arrows, daggers, etc) (Not always working)
-    # TODO: # offer (What do you want to sacrifice?)
     # TODO: Wear and takeoff. Wear armor it's impossible to know what was worn, so we can choose randomly
     # while when taking off we know what is being take off from a message
     # TODO: Remove all the (e+d) from the inventory messages, otherwise they are detected as a menu interaction
@@ -36,6 +33,7 @@ class IDM:
     # TODO: Movements on corpses are not always right! Depending on the ttyrec (290 of Machinespr)
     # THIS IS TRUE ONLY WHEN MOVING ON MULTIPLE OBJECTS! (like corpses with other items)
     # TODO: WEAR OBJECTS
+    # TODO: TOO MANY SEARCH actions
 
     def __init__(self):
         self.last_direction = "N"
@@ -57,16 +55,19 @@ class IDM:
 
                 ########### TIMESTEP ############
 
+                # start_time = 1118
+                # end_time = 1121
+
                 # stats = "".join([chr(c) for c in self.tty_chars[i][23]])
                 # timestep = get_timestep(stats) if "T:" in stats else ""
 
-                # if timestep != "" and int(timestep) == 52:
+                # if timestep != "" and int(timestep) == start_time:
                 #     listening = True
 
                 # if not listening:
                 #     continue
 
-                # if listening and timestep != "" and int(timestep) > 63:
+                # if listening and timestep != "" and int(timestep) > end_time:
                 #     listening = False
 
                 # print(timestep)
@@ -130,8 +131,8 @@ class IDM:
                 scrolls = get_menu_message(obs_a)
                 scrolls = scrolls.split("\n", 1)[1]
                 self.inventory.update_type("Scrolls", scrolls)
-            elif re.search(r"\[\s*([a-zA-Z])\s*or", message_a):
-                scroll = re.search(r"\[\s*([a-zA-Z])\s*or", message_a).group(1)
+            elif find_single_option(message_a):  # Find single
+                scroll = find_single_option(message_a).group(1)
                 return scroll
             else:
                 scrolls = self.inventory.get_inventory_type("Scrolls")
@@ -598,6 +599,8 @@ class IDM:
                 if "The door resists" in message_b:
                     action = self.find_door(obs_b, cursor_b)
                     return action if action else self.last_direction
+                elif message_a.split():
+                    return " "
                 return "search"
 
     def check_pickup(self, timestep):
@@ -727,6 +730,12 @@ class IDM:
 
         if "# name" in message_b:
             return "name"
+
+        if "Are you sure you want to pray?" in message_b:
+            return "pray"
+
+        if "What do you want to sacrifice?" in message_b:
+            return "offer"
 
         if "# loot" in message_a and "loot it?" in message_b:
             return "loot"
@@ -1040,6 +1049,12 @@ class IDM:
                 self.inventory.update_inventory_from_maps(obs_a, obs_b)
             self.last_action = "inventory"
             return "inventory"
+        elif (
+            any(interaction in message_a for interaction in MENU_INTERACTION_MSG)
+        ) and not any(
+            (interaction in message_b for interaction in MENU_INTERACTION_MSG)
+        ):
+            return "more"
 
         elif "Sell it?" in message_a and "You sold" in message_b:
             return "y"
@@ -1354,6 +1369,27 @@ class IDM:
             self.inventory.update_inventory_from_single_map(obs_b)
             self.last_action = "read"
             return "?"
+
+        ############# OFFER ##############
+        elif "What do you want to sacrifice?" in message_a:
+            if find_single_option(message_a):
+                return find_single_option(message_a).group(1)
+            else:
+                return "?"
+
+        ############# RUB ##############
+        elif "What do you want to rub?" in message_a:
+            if find_single_option(message_a):
+                return find_single_option(message_a).group(1)
+            else:
+                return self.inventory.get_inventory_item("lamp")
+
+        ############# PRAY ##############
+        elif (
+            "Are you sure you want to pray?" in message_a
+            and "You begin praying" in message_b
+        ):
+            return "y"
 
         ####################################
         elif "Do you want to add" in message_a and "You wipe" in message_b:

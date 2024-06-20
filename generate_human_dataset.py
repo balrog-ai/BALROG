@@ -4,6 +4,7 @@ from fmrl.prompt_builder import HumanHistoryPromptBuilder
 import argparse
 import numpy as np
 from tqdm import tqdm
+from idm.inverse_dynamics.utils import obs_to_message
 
 
 def render_human_data(render, inventory, cursor):
@@ -44,6 +45,24 @@ def ascii_render(chars):
     result = "\n".join(lines)
 
 
+NO_ACTIONS = {
+    "message to message": "",
+    "action triggering message": "",
+    "acting on a message": "",
+    "unknown action": "",
+    "unknown": "",
+    "unknown selection": "",
+    "inventory item not found": "?",
+}
+
+
+def clean_action(action):
+    if action in NO_ACTIONS:
+        return NO_ACTIONS[action]
+    else:
+        return action
+
+
 def postprocess_human(data):
 
     summary = data["summary"]
@@ -60,26 +79,23 @@ def postprocess_human(data):
     tty_inventory = data["inventory"]
     samples = []
 
-    with open("game_.txt", "a") as f:
-        for i in tqdm(range(tty_actions.shape[0] - 2)):
-            inventory = tty_inventory[i]
-            render = ascii_render(tty_chars[i])
-            cursor = f"{np.array2string(tty_cursor[i])}"
-            action = tty_actions[i]
+    for i in tqdm(range(tty_actions.shape[0] - 2)):
+        inventory = tty_inventory[i]
+        render = ascii_render(tty_chars[i])
 
-            f.write(inventory)
-            f.write(render)
-            f.write(cursor)
-            f.write("ACTION:")
-            f.write(action)
-            f.write("\n")
-            f.write("#" * 80)
-            f.write("\n")
+        split_render = render.split("\n")
+        if "#      " in split_render[0]:
+            continue
+        elif "# " in split_render[0]:
+            split_render[0] = " " * 80
 
-            prompt_builder.update_history(inventory, render, cursor, action)
-            samples.append(
-                {"text": prompt_builder.get_prompt() + "### Response:" + action}
-            )
+        render = "\n".join(render.split("\n"))
+
+        cursor = f"{np.array2string(tty_cursor[i])}"
+        action = clean_action(tty_actions[i])
+
+        prompt_builder.update_history(inventory, render, cursor, action)
+        samples.append({"text": prompt_builder.get_prompt() + "### Response:" + action})
 
         return samples
 
