@@ -64,13 +64,13 @@ def clean_action(action):
         return action
 
 
-def postprocess_human(data):
+def postprocess_human(data, history):
 
     summary = data["summary"]
 
     prompt_builder = HumanHistoryPromptBuilder(
         max_length=16000,
-        max_history=8,
+        max_history=history,
         summary=summary,
     )
 
@@ -104,14 +104,14 @@ def postprocess_human(data):
 import pandas as pd
 
 
-def load_dataset(path, game_ids):
+def load_dataset(path, game_ids, history):
     samples = []
 
     for game_id in game_ids:
         print(path)
 
         data = np.load(f"{path}/{game_id}.npz")
-        samples.extend(postprocess_human(data))
+        samples.extend(postprocess_human(data, history))
 
     df = pd.DataFrame(samples)
     df.to_csv(f"human_dataset.csv", index=False, escapechar="\\")
@@ -124,6 +124,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--directory", type=str, default="human_labeled")
     parser.add_argument("--gameids", type=str, default="human_labeled/gameids.txt")
+    parser.add_argument("--history", type=int, default=8)
 
     args = parser.parse_args()
     path = args.directory
@@ -136,4 +137,4 @@ if __name__ == "__main__":
         gameids = [1]
 
     print(gameids)
-    load_dataset(path, gameids)
+    load_dataset(path, gameids, args.history)
