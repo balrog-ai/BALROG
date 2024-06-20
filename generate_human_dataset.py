@@ -61,7 +61,7 @@ def postprocess_human(data):
     samples = []
 
     with open("game_.txt", "a") as f:
-        for i in tqdm(range(tty_chars.shape[0] - 2)):
+        for i in tqdm(range(tty_actions.shape[0] - 2)):
             inventory = tty_inventory[i]
             render = ascii_render(tty_chars[i])
             cursor = f"{np.array2string(tty_cursor[i])}"
