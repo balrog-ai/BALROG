@@ -98,7 +98,7 @@ def postprocess_human(data):
         prompt_builder.update_history(inventory, render, cursor, action)
         samples.append({"text": prompt_builder.get_prompt() + "### Response:" + action})
 
-        return samples
+    return samples
 
 
 import pandas as pd
