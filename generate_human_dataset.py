@@ -28,7 +28,20 @@ def ascii_render(chars):
                 result += trimmed_line + "\n"
         else:
             result += line + "\n"
-    return result
+
+    # Split the result into lines for further processing
+    lines = result.split("\n")
+
+    # Check if the status line exists and modify it
+    if len(lines) > 22 and "St:" in lines[22] and "Dx:" in lines[22]:
+        parts = lines[22].split("[")
+        if len(parts) > 1:
+            subparts = parts[1].split("the")
+            if len(subparts) > 1:
+                lines[22] = parts[0] + "[Agent the" + subparts[1]
+
+    # Join the lines back together
+    result = "\n".join(lines)
 
 
 def postprocess_human(data):
@@ -53,7 +66,7 @@ def postprocess_human(data):
             render = ascii_render(tty_chars[i])
             cursor = f"{np.array2string(tty_cursor[i])}"
             action = tty_actions[i]
-            
+
             f.write(inventory)
             f.write(render)
             f.write(cursor)
@@ -64,7 +77,9 @@ def postprocess_human(data):
             f.write("\n")
 
             prompt_builder.update_history(inventory, render, cursor, action)
-            samples.append({"text": prompt_builder.get_prompt() + "### Response:" + action})
+            samples.append(
+                {"text": prompt_builder.get_prompt() + "### Response:" + action}
+            )
 
         return samples
 

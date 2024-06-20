@@ -18,6 +18,7 @@ ATTACKS = (
     "You hit",
     "You miss",
     "You destroy",
+    "Really attack",
     "strikes",
     "stuns",
     "scares",
@@ -41,6 +42,8 @@ EATING = (
     "You finish eating",
     "Rotten",
     "opens like magic",
+    "You resume your meal",
+    "that must have been poisonous",
 )
 
 WHAT_DO_YOU_WANT_MESSAGES = {
@@ -63,6 +66,42 @@ WHAT_DO_YOU_WANT_MESSAGES = {
     "What do you want to look at": "look",
     "What do you want to sacrifice": "offer",
 }
+
+INVENTORY_LOOK_SYMBOLS = {
+    "What do you want to eat": "?",
+    "What do you want to wear": "?",
+    "What do you want to drop": "*",
+    "What do you want to take off": "?",
+    "What do you want to throw": "*",
+    "What do you want to put on": "?",
+    "What do you want to wield": "?",
+    "What do you want to use or apply": "?",
+    "What do you want to remove": "?",
+    "What do you want to dip": "*",
+    "What do you want to ready": "?",
+    "What do you want to write with": "*",
+    "What do you want to drink": "?",
+    "What do you want to rub": "?",
+    "What do you want to zap": "?",
+    "What do you want to name": "*",
+    "What do you want to look at": "*",
+    "What do you want to sacrifice": "?",
+}
+
+ANIMATION_FILLERS = (
+    "You see here",
+    "You hear",
+    "You smell",
+    "It is not so easy to",
+    "drops",
+    "picks up",
+    "misses",
+    "hits",
+    "Welcome to",
+    "Welcome again",
+)
+
+NOT_FILLERS = ("The door closes", "The door resists")
 
 REMOVE_MESSAGES = (
     "# loot",
@@ -180,10 +219,14 @@ def attack_in_message(attacks, message):
 
 def menu_interaction(obs_a, obs_b, ascii=False):
     changes = get_changes(obs_a, obs_b, line_0_offset=True, ascii=ascii)
-    if "-" in changes:
+
+    minus_index = changes.find("-")
+    plus_index = changes.find("+")
+
+    if minus_index != -1 and (plus_index == -1 or minus_index < plus_index):
         item = changes.split("-")[0].strip()
         return item
-    elif "+" in changes:
+    elif plus_index != -1 and (minus_index == -1 or plus_index < minus_index):
         item = changes.split("+")[0].strip()
         return item
     else:

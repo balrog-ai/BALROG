@@ -1,9 +1,9 @@
 import numpy as np
-import difflib
 import re
 from idm.inverse_dynamics.monsters import MONSTER_DICT
 from idm.inverse_dynamics.utils import *
 from idm.inverse_dynamics.inventory import *
+import random
 
 
 class IDM:
@@ -11,12 +11,11 @@ class IDM:
     # TODO: Finish dipping objects (almost done)
     # TODO: STILL NEED TO IMPLEMENT THE DROP ALL ITEMS IN MENU (single item done)
     # TODO: Really attack [yn] and such, if we want to say no, we should instead say esc (not n) (7175)
-    # TODO: ENHANCE! Level up skills. It happens after a message like: You are more confident in your skills.
     # TODO: pick an object (look objects, move the cursor and not the player. / and ; commands)
     # TODO: apply magic marger, asks: "What do you want to write on?""
     # TODO: RUB items (rubbing the lamp, gem stones) Need menu
     # particularly we could merge the menu interaction of the bag of holding staff with this)
-    # TODO: THROW ITEMS (Mjolrnir, arrows, daggers, etc)
+    # TODO: THROW ITEMS (Mjolrnir, arrows, daggers, etc) (Not always working)
     # TODO: # offer (What do you want to sacrifice?)
     # TODO: Wear and takeoff. Wear armor it's impossible to know what was worn, so we can choose randomly
     # while when taking off we know what is being take off from a message
@@ -32,8 +31,11 @@ class IDM:
     # TODO: There is a difference between (?) and (*) when menu interacting! (*) is ALL items
     # while (?) is all the items of a certain type we are interacting with (armor for example)
     # TODO: In some cases though, we may want to use (*), for example to throw food rations to new pets
-    # TODO: Solve double saved inventory items
     # TODO: SOME GAMES USE SYMBOLS OTHER THAN THE DEFAULT @ FOR THE PLAYER... IGNORE THOSE GAMES
+    # TODO: ADD USELESS FRAME REMOVAL (like all the "# " messages, some of the unknown actions and so on)
+    # TODO: Movements on corpses are not always right! Depending on the ttyrec (290 of Machinespr)
+    # THIS IS TRUE ONLY WHEN MOVING ON MULTIPLE OBJECTS! (like corpses with other items)
+    # TODO: WEAR OBJECTS
 
     def __init__(self):
         self.last_direction = "N"
@@ -58,13 +60,13 @@ class IDM:
                 # stats = "".join([chr(c) for c in self.tty_chars[i][23]])
                 # timestep = get_timestep(stats) if "T:" in stats else ""
 
-                # if timestep != "" and int(timestep) == 5817:
+                # if timestep != "" and int(timestep) == 52:
                 #     listening = True
 
                 # if not listening:
                 #     continue
 
-                # if listening and timestep != "" and int(timestep) > 5818:
+                # if listening and timestep != "" and int(timestep) > 63:
                 #     listening = False
 
                 # print(timestep)
@@ -74,6 +76,8 @@ class IDM:
                 cursor_a = np.array2string(self.tty_cursor[i])
 
                 movement = self.detect_action(self.tty_chars, self.tty_cursor, i)
+                # f.write(self.inventory.get_inventory())
+                # f.write("\n")
                 f.write(render_a)
                 f.write(cursor_a)
                 f.write("ACTION:")
@@ -119,7 +123,6 @@ class IDM:
         message_b = obs_to_message(obs_b)
         message_c = obs_to_message(obs_c)
         message_d = obs_to_message(obs_d)
-        previous_message = obs_to_message(self.tty_chars[self.timestep - 1])
         if self.last_action == "read" and (
             "As you read" in message_c or "As you read" in message_b
         ):
@@ -160,7 +163,6 @@ class IDM:
             if "A map coalesces" in message_c or "A map coalesces" in message_d:
                 item = self.inventory.get_inventory_item("magic mapping")
 
-            # TODO: Scroll of genocide
             if (
                 "do you wish to genocide?" in message_c
                 or "do you wish to to genocide?" in message_d
@@ -224,13 +226,14 @@ class IDM:
         message_b = obs_to_message(obs_b)
 
         ########### ATTACKS ############
-        if attack_in_message(ATTACKS, message_b) and not "digging" in message_b:
+        if (
+            attack_in_message(ATTACKS, message_b)
+            and not "digging" in message_b
+            and not "Really attack" in message_a
+        ):
             return self.find_attack(obs_a, obs_b, cursor_a)
 
         ########### DIGGING ############
-        # Digging could implemented better. We should do more checks to see when the player
-        # is digging. It doesn't always show a message when digging. A way to know is to check
-        # the map and see if there is a new '#' tile, and the player hasn't moved.
         if "In what direction do you want to dig?" in message_a:
             action = self.detect_digging_direction(obs_a, obs_b, cursor_a)
             if action:
@@ -247,10 +250,6 @@ class IDM:
         ########### MESSAGES ###########
 
         if y_movement == 0 and cursor_a[1] == 0:
-            # THIS IS DEFINITELY A MESSAGE, NO MOVEMENT ON Y AXIS!
-            # return detect_message_action(obs_a, obs_b, cursor_a, cursor_b)
-            # Message to message are things like Elbereth, but also calling commands with # ...
-            # such as # dip
             message = self.detect_message_to_message(obs, cursor, timestep)
             if message:
                 return message
@@ -297,6 +296,11 @@ class IDM:
             return "open door or chest"
 
         ########### OTHER ############
+
+        # Name
+        if "What do you want to name" in message_b:
+            self.last_action = "call"
+            return "name"
 
         # Wielding
         if (
@@ -388,31 +392,6 @@ class IDM:
         action = self.read_scroll(obs_a, obs_b, obs_c, obs_d)
         if action:
             return action
-        # # If we don't know what we are reading, for the moment read a random
-        # # We know we don't want to read unknown scrolls, so we can skip those... We can
-        # # automatically read by random one of the scrolls named something
-
-        # if self.last_action == "read" and "As you read" in message_c:
-        #     if "Scrolls" in message_a:
-        #         scrolls = get_menu_message(obs_a)
-        #         scrolls = scrolls.split("\n", 1)[1]
-        #         self.inventory.update_type("Scrolls", scrolls)
-        #     else:
-        #         scrolls = self.inventory.get_inventory_type("Scrolls")
-
-        #     item = ""
-        #     if "identify" in message_d:
-        #         self.last_action = "menu interaction"
-        #         item = self.inventory.get_inventory_item("identify")
-
-        #     if len(item) == 1 and item.isalpha():
-        #         return item
-        #     else:
-        #         # get random number between 0 and len(scrolls)
-        #         scrolls = "\n".join(scrolls.split("\n"))
-        #         number = np.random.randint(0, len(scrolls) - 1)
-        #         random_item = scrolls[number][0]
-        #         return random_item
 
         ########### TRAVEL ############
         if "Where do you want to travel to" in message_b:
@@ -424,13 +403,7 @@ class IDM:
                 if symbol_name.lower() in message_b.lower():
                     self.last_action = "travel"
                     return symbol
-            # self.last_action = "travel"
-            # if "up" in message_b:
-            #     return ">"
-            # elif "down" in message_b:
-            #     return "<"
-            # elif "altar" in message_b:
-            #     return "_"
+
         if self.last_action == "travel" and not message_b.strip():
             self.last_action = ""
             return "."
@@ -529,6 +502,9 @@ class IDM:
             else:
                 return menu_interaction(map_a, map_b, ascii=True)
 
+        if "Pick a skill to advance" in message_a:
+            return "a"
+
         # Keep navigating the menu
         # When we change page of the bag of holding we cannot compare to the previous map
         if find_n_of_m(map_a) and find_n_of_m(map_b):
@@ -607,9 +583,22 @@ class IDM:
         if movement:
             return movement
 
-        ########### UNKNOWN ############
+        ########### ANIMATIONS/FILLERS ############
+        if any(filler in message_b for filler in ANIMATION_FILLERS):
+            return " "
 
-        return "unknown"
+        ########### SEARCH ############
+        if (
+            get_timestep(obs_to_stats(obs_a)) != ""
+            and get_timestep(obs_to_stats(obs_b)) != ""
+        ):
+            if int(get_timestep(obs_to_stats(obs_a))) + 1 == int(
+                get_timestep(obs_to_stats(obs_b))
+            ):
+                if "The door resists" in message_b:
+                    action = self.find_door(obs_b, cursor_b)
+                    return action if action else self.last_direction
+                return "search"
 
     def check_pickup(self, timestep):
         obs_c = self.tty_chars[timestep + 2]
@@ -711,8 +700,6 @@ class IDM:
             return "untrap"
 
         if "# enhance" in message_b:
-            # TODO: complete the enhance menu
-            self.last_action = "enhance"
             return "enhance"
 
         if "# rub" in message_b or "# rub" in message_a:
@@ -723,6 +710,14 @@ class IDM:
             # To be completed!
             # Will ask in what direction
             return "chat"
+
+        if "eat it?" in message_a and any(
+            eat_message in message_b for eat_message in EATING
+        ):
+            return "y"
+
+        if "Never mind" in message_b:
+            return "esc"
 
         if self.last_action == "read" and "As you read" in message_b:
             return self.read_scroll(obs_a, obs_b, obs_c, obs_d)
@@ -736,6 +731,9 @@ class IDM:
         if "# loot" in message_a and "loot it?" in message_b:
             return "loot"
 
+        if "You write in the dust with your fingertip" in message_b:
+            return "-"
+
         # Checking for patterns like: Y - a blessed white potion. And taking the first letter
         if re.findall(r"\b(\w) - [^-]+", message_b):
             return re.findall(r"\b(\w) - [^-]+", message_b)[0]
@@ -748,6 +746,7 @@ class IDM:
             or "For what do you wish?" in message_b
             or "What type of scroll do you want to write" in message_b
             or "do you wish to genocide?" in message_b
+            or ("Really attack" in message_a and "Really attack" in message_b)
         ):
             self.last_action = "writing"
 
@@ -789,11 +788,13 @@ class IDM:
             # The lockpick might have a similar message to the key too!
             return self.inventory.get_inventory_item("key")
 
-        if (
-            "Do you want to add to the current engraving?" in message_a
-            and "You add" in message_b
-        ):
-            return "y"
+        if "Do you want to add to the current engraving?" in message_a:
+            if "You add" in message_b:
+                return "y"
+            elif "You wipe" in message_b:
+                return "n"
+            else:
+                return " "
 
         if "loot it? [ynq]" in message_a:
             if "open" in message_b or "locked" in message_b:
@@ -816,6 +817,28 @@ class IDM:
             nx, ny = x + dx, y + dy
             if 0 <= nx < 80 and 0 <= ny < 21:
                 if map_lines[ny][nx] == symbol:
+                    return direction
+        return None
+
+    def find_adjacent_change(self, obs_a, obs_b, cursor_a, symbol):
+        # Similar to the above, but find if the symbol we are looking for just appeared
+        # in obs_b, and was not there in obs_a
+        map_a = ascii_render(obs_a)
+        map_b = ascii_render(obs_b)
+        map_lines_a = map_a.split("\n")[1:22]
+        map_lines_b = map_b.split("\n")[1:22]
+
+        if cursor_a[1] == 0:
+            x, y = self.player_position[0], self.player_position[1] - 1
+        else:
+            x, y = cursor_a[0], cursor_a[1] - 1
+
+        directions = list(DIRECTIONS.items())
+        random.shuffle(directions)
+        for direction, (dx, dy) in directions:
+            nx, ny = x + dx, y + dy
+            if 0 <= nx < 80 and 0 <= ny < 21:
+                if map_lines_a[ny][nx] != symbol and map_lines_b[ny][nx] == symbol:
                     return direction
         return None
 
@@ -991,7 +1014,12 @@ class IDM:
             elif "You throw" in message_c or " hits " in message_c:
                 self.player_position = self.tty_cursor[timestep]
                 return "throw"
-            elif "The door closes" in message_c or "The door closes" in message_d:
+            elif (
+                "The door closes" in message_c
+                or "The door closes" in message_d
+                or "The door resists" in message_c
+                or "The door resists" in message_d
+            ):
                 self.last_action = "close"
                 return "close"
         elif "Count: " in message_b:
@@ -1015,6 +1043,10 @@ class IDM:
 
         elif "Sell it?" in message_a and "You sold" in message_b:
             return "y"
+
+        ########### BOULDER ############
+        if "You try to move the boulder, but in vain" in message_b:
+            return self.find_adjacent(obs_a, self.tty_cursor[timestep], "0")
 
         ########### SCROLLS ############
         elif self.last_action == "read" and "As you read" in message_b:
@@ -1080,6 +1112,15 @@ class IDM:
         elif "Pay? [yn]" in message_b:
             self.last_action = "pay"
             return "pay"
+
+        elif "You bought" in message_b:
+            return "y"
+
+        ########### ANIMATIONS ############
+        if (
+            message_a.strip() in message_b.strip()
+        ) and not "In what direction" in message_b:
+            return " "
 
         else:
             return None
@@ -1160,7 +1201,7 @@ class IDM:
         message_c = obs_to_message(obs_c)
 
         if "--More" in message_a:
-            return " "
+            return "more"
         elif "What do you want to eat?" in message_a and any(
             eat_msg in message_b for eat_msg in EATING
         ):
@@ -1170,7 +1211,9 @@ class IDM:
             for what_do_you_want in WHAT_DO_YOU_WANT_MESSAGES.keys()
         ) and any(inventory_type in message_b for inventory_type in INVENTORY_TYPES):
             self.inventory.update_inventory_from_single_map(obs_b)
-            # This is not totally correct. It could be either * or ? depending on the message after
+            for key, return_value in INVENTORY_LOOK_SYMBOLS.items():
+                if key in message_a:
+                    return return_value
             return "*"
             # return self.get_inventory_item(message_b)
         elif "Never mind." in message_b:
@@ -1241,9 +1284,9 @@ class IDM:
             self.last_action = "menu interaction"
             # self.inventory.print_inventory()
             return self.inventory.get_inventory_item(item)
-        elif (
-            "What do you want to use or apply" in message_a
-            and "You produce a strange whistling sound" in message_c
+        elif "What do you want to use or apply" in message_a and (
+            "You produce a strange whistling sound" in message_c
+            or "You produce a high whistling sound" in message_c
         ):
             return self.inventory.get_inventory_item("whistle")
         elif "What do you want to use or apply" in message_a and (
@@ -1313,6 +1356,8 @@ class IDM:
             return "?"
 
         ####################################
+        elif "Do you want to add" in message_a and "You wipe" in message_b:
+            return "n"
 
         elif "Sell it?" in message_a and "You sold" in message_b:
             return "y"
@@ -1348,20 +1393,19 @@ class IDM:
 
     def detect_movement(self, obs_a, obs_b, cursor_a, cursor_b):
         # TODO: Movement on corpses, boulders, etc. We need to check the map for this.
-        # TODO: Moving against a locked/resisting door will give the message: This door is locked.
-        # TODO: Picking up objects!
 
         x_movement = cursor_b[0] - cursor_a[0]
         y_movement = cursor_b[1] - cursor_a[1]
 
         multiple_step = False
-        if (abs(x_movement) > 1 or abs(y_movement) > 1) and cursor_a[1] <= 20:
-            if cursor_a[1] == 0:
+        if abs(x_movement) > 1 or abs(y_movement) > 1:
+            if cursor_a[1] == 0 or cursor_a[1] == 23:
                 x, y = self.player_position[0], self.player_position[1]
+                x_movement = cursor_b[0] - x
+                y_movement = cursor_b[1] - y
+
             else:
                 x, y = cursor_a[0], cursor_a[1]
-
-            cursor_b = (cursor_b[0], min(cursor_b[1], 20))
 
             if (
                 y <= 20
@@ -1374,7 +1418,7 @@ class IDM:
 
         message_a = obs_to_message(obs_a)
         message_b = obs_to_message(obs_b)
-        self.player_position = cursor_b
+        self.player_position = cursor_b if cursor_b[1] <= 20 else self.player_position
         action = self.last_direction
         if x_movement == 0 and y_movement == 1:
             action = "south"
@@ -1394,7 +1438,6 @@ class IDM:
             action = "northwest"
         elif x_movement == 0 and y_movement == 0:
             if "You try to move the boulder, but in vain" in message_b:
-                # TODO: Boulder could also be "'"
                 action = self.find_adjacent(obs_a, cursor_a, "0")
             elif self.detect_digging_direction(obs_a, obs_b, cursor_a):
                 action = self.detect_digging_direction(obs_a, obs_b, cursor_a)
@@ -1412,11 +1455,30 @@ class IDM:
                 self.inventory.update_inventory_from_maps(obs_a, obs_b)
                 return " "
             elif any(eat_msg in message_b for eat_msg in EATING):
+                if "eat it? [ynq]" in message_a:
+                    return "y"
+                if message_a.strip() in message_b:
+                    return " "
                 return self.inventory.get_inventory_item(message_b)
             elif "Never mind" in message_b:
                 return "esc"
             elif "This door is locked" in message_b:
                 return self.find_door(obs_a, cursor_a)
+            # Looking for a hidden door! You can move into a wall to try to find a hidden door/passage
+            elif (
+                get_timestep(obs_to_stats(obs_a)) != ""
+                and get_timestep(obs_to_stats(obs_b)) != ""
+            ):
+                if int(get_timestep(obs_to_stats(obs_a))) + 1 == int(
+                    get_timestep(obs_to_stats(obs_b))
+                ):
+                    if "You find a hidden" in message_b:
+                        return self.find_door(obs_a, cursor_a)
+                    elif "You find a hidden passage":
+                        return self.find_adjacent_change(obs_a, obs_b, cursor_a, "#")
+                    elif "The door resists" in message_b:
+                        return self.find_door(obs_a, cursor_a)
+                    return "search"
             else:
                 # TODO: ANIMATIONS WILL BE DETECTED AS NO MOVEMENTS! BUT NO ACTION IS TAKEN!
                 # TODO: A lot of the no movement actions are just game messages being displayed in
@@ -1424,10 +1486,35 @@ class IDM:
                 # We could probably remove all the "no movement detected" actions to " "
                 return "no movement detected"
         else:
+            if any(filler in message_b for filler in ANIMATION_FILLERS):
+                return " "
+
+            timestep_a = get_timestep(obs_to_stats(obs_a))
+            timestep_b = get_timestep(obs_to_stats(obs_b))
+
+            if timestep_a != "" and timestep_b != "":
+                if int(timestep_a) == int(timestep_b) and (
+                    cursor_a[0] == cursor_b[0] and cursor_a[1] == cursor_b[1]
+                ):
+                    return "search"
+                elif int(timestep_a) + 1 == int(timestep_b):
+                    return " "
+
+            if self.last_action == "far movement":
+                self.last_action = ""
+                return " "
+
+            if "Things that are here" in message_b:
+                return " "
+
+            # TODO: SOMETIMES THE UNKNOWN ACTION IS A MOVEMENT ACTION AFTER A FAR MOVEMENT... THESE
+            # ARE QUITE TRICKY, THE CURSOR GOES TO [... 23]
+
             return "unknown action"
 
         self.last_direction = action
 
         if multiple_step:
+            self.last_action = "far movement"
             return f"far {action}"
         return action
