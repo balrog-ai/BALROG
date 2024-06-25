@@ -314,6 +314,8 @@ def get_menu_message(obs, ascii=False):
     line_idx = 0
     menu = ""
     while not find_n_of_m_end(map.split("\n")[line_idx]):
+        if line_idx >= 24:
+            break
         menu += map.split("\n")[line_idx][start_idx:] + "\n"
         line_idx += 1
 
