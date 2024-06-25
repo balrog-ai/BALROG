@@ -537,9 +537,9 @@ class IDM:
                 self.last_action = ""
                 # self.inventory.print_inventory()
                 if "Call a" in message_b:
-                    item = re.findall(r"Call a[n]?\s(.*?):", message_b)[0]
+                    item = re.findall(r"Call a(?:n)?\s(.*?)(?:$|:)", message_b)[0]
                 elif "Call a" in message_c:
-                    item = re.findall(r"Call a[n]?\s(.*?):", message_c)[0]
+                    item = re.findall(r"Call a(?:n)?\s(.*?)(?:$|:)", message_c)[0]
                 elif "What do you want to name th" in message_b:
                     item = re.findall(
                         r"What do you want to name (this|these) (.*?)\?", message_b
