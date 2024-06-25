@@ -90,4 +90,8 @@ Make sure you have a `nld-nao/nld-nao-unzipped` dataset, and unzip all the files
 `python generate_human_dataset.py`
 
 ### 3 - Run finetuning
-`python finetune.py --config config/finetune.yaml`
+`python finetune.py`
+
+
+## Options:
+Modify or create new the config files to change experiment types. Use config files to keep track of experiments.
