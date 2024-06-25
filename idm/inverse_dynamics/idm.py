@@ -441,12 +441,15 @@ class IDM:
 
         if "Dlvl" in (obs_to_stats(obs_a)) and "Dlvl" in (obs_to_stats(obs_b)):
             if get_dlvl(obs_to_stats(obs_a)) != get_dlvl(obs_to_stats(obs_b)):
-                if int(get_dlvl(obs_to_stats(obs_a))) > int(
-                    get_dlvl(obs_to_stats(obs_b))
-                ):
+                try:
+                    if int(get_dlvl(obs_to_stats(obs_a))) > int(
+                        get_dlvl(obs_to_stats(obs_b))
+                    ):
+                        return "down"
+                    else:
+                        return "up"
+                except:
                     return "down"
-                else:
-                    return "up"
 
         ########### BAG INTERACTION ############
         if (
@@ -1084,7 +1087,7 @@ class IDM:
 
         elif "What do you want to dip a" in message_b:
             if find_single_option(message_b):
-                return find_single_option(message_b)
+                return find_single_option(message_b).group(1)
             # TODO: Dipping objects in potions for example
             pass
             # item = message_b.split("dip a ")[1].split(" into")[0].strip()
