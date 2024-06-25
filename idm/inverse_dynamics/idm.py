@@ -694,7 +694,7 @@ class IDM:
                 return action
             return "open door or chest"
 
-        if "# dip" in message_b:
+        if "What do you want to dip" in message_b:
             self.last_action = "dip"
             return "dip"
 
@@ -1083,7 +1083,8 @@ class IDM:
                     return None
 
         elif "What do you want to dip a" in message_b:
-            # print("DIPPING TO BE IMPLEMENTED")
+            if find_single_option(message_b):
+                return find_single_option(message_b)
             # TODO: Dipping objects in potions for example
             pass
             # item = message_b.split("dip a ")[1].split(" into")[0].strip()
