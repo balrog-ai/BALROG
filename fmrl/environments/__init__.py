@@ -4,4 +4,5 @@ from .nle import (
     NLEHybridWrapper,
     NLEAnsiWrapper,
     NLEFullWrapper,
+    NLERawWrapper,
 )
