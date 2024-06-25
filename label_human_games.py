@@ -5,7 +5,8 @@ from copy import deepcopy
 import nle.dataset as nld
 from multiprocessing import Pool
 import sys
-
+import sqlite3
+from omegaconf import OmegaConf
 
 def setup_dataset(path_to_nld_nao_data):
     # concatenate the path to the dbfilename
@@ -96,52 +97,39 @@ def process_gameid(args):
         print(f"Error processing gameid {gameid}: {e}")
 
 
-import sqlite3
 
-
-def main(args):
-    base_path = "nld-nao/nld-nao-unzipped"
-    max_games = args.max_games
+def main(config):
+    base_path = "/root/nld-nao/nld-nao-unzipped"
+    max_games = config.max_games
 
     dbfilename = setup_dataset(base_path)
 
     conn = sqlite3.connect(f"{base_path}/ttyrecs_nao.db")
     cursor = conn.cursor()
 
-    # We don't want games that are too short or too long. Very short games might have
-    # been very lucky (early wished and so on), long games are probably from not great
-    # players.
-    query = f"""SELECT gameid
-    FROM games
-    WHERE version != '3.4.3' 
-    AND death = 'ascended' 
-    AND turns >= 30000
-    AND turns <= 55000
-    AND role = 'Val' 
-    AND race = 'Dwa' 
-    AND align = 'Law'"""
+    query = config.query
 
     cursor.execute(query)
     gameids = cursor.fetchall()
 
     gameids = [gameid[0] for gameid in gameids]
-    print(gameids)
+    print(f"Games found before check: {len(gameids)}")
 
     gameids_processed = []
 
     # Read corrupted game list, and remove any of the gameids that are in that list
     with open("idm/corrupted_games.txt", "r") as file:
         corrupted_games = [int(gameid) for gameid in file.readlines()]
-    print(len(corrupted_games))
 
     gameids = [gameid for gameid in gameids if gameid not in corrupted_games]
+    print(f"Non corrupted games: {len(gameids)}")
     gameids = gameids[:max_games]
-    print(gameids)
+    print(f"Games about to be labelled: {len(gameids)}")
 
-    with Pool(processes=args.processes) as pool:
+    with Pool(processes=config.processes) as pool:
         pool.map(
             process_gameid,
-            [(gameid, dbfilename, args.dlvl_cutoff) for gameid in gameids],
+            [(gameid, dbfilename, config.dlvl_cutoff) for gameid in gameids],
         )
         gameids_processed.extend(gameids)
 
@@ -151,14 +139,14 @@ def main(args):
             file.write(f"{gameid}\n")
 
 
-import argparse
-
 if __name__ == "__main__":
     # Take number of processes as an argument
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--processes", type=int, default=8)
-    parser.add_argument("--max_games", type=int, default=100)
-    parser.add_argument("--dlvl_cutoff", type=int, default=15)
-    args = parser.parse_args()
-
-    main(args)
+    
+    if len(sys.argv) > 1:
+        config_file = sys.argv[1]
+    else:
+        config_file = "config/label_human_games.yaml"
+    
+    config = OmegaConf.load(config_file)
+    
+    main(config)

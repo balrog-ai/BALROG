@@ -1,0 +1,14 @@
+query: |
+  SELECT gameid
+  FROM games
+  WHERE version != '3.4.3'
+  AND death = 'ascended'
+  AND turns >= 30000
+  AND turns <= 55000
+  AND role = 'Val'
+  AND race = 'Dwa'
+  AND align = 'Law'
+
+dlvl_cutoff: 15
+max_games: 100
+processes: 16
