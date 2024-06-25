@@ -9,14 +9,9 @@ class NLERawWrapper(NLELanguageWrapper):
 
     def nle_process_obsv(self, nle_obsv):
 
-        print("HERE segment fault")
         text_obsv = super().nle_obsv_to_language(nle_obsv)
-        print("HERE2")
-        
         render = super().ascii_render(nle_obsv["tty_chars"])
-        print("HERE3")
         inventory = text_obsv["text_inventory"]
-        cursor = nle_obsv["text_cursor"]
-        print("HERE4")
+        cursor = nle_obsv["tty_cursor"]
 
         return render, inventory, cursor
