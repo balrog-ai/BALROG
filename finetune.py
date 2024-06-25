@@ -1,4 +1,5 @@
 import os
+import sys
 from transformers import AutoTokenizer, AutoModelForCausalLM, TrainingArguments
 from datasets import load_dataset
 from trl import SFTTrainer, DataCollatorForCompletionOnlyLM
@@ -6,7 +7,6 @@ from peft import LoraConfig
 import logging
 import wandb
 from omegaconf import OmegaConf
-import argparse
 
 
 def load(model_name):
@@ -90,17 +90,11 @@ def main(config):
     logging.info("Starting training")
     trainer.train()
 
-
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Finetuning script with config file")
-    parser.add_argument(
-        "--config",
-        type=str,
-        required=True,
-        help="Path to the config file",
-        default="configs/finetune.yaml",
-    )
-    args = parser.parse_args()
+    if len(sys.argv) > 1:
+        config_file = sys.argv[1]
+    else:
+        config_file = "config/finetune.yaml"
 
-    config = OmegaConf.load(args.config)
+    config = OmegaConf.load(config_file)
     main(config)

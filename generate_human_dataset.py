@@ -1,10 +1,12 @@
 import os
-import pickle
 from fmrl.prompt_builder import HumanHistoryPromptBuilder
-import argparse
 import numpy as np
 from tqdm import tqdm
-from idm.inverse_dynamics.utils import obs_to_message
+from omegaconf import OmegaConf
+import pandas as pd
+import sys
+import multiprocessing
+import traceback
 
 
 def render_human_data(render, inventory, cursor):
@@ -20,20 +22,17 @@ def ascii_render(chars):
             entry = chr(chars[i, j])
             line += entry
 
-        # If the line is longer than 80 characters, check for trailing spaces to strip
         if len(line) > 80:
             trimmed_line = line[:80].rstrip()
-            if line[80:].strip():  # Check if there's more text after column 80
+            if line[80:].strip():
                 result += line + "\n"
             else:
                 result += trimmed_line + "\n"
         else:
             result += line + "\n"
 
-    # Split the result into lines for further processing
     lines = result.split("\n")
 
-    # Check if the status line exists and modify it
     if len(lines) > 22 and "St:" in lines[22] and "Dx:" in lines[22]:
         parts = lines[22].split("[")
         if len(parts) > 1:
@@ -41,7 +40,6 @@ def ascii_render(chars):
             if len(subparts) > 1:
                 lines[22] = parts[0] + "[Agent the" + subparts[1]
 
-    # Join the lines back together
     result = "\n".join(lines)
     return result
 
@@ -65,7 +63,6 @@ def clean_action(action):
 
 
 def postprocess_human(data, history):
-
     summary = data["summary"]
 
     prompt_builder = HumanHistoryPromptBuilder(
@@ -101,40 +98,49 @@ def postprocess_human(data, history):
     return samples
 
 
-import pandas as pd
-
-
-def load_dataset(path, game_ids, history):
-    samples = []
-
-    for game_id in game_ids:
-        print(path)
-
+def load_and_process_game_id(path, game_id, history):
+    try:
         data = np.load(f"{path}/{game_id}.npz")
-        samples.extend(postprocess_human(data, history))
+        samples = postprocess_human(data, history)
+        df = pd.DataFrame(samples)
+        csv_file = f"human_dataset_{game_id}.csv"
+        df.to_csv(csv_file, index=False, escapechar="\\")
+        print(f"Wrote {csv_file}")
+        return csv_file
+    except Exception as e:
+        print(f"Failed to process game ID {game_id}: {e}")
+        traceback.print_exc()
+        return None
 
-    df = pd.DataFrame(samples)
-    df.to_csv(f"human_dataset.csv", index=False, escapechar="\\")
-    print("WROTE CSV")
+
+def merge_csv_files(csv_files, output_file):
+    combined_df = pd.concat([pd.read_csv(file) for file in csv_files if file is not None])
+    combined_df.to_csv(output_file, index=False, escapechar="\\")
+    print('Merging CSV files')
+    for file in csv_files:
+        if file is not None:
+            os.remove(file)
+    print(f"Merged CSV files into {output_file}")
 
 
-import sys
+def load_dataset_multiprocessing(path, game_ids, history, num_processes):
+    with multiprocessing.Pool(processes=num_processes) as pool:
+        results = pool.starmap(load_and_process_game_id, [(path, game_id, history) for game_id in game_ids])
+    merge_csv_files(results, "human_dataset.csv")
+
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--directory", type=str, default="human_labeled")
-    parser.add_argument("--gameids", type=str, default="human_labeled/gameids.txt")
-    parser.add_argument("--history", type=int, default=8)
+    if len(sys.argv) > 1:
+        config_file = sys.argv[1]
+    else:
+        config_file = "config/generate_human_dataset.yaml"
 
-    args = parser.parse_args()
-    path = args.directory
+    config = OmegaConf.load(config_file)
 
-    if args.gameids:
-        # Read the gameids from a txt file, they are on different lines each
-        with open(args.gameids, "r") as file:
+    if config.gameids:
+        with open(config.gameids, "r") as file:
             gameids = [int(line.strip()) for line in file]
     else:
         gameids = [1]
-
     print(gameids)
-    load_dataset(path, gameids, args.history)
+    load_dataset_multiprocessing(config.directory, gameids, config.history, num_processes=config.num_processes)

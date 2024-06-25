@@ -1,0 +1,5 @@
+gameids: "human_labeled/gameids.txt"
+directory: "human_labeled"
+history: 8 # The amount of history to use in the prompt builder
+diff: True # Always true at the moment
+num_processes: 72

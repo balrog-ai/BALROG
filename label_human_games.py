@@ -140,8 +140,6 @@ def main(config):
 
 
 if __name__ == "__main__":
-    # Take number of processes as an argument
-    
     if len(sys.argv) > 1:
         config_file = sys.argv[1]
     else:
