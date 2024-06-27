@@ -3,15 +3,21 @@ import sys
 from transformers import AutoTokenizer, AutoModelForCausalLM, TrainingArguments
 from datasets import load_dataset
 from trl import SFTTrainer, DataCollatorForCompletionOnlyLM
+from accelerate import PartialState
 from peft import LoraConfig
 import logging
 import wandb
 from omegaconf import OmegaConf
 
 
-def load(model_name):
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto")
+def load(config):
+    tokenizer = AutoTokenizer.from_pretrained(config.model_id)
+    
+    if config.DDP:
+        device_string = PartialState().process_index
+        model = AutoModelForCausalLM.from_pretrained(config.model_id, device_map={'':device_string})
+    else:
+        model = AutoModelForCausalLM.from_pretrained(config.model_id, device_map="auto")
     return tokenizer, model
 
 
@@ -38,7 +44,7 @@ def main(config):
         logging.getLogger().addHandler(wandb_handler)
 
     logging.info("Loading model and tokenizer")
-    tokenizer, model = load(config.model_id)
+    tokenizer, model = load(config)
 
     logging.info("Loading dataset")
     dataset = load_dataset("csv", data_files=config.dataset_path, split="train")
@@ -91,10 +97,7 @@ def main(config):
     trainer.train()
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        config_file = sys.argv[1]
-    else:
-        config_file = "config/finetune.yaml"
+    config_file = "config/finetune.yaml"
 
     config = OmegaConf.load(config_file)
     main(config)

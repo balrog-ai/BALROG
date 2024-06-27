@@ -31,8 +31,9 @@ class HumanHistoryPromptBuilder(PromptBuilder, ABC):
         *,
         max_history=None,
         max_length=8192,
-        action_delim="<|action|>",
-        obs_delim="<|observation|>",
+        action_delim="<|assistant|>",
+        obs_start="<|user|>",
+        obs_end="<|end|>",
         summary=None,
         diff=True,
     ):
@@ -47,7 +48,8 @@ class HumanHistoryPromptBuilder(PromptBuilder, ABC):
         self._simple_history = deque(maxlen=self._max_history)
         self._diff_history = deque(maxlen=self._max_history)
         self._action_delim = action_delim
-        self._obs_delim = obs_delim
+        self._obs_start = obs_start
+        self._obs_end = obs_end
         self._inventory = None
         self.diff = diff
         self.summary = summary
@@ -109,10 +111,11 @@ class HumanHistoryPromptBuilder(PromptBuilder, ABC):
 
             history = diff + history
         prompt = (
-            self._obs_delim
+            self._obs_start
             + f"You are a {self.summary}\nHistory\n"
             + history
             + self._cursor_history[-1][0]
+            + self._obs_end
             + "\n"
             + self._action_delim
         )

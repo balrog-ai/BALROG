@@ -1,16 +1,17 @@
 model_id: "/root/gemma-2b"
-peft_model_id: "/root/gemma-2b_lora/checkpoint-25000"
+peft_model_id: "/root/gemma-2b_lora/checkpoint-100000"
+
+wandb: False
 
 savedir: "./"
 max_games: 10
-max_steps_per_game: 100000
+max_steps: 100000 # Max steps per game
 max_seq_length: 8192
 fp16: false
 bf16: true
 report_to: "wandb"
 
-
-
+###### SAMPLING PARAMETERS #######
 temperature: 0.95
 top_p: 0.95
 num_return_sequences: 1

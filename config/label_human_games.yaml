@@ -9,6 +9,6 @@ query: |
   AND race = 'Dwa'
   AND align = 'Law'
 
-dlvl_cutoff: 15
-max_games: 100
+dlvl_cutoff: 5
+max_games: 180
 processes: 16
