@@ -55,7 +55,7 @@ def process_chars(chars, ascii=False):
             subparts = parts[1].split("the")
             if len(subparts) > 1:
                 lines[22] = parts[0] + "[Agent the" + subparts[1]
-        stats = lines[22] + "\n" + lines[23] + "\n"
+        stats = lines[22].strip() + "\n" + lines[23].strip() + "\n"
 
     ascii_map = "\n".join(lines)
     message = lines[0]

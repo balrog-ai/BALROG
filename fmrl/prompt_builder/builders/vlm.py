@@ -91,7 +91,7 @@ class VLMHistoryPromptBuilder(PromptBuilder, ABC):
         history = history + "\n" + self._image_delim + "\n" + "Output the next action:"
 
         prompt = (
-            f"You are playing NetHack as a {self.summary}\Previous observations:\n"
+            f"You are playing NetHack as a {self.summary}\nPrevious observations:\n"
             + history
             + self._obs_end
             + "\n"
