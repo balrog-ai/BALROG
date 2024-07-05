@@ -41,12 +41,12 @@ def ascii_render(chars):
 
 
 NO_ACTIONS = {
-    "message to message": "",
-    "action triggering message": "",
-    "acting on a message": "",
-    "unknown action": "",
-    "unknown": "",
-    "unknown selection": "",
+    "message to message": " ",
+    "action triggering message": " ",
+    "acting on a message": " ",
+    "unknown action": " ",
+    "unknown": " ",
+    "unknown selection": " ",
     "inventory item not found": "?",
 }
 
