@@ -207,6 +207,7 @@ if __name__ == "__main__":
             gameids = [int(line.strip()) for line in file]
     else:
         gameids = [1]
+    gameids = gameids[:config.max_games]
     print(gameids)
     load_dataset_multiprocessing(
         config.directory, gameids, config.history, num_processes=config.num_processes
