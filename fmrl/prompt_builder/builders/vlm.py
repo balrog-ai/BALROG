@@ -88,12 +88,17 @@ class VLMHistoryPromptBuilder(PromptBuilder, ABC):
             history = obs + history
 
         history = history + self.current_obs
-        history = history + "\n" + self._image_delim + "\n" + "Output the next action:"
-
+        history = (history 
+            + "\n" 
+            + self._image_delim 
+            + "\n" 
+            + "Output the next action:"
+        )
+        
         prompt = (
             f"You are playing NetHack as a {self.summary}\nPrevious observations:\n"
             + history
-            + self._obs_end
+            # + self._obs_end
             + "\n"
         )
         return prompt, self.image_path
