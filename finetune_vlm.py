@@ -65,10 +65,9 @@ class VLMDataCollator:
                 messages, tokenize=False, add_generation_prompt=False
             )
             texts.append(text)
-            images.append(image)
+            images.append([image])
 
-        batch = self.processor(texts, images, return_tensors="pt", padding=True)
-
+        batch = self.processor(texts[0], images[0], return_tensors="pt", padding=True)
         labels = batch["input_ids"].clone()
         if self.processor.tokenizer.pad_token_id is not None:
             labels[labels == self.processor.tokenizer.pad_token_id] = -100
@@ -76,16 +75,9 @@ class VLMDataCollator:
         
         return batch
 
-# def main(config):
-    
-if __name__ == "__main__":
-    config_file = "config/finetune_vlm.yaml"
+def main(config):
 
-    config = OmegaConf.load(config_file)
-    parser = TrlParser((SFTScriptArguments, SFTConfig, ModelConfig))
-    sft_script_args, training_args, model_config = parser.parse_args_and_config()
-    training_args.gradient_checkpointing_kwargs = dict(use_reentrant=False)
-    
+    config = OmegaConf.load(config_file)    
     
     print("FINETUNING!")
     
@@ -119,11 +111,6 @@ if __name__ == "__main__":
     logging.info("Loading model and tokenizer")
 
     model, tokenizer, processor = load(config)
-    tokenizer = AutoTokenizer.from_pretrained(model_config.model_name_or_path, use_fast=True, rust_remote_code=True)
-    processor = AutoProcessor.from_pretrained(model_config.model_name_or_path, rust_remote_code=True)
-    processor.tokenizer = tokenizer
-    model = AutoModelForCausalLM.from_pretrained("/root/Phi-3-vision-128k-instruct", device_map="auto", trust_remote_code=True, _attn_implementation='flash_attention_2')
-    
 
     ################
     # Create a data collator to encode text and image pairs
@@ -161,30 +148,32 @@ if __name__ == "__main__":
 
     logging.info("Setting up trainer")
 
-    # trainer = Trainer(
-    #     model=model,
-    #     args=training_args,
-    #     data_collator=collator,
-    #     train_dataset=dataset
-    # )
-
-    trainer = SFTTrainer(
+    trainer = Trainer(
         model=model,
         args=training_args,
         train_dataset=dataset,
-        dataset_text_field="text",  # need a dummy field
         tokenizer=tokenizer,
-        peft_config=get_peft_config(model_config),
         callbacks=None,
         data_collator=data_collator,
-        dataset_kwargs={"skip_prepare_dataset": True},
     )
+
+    # trainer = SFTTrainer(
+    #     model=model,
+    #     args=training_args,
+    #     train_dataset=dataset,
+    #     dataset_text_field="text",  # need a dummy field
+    #     tokenizer=tokenizer,
+    #     peft_config=get_peft_config(model_config),
+    #     callbacks=None,
+    #     data_collator=data_collator,
+    #     dataset_kwargs={"skip_prepare_dataset": True},
+    # )
 
     trainer.train()
 
 
-# if __name__ == "__main__":
-#     config_file = "config/finetune.yaml"
+if __name__ == "__main__":
+    config_file = "config/finetune_vlm.yaml"
 
-#     config = OmegaConf.load(config_file)
-#     main(config)
+    config = OmegaConf.load(config_file)
+    main(config)
