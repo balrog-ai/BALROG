@@ -9,19 +9,17 @@ import torch
 from omegaconf import OmegaConf
 from tqdm.rich import tqdm
 from trl import (
-    ModelConfig,
     SFTConfig,
     SFTTrainer,
     get_peft_config,
 )
-from trl.commands.cli_utils import SFTScriptArguments, TrlParser
 
 tqdm.pandas()
 
 def load(config):
-    tokenizer = AutoTokenizer.from_pretrained(config.model_id, use_fast=True, trust_remote_code=True, use_cache = False)
+    tokenizer = AutoTokenizer.from_pretrained(config.model_id, use_fast=True, trust_remote_code=True, use_cache=False)
     tokenizer.padding_side = 'left'
-    processor = AutoProcessor.from_pretrained(config.model_id, rust_remote_code=True, use_cache = False)
+    processor = AutoProcessor.from_pretrained(config.model_id, trust_remote_code=True, use_cache=False)
     processor.tokenizer = tokenizer
     
     if config.DDP:
@@ -31,7 +29,7 @@ def load(config):
             device_map={'': device_string},
             trust_remote_code=True,
             _attn_implementation='flash_attention_2',
-            use_cache = False,
+            use_cache=False,
         )
     else:
         model = AutoModelForCausalLM.from_pretrained(
@@ -39,7 +37,7 @@ def load(config):
             device_map="auto",
             trust_remote_code=True,
             _attn_implementation='flash_attention_2',
-            use_cache = False,
+            use_cache=False,
         )
     return model, tokenizer, processor
 
@@ -83,7 +81,7 @@ class VLMDataCollator:
             text += self.tokenizer.eos_token
             sample = self.processor(text, [image], return_tensors="pt")
             labels = sample["input_ids"].clone()
-            labels[labels <0] = -100 
+            labels[labels < 0] = -100 
             sample["labels"] = labels
             samples.append(sample)
             
@@ -104,7 +102,7 @@ class VLMDataCollator:
          ) 
         return batch
 
-def main(config):
+def main(config_file):
 
     config = OmegaConf.load(config_file)    
     
@@ -123,17 +121,6 @@ def main(config):
     )
     logging.getLogger().addHandler(logging.StreamHandler())
 
-    if config.report_to == "wandb":
-
-        class WandbLoggingHandler(logging.Handler):
-            def emit(self, record):
-                log_entry = self.format(record)
-                wandb.log({"log": log_entry})
-
-        wandb_handler = WandbLoggingHandler()
-        wandb_handler.setLevel(logging.INFO)
-        logging.getLogger().addHandler(wandb_handler)
-        
     ################
     # Model, Tokenizer & Processor
     ################
@@ -171,33 +158,23 @@ def main(config):
         weight_decay=config.weight_decay,
         warmup_steps=config.warmup_steps,
         lr_scheduler_type=config.lr_scheduler_type,
-        report_to=config.report_to,
+        report_to="wandb",  # Ensure this is set to wandb
         remove_unused_columns=False
     )
 
     logging.info("Setting up trainer")
     tokenizer.padding_side = 'left'
 
-    trainer = Trainer(
+    trainer = SFTTrainer(
         model=model,
         args=training_args,
         train_dataset=dataset,
+        dataset_text_field="text",  # need a dummy field
         tokenizer=tokenizer,
         callbacks=None,
         data_collator=data_collator,
+        dataset_kwargs={"skip_prepare_dataset": True},
     )
-
-    # trainer = SFTTrainer(
-    #     model=model,
-    #     args=training_args,
-    #     train_dataset=dataset,
-    #     dataset_text_field="text",  # need a dummy field
-    #     tokenizer=tokenizer,
-    #     peft_config=get_peft_config(model_config),
-    #     callbacks=None,
-    #     data_collator=data_collator,
-    #     dataset_kwargs={"skip_prepare_dataset": True},
-    # )
 
     trainer.train()
 
@@ -206,4 +183,4 @@ if __name__ == "__main__":
     config_file = "config/finetune_vlm.yaml"
 
     config = OmegaConf.load(config_file)
-    main(config)
+    main(config_file)
