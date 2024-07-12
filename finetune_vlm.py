@@ -20,6 +20,7 @@ tqdm.pandas()
 
 def load(config):
     tokenizer = AutoTokenizer.from_pretrained(config.model_id, use_fast=True, trust_remote_code=True)
+    tokenizer.padding_side = 'left'
     processor = AutoProcessor.from_pretrained(config.model_id, rust_remote_code=True)
     processor.tokenizer = tokenizer
     
@@ -65,12 +66,11 @@ class VLMDataCollator:
                 messages, tokenize=False, add_generation_prompt=False
             )
             texts.append(text)
-            images.append([image])
+            images.append(image)
 
-        batch = self.processor(texts[0], images[0], return_tensors="pt", padding=True)
+        batch = self.processor(text, [image], return_tensors="pt", padding=True)
         labels = batch["input_ids"].clone()
-        if self.processor.tokenizer.pad_token_id is not None:
-            labels[labels == self.processor.tokenizer.pad_token_id] = -100
+        labels[labels <0] = -100 
         batch["labels"] = labels
         
         return batch
@@ -127,7 +127,7 @@ def main(config):
     ################
     # Training
     ################
-        
+
     training_args = SFTConfig(
         output_dir=os.path.join(config.output_dir),
         per_device_train_batch_size=config.per_device_train_batch_size,
