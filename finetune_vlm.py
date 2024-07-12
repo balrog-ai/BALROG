@@ -19,9 +19,9 @@ from trl.commands.cli_utils import SFTScriptArguments, TrlParser
 tqdm.pandas()
 
 def load(config):
-    tokenizer = AutoTokenizer.from_pretrained(config.model_id, use_fast=True, trust_remote_code=True)
+    tokenizer = AutoTokenizer.from_pretrained(config.model_id, use_fast=True, trust_remote_code=True, use_cache = False)
     tokenizer.padding_side = 'left'
-    processor = AutoProcessor.from_pretrained(config.model_id, rust_remote_code=True)
+    processor = AutoProcessor.from_pretrained(config.model_id, rust_remote_code=True, use_cache = False)
     processor.tokenizer = tokenizer
     
     if config.DDP:
@@ -31,6 +31,7 @@ def load(config):
             device_map={'': device_string},
             trust_remote_code=True,
             _attn_implementation='flash_attention_2',
+            use_cache = False,
         )
     else:
         model = AutoModelForCausalLM.from_pretrained(
@@ -38,16 +39,30 @@ def load(config):
             device_map="auto",
             trust_remote_code=True,
             _attn_implementation='flash_attention_2',
+            use_cache = False,
         )
     return model, tokenizer, processor
+
+
+def pad_sequence_left(sequences, batch_first=False, padding_value=-1):
+    reversed_sequences = [seq.flip(0) for seq in sequences]
+    padded_reversed = torch.nn.utils.rnn.pad_sequence(reversed_sequences, batch_first=batch_first, padding_value=padding_value)
+    if batch_first:
+        padded = padded_reversed.flip(1)
+    else:
+        padded = padded_reversed.flip(0)
+    return padded
+
+IGNORE_INDEX = -100
 
 class VLMDataCollator:
     def __init__(self, processor):
         self.processor = processor
+        self.tokenizer = processor.tokenizer
+        self.tokenizer.padding_side = 'left'
 
     def __call__(self, examples):
-        texts = []
-        images = []
+        samples = []
         for example in examples:
             prompt = example["prompt"]
             action = example["action"]
@@ -62,17 +77,31 @@ class VLMDataCollator:
                     "content": action
                 }
             ]
-            text = self.processor.tokenizer.apply_chat_template(
+            text = self.tokenizer.apply_chat_template(
                 messages, tokenize=False, add_generation_prompt=False
             )
-            texts.append(text)
-            images.append(image)
+            text += self.tokenizer.eos_token
+            sample = self.processor(text, [image], return_tensors="pt")
+            labels = sample["input_ids"].clone()
+            labels[labels <0] = -100 
+            sample["labels"] = labels
+            samples.append(sample)
+            
+        input_ids, labels = tuple([instance[key][0] for instance in samples] 
+                                   for key in ("input_ids", "labels"))
 
-        batch = self.processor(text, [image], return_tensors="pt", padding=True)
-        labels = batch["input_ids"].clone()
-        labels[labels <0] = -100 
-        batch["labels"] = labels
-        
+        input_ids = pad_sequence_left(input_ids, batch_first=True, padding_value=self.tokenizer.pad_token_id)
+        labels = pad_sequence_left(labels, batch_first=True, padding_value=IGNORE_INDEX)
+
+        pixel_values = torch.stack([sample["pixel_values"][0] for sample in samples], dim=0)
+        image_sizes = torch.stack([sample["image_sizes"][0] for sample in samples], dim=0)
+        batch = dict( 
+             input_ids=input_ids, 
+             labels=labels, 
+             pixel_values=pixel_values, 
+             image_sizes=image_sizes, 
+             attention_mask=input_ids.ne(self.tokenizer.pad_token_id), 
+         ) 
         return batch
 
 def main(config):
@@ -147,6 +176,7 @@ def main(config):
     )
 
     logging.info("Setting up trainer")
+    tokenizer.padding_side = 'left'
 
     trainer = Trainer(
         model=model,

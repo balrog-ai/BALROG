@@ -1,8 +1,8 @@
 dataset_path: "/root/fmrl/human_dataset.hf"
 model_id: "/root/Phi-3-vision-128k-instruct"
 output_dir: "models"
-per_device_train_batch_size: 16
-gradient_accumulation_steps: 1
+per_device_train_batch_size: 4
+gradient_accumulation_steps: 4
 save_steps: 25000
 logging_steps: 100
 learning_rate: 1.5e-5
