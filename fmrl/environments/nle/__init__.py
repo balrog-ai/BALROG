@@ -4,3 +4,4 @@ from .hybrid import NLEHybridWrapper
 from .ansi import NLEAnsiWrapper
 from .full_language_and_map import NLEFullWrapper
 from .raw_observations import NLERawWrapper
+from .vlm_environment import NLE_VLMWrapper

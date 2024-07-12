@@ -5,4 +5,5 @@ from .nle import (
     NLEAnsiWrapper,
     NLEFullWrapper,
     NLERawWrapper,
+    NLE_VLMWrapper,    
 )

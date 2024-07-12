@@ -11,6 +11,7 @@ class VLMHistoryPromptBuilder(PromptBuilder, ABC):
         max_history=100,
         action_delim="<|action|>",
         obs_start="<|observation|>",
+        image_delim="<|image_1|>",
         obs_end="<|end|>",
         summary="lawful dwarven Valkyrie",
     ):
@@ -23,9 +24,9 @@ class VLMHistoryPromptBuilder(PromptBuilder, ABC):
         self.history = deque(maxlen=self._max_history)
         self._action_delim = action_delim
         self._obs_start = obs_start
-        self._image_delim = "<|image_1|>"
+        self._image_delim = image_delim
         self._obs_end = obs_end
-        self.image_path = None
+        self.image = None
         self.full_stats = ""
         self.current_obs = ""
         self.summary = summary
@@ -55,7 +56,7 @@ class VLMHistoryPromptBuilder(PromptBuilder, ABC):
             + "cursor: "
             + cursor
             + "\n"
-            + "action: "
+            + "action taken: "
             + action
             + "\n\n"
         )
@@ -67,11 +68,12 @@ class VLMHistoryPromptBuilder(PromptBuilder, ABC):
             message = "Menu interaction\n" + menu
 
         if menu == "":
-            self.image_path = image_path
+            self.image = image_path
 
         self.current_obs = (
-            f"\nCurrent observation:\n{inventory}\n"
+            f"\nCurrent observation:\n{inventory}\n\n"
             + message
+            + "\n"
             + self.full_stats
             + "cursor: "
             + cursor
@@ -92,7 +94,7 @@ class VLMHistoryPromptBuilder(PromptBuilder, ABC):
             + "\n" 
             + self._image_delim 
             + "\n" 
-            + "Output the next action:"
+            + "NEXT ACTION:"
         )
         
         prompt = (
@@ -101,4 +103,4 @@ class VLMHistoryPromptBuilder(PromptBuilder, ABC):
             # + self._obs_end
             + "\n"
         )
-        return prompt, self.image_path
+        return prompt, self.image
