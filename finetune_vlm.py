@@ -101,48 +101,24 @@ class VLMDataCollator:
              attention_mask=input_ids.ne(self.tokenizer.pad_token_id), 
          ) 
         return batch
+    
+class CustomSFTTrainer(SFTTrainer):
+    def save_model(self, output_dir= None, _internal_call: bool = False):
+        if output_dir is None:
+            output_dir = self.args.output_dir
+        self.model.save_pretrained(output_dir, state_dict=self.model.state_dict(), safe_serialization=False) 
+        if self.tokenizer is not None:
+            self.tokenizer.save_pretrained(output_dir)
 
-def main(config_file):
-
-    config = OmegaConf.load(config_file)    
-    
-    print("FINETUNING!")
-    
-    ################
-    # Wandb and logging
-    ################
-    
+def main(config):    
     wandb.init(
         project="nle_finetune_test", config=OmegaConf.to_container(config, resolve=True)
     )
 
-    logging.basicConfig(
-        level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
-    )
-    logging.getLogger().addHandler(logging.StreamHandler())
-
-    ################
-    # Model, Tokenizer & Processor
-    ################
-    logging.info("Loading model and tokenizer")
-
     model, tokenizer, processor = load(config)
-
-    ################
-    # Create a data collator to encode text and image pairs
-    ################
-
     data_collator = VLMDataCollator(processor)
-
-    ################
-    # Dataset
-    ################
-    logging.info("Loading dataset")
     dataset = load_from_disk(config.dataset_path)
 
-    ################
-    # Training
-    ################
 
     training_args = SFTConfig(
         output_dir=os.path.join(config.output_dir),
@@ -159,13 +135,24 @@ def main(config_file):
         warmup_steps=config.warmup_steps,
         lr_scheduler_type=config.lr_scheduler_type,
         report_to="wandb",  # Ensure this is set to wandb
-        remove_unused_columns=False
+        remove_unused_columns=False,
     )
 
     logging.info("Setting up trainer")
     tokenizer.padding_side = 'left'
 
-    trainer = SFTTrainer(
+    # trainer = SFTTrainer(
+    #     model=model,
+    #     args=training_args,
+    #     train_dataset=dataset,
+    #     dataset_text_field="text",  # need a dummy field
+    #     tokenizer=tokenizer,
+    #     callbacks=None,
+    #     data_collator=data_collator,
+    #     dataset_kwargs={"skip_prepare_dataset": True},
+    # )
+    
+    trainer = CustomSFTTrainer(
         model=model,
         args=training_args,
         train_dataset=dataset,
@@ -183,4 +170,4 @@ if __name__ == "__main__":
     config_file = "config/finetune_vlm.yaml"
 
     config = OmegaConf.load(config_file)
-    main(config_file)
+    main(config)
