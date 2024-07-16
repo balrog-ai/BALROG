@@ -72,6 +72,7 @@ class VLMHistoryPromptBuilder(PromptBuilder, ABC):
 
         self.current_obs = (
             f"\nCurrent observation:\n{inventory}\n\n"
+            + "Current message: "
             + message
             + "\n"
             + self.full_stats
