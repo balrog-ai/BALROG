@@ -163,3 +163,5 @@ cython_debug/
 /wandb
 /models
 /outputs
+human*
+nld-nao/

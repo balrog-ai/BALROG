@@ -1,0 +1,8 @@
+obs_style: language
+savedir: null
+prompt_builder_strategy: chat
+model_id: microsoft/Phi-3-mini-128k-instruct 
+generate_kwargs:
+  temperature: 0.8
+  top_p: 0.95
+  n: 10

@@ -3,7 +3,7 @@ from nle_language_wrapper.nle_language_obsv import NLELanguageObsv
 
 nle_language = NLELanguageObsv()
 
-
+# utility functions
 def ascii_render(chars):
     rows, cols = chars.shape
     result = ""
@@ -13,47 +13,6 @@ def ascii_render(chars):
             result += entry
         result += "\n"
     return result
-
-
-def tty_render(nle_obsv):
-    """Returns chars as string with ANSI escape sequences.
-
-    Args:
-      chars: A row x columns numpy array of chars.
-      colors: A numpy array of colors (0-15), same shape as chars.
-      cursor: An optional (row, column) index for the cursor,
-        displayed as underlined.
-
-    Returns:
-      A string with chars decorated by ANSI escape sequences.
-    """
-
-    chars = nle_obsv["tty_chars"]
-    colors = nle_obsv["tty_colors"]
-    cursor = nle_obsv["tty_cursor"]
-
-    rows, cols = chars.shape
-    # if cursor is None:
-    #     cursor = (-1, -1)
-    # cursor = tuple(cursor)
-    result = ""
-    for i in range(rows):
-        result += "\n"
-        for j in range(cols):
-            result += chr(chars[i, j])
-            # entry = "\033[%d;3%dm%s" % (
-            #     # & 8 checks for brightness.
-            #     bool(colors[i, j] & 8),
-            #     colors[i, j] & ~8,
-            #     chr(chars[i, j]),
-            # )
-            # if cursor != (i, j):
-            #     result += entry
-            # else:
-            #     result += "\033[4m%s\033[0m" % entry
-    # return result + "\033[0m"
-    return result
-
 
 def nle_obsv_to_language(nle_obsv):
     """Translate NLE Observation into a language observation.
@@ -80,8 +39,15 @@ def nle_obsv_to_language(nle_obsv):
         ),
     }
 
+# actual rendering schemes
+def render_tty(nle_obsv):
+    return tty_render(
+        nle_obsv["tty_chars"],
+        nle_obsv["tty_colors"],
+        nle_obsv["tty_cursor"],
+    )
 
-def text_render(nle_obsv):
+def render_text(nle_obsv):
     key_name_pairs = [
         ("text_blstats", "statistics"),
         ("text_glyphs", "glyphs"),
@@ -92,6 +58,26 @@ def text_render(nle_obsv):
     text_obsv = nle_obsv_to_language(nle_obsv)
     return "\n".join([f"{name}[\n{text_obsv[key]}\n]" for key, name in key_name_pairs])
 
+def render_hybrid(nle_obsv):
+    ascii_map = ascii_render(nle_obsv["tty_chars"])
+    ascii_map = "\n".join(ascii_map.split('\n')[1:]) # remove first line
+    
+    text_obsv = nle_obsv_to_language(nle_obsv)
+    text_obsv["map"] = ascii_map
+    
+    key_name_pairs = [
+        ("text_blstats", "statistics"),
+        ("text_glyphs", "glyphs"),
+        ("text_message", "message"),
+        ("text_inventory", "inventory"),
+        ("text_cursor", "cursor"),
+        ("map", "map"),
+    ]
+    
+    return "\n".join(
+        [f"{name}[\n{text_obsv[key]}\n]" for key, name in key_name_pairs]
+    )
+    
 
 if __name__ == "__main__":
     import nle
