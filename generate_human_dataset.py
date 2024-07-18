@@ -9,10 +9,6 @@ import multiprocessing
 import traceback
 
 
-def render_human_data(render, inventory, cursor):
-    return
-
-
 def ascii_render(chars):
     rows, cols = chars.shape
     result = ""
@@ -45,12 +41,12 @@ def ascii_render(chars):
 
 
 NO_ACTIONS = {
-    "message to message": "",
-    "action triggering message": "",
-    "acting on a message": "",
-    "unknown action": "",
-    "unknown": "",
-    "unknown selection": "",
+    "message to message": " ",
+    "action triggering message": " ",
+    "acting on a message": " ",
+    "unknown action": " ",
+    "unknown": " ",
+    "unknown selection": " ",
     "inventory item not found": "?",
 }
 
@@ -114,9 +110,11 @@ def load_and_process_game_id(path, game_id, history):
 
 
 def merge_csv_files(csv_files, output_file):
-    combined_df = pd.concat([pd.read_csv(file) for file in csv_files if file is not None])
+    combined_df = pd.concat(
+        [pd.read_csv(file) for file in csv_files if file is not None]
+    )
     combined_df.to_csv(output_file, index=False, escapechar="\\")
-    print('Merging CSV files')
+    print("Merging CSV files")
     for file in csv_files:
         if file is not None:
             os.remove(file)
@@ -125,7 +123,9 @@ def merge_csv_files(csv_files, output_file):
 
 def load_dataset_multiprocessing(path, game_ids, history, num_processes):
     with multiprocessing.Pool(processes=num_processes) as pool:
-        results = pool.starmap(load_and_process_game_id, [(path, game_id, history) for game_id in game_ids])
+        results = pool.starmap(
+            load_and_process_game_id, [(path, game_id, history) for game_id in game_ids]
+        )
     merge_csv_files(results, "human_dataset.csv")
 
 
@@ -142,9 +142,10 @@ if __name__ == "__main__":
             gameids = [int(line.strip()) for line in file]
     else:
         gameids = [1]
-        
-    gameids = gameids[:config.num_games]
-        
-        
+
+    gameids = gameids[: config.num_games]
+
     print(gameids)
-    load_dataset_multiprocessing(config.directory, gameids, config.history, num_processes=config.num_processes)
+    load_dataset_multiprocessing(
+        config.directory, gameids, config.history, num_processes=config.num_processes
+    )
