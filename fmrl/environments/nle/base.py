@@ -2,6 +2,7 @@ from gym import spaces
 import nle_language_wrapper
 from nle.nethack import ACTIONS
 
+from fmrl.environments.spaces import Strings
 from .render import tty_render_image
 from .render_rgb import rgb_render_image
 from .utils import render_tty, render_text, render_hybrid
@@ -11,7 +12,7 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
         super().__init__(env, use_language_action=True)
         self.prompt_mode = prompt_mode
         self.observation_space = spaces.Space() # TODO: dict here
-        self.language_action_space = set([
+        self.language_action_space = Strings([
             action_strs[0]
             for action, action_strs in NLELanguageWrapper.all_nle_action_map.items()
             if action in ACTIONS
@@ -27,6 +28,11 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
             return {"obs": nle_obsv, "text": render_hybrid(nle_obsv)}
         else:
             raise ValueError(f"\"{self.prompt_mode}\" is not a valid prompt mode.")
+        
+    # def step(..):
+    #     obs, ... = super().step(...)
+    #     info["progress"] = ...
+    #     return ...
         
     def render(self, mode="human"):
         if mode == "tty_image":

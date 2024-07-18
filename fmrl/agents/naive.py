@@ -3,7 +3,7 @@ import wandb
 import logging
 from copy import deepcopy
 
-MAX_STEPS_IN_EPISODE = int(10)
+MAX_STEPS_IN_EPISODE = int(1000000)
 
 class NaiveAgent(object):
     def __init__(self, make_env, url, make_prompt_builder, *, default_payload = None):
@@ -28,7 +28,7 @@ class NaiveAgent(object):
         if using_chat:
             payload["messages"] = input
         else:
-            payload["prompt"] = input
+            payload["text"] = input
         
         response = requests.post(self.url, json=payload)
         # response.raise_for_status()
@@ -55,21 +55,22 @@ class NaiveAgent(object):
             self.action_frequency[action] += 1
             self.action_history.append(action)
             return action
-            
-        logging.warn('Failed to generate a valid action. Defaulting to "esc".')
+        
+        action = self.env.language_action_space.sample()
+        logging.warn(f'Failed to generate a valid action. Randomly selecting action \"{action}\".')
         self.failed_generation_counter += 1
-        return "esc"
+        return action
         
     def run(self):
         obs = self.env.reset()
-        self.prompt_builder.update_observation(obs["prompt"])
+        self.prompt_builder.update_observation(obs["text"])
         cumreward = 0.
         
         for _ in range(MAX_STEPS_IN_EPISODE):
             action = self.act()
             obs, reward, done, info = self.env.step(action)
             self.prompt_builder.update_action(action)
-            self.prompt_builder.update_observation(obs["prompt"])
+            self.prompt_builder.update_observation(obs["text"])
             self.episode_return += reward
             if done:
                 break

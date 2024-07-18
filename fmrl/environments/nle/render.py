@@ -1,6 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 from nle_language_wrapper import NLELanguageWrapper
+import os
 
 MAX_ACTION_LENGTH = max([len(action_strs[0]) for action, action_strs in NLELanguageWrapper.all_nle_action_map.items()] + [len("ACTION HISTORY"),])
 
@@ -26,7 +27,8 @@ def create_texture_map():
     
     # Load a font (using default font here)
     dummy_draw = ImageDraw.Draw(Image.new('RGB', (1, 1)))
-    font = ImageFont.truetype("./Hack-Regular.ttf", 12)
+    path = os.path.join(os.path.dirname(__file__), "Hack-Regular.ttf")
+    font = ImageFont.truetype(path, 12)
     cell_width, cell_height = map(max, zip(*[dummy_draw.textbbox((0, 0), text=chr(i), font=font)[2:] for i in range(256)]))
 
     # Create an image
