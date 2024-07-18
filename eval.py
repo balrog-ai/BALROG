@@ -1,194 +1,131 @@
 import os
-from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
-from nle.env import tasks
-from fmrl.environments import (
-    NLETextWrapper,
-    NLEAsciiWrapper,
-    NLEHybridWrapper,
-    NLEAnsiWrapper,
-    NLEFullWrapper,
-)
+from fmrl.environments.nle import NLELanguageWrapper
 from fmrl.prompt_builder import ChatPromptBuilder
-import argparse
 from nle.nethack import ACTIONS
-from nle_language_wrapper import NLELanguageWrapper
-from render import tty_render_image, tty_render_image_action_history
-from render_rgb import rgb_render_image
-from PIL import Image
-import wandb
-import imageio
-import glob
-import matplotlib.pyplot as plt
+import gym
+from functools import partial
+from omegaconf import OmegaConf
+import logging
+from fmrl.agents import NaiveAgent
+from queue import Empty
+import multiprocessing
+from queue import Empty
+import numpy as np
 
-ACTION_NAMES = [
-    action_strs[0]
-    for action, action_strs in NLELanguageWrapper.all_nle_action_map.items()
-    if action in ACTIONS
-]
-ACTIONS_LIST_STR = ",\n".join(ACTION_NAMES)
-INSTRUCTION_PROMPT = f"""
-You are an agent playing NetHack. In a moment I will present you an observation. Only output an action from the following list:
-{ACTIONS_LIST_STR}.
-
-For example, a valid output would simply be "{ACTION_NAMES[0]}" or "{ACTION_NAMES[1]}".
-You can only output one action at a time. The goal is to maximize the reward.
-Don't just output the example actions above, output the action that you think will maximize the reward.
-""".strip()
-
-# def plot_action_bar(action_counter):
-#     fig, ax = plt.subplots()
-#     ax.bar(action_counter.keys(), action_counter.values())
-#     ax.set_xticklabels(action_counter.keys(), rotation=45)
-#     ax.set_xlabel("Action")
-#     ax.set_ylabel("Count")
-#     plt.tight_layout()
-#     plt.show()
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--model_id", type=str, default="meta-llama/Meta-Llama-3-70b-Instruct")
-    parser.add_argument("--max_steps", type=int, default=100000)
-    parser.add_argument("--savedir", type=str, default=None)
-    parser.add_argument(
-        "--num_tries",
-        type=int,
-        default=10,
-        help="Number of return sequences from the model / number of attempts model gets to generate valid actions per timestep.",
-    )
-    parser.add_argument(
-        "--obs_style",
-        choices=["ascii_map", "language", "hybrid", "ansi_map", "full"],
-        default="language",
-    )
-    parser.add_argument(
-        "--prompt_builder_strategy", choices=["simple", "chat"], default="chat"
-    )
-    args = parser.parse_args()
-    config = vars(args)
+def make_env(**env_kwargs):
+    env = gym.make('NetHackChallenge-v0')
+    return NLELanguageWrapper(env, **env_kwargs)
     
-    if config["savedir"] is None:
-        config["savedir"] = os.path.join(".", "outputs", config["model_id"])
+def make_prompt_builder(strategy):
+    ACTION_NAMES = [
+        action_strs[0]
+        for action, action_strs in NLELanguageWrapper.all_nle_action_map.items()
+        if action in ACTIONS
+    ]
+    ACTIONS_LIST_STR = ",\n".join(ACTION_NAMES)
+    INSTRUCTION_PROMPT = f"""
+    You are an agent playing NetHack. In a moment I will present you an observation. Only output an action from the following list:
+    {ACTIONS_LIST_STR}.
+
+    For example, a valid output would simply be "{ACTION_NAMES[0]}" or "{ACTION_NAMES[1]}".
+    You can only output one action at a time. The goal is to maximize the reward.
+    Don't just output the example actions above, output the action that you think will maximize the reward.
+    """.strip()
     
-    env = tasks.NetHackChallenge(
-        **dict(
-            # savedir="./experiment_outputs/dummy_ttyrec",
-            character="@",
-            max_episode_steps=100000000,
-            observation_keys=(
-                "blstats",
-                "tty_chars",
-                "tty_cursor",
-                "glyphs",
-                "inv_strs",
-                "inv_letters",
-                "tty_colors",
-            ),
-            penalty_step=0.0,
-            penalty_time=0.0,
-            penalty_mode="constant",
-            no_progress_timeout=100,
-            # save_ttyrec_every=1,
-        )
-    )
-
-    # Set how language observations are represented
-    if config["obs_style"] == "ascii_map":
-        env = NLEAsciiWrapper(env)
-    elif config["obs_style"] == "language":
-        env = NLETextWrapper(env)
-    elif config["obs_style"] == "hybrid":
-        env = NLEHybridWrapper(env)
-    elif config["obs_style"] == "ansi_map":
-        env = NLEAnsiWrapper(env)
-    elif config["obs_style"] == "full":
-        env = NLEFullWrapper(env)
-    else:
-        raise ValueError(f"Unknown obs_style: {config['obs_style']}")
-
-    # Set how prompts are built
-    if config["prompt_builder_strategy"] == "simple":
+    if strategy == "simple":
         raise NotImplementedError
-    elif config["prompt_builder_strategy"] == "chat":
-        prompt_builder = ChatPromptBuilder(INSTRUCTION_PROMPT)
-        
-    tokenizer = AutoTokenizer.from_pretrained(config["model_id"])
-    model = AutoModelForCausalLM.from_pretrained(config["model_id"], device_map="auto")
-    generator = pipeline(
-        "text-generation", model=model, tokenizer=tokenizer, max_new_tokens=2
-    )
-    generate_kwargs = {
-        # "max_length": 100,
-        "temperature": 0.8,
-        # "top_k": 50,
-        "top_p": 0.95,
-        "num_return_sequences": config["num_tries"],
-        # "no_repeat_ngram_size": 3,
-        "do_sample": True,
-    }
-    
-    print("MODEL LOADED")
+    elif strategy == "chat":
+        return ChatPromptBuilder(INSTRUCTION_PROMPT)
+    else:
+        raise ValueError(f"Unknown prompt_builder_strategy: {strategy}, choices are [\"simple\", \"chat\"]")
 
-    obs = env.reset()
-    prompt_builder.update_observation(obs["prompt"])
-
-    wandb.login()
-    wandb.init(project="nle-language-model-test", config=config)
-
-    if config["savedir"] and not os.path.exists(config["savedir"]):
-        os.makedirs(config["savedir"])
-    
-    cumreward = 0
-    failed_generation_counter = 0
-    action_counter = {action: 0 for action in ACTION_NAMES}
-    action_history = []
-    
-    print("STARTING EVAL")
-
-    for step in range(config["max_steps"]):
-        print(f"Step {step} / {config['max_steps']}")
-        with open(f"./outputs/observations.txt", "a") as f:
-            f.write(
-                f"======================\nOBSERVATION (t={step})\n======================\n\n"
-                + obs["prompt"]
-                + "\n\n"
-            )
-        prompt = prompt_builder.get_prompt()
-        outputs = generator(prompt, return_full_text=False, **generate_kwargs)
-        # outputs = [{"generated_text": input()},] * config["num_tries"]
-        for i, output in enumerate(outputs):
-            action = output["generated_text"]
-            try:
-                obs, reward, done, info = env.step(action)
-                break
-            except:
-                pass
-        if i == len(outputs) - 1:
-            print('Failed to generate a valid action. Defaulting to "esc".')
-            obs, reward, done, info = env.step("esc")
-            failed_generation_counter += 1
-            continue
-        action_counter[action] += 1
-        action_history.append(action)
-        if config["savedir"] is not None:
-            tty_image = Image.fromarray(rgb_render_image(obs["glyphs"]))
-            # tty_image = Image.fromarray(tty_render_image_action_history(obs["tty_chars"], obs["tty_colors"], action_history))
-            tty_image.save(f"{config['savedir']}/{step:09}.png")
-        prompt_builder.update_action(action)
-        prompt_builder.update_observation(obs["prompt"])
-        cumreward += reward
-        wandb.log({
-            "cumreward": cumreward,
-            # "image": wandb.Image(tty_image),
-            "action_counter": wandb.plot.bar(wandb.Table(data=list(action_counter.items()), columns=["action", "count"]), "action", "count", title="Action Counts"),
-        })
-        if done:
+def agent_worker(task_queue, results_queue):
+    while True:
+        try:
+            agent_args = task_queue.get()
+            agent = NaiveAgent(**agent_args)
+            agent.run()
+            results_queue.put(agent.get_metrics())
+        except Empty:
             break
         
-    # generate gif
-    if config["savedir"] is not None:
-        images = []
-        for image_file in glob.glob(os.path.join(config["savedir"], "*.png")):
-            image = imageio.imread(image_file)
-            images.append(image)
-        gif_path = os.path.join(config["savedir"], "animation.gif")
-        imageio.mimsave(gif_path, images, duration=0.2)
+# want some of that jax innit
+def tree_map(func, *trees):
+    if not trees:
+        raise ValueError("At least one tree must be provided")
+    
+    first_tree = trees[0]
+    
+    if isinstance(first_tree, dict):
+        return {k: tree_map(func, *(t[k] for t in trees)) for k in first_tree}
+    elif isinstance(first_tree, (list, tuple)):
+        return type(first_tree)(tree_map(func, *(t[i] for t in trees)) for i in range(len(first_tree)))
+    elif isinstance(first_tree, np.ndarray):
+        return func(*trees)
+    else:
+        return func(*trees)
+
+if __name__ == "__main__":
+    logging.basicConfig(
+        level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+    )
+    logging.getLogger().addHandler(logging.StreamHandler())
+    
+    config = OmegaConf.to_container(OmegaConf.load("config/eval.yaml"))
+    if config["savedir"] is None:
+        config["savedir"] = os.path.join(".", "outputs", config["model_id"])
+        
+    default_payload = default_payload={
+        "model": config["model_id"],
+        **config["generate_kwargs"],
+    }
+    
+    worker_args = {
+        "make_env": partial(make_env, **config["env_kwargs"]),
+        "url": config["url"],
+        "make_prompt_builder": partial(make_prompt_builder, strategy=config["prompt_builder_strategy"]),
+        "default_payload": default_payload,
+    }
+    
+    env = partial(make_env, **config["env_kwargs"])()
+    
+    NUM_RUNS = config["num_runs"]
+    NUM_WORKERS = config["num_workers"]
+    
+    if NUM_WORKERS > 1:
+        task_queue = multiprocessing.Queue()
+        results_queue = multiprocessing.Queue()
+        
+        for _ in range(NUM_RUNS):
+            task_queue.put(worker_args)
+        
+        processes = []
+        for _ in range(NUM_WORKERS):
+            p = multiprocessing.Process(target=agent_worker, args=(task_queue, results_queue))
+            processes.append(p)
+            p.start()
+        
+        results = []
+        while len(results) < NUM_RUNS:
+            result = results_queue.get()
+            results.append(result)
+            
+        for p in processes:
+            p.join()
+            
+        # something, something collect stats here
+        results_tree = tree_map(lambda *x: np.stack(x), *results)
+        print(results_tree["episode_return"].mean())
+        # for result in results:
+    else:
+        results = []
+        for _ in range(NUM_RUNS):
+            agent = NaiveAgent(**worker_args)
+            agent.run()
+            results.append(agent.get_metrics())
+            
+        for result in results:
+            print("====")
+            print(result)
+        # print(results)
+        

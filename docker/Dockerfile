@@ -19,6 +19,8 @@ RUN apt-get update && apt-get install -y \
     flex \
     bison \
     libglib2.0-dev \
+    ninja-build \
+    curl \
     libgl1-mesa-glx
 
 # mainly for wandb
@@ -33,18 +35,18 @@ USER user
 # ENV PATH="/home/user/.local/bin:${PATH}"
 RUN pip install --upgrade pip
 
-RUN pip install --upgrade "jax[cuda12_pip]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
-RUN pip install --upgrade optax flax chex distrax gymnax craftax
+# RUN pip install --upgrade "jax[cuda12_pip]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
+# RUN pip install --upgrade optax flax chex distrax gymnax craftax
 RUN pip install --upgrade torch
 RUN pip install --upgrade transformers datasets accelerate trl peft bitsandbytes
 RUN pip install --upgrade matplotlib notebook pytest wandb moviepy imageio
 RUN pip install --upgrade vllm
 RUN pip install --upgrade nltk jsonlines opencv-python
 
-WORKDIR /home/user
-RUN git clone https://dramacow:${GIT_ACCESS_TOKEN}@github.com/DramaCow/jaxued
-WORKDIR /home/user/jaxued
-RUN pip install .
+# WORKDIR /home/user
+# RUN git clone https://dramacow:${GIT_ACCESS_TOKEN}@github.com/DramaCow/jaxued
+# WORKDIR /home/user/jaxued
+# RUN pip install .
 
 WORKDIR /home/user
 RUN git clone https://dramacow:${GIT_ACCESS_TOKEN}@github.com/DavidePaglieri/nle-language-wrapper.git --recursive
@@ -52,6 +54,14 @@ WORKDIR /home/user/nle-language-wrapper
 RUN pip install ".[dev]"
 # RUN rm -r /home/user/nle-language-wrapper
 
-RUN pip install envpool
+RUN pip install --upgrade omegaconf deepspeed
+RUN pip install --upgrade flash_attn
+
+RUN echo "alias accelerate='/home/user/.local/bin/accelerate'" >> /home/user/.bashrc
+RUN echo "alias accelerate-estimate-memory='/home/user/.local/bin/accelerate-estimate-memory'" >> /home/user/.bashrc
+RUN echo "alias accelerate-merge-weights='/home/user/.local/bin/accelerate-merge-weights'" >> /home/user/.bashrc
+RUN echo "alias accelerate-config='/home/user/.local/bin/accelerate-config'" >> /home/user/.bashrc
+RUN echo "alias accelerate-launch='/home/user/.local/bin/accelerate-launch'" >> /home/user/.bashrc
+RUN echo "alias wandb='/home/user/.local/bin/wandb'" >> /home/user/.bashrc
 
 WORKDIR /home/user/workspace

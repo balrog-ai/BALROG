@@ -17,3 +17,7 @@ class ChatPromptBuilder(PromptBuilder):
         return [
             {"role": "user", "content": self.prefix + "\n\nObservation:\n\n" + self._last_obs},
         ]
+        
+    @property
+    def is_chat(self):
+        return True
