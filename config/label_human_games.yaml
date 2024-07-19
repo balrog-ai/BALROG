@@ -1,11 +1,10 @@
 query: |
   SELECT gameid
   FROM games
-  WHERE version != '3.4.3'
   AND death = 'ascended'
   AND turns <= 100000
   AND role = 'Val'
 
-dlvl_cutoff: 4
-max_games: 500
+dlvl_cutoff: 2
+max_games: 1000
 processes: 72
