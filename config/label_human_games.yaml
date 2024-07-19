@@ -6,5 +6,5 @@ query: |
   AND role = 'Val'
 
 dlvl_cutoff: 2
-max_games: 1000
+max_games: 1100
 processes: 72

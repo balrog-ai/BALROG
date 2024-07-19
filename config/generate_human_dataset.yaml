@@ -3,4 +3,4 @@ directory: "human_labeled"
 history: 32 # The amount of history to use in the prompt builder
 diff: True # Always true at the moment
 num_processes: 72
-max_games: 500
+max_games: 1000
