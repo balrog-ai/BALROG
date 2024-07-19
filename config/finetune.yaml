@@ -2,21 +2,24 @@ dataset_path: "/root/fmrl/human_dataset.csv"
 model_id: "/root/Phi-3-mini-128k-instruct"
 output_dir: "models"
 per_device_train_batch_size: 1
-gradient_accumulation_steps: 8
+gradient_accumulation_steps: 16
 save_steps: 25000
 logging_steps: 100
-learning_rate: 3e-5
+learning_rate: 1.5e-5
 max_seq_length: 8192
-fp16: false
-bf16: true
-gradient_checkpointing: false
+fp16: true
+bf16: false
+gradient_checkpointing: true
 num_train_epochs: 2
 weight_decay: 0.001
 warmup_steps: 50
 lr_scheduler_type: "linear"
 report_to: "wandb"
 DDP: false # If true, run it with python -m torch.distributed.launch --nnodes=1 --nproc_per_node=2 finetune_accelerate.py
-use_lora: false
-lora_alpha: 512
-lora_dropout: 0.05
-r: 256
+
+
+use_lora: False
+lora:
+  alpha: 512
+  dropout: 0.05
+  r: 256

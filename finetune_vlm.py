@@ -1,18 +1,21 @@
 import os
-import sys
-from transformers import AutoTokenizer, AutoModelForCausalLM, AutoProcessor, TrainingArguments, Trainer
-from datasets import load_dataset, load_from_disk
+
+from train.collators import VLMDataCollator
+from train.trainers import CustomSFTTrainer
+from train.utils import *
+
+from transformers import AutoTokenizer, AutoModelForCausalLM, AutoProcessor, Trainer
+from datasets import load_from_disk
 from accelerate import PartialState
 import logging
 import wandb
-import torch
 from omegaconf import OmegaConf
 from tqdm.rich import tqdm
 from trl import (
     SFTConfig,
-    SFTTrainer,
-    get_peft_config,
 )
+from peft import LoraConfig, get_peft_model
+
 
 tqdm.pandas()
 
@@ -41,74 +44,11 @@ def load(config):
         )
     return model, tokenizer, processor
 
+local_rank = None
 
-def pad_sequence_left(sequences, batch_first=False, padding_value=-1):
-    reversed_sequences = [seq.flip(0) for seq in sequences]
-    padded_reversed = torch.nn.utils.rnn.pad_sequence(reversed_sequences, batch_first=batch_first, padding_value=padding_value)
-    if batch_first:
-        padded = padded_reversed.flip(1)
-    else:
-        padded = padded_reversed.flip(0)
-    return padded
-
-IGNORE_INDEX = -100
-
-class VLMDataCollator:
-    def __init__(self, processor):
-        self.processor = processor
-        self.tokenizer = processor.tokenizer
-        self.tokenizer.padding_side = 'left'
-
-    def __call__(self, examples):
-        samples = []
-        for example in examples:
-            prompt = example["prompt"]
-            action = example["action"]
-            image = example["image"]
-            messages = [
-                {
-                    "role": "user",
-                    "content": prompt
-                },
-                {
-                    "role": "assistant",
-                    "content": action
-                }
-            ]
-            text = self.tokenizer.apply_chat_template(
-                messages, tokenize=False, add_generation_prompt=False
-            )
-            text += self.tokenizer.eos_token
-            sample = self.processor(text, [image], return_tensors="pt")
-            labels = sample["input_ids"].clone()
-            labels[labels < 0] = -100 
-            sample["labels"] = labels
-            samples.append(sample)
-            
-        input_ids, labels = tuple([instance[key][0] for instance in samples] 
-                                   for key in ("input_ids", "labels"))
-
-        input_ids = pad_sequence_left(input_ids, batch_first=True, padding_value=self.tokenizer.pad_token_id)
-        labels = pad_sequence_left(labels, batch_first=True, padding_value=IGNORE_INDEX)
-
-        pixel_values = torch.stack([sample["pixel_values"][0] for sample in samples], dim=0)
-        image_sizes = torch.stack([sample["image_sizes"][0] for sample in samples], dim=0)
-        batch = dict( 
-             input_ids=input_ids, 
-             labels=labels, 
-             pixel_values=pixel_values, 
-             image_sizes=image_sizes, 
-             attention_mask=input_ids.ne(self.tokenizer.pad_token_id), 
-         ) 
-        return batch
-    
-class CustomSFTTrainer(SFTTrainer):
-    def save_model(self, output_dir= None, _internal_call: bool = False):
-        if output_dir is None:
-            output_dir = self.args.output_dir
-        self.model.save_pretrained(output_dir, state_dict=self.model.state_dict(), safe_serialization=False) 
-        if self.tokenizer is not None:
-            self.tokenizer.save_pretrained(output_dir)
+def rank0_print(*args):
+    if local_rank == 0 or local_rank == '0' or local_rank is None:
+        print(*args)
 
 def main(config):    
     wandb.init(
@@ -118,7 +58,17 @@ def main(config):
     model, tokenizer, processor = load(config)
     data_collator = VLMDataCollator(processor)
     dataset = load_from_disk(config.dataset_path)
-
+    
+    if config.use_lora:
+        peft_config = LoraConfig(
+            r=config.lora.r,
+            lora_alpha=config.lora.alpha,
+            target_modules=find_target_linear_names(model),
+            lora_dropout=config.lora.dropout,
+            task_type="CAUSAL_LM",
+        )
+        rank0_print("Adding LoRA to the model...")
+        model = get_peft_model(model, peft_config)
 
     training_args = SFTConfig(
         output_dir=os.path.join(config.output_dir),
@@ -137,20 +87,14 @@ def main(config):
         report_to="wandb",  # Ensure this is set to wandb
         remove_unused_columns=False,
     )
+    
+    training_args.vision_lr = config.train.vision_lr
+    training_args.projector_lr = config.train.projector_lr
+
+    vlm_img_pipeline_gradient_config(model, training_args, config)
 
     logging.info("Setting up trainer")
     tokenizer.padding_side = 'left'
-
-    # trainer = SFTTrainer(
-    #     model=model,
-    #     args=training_args,
-    #     train_dataset=dataset,
-    #     dataset_text_field="text",  # need a dummy field
-    #     tokenizer=tokenizer,
-    #     callbacks=None,
-    #     data_collator=data_collator,
-    #     dataset_kwargs={"skip_prepare_dataset": True},
-    # )
     
     trainer = CustomSFTTrainer(
         model=model,
