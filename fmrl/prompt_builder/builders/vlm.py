@@ -9,10 +9,7 @@ class VLMHistoryPromptBuilder(PromptBuilder, ABC):
         self,
         *,
         max_history=100,
-        action_delim="<|action|>",
-        obs_start="<|observation|>",
         image_delim="<|image_1|>",
-        obs_end="<|end|>",
         summary="lawful dwarven Valkyrie",
     ):
         self._max_history = max_history
@@ -22,10 +19,7 @@ class VLMHistoryPromptBuilder(PromptBuilder, ABC):
         self._inventory_history = deque(maxlen=2)
 
         self.history = deque(maxlen=self._max_history)
-        self._action_delim = action_delim
-        self._obs_start = obs_start
         self._image_delim = image_delim
-        self._obs_end = obs_end
         self.image = None
         self.full_stats = ""
         self.current_obs = ""

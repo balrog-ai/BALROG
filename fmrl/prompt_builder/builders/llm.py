@@ -25,7 +25,7 @@ def clean_diff(diff, remove=["---", "+++", "@@"]):
     )
 
 
-class HumanHistoryPromptBuilder(PromptBuilder, ABC):
+class LLMHistoryPromptBuilder(PromptBuilder, ABC):
     def __init__(
         self,
         *,
@@ -34,7 +34,7 @@ class HumanHistoryPromptBuilder(PromptBuilder, ABC):
         action_delim="<|assistant|>",
         obs_start="<|user|>",
         obs_end="<|end|>",
-        summary=None,
+        summary="lawful dwarven Valkyrie",
         diff=True,
     ):
         self._max_history = max_history

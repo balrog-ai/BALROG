@@ -1,5 +1,5 @@
 import os
-from fmrl.prompt_builder import HumanHistoryPromptBuilder
+from fmrl.prompt_builder import LLMHistoryPromptBuilder
 import numpy as np
 from tqdm import tqdm
 from omegaconf import OmegaConf
@@ -61,7 +61,7 @@ def clean_action(action):
 def postprocess_human(data, history):
     summary = data["summary"]
 
-    prompt_builder = HumanHistoryPromptBuilder(
+    prompt_builder = LLMHistoryPromptBuilder(
         max_length=16000,
         max_history=history,
         summary=summary,
@@ -143,7 +143,7 @@ if __name__ == "__main__":
     else:
         gameids = [1]
 
-    gameids = gameids[: config.num_games]
+    gameids = gameids[: config.max_games]
 
     print(gameids)
     load_dataset_multiprocessing(
