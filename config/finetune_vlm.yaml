@@ -16,7 +16,15 @@ warmup_steps: 50
 lr_scheduler_type: "linear"
 report_to: "wandb"
 DDP: false # If true, run it with python -m torch.distributed.launch --nnodes=1 --nproc_per_node=2 finetune_accelerate.py
-use_lora: false
-lora_alpha: 32
-lora_dropout: 0.05
-r: 16
+
+use_lora: False
+lora:
+  alpha: 512
+  dropout: 0.05
+  r: 256
+
+train:
+  img_projector: true
+  projector_lr: 2e-6
+  vision_tower: true
+  vision_lr: 2e-6

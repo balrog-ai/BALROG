@@ -1,5 +1,5 @@
 dataset_path: "/root/fmrl/human_dataset.csv"
-model_id: "/root/gemma-2b"
+model_id: "/root/Phi-3-mini-128k-instruct"
 output_dir: "models"
 per_device_train_batch_size: 1
 gradient_accumulation_steps: 8
@@ -17,6 +17,6 @@ lr_scheduler_type: "linear"
 report_to: "wandb"
 DDP: false # If true, run it with python -m torch.distributed.launch --nnodes=1 --nproc_per_node=2 finetune_accelerate.py
 use_lora: false
-lora_alpha: 32
+lora_alpha: 512
 lora_dropout: 0.05
-r: 16
+r: 256
