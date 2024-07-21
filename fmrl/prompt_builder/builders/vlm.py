@@ -9,17 +9,16 @@ class VLMHistoryPromptBuilder(PromptBuilder, ABC):
         self,
         *,
         max_history=100,
-        image_delim="<|image_1|>",
+        image_history=1,
+        image_delims=("<|image_1|>", "<|image_2|>"),
         summary="lawful dwarven Valkyrie",
     ):
         self._max_history = max_history
 
-        self._obs_history = deque(maxlen=2)
-        self._cursor_history = deque(maxlen=2)
-        self._inventory_history = deque(maxlen=2)
-
+        self.history_imgs = image_history
+        self._image_history = deque(maxlen=image_history)
         self.history = deque(maxlen=self._max_history)
-        self._image_delim = image_delim
+        self._image_delims = image_delims
         self.image = None
         self.full_stats = ""
         self.current_obs = ""
@@ -27,7 +26,7 @@ class VLMHistoryPromptBuilder(PromptBuilder, ABC):
 
     # Use a deque for the history in order to be efficient
     def update_history(
-        self, inventory, message, menu, stats, cursor, action, image_path
+        self, inventory, message, menu, stats, cursor, action, image
     ):
 
         if stats != "":
@@ -60,9 +59,12 @@ class VLMHistoryPromptBuilder(PromptBuilder, ABC):
 
         if menu != "":
             message = "Menu interaction\n" + menu
-
-        if menu == "":
-            self.image = image_path
+        else:
+            self.image = image
+            self._image_history.append(image)
+            
+        if len(self._image_history) == 1 and self.history_imgs == 2:
+            self._image_history.append(image)
 
         self.current_obs = (
             f"\nCurrent observation:\n{inventory}\n\n"
@@ -75,27 +77,34 @@ class VLMHistoryPromptBuilder(PromptBuilder, ABC):
             + "\n"
         )
 
-    def reset(self):
-        self.history = deque(maxlen=self._max_history)
-
     def get_prompt(self):
         history = ""
         for i in range(len(self.history) - 2, -1, -1):
             obs = self.history[i]
             history = obs + history
 
+        image_idx = 0
+        if self.history_imgs == 2:
+            history = (history         
+                + "\nPrevious observation image:\n"
+                + self._image_delims[image_idx]
+                + "\n"
+            )
+            image_idx += 1
+            
+
         history = history + self.current_obs
         history = (history 
             + "\n" 
-            + self._image_delim 
+            + self._image_delims[image_idx]
             + "\n" 
             + "NEXT ACTION:"
         )
         
         prompt = (
-            f"You are playing NetHack as a {self.summary}\nPrevious observations:\n"
+            f"You are playing NetHack as a {self.summary}\nOservation history:\n"
             + history
-            # + self._obs_end
             + "\n"
         )
-        return prompt, self.image
+        print(len(self._image_history))
+        return prompt, list(self._image_history)

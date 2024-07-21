@@ -1,6 +1,7 @@
 gameids: "human_labeled/gameids.txt"
 directory: "human_labeled"
-history: 32 # The amount of history to use in the prompt builder
+history: 16 # The amount of history to use in the prompt builder
+image_history: 2 # Currently either 1 or 2
 diff: True # Always true at the moment
-num_processes: 72
-max_games: 1000
+num_processes: 68
+max_games: 1050

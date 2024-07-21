@@ -101,8 +101,14 @@ class IDM:
         inventory = []
         messages = []
 
+        start = None
+
         print(len(self.tty_chars))
         for i in range(self.tty_chars.shape[0] - 2):
+            
+            if not start and ("welcome to NetHack!" in obs_to_message(self.tty_chars[i])):
+                start = i
+            
             actions.append(self.detect_action(self.tty_chars, self.tty_cursor, i))
             inventory.append(self.inventory.get_inventory())
             messages.append(obs_to_message(self.tty_chars[i]))
@@ -116,7 +122,7 @@ class IDM:
                 summary = message.split("You are a")[1].split(".")[0].strip()
                 break
         print(f"Labeled game {data_file} with {len(actions)} actions")
-        return actions, inventory, summary
+        return actions, inventory, summary, start
 
     def read_scroll(self, obs_a, obs_b, obs_c, obs_d):
         # Decent enough implementation. Could still be improved

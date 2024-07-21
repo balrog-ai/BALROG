@@ -82,16 +82,17 @@ def process_gameid(args):
         )
 
         idm = IDM()
-        actions, inventory, summary = idm.label_game(game_path, dlvl_cutoff=dlvl_cutoff)
+        actions, inventory, summary, idx_cutoff = idm.label_game(game_path, dlvl_cutoff=dlvl_cutoff)
+        print("IDX CUTOFF", idx_cutoff)
 
         np.savez_compressed(
             game_path,
-            tty_chars=tty_chars,
-            tty_cursor=tty_cursors,
-            tty_colors=tty_colors,
-            action=actions,
-            inventory=inventory,
-            summary=summary,
+            tty_chars=tty_chars[idx_cutoff:],
+            tty_cursor=tty_cursors[idx_cutoff:],
+            tty_colors=tty_colors[idx_cutoff:],
+            action=actions[idx_cutoff:],
+            inventory=inventory[idx_cutoff:],
+            summary=summary[idx_cutoff:],
         )
     except Exception as e:
         print(f"Error processing gameid {gameid}: {e}")
@@ -99,7 +100,7 @@ def process_gameid(args):
 
 
 def main(config):
-    base_path = "/root/nld-nao/nld-nao-unzipped"
+    base_path = "/root/data/ucabpag/nld-nao/nld-nao-unzipped"
     max_games = config.max_games
 
     dbfilename = setup_dataset(base_path)

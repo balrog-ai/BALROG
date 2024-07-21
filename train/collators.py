@@ -1,5 +1,6 @@
 import torch
 import numpy as np
+from PIL import Image
 
 from typing import Any, Callable, Dict, List, NewType, Optional, Tuple, Union
 from collections.abc import Mapping
@@ -110,7 +111,9 @@ class VLMDataCollator:
         for example in examples:
             prompt = example["prompt"]
             action = example["action"]
-            image = example["image"]
+            image_1 = example["image_1"]
+            image_2 = example["image_2"]
+            images = [image_1, image_2] if image_2 is not None else [image_1]
             messages = [
                 {
                     "role": "user",
@@ -125,7 +128,7 @@ class VLMDataCollator:
                 messages, tokenize=False, add_generation_prompt=False
             )
             text += self.tokenizer.eos_token
-            sample = self.processor(text, [image], return_tensors="pt")
+            sample = self.processor(text, images, return_tensors="pt")
             labels = sample["input_ids"].clone()
             labels[labels < 0] = -100 
             sample["labels"] = labels

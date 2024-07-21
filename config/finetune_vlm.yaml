@@ -6,7 +6,7 @@ gradient_accumulation_steps: 16
 save_steps: 5000
 logging_steps: 100
 learning_rate: 1.5e-5
-max_seq_length: 4096
+max_seq_length: 8192
 fp16: true
 bf16: false
 gradient_checkpointing: true

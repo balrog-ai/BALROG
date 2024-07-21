@@ -8,8 +8,7 @@ import sys
 import multiprocessing
 import traceback
 
-from datasets import Dataset
-from datasets import Image as HuggingFaceImage
+from datasets import Dataset, Features, Value, Image as HuggingFaceImage
 from PIL import Image
 from fmrl.renderer import ImageRenderer
 from idm.inverse_dynamics.utils import ascii_render, find_n_of_m_end
@@ -31,16 +30,6 @@ def clean_action(action):
         return action
 
 def process_chars(chars, ascii=False):
-    """
-    Process chars for the VLM
-
-    Args:
-        chars (numpy array): The characters from the observation
-    Returns:
-        message (str): The message from the observation
-        menu (str): The menu from the observation
-        stats (str): The stats from the observation
-    """
     if ascii:
         ascii_map = chars
     else:
@@ -77,11 +66,11 @@ def process_chars(chars, ascii=False):
 
     return message.strip(), menu, stats
 
-
-def postprocess_human(data, history, game_id):
+def postprocess_human(data, history, image_history, game_id):
 
     prompt_builder = VLMHistoryPromptBuilder(
         max_history=history,
+        image_history=image_history
     )
 
     tty_chars = data["tty_chars"]
@@ -93,11 +82,15 @@ def postprocess_human(data, history, game_id):
     ids = []
     prompts = []
     actions = []
-    image_paths = []
+    image_1_list = []
+    image_2_list = []
 
     image_renderer = ImageRenderer()
 
     for i in tqdm(range(tty_actions.shape[0] - 2)):
+
+        if i >= 50:
+            break
         inventory = tty_inventory[i]
         message, menu, stats = process_chars(tty_chars[i])
 
@@ -115,84 +108,87 @@ def postprocess_human(data, history, game_id):
         )
 
         image_array = image_renderer.render(observation)
-        image_path = f"dataset/images/{game_id}/{i}.png"
-        os.makedirs(f"dataset/images/{game_id}", exist_ok=True)
-        Image.fromarray(image_array).save(image_path)
+        image = Image.fromarray(image_array)
 
         cursor = f"{np.array2string(tty_cursor[i])}"
         action = clean_action(tty_actions[i])
 
         prompt_builder.update_history(
-            inventory, message, menu, stats, cursor, action, image_path
+            inventory, message, menu, stats, cursor, action, image  # Pass image
         )
-        prompt, image_path = prompt_builder.get_prompt()
+        prompt, images = prompt_builder.get_prompt()  # Adjusted here
         ids.append(f"{game_id}_{i}")
         prompts.append(prompt)
         actions.append(action)
-        image_paths.append(image_path)
+
+        # Handle two images
+        image_1 = images[0] if len(images) > 0 else None
+        image_2 = images[1] if len(images) > 1 else None
+        image_1_list.append(image_1)
+        image_2_list.append(image_2)
 
     dataset_dict = {
         "id": ids,
         "prompt": prompts,
         "action": actions,
-        "image_path": image_paths,
+        "image_1": image_1_list,
+        "image_2": image_2_list,
     }
 
     return dataset_dict
 
-def load_and_process_game_id(path, game_id, history):
+def load_and_process_game_id(path, game_id, history, image_history):
     try:
         data = np.load(f"{path}/{game_id}.npz")
-        samples = postprocess_human(data, history, game_id)
-        json_file = f"human_dataset_{game_id}.json"
-        with open(json_file, 'w') as f:
-            json.dump(samples, f, indent=4)
-        print(f"Wrote {json_file}")
-        return json_file
+        samples = postprocess_human(data, history, image_history, game_id)
+        return samples
     except Exception as e:
         print(f"Failed to process game ID {game_id}: {e}")
         traceback.print_exc()
         return None
 
-def merge_json_files(json_files, output_file):
+def merge_datasets(datasets, output_file):
     dataset_dict = {
         "id": [],
         "prompt": [],
         "action": [],
-        "image": [],
+        "image_1": [],
+        "image_2": [],
     }
     
     count = 0
-    for file in json_files:
-        if file is not None:
+    for ds in datasets:
+        if ds is not None:
             count += 1
-            with open(file, 'r') as f:
-                dict = json.load(f)
-                dataset_dict["id"].extend(dict["id"])
-                dataset_dict["prompt"].extend(dict["prompt"])
-                dataset_dict["action"].extend(dict["action"])
-                dataset_dict["image"].extend(dict["image_path"])
+            dataset_dict["id"].extend(ds["id"])
+            dataset_dict["prompt"].extend(ds["prompt"])
+            dataset_dict["action"].extend(ds["action"])
+            dataset_dict["image_1"].extend(ds["image_1"])
+            dataset_dict["image_2"].extend(ds["image_2"])
                 
     print(f"Processed {count} games")
-                
-    # Read the data into various lists, one for prompts, one for actions, and one for images
-    dataset = Dataset.from_dict(dataset_dict)
-    dataset = dataset.cast_column("image", HuggingFaceImage()) 
+
+    # Define the features with two image columns
+    features = Features({
+        "id": Value("string"),
+        "prompt": Value("string"),
+        "action": Value("string"),
+        "image_1": HuggingFaceImage(),
+        "image_2": HuggingFaceImage()
+    })
+
+    dataset = Dataset.from_dict(dataset_dict, features=features)
     dataset.save_to_disk(output_file)
-    dataset.push_to_hub(f"pagli98/{output_file}", private=True)
+    dataset.push_to_hub(f"pagli98/{output_file}", private=False)
 
-    print("Merging JSON files")
-    for file in json_files:
-        if file is not None:
-            os.remove(file)
-    print(f"Merged JSON files into {output_file}")
+    print(f"Merged datasets into {output_file}")
 
-def load_dataset_multiprocessing(path, game_ids, history, num_processes):
+def load_dataset_multiprocessing(path, game_ids, history, image_history, num_processes):
     with multiprocessing.Pool(processes=num_processes) as pool:
         results = pool.starmap(
-            load_and_process_game_id, [(path, game_id, history) for game_id in game_ids]
+            load_and_process_game_id, [(path, game_id, history, image_history) for game_id in game_ids]
         )
-    merge_json_files(results, "human_dataset.hf")
+    merge_datasets(results, "human_dataset.hf")
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
@@ -210,5 +206,5 @@ if __name__ == "__main__":
     gameids = gameids[:config.max_games]
     print(gameids)
     load_dataset_multiprocessing(
-        config.directory, gameids, config.history, num_processes=config.num_processes
+        config.directory, gameids, config.history, config.image_history, num_processes=config.num_processes
     )

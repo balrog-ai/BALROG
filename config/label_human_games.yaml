@@ -1,10 +1,12 @@
 query: |
   SELECT gameid
   FROM games
-  AND death = 'ascended'
+  WHERE death = 'ascended'
   AND turns <= 100000
   AND role = 'Val'
+  AND race= 'Dwa' 
+  AND align= 'Law'
 
 dlvl_cutoff: 2
 max_games: 1100
-processes: 72
+processes: 68
