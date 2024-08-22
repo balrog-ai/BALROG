@@ -2,83 +2,61 @@
 
 ![Alt text](assets/figures/balrog.jpg)
 
+### Collaboration guide:
+When implementing majour features:
+1. Branch out from develop
+2. Implement feature
+3. Once ready, open a PR from your feature branch to develop
+4. Solve conflicts and ask for review
+5. Once reviewers approve, merge (replying with LGTM is fine fow now)
 
-# Observation
-```
-Inventory:
-a: a +0 katana (weapon in hand)
-b: a +0 wakizashi (alternate weapon; not wielded)
-c: a +0 yumi
-d: 43 +0 ya (in quiver)
-e: a blessed rustproof +0 splint mail (being worn)
+Let's try to keep it fast paces but also organized.
 
-Map observation:
-ebony wand very near eastnortheast
-tame little dog very near west
-
+# North Star
+High-quality, easy to enter benchmark for LLM agents, testing their in-context-learning capabilities on a variety of interactive environments.
 
 
-                                                                                
-                                                                                
-                                                                                
-                                                           --------------       
-                                                           |..../.......|       
-                                                          #-d.@.........|       
-                                                          #|............|       
-                                                -----     #|............|       
-                                            ####....|   ###|............|       
-                                            #   |...|   #  --------------       
-                                            #   |.^.| ###                       
-                               ------------ #   |...-##                         
-                               .<.........| #   |...|                           
-                               |..........| #   -----                           
-                               |..........| #                                   
-                               |..........| #                                   
-                               |..........|##                                   
-                               ...........-#                                    
-                               ------------                                     
-                                                                                
-                                                                                
-                                                                                
-Agent the Hatamoto             St:14 Dx:18 Co:16 In:9 Wi:9 Ch:7 Lawful S:0      
-Dlvl:1 $:0 HP:15(15) Pw:2(2) AC:4 Xp:1/0 T:72
-```
-
-# Installation
-NLE requires python>=3.5, cmake>=3.15 to be installed and available both when building the package, and at runtime.
-
-On MacOS, one can use Homebrew as follows:
-```
-brew install cmake
-```
-
-On a plain Ubuntu 18.04 distribution, cmake and other dependencies can be installed by doing:
-```
-sudo apt-get install -y build-essential autoconf libtool pkg-config \
-    python3-dev python3-pip python3-numpy git flex bison libbz2-dev
-
-# recent cmake version
-wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | sudo apt-key add -
-sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main'
-sudo apt-get update && apt-get --allow-unauthenticated install -y \
-    cmake \
-    kitware-archive-keyring
-```
-
-Afterwards it's a matter of setting up your environment. We advise using a conda environment for this:
+# Structure:
 
 ```
-conda create -y -n nle python=3.10
-conda activate nle
-pip install nle
+ICL-bench
+├── README.md               # Documentation of the repository
+├── config/                 # Config folder
+│   ├── eval.yaml           # Base evaluation config file
+├── iclbench/               # Main code of the 
+│   ├── agents/             # Agent implementations with LangChain (naive agent for now)
+│   ├── environments/       # Environments folder with a unified env loader
+│   └── prompt_builder/     # History, Zero-shot, and VLM prompt builders
+│   ├── evaluator.py        # File with main evaluator class
+├── external/               # External submodules
+│   ├── nle-language-wrap   # Modified language wrapper (to be moved inside nle in environments)
+└── eval.py                 # Entry point of the benchmark
 ```
 
-# Install modified nle-language-wrapper
+The idea is to that people will interact through the eval.py, whose structure should more or less be:
+
 ```
-cd external/nle-language-wrapper
-pip install -e ".[dev]"
+# Load configuration
+config = OmegaConf.load("config/eval.yaml")
+
+# Instantiate LLM client
+client = OpenAI(api_key="EMPTY", base_url=config.base_url)
+
+# Instantiate environment
+env = make_envs(**config.env_kwargs)
+
+agent = create_agent_class(client, config)
+
+# Instantiate evaluator and run the evaluation
+evaluator = Evaluator(env, agent, config)
+results = evaluator.run()
+
+# Save results
+evaluator.save_results(results, config.get("savedir", "eval.json"))
 ```
 
-# Run
-TODO
-
+# Environments:
+1. NetHack
+2. Craftax
+3. MiniHack
+4. BabyAI
