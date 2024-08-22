@@ -2,6 +2,15 @@
 
 ![Alt text](assets/figures/balrog.jpg)
 
+### Collaboration guide:
+When implementing majour features:
+1. Branch out from develop
+2. Implement feature
+3. Once ready, open a PR from your feature branch to develop
+4. Solve conflicts and ask for review
+5. Once reviewers approve, merge (replying with LGTM is fine fow now)
+
+Let's try to keep it fast paces but also organized.
 
 # Observation
 ```
