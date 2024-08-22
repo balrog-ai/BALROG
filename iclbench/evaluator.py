@@ -20,6 +20,7 @@ class Evaluator:
         for _ in range(self.max_steps_per_episode):
             action = self.agent.act(obs, prev_action=action)
             action = self.check_action_validity(action)
+            print(action)
             obs, reward, done, _ = self.env.step(action)
             episode_return += reward
             if done:

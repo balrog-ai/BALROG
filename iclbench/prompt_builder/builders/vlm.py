@@ -1,4 +1,4 @@
-from .. import PromptBuilder
+from . import PromptBuilder
 from abc import ABC
 from collections import deque
 import re
@@ -91,13 +91,8 @@ class VLMHistoryPromptBuilder(PromptBuilder, ABC):
             history = obs + history
 
         history = history + self.current_obs
-        history = (history 
-            + "\n" 
-            + self._image_delim 
-            + "\n" 
-            + "NEXT ACTION:"
-        )
-        
+        history = history + "\n" + self._image_delim + "\n" + "NEXT ACTION:"
+
         prompt = (
             f"You are playing NetHack as a {self.summary}\nPrevious observations:\n"
             + history

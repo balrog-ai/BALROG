@@ -18,12 +18,12 @@ agent: naive
 #        full observations
 # - vlm: very simple history of the game (messages and actions). 
 #        Images for the current and previous observation
-prompt_builder: history
-  history: True
-  diff: False
-  vlm: False
-  max_history: 128
-  max_tokens: 128000
+prompt_builder: chat
+  # history: True
+  # diff: False
+  # vlm: False
+  # max_history: 128
+  # max_tokens: 128000
 
 
 # Environment settings
@@ -35,9 +35,9 @@ environment: NetHack
 # - vlm: image observations, potentially with language description
 env_kwargs:
   prompt_mode: language
-  language: True
-  ascii_map: False
-  vlm: False
+language: True
+ascii_map: False
+vlm: False
 
 # Evaluation settings
 num_episodes: 1
