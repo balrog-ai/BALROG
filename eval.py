@@ -1,19 +1,21 @@
 import logging
 import gym
+import hydra
 from omegaconf import OmegaConf
+from hydra import initialize, compose
 from openai import OpenAI
 from iclbench.environments.nle import NLELanguageWrapper
 from iclbench.agents import create_agent
 from iclbench.evaluator import Evaluator
 
 
-def main():
+@hydra.main(config_path="config", config_name="eval")
+def main(config):
+
+    # Access the config as you would normally with OmegaConf
     logging.basicConfig(
         level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
     )
-
-    # Load configuration
-    config = OmegaConf.load("config/eval.yaml")
 
     # Instantiate LLM client
     client = OpenAI(api_key="EMPTY", base_url=config.base_url)
