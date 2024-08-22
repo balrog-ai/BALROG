@@ -1,8 +1,6 @@
 import logging
 import gym
 import hydra
-from omegaconf import OmegaConf
-from hydra import initialize, compose
 from openai import OpenAI
 from iclbench.environments.nle import NLELanguageWrapper
 from iclbench.agents import create_agent
