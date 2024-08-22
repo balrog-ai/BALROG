@@ -1,4 +1,7 @@
-# NetHack benchmark for LLM agents
+# In-Context-Learning benchmark for LLM agents
+
+![Alt text](assets/figures/balrog.jpg)
+
 
 # Observation
 ```
@@ -65,14 +68,17 @@ sudo apt-get update && apt-get --allow-unauthenticated install -y \
 Afterwards it's a matter of setting up your environment. We advise using a conda environment for this:
 
 ```
-conda create -y -n nle python=3.8
+conda create -y -n nle python=3.10
 conda activate nle
 pip install nle
 ```
 
 # Install modified nle-language-wrapper
 ```
-git clone git@github.com:DramaCow/fmrl.git --recursive
-cd fmrl/external/nle-language-wrapper
-pip install -e .
+cd external/nle-language-wrapper
+pip install -e ".[dev]"
 ```
+
+# Run
+TODO
+
