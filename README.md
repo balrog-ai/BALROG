@@ -55,6 +55,8 @@ results = evaluator.run()
 evaluator.save_results(results, config.get("savedir", "eval.json"))
 ```
 
+Ideally we should in the future also support interaction with the benchmark purely from command line with an evaluation harness similar to SWEbench or llm-eval-harness
+
 # Environments:
 1. NetHack
 2. Craftax
