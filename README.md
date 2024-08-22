@@ -78,7 +78,6 @@ pip install -e .
 Spin up a vllm server (if on another GPU, consider tunneling) :
 ```
 vllm serve meta-llama/Meta-Llama-3.1-8B-Instruct
-
 ```
 The run eval.py. If you are on the same machine as the vllm server, simply run:
 ```
