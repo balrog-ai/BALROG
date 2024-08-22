@@ -62,3 +62,12 @@ Ideally we should in the future also support interaction with the benchmark pure
 2. Craftax
 3. MiniHack
 4. BabyAI
+
+# Installation
+```
+conda create --y --name iclbench python=3.10
+conda activate iclbench
+pip install nle==0.9.0
+cd external/nle-language-wrapper
+pip install -e .
+```
