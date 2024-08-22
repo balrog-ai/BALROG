@@ -68,6 +68,26 @@ Ideally we should in the future also support interaction with the benchmark pure
 conda create --y --name iclbench python=3.10
 conda activate iclbench
 pip install nle==0.9.0
+pip install vllm
 cd external/nle-language-wrapper
 pip install -e .
 ```
+
+# Run
+
+Spin up a vllm server (if on another GPU, consider tunneling) :
+```
+vllm serve meta-llama/Meta-Llama-3.1-8B-Instruct
+
+```
+The run eval.py. If you are on the same machine as the vllm server, simply run:
+```
+python eval.py
+```
+
+If you are on a different machine, and are doing tunneling:
+```
+python eval.py base_url=/your/vllm/server/baseurl
+```
+
+
