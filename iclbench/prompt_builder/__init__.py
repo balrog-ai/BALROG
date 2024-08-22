@@ -1,7 +1,7 @@
-from builders.diff import DiffHistoryPromptBuilder
-from builders.chat import ChatPromptBuilder
-from builders.history import HistoryPromptBuilder
-from builders.vlm import VLMHistoryPromptBuilder
+from ..prompt_builder.builders.diff import DiffHistoryPromptBuilder
+from ..prompt_builder.builders.chat import ChatPromptBuilder
+from ..prompt_builder.builders.history import HistoryPromptBuilder
+from ..prompt_builder.builders.vlm import VLMHistoryPromptBuilder
 
 from iclbench.environments.nle import NLELanguageWrapper
 from nle.nethack import ACTIONS
