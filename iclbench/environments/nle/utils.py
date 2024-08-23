@@ -1,7 +1,10 @@
 from nle.nethack import tty_render
 from nle_language_wrapper.nle_language_obsv import NLELanguageObsv
 
+import numpy as np
+
 nle_language = NLELanguageObsv()
+
 
 # utility functions
 def ascii_render(chars):
@@ -13,6 +16,7 @@ def ascii_render(chars):
             result += entry
         result += "\n"
     return result
+
 
 def nle_obsv_to_language(nle_obsv):
     """Translate NLE Observation into a language observation.
@@ -39,6 +43,7 @@ def nle_obsv_to_language(nle_obsv):
         ),
     }
 
+
 # actual rendering schemes
 def render_tty(nle_obsv):
     return tty_render(
@@ -46,6 +51,13 @@ def render_tty(nle_obsv):
         nle_obsv["tty_colors"],
         nle_obsv["tty_cursor"],
     )
+
+
+def render_ascii_map(nle_obsv):
+    map = ascii_render(nle_obsv["tty_chars"])
+    cursor = nle_obsv["tty_cursor"]
+    return f"Map[\n{map}\n] Cursor[{cursor}]"
+
 
 def render_text(nle_obsv):
     key_name_pairs = [
@@ -58,26 +70,27 @@ def render_text(nle_obsv):
     text_obsv = nle_obsv_to_language(nle_obsv)
     return "\n".join([f"{name}[\n{text_obsv[key]}\n]" for key, name in key_name_pairs])
 
+
 def render_hybrid(nle_obsv):
     ascii_map = ascii_render(nle_obsv["tty_chars"])
-    ascii_map = "\n".join(ascii_map.split('\n')[1:]) # remove first line
-    
+    cursor = nle_obsv["tty_cursor"]
+    cursor = f"(x: {cursor[1]}, y: {cursor[0]})"
+    ascii_map = "\n".join(ascii_map.split("\n")[1:])  # remove first line
+
     text_obsv = nle_obsv_to_language(nle_obsv)
     text_obsv["map"] = ascii_map
-    
+    text_obsv["text_cursor"] = text_obsv["text_cursor"] + "\n" + cursor
+
     key_name_pairs = [
-        ("text_blstats", "statistics"),
-        ("text_glyphs", "glyphs"),
-        ("text_message", "message"),
         ("text_inventory", "inventory"),
-        ("text_cursor", "cursor"),
+        ("text_message", "message"),
         ("map", "map"),
+        ("text_cursor", "cursor"),
+        ("text_glyphs", "around you"),
     ]
-    
-    return "\n".join(
-        [f"{name}[\n{text_obsv[key]}\n]" for key, name in key_name_pairs]
-    )
-    
+
+    return "\n".join([f"{name}:\n{text_obsv[key]}\n" for key, name in key_name_pairs])
+
 
 if __name__ == "__main__":
     import nle

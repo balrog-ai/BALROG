@@ -1,5 +1,5 @@
 # Model and server settings
-base_url: https://green-lights-dance.loca.lt/v1
+base_url: https://young-carrots-unite.loca.lt/v1
 
 # Agent settings
 model_id: meta-llama/Meta-Llama-3.1-8B-Instruct
@@ -18,7 +18,7 @@ agent: naive
 #        full observations
 # - vlm: very simple history of the game (messages and actions). 
 #        Images for the current and previous observation
-prompt_builder: chat
+prompt_builder_strategy: zero-shot
   # history: True
   # diff: False
   # vlm: False
@@ -27,14 +27,15 @@ prompt_builder: chat
 
 
 # Environment settings
-env_name: nle
+# if testing on multiple environments, separate the env_names with commas
+env_names: nle
 # The options for the game observations are:
 # - language: simple language observations (~100 tokens per obs)
-# - map: only the ascii map (no colors) (~375 tokens per obs)
+# - ascii_map: only the ascii map (no colors) (~375 tokens per obs)
 # - hybrid: language observations and ascii map (~450 tokens per obs)
 # - vlm: image observations, potentially with language description
 env_kwargs:
-  prompt_mode: language
+  prompt_mode: hybrid
 language: True
 ascii_map: False
 vlm: False
@@ -49,3 +50,5 @@ generate_kwargs:
   temperature: 0.25
   top_p: 0.95
   n: 10
+
+savedir: ./outputs

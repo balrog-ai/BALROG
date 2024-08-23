@@ -1,12 +1,15 @@
 from . import PromptBuilder
 
 
-class ChatPromptBuilder(PromptBuilder):
+class ZeroShotPromptBuilder(PromptBuilder):
     def __init__(self, prefix=None):
         if prefix is None:
             prefix = "You are about to be presented with an observation. Respond only with an appropriate action.\n\n"
         self.prefix = prefix
         self._last_obs = None
+
+    def update_instruction_prompt(self, prompt):
+        self.prefix = prompt
 
     def update_observation(self, obs):
         self._last_obs = obs

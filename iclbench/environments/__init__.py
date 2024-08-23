@@ -11,7 +11,23 @@ def make_env(env_name, **kwargs):
     elif env_name == "babyai":
         raise NotImplementedError("BabyAI environment is not supported yet.")
     elif env_name == "craftax":
-        raise NotImplementedError("CraftAssist environment is not supported yet.")
+        raise NotImplementedError("Craftax environment is not supported yet.")
+    elif env_name == "minihack":
+        raise NotImplementedError("MiniHack environment is not supported yet.")
+    else:
+        raise ValueError(f"Unknown environment: {env_name}")
+
+
+def get_instruction_prompt(env_name):
+    if env_name == "nle":
+        from iclbench.environments.nle import get_instruction_prompt
+
+        return get_instruction_prompt()
+
+    elif env_name == "babyai":
+        raise NotImplementedError("BabyAI environment is not supported yet.")
+    elif env_name == "craftax":
+        raise NotImplementedError("Craftax environment is not supported yet.")
     elif env_name == "minihack":
         raise NotImplementedError("MiniHack environment is not supported yet.")
     else:
