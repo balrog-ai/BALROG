@@ -2,7 +2,7 @@ import logging
 import gym
 from omegaconf import OmegaConf
 from openai import OpenAI
-from iclbench.environments.nle import NLELanguageWrapper
+from iclbench.environments import make_env
 from iclbench.agents import create_agent
 from iclbench.evaluator import Evaluator
 
@@ -19,7 +19,7 @@ def main():
     client = OpenAI(api_key="EMPTY", base_url=config.base_url)
 
     # Instantiate environment
-    env = NLELanguageWrapper(gym.make("NetHackChallenge-v0"), **config.env_kwargs)
+    env = make_env(config.env_name, **config.env_kwargs)
 
     # Instantiate agent (TODO: support future LangChain integration)
     # This currently would not support multiprocessing, as we have a single agent here.

@@ -27,7 +27,7 @@ prompt_builder: chat
 
 
 # Environment settings
-environment: NetHack
+env_name: nle
 # The options for the game observations are:
 # - language: simple language observations (~100 tokens per obs)
 # - map: only the ascii map (no colors) (~375 tokens per obs)
