@@ -6,7 +6,7 @@ import numpy as np
 from iclbench.environments.spaces import Strings
 from .render import tty_render_image
 from .render_rgb import rgb_render_image
-from .utils import render_tty, render_text, render_hybrid
+from .utils import render_ascii_map, render_text, render_hybrid
 from .progress import Progress
 
 
@@ -37,12 +37,12 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
     def default_action(self):
         return "esc"
 
-    def nle_process_obsv(self, nle_obsv):  # why the name change?
+    def nle_process_obsv(self, nle_obsv):
         return self.nle_obsv_to_language(nle_obsv)
 
     def nle_obsv_to_language(self, nle_obsv):
-        if self.prompt_mode == "tty":
-            return {"obs": nle_obsv, "text": render_tty(nle_obsv)}
+        if self.prompt_mode == "ascii_map":
+            return {"obs": nle_obsv, "text": render_ascii_map(nle_obsv)}
         elif self.prompt_mode == "language":
             return {"obs": nle_obsv, "text": render_text(nle_obsv)}
         elif self.prompt_mode == "hybrid":

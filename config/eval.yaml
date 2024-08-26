@@ -1,5 +1,5 @@
 # Model and server settings
-base_url: https://green-lights-dance.loca.lt/v1
+base_url: https://smart-clowns-cover.loca.lt/v1
 
 # Agent settings
 model_id: meta-llama/Meta-Llama-3.1-8B-Instruct
@@ -13,28 +13,25 @@ agent: naive
 
 
 # Prompt builder settings
-# - history: simple history of the game, inventory shown only at the current step
-# - diff history: history of the game with differences between the current and previous 
-#        full observations
-# - vlm: very simple history of the game (messages and actions). 
-#        Images for the current and previous observation
-prompt_builder: chat
-  # history: True
-  # diff: False
-  # vlm: False
-  # max_history: 128
-  # max_tokens: 128000
+prompt_builder_strategy: history
+prompt_builder_config:
+  history: True
+  diff: False
+  vlm: False
+  max_history: 128
+  max_length: 128000
 
 
 # Environment settings
-environment: NetHack
+# if testing on multiple environments, separate the env_names with commas
+env_names: nle
 # The options for the game observations are:
 # - language: simple language observations (~100 tokens per obs)
-# - map: only the ascii map (no colors) (~375 tokens per obs)
+# - ascii_map: only the ascii map (no colors) (~375 tokens per obs)
 # - hybrid: language observations and ascii map (~450 tokens per obs)
 # - vlm: image observations, potentially with language description
 env_kwargs:
-  prompt_mode: language
+  prompt_mode: hybrid
 language: True
 ascii_map: False
 vlm: False
@@ -49,3 +46,5 @@ generate_kwargs:
   temperature: 0.25
   top_p: 0.95
   n: 10
+
+savedir: ./outputs

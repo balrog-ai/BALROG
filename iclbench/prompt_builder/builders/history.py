@@ -1,5 +1,3 @@
-from . import PromptBuilder
-from abc import ABC
 from collections import deque
 import difflib
 
@@ -25,104 +23,67 @@ def clean_diff(diff, remove=["---", "+++", "@@"]):
     )
 
 
-class HistoryPromptBuilder(PromptBuilder, ABC):
+class HistoryPromptBuilder:
     def __init__(
         self,
         *,
         max_history=128,
         max_length=128000,
-        language_obs=True,
-        ascii_map=False,
-        diff=True,
-        summary=None,
+        diff=False,
+        use_history=True,
+        prefix="You are about to be presented with an observation history. Respond with an appropriate action.\n\n",
     ):
-        self._max_history = max_history
+
+        self._max_history = 1 if not use_history else max_history
         self._max_length = max_length
-
-        self._obs_history = deque(maxlen=2)
-        self._cursor_history = deque(maxlen=2)
-        self._inventory_history = deque(maxlen=2)
-
-        self._action_history = deque(maxlen=self._max_history)
-        self._diff_history = deque(maxlen=self._max_history)
-
-        self.language_obs = language_obs
-        self.ascii_map = ascii_map
         self.diff = diff
-        self.summary = summary
+        self.use_history = use_history
+        self.prefix = prefix
 
-    # Use a deque for the history in order to be efficient
-    def update_history(self, obs):
-        inventory, render, language_obs, cursor, action = obs
+        self._near_history = deque(maxlen=2)
+        self._obs_history = deque(maxlen=self._max_history)
+        self.previous_action = None
+        self._last_obs = None
 
-        ascii_map = f"\nMap\n{render}" if self.ascii_map else ""
-        language_obs = f"\nObservation\n{language_obs}" if self.language_obs else ""
+    def update_observation(self, obs, action=None):
+        long_term_context, short_term_context = obs
+        self._last_obs = short_term_context + "\n" + long_term_context
+        self._near_history.append(long_term_context)
 
-        obs = (
-            f"\nAction: {self.previous_action}\n"
-            + f"Inventory\n{inventory}\n"
-            + ascii_map
-            + cursor
-            + language_obs
-        )
-
-        if len(self._obs_history) > 1 and self.diff:
-            map_diff = clean_diff(
-                get_diff(self._obs_history[0][0], self._obs_history[-1][0]),
-                remove=["---", "+++"],
+        if len(self._near_history) > 1 and self.diff:
+            diff = clean_diff(get_diff(self._near_history[0], self._near_history[-1]))
+            last_timestep = f"\n##########\nAction: {self.previous_action}\n\n" + diff
+        else:
+            last_timestep = (
+                f"\n##########\nAction: {self.previous_action}\n\n" + long_term_context
             )
-            cursor_diff = clean_diff(
-                get_diff(self._cursor_history[0][0], self._cursor_history[-1][0])
-            )
-            if cursor_diff:
-                cursor_diff = "\n".join(cursor_diff.splitlines()[1:])
-            inventory_diff = clean_diff(
-                get_diff(self._inventory_history[0][0], self._inventory_history[-1][0])
-            )
-            inventory_diff = f"Inventory\n{inventory_diff}" if inventory_diff else ""
 
-            diff = (
-                f"\nAction: {self.previous_action}\n"
-                + inventory_diff
-                + map_diff
-                + "\n"
-                + cursor_diff
-                + "\n"
-            )
-            self._diff_history.append(diff)  # THIS IS WAAAY OFF
+        self._obs_history.append(last_timestep)
         self.previous_action = action
 
+    def update_action(self, action):
+        self.previous_action = action
+
+    def update_instruction_prompt(self, prompt):
+        self.prefix = prompt
+
     def reset(self):
-        self._obs_history = deque(maxlen=self._max_history)
-        self._action_history = deque(maxlen=self._max_history)
+        self._near_history.clear()
+        self._obs_history.clear()
+        self.previous_action = None
 
     def get_prompt(self):
-        current_obs, current_obs_tokens = self._obs_history[-1]
-        inventory, inventory_tokens = self._inventory_history[-1]
+        history = f"\n##########\nCurrent observation\n{self._last_obs}"
 
-        inventory = f"Inventory\n{inventory}" if inventory else ""
+        for i in range(len(self._obs_history) - 1, -1, -1):
 
-        history = (
-            f"\nCurrent observation\n{inventory}\n" + "Map\n" + current_obs
-        )  # We are not adding this but okay
-        cur_tokens = current_obs_tokens + inventory_tokens
-        count = 0
-        for i in range(len(self._diff_history) - 1, -1, -1):
+            prev_obs = self._obs_history[i]
+            history = prev_obs + history
 
-            diff, diff_tokens = self._diff_history[i]
-            count += 1
-            if cur_tokens + diff_tokens >= self._max_length:
-                print(i, cur_tokens + diff_tokens, self._max_length)
-                break
-
-            history = diff + history
-        prompt = (
-            self._obs_start
-            + f"You are a {self.summary}\nHistory\n"
-            + history
-            + self._cursor_history[-1][0]
-            + self._obs_end
-            + "\n"
-            + self._action_delim
-        )
-        return prompt
+        prompt = self.prefix + "\n\nObservation history\n" + history
+        return [
+            {
+                "role": "user",
+                "content": prompt,
+            },
+        ]

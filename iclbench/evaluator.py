@@ -2,26 +2,37 @@ import logging
 import json
 import multiprocessing
 from queue import Empty
+from iclbench.environments import make_env, get_instruction_prompt
 
 
 class Evaluator:
-    def __init__(self, env, agent, config):
-        self.env = env
-        self.agent = agent
+    def __init__(self, env_name, agent_factory, config):
+        self.env_name = env_name
+        self.env_kwargs = config.env_kwargs
+
+        self.agent_factory = agent_factory
+
         self.num_episodes = config.num_episodes
         self.num_workers = config.num_workers
         self.max_steps_per_episode = config.max_steps_per_episode
 
     def run_episode(self):
-        obs = self.env.reset()
+        env = make_env(self.env_name, **self.env_kwargs)
+        agent = self.agent_factory()
+        agent.prompt_builder.update_instruction_prompt(
+            get_instruction_prompt(env_name=self.env_name)
+        )
+        obs = env.reset()
+
+        print(len(obs))
+
         episode_return = 0.0
 
         action = None
         for _ in range(self.max_steps_per_episode):
-            action = self.agent.act(obs, prev_action=action)
-            action = self.check_action_validity(action)
-            print(action)
-            obs, reward, done, _ = self.env.step(action)
+            action = agent.act(obs, prev_action=action)
+            action = self.check_action_validity(env, action)
+            obs, reward, done, _ = env.step(action)
             episode_return += reward
             if done:
                 print("Episode done")
@@ -30,18 +41,18 @@ class Evaluator:
         return {
             "episode_return": episode_return,
             **self.agent.get_metrics(),
-            **self.env.get_stats(),
+            **env.get_stats(),
         }
 
-    def check_action_validity(self, action):
+    def check_action_validity(self, env, action):
         # Extract action from completion
         for choice in action.choices:
             candidate_action = choice.message.content or choice.text
-            if candidate_action in self.env.language_action_space:
+            if candidate_action in env.language_action_space:
                 action = candidate_action
                 break
         if not action:
-            action = self.env.default_action
+            action = env.default_action
             logging.warn(
                 f'Failed to generate a valid action. Selecting default action "{action}".'
             )

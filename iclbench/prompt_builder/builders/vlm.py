@@ -1,10 +1,9 @@
-from . import PromptBuilder
 from abc import ABC
 from collections import deque
 import re
 
 
-class VLMHistoryPromptBuilder(PromptBuilder, ABC):
+class VLMHistoryPromptBuilder:
     def __init__(
         self,
         *,

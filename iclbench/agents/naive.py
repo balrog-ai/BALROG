@@ -21,9 +21,11 @@ class NaiveAgent(BaseAgent):
             self.action_history.append(prev_action)
             self.action_frequency[prev_action] += 1
 
+        # print(obs["text"])
         self.prompt_builder.update_observation(obs["text"])
 
         input = self.prompt_builder.get_prompt()
+        print(input[0]["content"])
 
         # Handle action generation based on the model
         if isinstance(input, list):  # Chat-based input
