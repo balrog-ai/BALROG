@@ -1,17 +1,15 @@
-from .builders.diff import DiffHistoryPromptBuilder
-from .builders.zeroshot import ZeroShotPromptBuilder
 from .builders.history import HistoryPromptBuilder
 from .builders.vlm import VLMHistoryPromptBuilder
 
 
-def create_prompt_builder(strategy):
-    if strategy == "zero-shot":
-        return ZeroShotPromptBuilder()
-    elif strategy == "history":
-        return HistoryPromptBuilder()
-    elif strategy == "diff_history":
-        return DiffHistoryPromptBuilder()
-    elif strategy == "vlm":
-        return VLMHistoryPromptBuilder()
-    else:
-        raise ValueError(f"Unknown prompt_builder_strategy: {strategy}")
+def create_prompt_builder(config):
+    print("USING THIS ONE")
+    if config.vlm:
+        raise NotImplementedError("VLM prompt builder is not implemented yet.")
+
+    return HistoryPromptBuilder(
+        max_history=config.max_history,
+        max_length=config.max_length,
+        diff=config.diff,
+        use_history=config.history,
+    )

@@ -1,11 +1,10 @@
 from .naive import NaiveAgent
 from ..prompt_builder import create_prompt_builder
-from ..environments import get_instruction_prompt
 
 
 def create_agent(client_llm, config):
     def agent_factory():
-        prompt_builder = create_prompt_builder(config.prompt_builder_strategy)
+        prompt_builder = create_prompt_builder(config.prompt_builder_config)
 
         if config.agent == "naive":
             return NaiveAgent(client_llm, prompt_builder, config)
