@@ -3,7 +3,6 @@ from .builders.vlm import VLMHistoryPromptBuilder
 
 
 def create_prompt_builder(config):
-    print("USING THIS ONE")
     if config.vlm:
         raise NotImplementedError("VLM prompt builder is not implemented yet.")
 

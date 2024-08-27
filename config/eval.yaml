@@ -1,5 +1,5 @@
 # Model and server settings
-base_url: https://smart-clowns-cover.loca.lt/v1
+base_url: https://rich-ravens-joke.loca.lt/v1
 
 # Agent settings
 model_id: meta-llama/Meta-Llama-3.1-8B-Instruct
@@ -15,16 +15,18 @@ agent: naive
 # Prompt builder settings
 prompt_builder_strategy: history
 prompt_builder_config:
-  history: True
+  history: True #
+  max_history: 128
+  simple: False # TODO: If True the history will only contain previous messages and actions, no maps
   diff: False
   vlm: False
-  max_history: 128
+  
   max_length: 128000
 
 
 # Environment settings
 # if testing on multiple environments, separate the env_names with commas
-env_names: nle
+env_names: minihack
 # The options for the game observations are:
 # - language: simple language observations (~100 tokens per obs)
 # - ascii_map: only the ascii map (no colors) (~375 tokens per obs)

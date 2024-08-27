@@ -1,13 +1,12 @@
 from gym import spaces
 import nle_language_wrapper
 from nle.nethack import ACTIONS
-import numpy as np
 
 from iclbench.environments.spaces import Strings
 from .render import tty_render_image
 from .render_rgb import rgb_render_image
 from .utils import render_ascii_map, render_text, render_hybrid
-from .progress import Progress
+from .progress import get_progress_system
 
 
 class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
@@ -22,7 +21,8 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
                 if action in ACTIONS
             ]
         )
-        self.progress = Progress()
+        self.env = env
+        self.progress = get_progress_system(self.env)
 
     def step(self, action):
         obs, reward, done, info = super().step(action)
@@ -30,7 +30,7 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
         return obs, reward, done, info
 
     def reset(self):
-        self.progress = Progress()
+        self.progress = get_progress_system(self.env)
         return super().reset()
 
     @property
