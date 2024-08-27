@@ -6,7 +6,7 @@
 When implementing majour features:
 1. Branch out from develop
 2. Implement feature
-3. Once ready, open a PR from your feature branch to develop
+3. Once ready, open a PR from your feature branch to develop (possibly do this before feature is ready, so we know who's working on what)
 4. Solve conflicts and ask for review
 5. Once reviewers approve, merge (replying with LGTM is fine fow now)
 
