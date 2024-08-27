@@ -18,11 +18,10 @@ class Evaluator:
         self.max_steps_per_episode = config.max_steps_per_episode
 
     def run_episode(self, task):
-        print("EVALUATING ON:", task)
         env = make_env(self.env_name, task, **self.env_kwargs)
         agent = self.agent_factory()
         agent.prompt_builder.update_instruction_prompt(
-            get_instruction_prompt(env_name=self.env_name, task=task)
+            get_instruction_prompt(env, env_name=self.env_name, task=task)
         )
         obs = env.reset()
 

@@ -53,7 +53,7 @@ def get_tasks(env_name):
         raise ValueError(f"Unknown environment: {env_name}")
 
 
-def get_instruction_prompt(env_name, task):
+def get_instruction_prompt(env, env_name, task):
     if env_name == "nle":
         from iclbench.environments.nle import get_instruction_prompt
 
@@ -61,7 +61,7 @@ def get_instruction_prompt(env_name, task):
     elif env_name == "minihack":
         from iclbench.environments.minihack import get_instruction_prompt
 
-        return get_instruction_prompt(task)
+        return get_instruction_prompt(env, task)
     elif env_name == "babyai":
         raise NotImplementedError("BabyAI environment is not supported yet.")
     elif env_name == "craftax":

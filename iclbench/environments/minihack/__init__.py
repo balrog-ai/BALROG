@@ -1,3 +1,6 @@
+from nle_language_wrapper import NLELanguageWrapper
+
+
 ACTIONS = {
     "north": "move north",
     "east": "move east",
@@ -26,7 +29,7 @@ ACTIONS = {
     "force": "force a lock",
     "kick": "kick an enemy or a locked door or chest",
     "loot": "loot a box on the floor",
-    # "pickup": "pick up things at the current location",
+    "pickup": "pick up things at the current location if there are any",
     "pray": "pray to the gods for help",
     "puton": "put on an accessory",
     "quaff": "quaff (drink) something",
@@ -35,22 +38,31 @@ ACTIONS = {
 }
 
 
+def get_available_actions(env):
+    return {
+        NLELanguageWrapper.all_nle_action_map[action][0]: ACTIONS[
+            NLELanguageWrapper.all_nle_action_map[action][0]
+        ]
+        for action in env.actions
+    }
+
+
 TASKS = [
     "MiniHack-Corridor-R5-v0",
-    "MiniHack-KeyRoom-Fixed-S5-v0"
+    # "MiniHack-KeyRoom-Fixed-S5-v0"
     # "KeyRoom-Dark-S15-v0",
     "MiniHack-MazeWalk-Mapped-15x15-v0",
     # "MazeWalk-Mapped-45x19-v0",
     "MiniHack-River-v0",
     # "HideNSeek-Mapped-v0",
-    "MiniHack-Memento-F4-v0",
+    # "MiniHack-Memento-F4-v0",
     # "CorridorBattle-v0",
     # "MazeExplore-Easy-v0",
     # "MazeExplore-Hard-v0",
 ]
 
 
-def get_instruction_prompt(task="MiniHack-ExploreMaze-Hard-Mapped-v0"):
+def get_instruction_prompt(env, task="MiniHack-ExploreMaze-Hard-Mapped-v0"):
 
     if "mazewalk" in task or "corridor" in task.lower():
         goal = "Your goal is to explore the level and reach the staircase down."
@@ -61,8 +73,9 @@ def get_instruction_prompt(task="MiniHack-ExploreMaze-Hard-Mapped-v0"):
     else:
         goal = "Your goal is to get as far as possible in the game."
 
+    available_actions = get_available_actions(env)
     action_strings = ",\n".join(
-        f"{action}: {description}" for action, description in ACTIONS.items()
+        f"{action}: {description}" for action, description in available_actions.items()
     )
     instruction_prompt = f"""
 You are an agent playing MiniHack. The following are the possible actions you can take in the game, followed by a short description of each action:
