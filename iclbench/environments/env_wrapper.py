@@ -1,3 +1,4 @@
+import logging
 import numpy as np
 
 
@@ -18,14 +19,11 @@ class EnvWrapper:
 
     def _process_observation(self, obs):
         if self.env_name in ["nle", "minihack"]:
-            # NLE and MiniHack environments already return a text observation
-            obs = obs
+            return obs
         elif self.env_name == "babyai":
-            # Placeholder for BabyAI observation processing
-            text_obs = "BabyAI observation processing not implemented yet"
+            raise NotImplementedError("BabyAI environment is not supported yet.")
         elif self.env_name == "craftax":
-            # Placeholder for Craftax observation processing
-            text_obs = "Craftax observation processing not implemented yet"
+            raise NotImplementedError("Craftax environment is not supported yet.")
         else:
             raise ValueError(f"Unknown environment: {self.env_name}")
 
@@ -61,3 +59,23 @@ class EnvWrapper:
 
         else:
             raise ValueError(f"Unknown environment: {self.env_namee}")
+
+    def check_action_validity(self, action):
+        valid_action = None
+        for choice in action.choices:
+            candidate_action = (
+                choice.text
+                if not hasattr(choice, "message")
+                else choice.message.content
+            )
+            if candidate_action in self.env.language_action_space:
+                valid_action = candidate_action
+                break
+        if not valid_action:
+            valid_action = self.env.default_action
+            logging.warn(
+                f'Failed to generate a valid action. Output: "{action.choices}".\
+                    Selecting default action "{valid_action}".'
+            )
+            # self.failed_generation_counter += 1
+        return valid_action

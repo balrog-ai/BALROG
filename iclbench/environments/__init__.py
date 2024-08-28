@@ -39,7 +39,7 @@ def make_env(env_name, task, **kwargs):
     else:
         raise ValueError(f"Unknown environment: {env_name}")
 
-    return EnvWrapper(base_env, env_name)
+    return EnvWrapper(base_env, env_name, task)
 
 
 def get_tasks(env_name):
