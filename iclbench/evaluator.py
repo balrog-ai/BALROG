@@ -46,14 +46,18 @@ class Evaluator:
     def check_action_validity(self, env, action):
         valid_action = None
         for choice in action.choices:
-            candidate_action = choice.message.content or choice.text
+            candidate_action = (
+                choice.text
+                if not hasattr(choice, "message")
+                else choice.message.content
+            )
             if candidate_action in env.language_action_space:
                 valid_action = candidate_action
                 break
         if not valid_action:
             valid_action = env.default_action
             logging.warn(
-                f'Failed to generate a valid action. Output: "{action.choices[0].message.content}".\
+                f'Failed to generate a valid action. Output: "{action.choices}".\
                     Selecting default action "{valid_action}".'
             )
             # self.failed_generation_counter += 1

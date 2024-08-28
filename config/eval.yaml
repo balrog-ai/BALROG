@@ -3,6 +3,7 @@ base_url: http://0.0.0.0:8000/v1
 
 # Agent settings
 model_id: meta-llama/Meta-Llama-3.1-8B-Instruct
+is_chat_model: True
 
 # Agent settings:
 # - naive: agent that always takes the first action
