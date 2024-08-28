@@ -1,28 +1,23 @@
 from gym import spaces
 import nle_language_wrapper
-from nle.nethack import ACTIONS
-import numpy as np
+from nle.nethack import USEFUL_ACTIONS
 
 from iclbench.environments.spaces import Strings
 from .render import tty_render_image
 from .render_rgb import rgb_render_image
 from .utils import render_ascii_map, render_text, render_hybrid
-from .progress import Progress
+from .progress import get_progress_system
 
 
 class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
     def __init__(self, env, prompt_mode="tty"):
         super().__init__(env, use_language_action=True)
         self.prompt_mode = prompt_mode
-        self.observation_space = spaces.Space()  # TODO: dict here
-        self.language_action_space = Strings(
-            [
-                action_strs[0]
-                for action, action_strs in NLELanguageWrapper.all_nle_action_map.items()
-                if action in ACTIONS
-            ]
-        )
-        self.progress = Progress()
+        self.observation_space = spaces.Space()
+        self.language_action_space = self.create_action_space()
+
+        self.env = env
+        self.progress = get_progress_system(self.env)
 
     def step(self, action):
         obs, reward, done, info = super().step(action)
@@ -30,7 +25,7 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
         return obs, reward, done, info
 
     def reset(self):
-        self.progress = Progress()
+        self.progress = get_progress_system(self.env)
         return super().reset()
 
     @property
@@ -66,3 +61,18 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
 
     def get_stats(self):
         return self.progress.__dict__
+
+    def create_action_space(self):
+        nle_actions = [
+            action_strs[0]
+            for action, action_strs in NLELanguageWrapper.all_nle_action_map.items()
+            if action in USEFUL_ACTIONS
+        ]
+        single_chars = [chr(i) for i in range(ord("a"), ord("z") + 1)] + [
+            chr(i) for i in range(ord("A"), ord("Z") + 1)
+        ]
+        single_digits = [str(i) for i in range(10)]
+        double_digits = [f"{i:02d}" for i in range(100)]
+
+        all_actions = nle_actions + single_chars + single_digits + double_digits
+        return Strings(all_actions)
