@@ -6,11 +6,14 @@ import gym
 from iclbench.environments.env_wrapper import EnvWrapper
 
 
-def make_env(env_name, task, **kwargs):
+def make_env(env_name, task, seed = None, **kwargs):
     if env_name == "nle":
         from iclbench.environments.nle import NLELanguageWrapper
-
-        base_env = NLELanguageWrapper(gym.make(task), **kwargs)
+        
+        base_env = NLELanguageWrapper(gym.make("NetHackChallenge-v0"), **kwargs)
+        
+        if seed is not None:
+            base_env.seed(seed)
     elif env_name == "minihack":
         import minihack
         from iclbench.environments.nle import NLELanguageWrapper
