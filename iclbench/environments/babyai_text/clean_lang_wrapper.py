@@ -14,7 +14,7 @@ class BabyAITextCleanLangWrapper(Wrapper):
     def __init__(self, env):
         super().__init__(env)
         self.language_action_space = BABYAI_ACTION_SPACE[:]
-        self._last_mission = None
+        self._mission = None
 
     @property
     def interleaving_token(self):
