@@ -1,9 +1,15 @@
 # Model and server settings
-base_url: https://plain-bushes-refuse.loca.lt
+client:
+  model_id: meta-llama/Meta-Llama-3.1-8B-Instruct
+  base_url: https://spotty-toys-teach.loca.lt/v1
+  api_key: "EMPTY"
+  is_chat_model: True
+  generate_kwargs:
+    temperature: 0.25
+    top_p: 0.95
+    n: 10
+  timeout: 60
 
-# Agent settings
-model_id: meta-llama/Meta-Llama-3.1-8B-Instruct
-is_chat_model: True
 
 # Agent settings:
 # - naive: agent that always takes the first action
@@ -45,13 +51,4 @@ num_workers: 1
 max_steps_per_episode: 1000
 
 # Generation settings
-generate_kwargs:
-  temperature: 0.25
-  top_p: 0.95
-  n: 10
-
 savedir: ./outputs
-
-
-client:
-  timeout: 60
