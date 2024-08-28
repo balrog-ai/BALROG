@@ -29,11 +29,6 @@ class EnvWrapper:
 
         return obs
 
-    def _get_action_mask(self, obs):
-        # This method should be implemented based on the specific environment
-        # For now, we'll return a mask of all ones (all actions allowed)
-        return np.ones(len(self.env.action_space), dtype=np.int8)
-
     @property
     def actions(self):
         # This property should return the list of available actions
