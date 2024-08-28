@@ -18,8 +18,8 @@ ACTIONS = {
     "far southeast": "move far southeast",
     "far southwest": "move far southwest",
     "far northwest": "move far northwest",
-    "up": "go up a staircase",
-    "down": "go down a staircase",
+    "up": "go up the stairs",
+    "down": "go down the stairs",
     "wait": "rest one move while doing nothing",
     "more": "display more of the message",
     "apply": "apply (use) a tool",
@@ -49,27 +49,19 @@ def get_available_actions(env):
 
 TASKS = [
     "MiniHack-Corridor-R5-v0",
-    # "MiniHack-KeyRoom-Fixed-S5-v0"
-    # "KeyRoom-Dark-S15-v0",
-    "MiniHack-MazeWalk-Mapped-15x15-v0",
-    # "MazeWalk-Mapped-45x19-v0",
     "MiniHack-River-v0",
-    # "HideNSeek-Mapped-v0",
-    # "MiniHack-Memento-F4-v0",
-    # "CorridorBattle-v0",
-    # "MazeExplore-Easy-v0",
-    # "MazeExplore-Hard-v0",
+    "MiniHack-MazeWalk-Mapped-15x15-v0",
 ]
 
 
 def get_instruction_prompt(env, task="MiniHack-ExploreMaze-Hard-Mapped-v0"):
 
     if "mazewalk" in task or "corridor" in task.lower():
-        goal = "Your goal is to explore the level and reach the staircase down."
+        goal = "Your goal is to explore the level and reach the stairs down."
     elif "key" in task:
-        "Your goal is to pick up the key, navigate to the door and use the key to unlock the door, reaching the staircase down within the locked room"
+        "Your goal is to pick up the key, navigate to the door and use the key to unlock the door, reaching the stairs down within the locked room"
     elif "room" in task:
-        "Your goal is to explore the room and reach the staircase down."
+        "Your goal is to explore the room and reach the stairs down."
     else:
         goal = "Your goal is to get as far as possible in the game."
 
@@ -82,8 +74,13 @@ You are an agent playing MiniHack. The following are the possible actions you ca
 
 {action_strings}.
 
-In a moment I will present you an observation.
-You can only output one of the above actions at a time. {goal}
+In a moment I will present a history of actions and observations from the game.
+
+You can only output one of the above actions at a time. Tip: there is no point in outputting the same action over and over if nothing changes.
+
+{goal}
+
+PLAY!
 """.strip()
 
     return instruction_prompt
