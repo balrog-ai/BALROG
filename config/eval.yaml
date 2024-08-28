@@ -1,5 +1,5 @@
 # Model and server settings
-base_url: http://0.0.0.0:8000/v1
+base_url: https://plain-bushes-refuse.loca.lt
 
 # Agent settings
 model_id: meta-llama/Meta-Llama-3.1-8B-Instruct
@@ -27,7 +27,7 @@ prompt_builder_config:
 
 # Environment settings
 # if testing on multiple environments, separate the env_names with commas
-env_names: nle
+env_names: nle,minihack
 # The options for the game observations are:
 # - language: simple language observations (~100 tokens per obs)
 # - ascii_map: only the ascii map (no colors) (~375 tokens per obs)

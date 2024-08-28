@@ -3,16 +3,19 @@
 import gym
 
 
+from iclbench.environments.env_wrapper import EnvWrapper
+
+
 def make_env(env_name, task, **kwargs):
     if env_name == "nle":
         from iclbench.environments.nle import NLELanguageWrapper
 
-        return NLELanguageWrapper(gym.make(task), **kwargs)
+        base_env = NLELanguageWrapper(gym.make(task), **kwargs)
     elif env_name == "minihack":
         import minihack
         from iclbench.environments.nle import NLELanguageWrapper
 
-        return NLELanguageWrapper(
+        base_env = NLELanguageWrapper(
             gym.make(
                 task,
                 observation_keys=[
@@ -28,12 +31,15 @@ def make_env(env_name, task, **kwargs):
             **kwargs,
         )
     elif env_name == "babyai":
+        # Placeholder for BabyAI environment
         raise NotImplementedError("BabyAI environment is not supported yet.")
     elif env_name == "craftax":
+        # Placeholder for Craftax environment
         raise NotImplementedError("Craftax environment is not supported yet.")
-
     else:
         raise ValueError(f"Unknown environment: {env_name}")
+
+    return EnvWrapper(base_env, env_name)
 
 
 def get_tasks(env_name):
@@ -49,23 +55,5 @@ def get_tasks(env_name):
         raise NotImplementedError("BabyAI environment is not supported yet.")
     elif env_name == "craftax":
         raise NotImplementedError("Craftax environment is not supported yet.")
-    else:
-        raise ValueError(f"Unknown environment: {env_name}")
-
-
-def get_instruction_prompt(env, env_name, task):
-    if env_name == "nle":
-        from iclbench.environments.nle import get_instruction_prompt
-
-        return get_instruction_prompt()
-    elif env_name == "minihack":
-        from iclbench.environments.minihack import get_instruction_prompt
-
-        return get_instruction_prompt(env, task)
-    elif env_name == "babyai":
-        raise NotImplementedError("BabyAI environment is not supported yet.")
-    elif env_name == "craftax":
-        raise NotImplementedError("Craftax environment is not supported yet.")
-
     else:
         raise ValueError(f"Unknown environment: {env_name}")

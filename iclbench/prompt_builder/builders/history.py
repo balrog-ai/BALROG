@@ -60,9 +60,7 @@ class HistoryPromptBuilder:
                 f"\nAction: {self.previous_action}\n{self.sep}\n" + long_term_context
             )
 
-        # Only append to history if there's a previous action
-        if self.previous_action is not None:
-            self._obs_history.append(last_timestep)
+        self._obs_history.append(last_timestep)
 
     def update_action(self, action):
         self.previous_action = action

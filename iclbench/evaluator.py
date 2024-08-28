@@ -2,7 +2,7 @@ import logging
 import json
 import multiprocessing
 from queue import Empty
-from iclbench.environments import make_env, get_instruction_prompt, get_tasks
+from iclbench.environments import make_env, get_tasks
 
 
 class Evaluator:
@@ -20,9 +20,7 @@ class Evaluator:
     def run_episode(self, task):
         env = make_env(self.env_name, task, **self.env_kwargs)
         agent = self.agent_factory()
-        agent.prompt_builder.update_instruction_prompt(
-            get_instruction_prompt(env, env_name=self.env_name, task=task)
-        )
+        agent.prompt_builder.update_instruction_prompt(env.get_instruction_prompt())
         obs = env.reset()
 
         episode_return = 0.0

@@ -1,0 +1,63 @@
+import numpy as np
+
+
+class EnvWrapper:
+    def __init__(self, env, env_name, task_name):
+        self.env = env
+        self.env_name = env_name
+        self.task_name = task_name
+
+    def reset(self):
+        obs = self.env.reset()
+        return self._process_observation(obs)
+
+    def step(self, action):
+        obs, reward, done, info = self.env.step(action)
+        processed_obs = self._process_observation(obs)
+        return processed_obs, reward, done, info
+
+    def _process_observation(self, obs):
+        if self.env_name in ["nle", "minihack"]:
+            # NLE and MiniHack environments already return a text observation
+            obs = obs
+        elif self.env_name == "babyai":
+            # Placeholder for BabyAI observation processing
+            text_obs = "BabyAI observation processing not implemented yet"
+        elif self.env_name == "craftax":
+            # Placeholder for Craftax observation processing
+            text_obs = "Craftax observation processing not implemented yet"
+        else:
+            raise ValueError(f"Unknown environment: {self.env_name}")
+
+        return obs
+
+    def _get_action_mask(self, obs):
+        # This method should be implemented based on the specific environment
+        # For now, we'll return a mask of all ones (all actions allowed)
+        return np.ones(len(self.env.action_space), dtype=np.int8)
+
+    @property
+    def actions(self):
+        # This property should return the list of available actions
+        return (
+            self.env.actions
+            if hasattr(self.env, "actions")
+            else list(range(len(self.env.action_space)))
+        )
+
+    def get_instruction_prompt(self):
+        if self.env_name == "nle":
+            from iclbench.environments.nle import get_instruction_prompt
+
+            return get_instruction_prompt()
+        elif self.env_name == "minihack":
+            from iclbench.environments.minihack import get_instruction_prompt
+
+            return get_instruction_prompt(self.env, self.task_name)
+        elif self.env_name == "babyai":
+            raise NotImplementedError("BabyAI environment is not supported yet.")
+        elif self.env_name == "craftax":
+            raise NotImplementedError("Craftax environment is not supported yet.")
+
+        else:
+            raise ValueError(f"Unknown environment: {self.env_namee}")
