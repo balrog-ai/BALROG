@@ -1,3 +1,4 @@
+import pdb
 import logging
 import json
 import multiprocessing
@@ -19,11 +20,16 @@ class Evaluator:
     def run_episode(self):
         env = make_env(self.env_name, **self.env_kwargs)
         agent = self.agent_factory()
-        agent.prompt_builder.update_instruction_prompt(
-            get_instruction_prompt(env_name=self.env_name)
-        )
+
         obs = env.reset()
 
+        instruction_kwargs = {}
+        if self.env_name == 'babyai':
+            instruction_kwargs['mission'] = obs['mission']
+
+        agent.prompt_builder.update_instruction_prompt(
+            get_instruction_prompt(env_name=self.env_name, **instruction_kwargs)
+        )
         print(len(obs))
 
         episode_return = 0.0
@@ -32,15 +38,17 @@ class Evaluator:
         for _ in range(self.max_steps_per_episode):
             action = agent.act(obs, prev_action=action)
             action = self.check_action_validity(env, action)
+
             obs, reward, done, _ = env.step(action)
             episode_return += reward
+
             if done:
                 print("Episode done")
                 break
 
         return {
             "episode_return": episode_return,
-            **self.agent.get_metrics(),
+            **agent.get_metrics(),
             **env.get_stats(),
         }
 
