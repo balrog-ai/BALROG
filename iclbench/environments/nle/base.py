@@ -15,7 +15,8 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
         self.prompt_mode = prompt_mode
         self.observation_space = spaces.Space()
         self.language_action_space = self.create_action_space()
-        self.env.seed(seed)
+        if seed is not None:
+            self.env.seed(seed)
 
         self.env = env
         self.progress = get_progress_system(self.env)
