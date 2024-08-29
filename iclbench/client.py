@@ -2,6 +2,8 @@ import os
 from openai import OpenAI
 import google.generativeai as genai
 from anthropic import Anthropic
+import time
+from types import SimpleNamespace
 
 
 class LLMClientWrapper:
@@ -13,7 +15,6 @@ class LLMClientWrapper:
         self.is_chat_model = client_config.is_chat_model
 
         self.client_kwargs = {
-            "model": client_config.model_id,
             **client_config.generate_kwargs,
         }
 
@@ -27,6 +28,7 @@ class OpenAIWrapper(LLMClientWrapper):
         self.client = OpenAI(
             api_key=self.api_key, base_url=self.base_url, timeout=self.timeout
         )
+        self.client_kwargs["model"] = self.model_id
 
     def generate(self, input):
         if self.is_chat_model and isinstance(input, list):  # Chat-based input
@@ -44,11 +46,26 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
     def __init__(self, client_config):
         super().__init__(client_config)
         genai.configure(api_key=self.api_key)
-        self.model = genai.GenerativeModel("")
+        self.model = genai.GenerativeModel(self.model_id)
+        self.generation_config = genai.types.GenerationConfig(**self.client_kwargs)
 
     def generate(self, input):
-        response = self.model.generate_content(input, **self.client_kwargs)
-        return response.generated_text
+        response = self.model.generate_content(
+            input[0]["content"], generation_config=self.generation_config
+        )
+
+        choices = [
+            SimpleNamespace(
+                index=idx,
+                message=SimpleNamespace(
+                    content=candidate.content.parts[0].text.strip(), role="assistant"
+                ),
+            )
+            for idx, candidate in enumerate(response.candidates)
+        ]
+        completion = SimpleNamespace(choices=choices)
+
+        return completion
 
 
 class ClaudeWrapper(LLMClientWrapper):

@@ -5,9 +5,7 @@ client:
   api_key: "EMPTY"
   is_chat_model: True
   generate_kwargs:
-    temperature: 0.25
-    top_p: 0.95
-    n: 10
+    temperature: 0.5
   timeout: 60
 
 
