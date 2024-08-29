@@ -1,3 +1,4 @@
+import pdb
 import logging
 import json
 import multiprocessing
@@ -8,7 +9,7 @@ from iclbench.environments import make_env, get_tasks
 class Evaluator:
     def __init__(self, env_name, agent_factory, config):
         self.env_name = env_name
-        self.env_kwargs = config.env_kwargs
+        self.config = config
         self.tasks = get_tasks(env_name)
 
         self.agent_factory = agent_factory
@@ -18,10 +19,17 @@ class Evaluator:
         self.max_steps_per_episode = config.max_steps_per_episode
 
     def run_episode(self, task):
-        env = make_env(self.env_name, task, **self.env_kwargs)
+        env = make_env(self.env_name, task, self.config)
         agent = self.agent_factory()
-        agent.prompt_builder.update_instruction_prompt(env.get_instruction_prompt())
+
         obs = env.reset()
+
+        instructions = None
+        if self.env_name == "babyai":
+            instructions = obs["mission"]
+        agent.prompt_builder.update_instruction_prompt(
+            env.get_instruction_prompt(instructions=instructions)
+        )
 
         episode_return = 0.0
 
@@ -31,13 +39,14 @@ class Evaluator:
             action = env.check_action_validity(action)
             obs, reward, done, _ = env.step(action)
             episode_return += reward
+
             if done:
-                print("Episode done")
+                print("Episode done with reward:", episode_return)
                 break
 
         return {
             "episode_return": episode_return,
-            **self.agent.get_metrics(),
+            **agent.get_metrics(),
             **env.get_stats(),
         }
 

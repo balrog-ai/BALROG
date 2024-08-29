@@ -6,14 +6,16 @@ import gym
 from iclbench.environments.env_wrapper import EnvWrapper
 
 
-def make_env(env_name, task, seed = None, **kwargs):
+def make_env(env_name, task, config):
     if env_name == "nle":
         from iclbench.environments.nle import NLELanguageWrapper
-        
-        base_env = NLELanguageWrapper(gym.make("NetHackChallenge-v0"), **kwargs)
-        
-        if seed is not None:
-            base_env.seed(seed)
+
+        base_env = NLELanguageWrapper(
+            gym.make("NetHackChallenge-v0"), **config.env_kwargs
+        )
+
+        if config.env_kwargs.seed is not None:
+            base_env.seed(config.env_kwargs.seed)
     elif env_name == "minihack":
         import minihack
         from iclbench.environments.nle import NLELanguageWrapper
@@ -31,11 +33,15 @@ def make_env(env_name, task, seed = None, **kwargs):
                     "tty_colors",
                 ],
             ),
-            **kwargs,
+            **config.env_kwargs,
         )
     elif env_name == "babyai":
-        # Placeholder for BabyAI environment
-        raise NotImplementedError("BabyAI environment is not supported yet.")
+        import babyai_text
+        from iclbench.environments.babyai_text import BabyAITextCleanLangWrapper
+
+        base_env = BabyAITextCleanLangWrapper(
+            gym.make("BabyAI-MixedTrainLocal-v0", **config.babyai_kwargs)
+        )
     elif env_name == "craftax":
         # Placeholder for Craftax environment
         raise NotImplementedError("Craftax environment is not supported yet.")
@@ -55,7 +61,9 @@ def get_tasks(env_name):
 
         return MINIHACK_TASKS
     elif env_name == "babyai":
-        raise NotImplementedError("BabyAI environment is not supported yet.")
+        from iclbench.environments.babyai_text import TASKS as BABYAI_TASKS
+
+        return BABYAI_TASKS
     elif env_name == "craftax":
         raise NotImplementedError("Craftax environment is not supported yet.")
     else:

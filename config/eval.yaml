@@ -40,6 +40,10 @@ env_kwargs:
   # - null: random dungeon layout  
   # - 0 (or other integer): fixed dungeon layout
   seed: null
+
+babyai_kwargs:
+  num_dists: 0
+
 language: True
 ascii_map: False
 vlm: False
