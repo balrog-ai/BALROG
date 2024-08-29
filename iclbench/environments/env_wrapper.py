@@ -19,9 +19,9 @@ class EnvWrapper:
 
     def _process_observation(self, obs):
         if self.env_name in ["nle", "minihack"]:
-            return obs
+            obs = obs
         elif self.env_name == "babyai":
-            raise NotImplementedError("BabyAI environment is not supported yet.")
+            obs = obs
         elif self.env_name == "craftax":
             raise NotImplementedError("Craftax environment is not supported yet.")
         else:
@@ -38,7 +38,7 @@ class EnvWrapper:
             else list(range(len(self.env.action_space)))
         )
 
-    def get_instruction_prompt(self):
+    def get_instruction_prompt(self, instructions=None):
         if self.env_name == "nle":
             from iclbench.environments.nle import get_instruction_prompt
 
@@ -48,7 +48,9 @@ class EnvWrapper:
 
             return get_instruction_prompt(self.env, self.task_name)
         elif self.env_name == "babyai":
-            raise NotImplementedError("BabyAI environment is not supported yet.")
+            from iclbench.environments.babyai_text import get_instruction_prompt
+
+            return get_instruction_prompt(self.env, mission=instructions)
         elif self.env_name == "craftax":
             raise NotImplementedError("Craftax environment is not supported yet.")
 
@@ -74,3 +76,6 @@ class EnvWrapper:
             )
             # self.failed_generation_counter += 1
         return valid_action
+
+    def get_stats(self):
+        return self.env.get_stats()
