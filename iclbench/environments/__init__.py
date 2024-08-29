@@ -1,7 +1,7 @@
 # Here we should have an environment manager function that can be used to instantiate
 # environments with the correct wrappers.
 import gym
-
+from gym import spaces
 
 from iclbench.environments.env_wrapper import EnvWrapper
 
@@ -39,7 +39,7 @@ def make_env(env_name, task, config):
         )
     elif env_name == "craftax":
         from iclbench.environments.craftax import CraftaxLanguageWrapper
-        
+
         return CraftaxLanguageWrapper("Craftax-Symbolic-v1", **config.env_kwargs)
     else:
         raise ValueError(f"Unknown environment: {env_name}")
@@ -64,3 +64,19 @@ def get_tasks(env_name):
         raise NotImplementedError("Craftax environment is not supported yet.")
     else:
         raise ValueError(f"Unknown environment: {env_name}")
+
+
+class Strings(spaces.Space):
+    def __init__(self, values, seed=None):
+        super().__init__((len(values),), str, seed)
+        self._dict = {value: i for i, value in enumerate(values)}
+        self._values = values
+
+    def sample(self):
+        return self.np_random.choice(self._values)
+
+    def contains(self, value):
+        return value in self._dict
+
+    def __iter__(self):
+        return self._values.__iter__()

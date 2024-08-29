@@ -5,17 +5,11 @@ from iclbench.agents.base import BaseAgent
 
 
 class NaiveAgent(BaseAgent):
-    def __init__(self, client, prompt_builder, config):
-        super().__init__()
-        self.client = client
-        self.prompt_builder = prompt_builder
-        self.client_kwargs = {
-            "model": config["model_id"],
-            **config["generate_kwargs"],
-        }
-
-        # Determine if the model supports chat-based input from config or model_id
-        self.is_chat_model = config.get("is_chat_model", False)
+    def __init__(self, client, prompt_builder):
+        super().__init__(client, prompt_builder)
+        self.failed_generation_counter = 0
+        self.action_history = []
+        self.action_frequency = defaultdict(int)
 
     def act(self, obs, prev_action=None):
         if prev_action:
@@ -29,18 +23,10 @@ class NaiveAgent(BaseAgent):
         input = self.prompt_builder.get_prompt()
         print(input[0]["content"] if isinstance(input, list) else input)
 
-        # Handle action generation based on whether it's a chat model or not
-        if self.is_chat_model and isinstance(input, list):  # Chat-based input
-            completion = self.client.chat.completions.create(
-                **self.client_kwargs, messages=input
-            )
-        else:  # Text-based input
-            completion = self.client.completions.create(
-                prompt=input[0]["content"], **self.client_kwargs
-            )
+        completion = self.client.generate(input)
 
         return completion
-    
+
     def update_prompt(self, observation, action):
         self.prompt_builder.update_observation(observation)
         self.prompt_builder.update_action(action)

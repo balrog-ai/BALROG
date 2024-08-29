@@ -50,26 +50,6 @@ class Evaluator:
             **env.get_stats(),
         }
 
-    def check_action_validity(self, env, action):
-        valid_action = None
-        for choice in action.choices:
-            candidate_action = (
-                choice.text
-                if not hasattr(choice, "message")
-                else choice.message.content
-            )
-            if candidate_action in env.language_action_space:
-                valid_action = candidate_action
-                break
-        if not valid_action:
-            valid_action = env.default_action
-            logging.warn(
-                f'Failed to generate a valid action. Output: "{action.choices}".\
-                    Selecting default action "{valid_action}".'
-            )
-#             self.agent.failed_generation_counter += 1
-        return valid_action
-
     def run(self):
         if self.num_workers > 1:
             return self._run_parallel()
