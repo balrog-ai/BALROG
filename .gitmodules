@@ -1,3 +1,10 @@
 [submodule "external/nle-language-wrapper"]
 	path = external/nle-language-wrapper
 	url = git@github.com:DavidePaglieri/nle-language-wrapper.git
+[submodule "external/nle"]
+	path = external/nle
+	url = git@github.com:BartekCupial/nle.git
+	branch = fix_dungeons
+[submodule "external/Grounding_LLMs_with_online_RL"]
+	path = external/Grounding_LLMs_with_online_RL
+	url = https://github.com/flowersteam/Grounding_LLMs_with_online_RL.git

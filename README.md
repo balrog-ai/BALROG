@@ -67,10 +67,8 @@ Ideally we should in the future also support interaction with the benchmark pure
 ```
 conda create --y --name iclbench python=3.10
 conda activate iclbench
-pip install nle==0.9.0
-pip install vllm
-cd external/nle-language-wrapper
-pip install -e .
+pip install -e external/nle
+pip install -e external/nle-language-wrapper
 ```
 
 # Run

@@ -3,6 +3,7 @@ base_url: http://0.0.0.0:8000/v1
 
 # Agent settings
 model_id: meta-llama/Meta-Llama-3.1-8B-Instruct
+is_chat_model: True
 
 # Agent settings:
 # - dummy: for debugging
@@ -14,28 +15,36 @@ agent: naive
 
 
 # Prompt builder settings
-# - history: simple history of the game, inventory shown only at the current step
-# - diff history: history of the game with differences between the current and previous 
-#        full observations
-# - vlm: very simple history of the game (messages and actions). 
-#        Images for the current and previous observation
-prompt_builder: chat
-  # history: True
-  # diff: False
-  # vlm: False
-  # max_history: 128
-  # max_tokens: 128000
+prompt_builder_strategy: history
+prompt_builder_config:
+  history: True
+  max_history: 128
+  simple: False # TODO: If True the history will only contain previous messages and actions, no maps
+  diff: False
+  vlm: False
+  
+  max_length: 128000
 
 
 # Environment settings
-environment: NetHack
+# if testing on multiple environments, separate the env_names with commas
+env_names: nle,minihack
 # The options for the game observations are:
 # - language: simple language observations (~100 tokens per obs)
-# - map: only the ascii map (no colors) (~375 tokens per obs)
+# - ascii_map: only the ascii map (no colors) (~375 tokens per obs)
 # - hybrid: language observations and ascii map (~450 tokens per obs)
 # - vlm: image observations, potentially with language description
 env_kwargs:
-  prompt_mode: language
+  prompt_mode: hybrid
+  # nle seed fixes the dungeon layout (this is different than in normal nle!), 
+  # each episode will be played in the same dungeon.
+  # - null: random dungeon layout  
+  # - 0 (or other integer): fixed dungeon layout
+  seed: null
+
+babyai_kwargs:
+  num_dists: 0
+
 language: True
 ascii_map: False
 vlm: False
@@ -50,3 +59,9 @@ generate_kwargs:
   temperature: 0.25
   top_p: 0.95
   n: 10
+
+savedir: ./outputs
+
+
+client:
+  timeout: 60

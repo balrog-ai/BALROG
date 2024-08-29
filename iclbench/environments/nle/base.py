@@ -1,28 +1,25 @@
 from gym import spaces
 import nle_language_wrapper
-from nle.nethack import ACTIONS
-import numpy as np
+from nle.nethack import USEFUL_ACTIONS
 
 from iclbench.environments.spaces import Strings
 from .render import tty_render_image
 from .render_rgb import rgb_render_image
-from .utils import render_tty, render_text, render_hybrid
-from .progress import Progress
+from .utils import render_ascii_map, render_text, render_hybrid
+from .progress import get_progress_system
 
 
 class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
-    def __init__(self, env, prompt_mode="tty"):
+    def __init__(self, env, prompt_mode="tty", seed=None):
         super().__init__(env, use_language_action=True)
         self.prompt_mode = prompt_mode
-        self.observation_space = spaces.Space()  # TODO: dict here
-        self.language_action_space = Strings(
-            [
-                action_strs[0]
-                for action, action_strs in NLELanguageWrapper.all_nle_action_map.items()
-                if action in ACTIONS
-            ]
-        )
-        self.progress = Progress()
+        self.observation_space = spaces.Space()
+        self.language_action_space = self.create_action_space()
+        if seed is not None:
+            self.env.seed(seed)
+
+        self.env = env
+        self.progress = get_progress_system(self.env)
 
     def step(self, action):
         obs, reward, done, info = super().step(action)
@@ -30,19 +27,19 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
         return obs, reward, done, info
 
     def reset(self):
-        self.progress = Progress()
+        self.progress = get_progress_system(self.env)
         return super().reset()
 
     @property
     def default_action(self):
         return "esc"
 
-    def nle_process_obsv(self, nle_obsv):  # why the name change?
+    def nle_process_obsv(self, nle_obsv):
         return self.nle_obsv_to_language(nle_obsv)
 
     def nle_obsv_to_language(self, nle_obsv):
-        if self.prompt_mode == "tty":
-            return {"obs": nle_obsv, "text": render_tty(nle_obsv)}
+        if self.prompt_mode == "ascii_map":
+            return {"obs": nle_obsv, "text": render_ascii_map(nle_obsv)}
         elif self.prompt_mode == "language":
             return {"obs": nle_obsv, "text": render_text(nle_obsv)}
         elif self.prompt_mode == "hybrid":
@@ -82,3 +79,18 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
     #     """.strip()
         
     #     return INSTRUCTION_PROMPT
+
+    def create_action_space(self):
+        nle_actions = [
+            action_strs[0]
+            for action, action_strs in NLELanguageWrapper.all_nle_action_map.items()
+            if action in USEFUL_ACTIONS
+        ]
+        single_chars = [chr(i) for i in range(ord("a"), ord("z") + 1)] + [
+            chr(i) for i in range(ord("A"), ord("Z") + 1)
+        ]
+        single_digits = [str(i) for i in range(10)]
+        double_digits = [f"{i:02d}" for i in range(100)]
+
+        all_actions = nle_actions + single_chars + single_digits + double_digits
+        return Strings(all_actions)

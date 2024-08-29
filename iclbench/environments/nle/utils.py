@@ -3,7 +3,7 @@ from nle_language_wrapper.nle_language_obsv import NLELanguageObsv
 
 nle_language = NLELanguageObsv()
 
-# utility functions
+
 def ascii_render(chars):
     rows, cols = chars.shape
     result = ""
@@ -13,6 +13,7 @@ def ascii_render(chars):
             result += entry
         result += "\n"
     return result
+
 
 def nle_obsv_to_language(nle_obsv):
     """Translate NLE Observation into a language observation.
@@ -39,7 +40,8 @@ def nle_obsv_to_language(nle_obsv):
         ),
     }
 
-# actual rendering schemes
+
+# rendering schemes with ansi escape codes for terminal rendering (not suitable for llms)
 def render_tty(nle_obsv):
     return tty_render(
         nle_obsv["tty_chars"],
@@ -47,45 +49,65 @@ def render_tty(nle_obsv):
         nle_obsv["tty_cursor"],
     )
 
+
+def render_ascii_map(nle_obsv):
+    map = ascii_render(nle_obsv["tty_chars"])
+    cursor = nle_obsv["tty_cursor"]
+
+    long_term_context = f"Map[\n{map}\n] Cursor[{cursor}]"
+    short_term_context = ""
+
+    return long_term_context, short_term_context
+
+
 def render_text(nle_obsv):
-    key_name_pairs = [
-        ("text_blstats", "statistics"),
-        ("text_glyphs", "glyphs"),
+    long_term_observations = [
         ("text_message", "message"),
-        ("text_inventory", "inventory"),
+        ("text_glyphs", "language observation"),
         ("text_cursor", "cursor"),
     ]
     text_obsv = nle_obsv_to_language(nle_obsv)
-    return "\n".join([f"{name}[\n{text_obsv[key]}\n]" for key, name in key_name_pairs])
+
+    short_term_observations = [
+        ("text_blstats", "statistics"),
+        ("text_inventory", "inventory"),
+    ]
+
+    long_term_context = "\n".join(
+        [f"{name}:\n{text_obsv[key]}\n" for key, name in long_term_observations]
+    )
+    short_term_context = "\n".join(
+        [f"{name}:\n{text_obsv[key]}\n" for key, name in short_term_observations]
+    )
+
+    return (long_term_context, short_term_context)
+
 
 def render_hybrid(nle_obsv):
     ascii_map = ascii_render(nle_obsv["tty_chars"])
-    ascii_map = "\n".join(ascii_map.split('\n')[1:]) # remove first line
-    
+    cursor = nle_obsv["tty_cursor"]
+    cursor = f"(x={cursor[1]}, y={cursor[0]})"
+    ascii_map = "\n".join(ascii_map.split("\n")[1:])  # remove first line
+
     text_obsv = nle_obsv_to_language(nle_obsv)
     text_obsv["map"] = ascii_map
-    
-    key_name_pairs = [
-        ("text_blstats", "statistics"),
-        ("text_glyphs", "glyphs"),
+    text_obsv["text_cursor"] = text_obsv["text_cursor"] + "\n" + cursor
+
+    long_term_observations = [
         ("text_message", "message"),
-        ("text_inventory", "inventory"),
+        ("text_glyphs", "language observation"),
         ("text_cursor", "cursor"),
         ("map", "map"),
     ]
-    
-    return "\n".join(
-        [f"{name}[\n{text_obsv[key]}\n]" for key, name in key_name_pairs]
+    short_term_observation = [
+        ("text_inventory", "inventory"),
+    ]
+
+    long_term_context = "\n".join(
+        [f"{name}:\n{text_obsv[key]}\n" for key, name in long_term_observations]
     )
-    
+    short_term_context = "\n".join(
+        [f"{name}:\n{text_obsv[key]}\n" for key, name in short_term_observation]
+    )
 
-if __name__ == "__main__":
-    import nle
-    import gym
-
-    env = gym.make("NetHackChallenge-v0", no_progress_timeout=100)
-    obs = env.reset()
-
-    print(tty_render(obs))
-
-    breakpoint()
+    return (long_term_context, short_term_context)

@@ -1,39 +1,38 @@
 import logging
+import json
 import hydra
+from omegaconf import DictConfig
 from openai import OpenAI
-from iclbench import environments as envs
 from iclbench.agents import create_agent, DummyAgent
 from iclbench.evaluator import Evaluator
 
 
 @hydra.main(config_path="config", config_name="eval")
-def main(config):
-
-    # Access the config as you would normally with OmegaConf
+def main(config: DictConfig):
     logging.basicConfig(
         level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
     )
-    
+
     # pure filth, I know
     if config.agent == "dummy":
-        agent = DummyAgent() 
+        agent_factory = DummyAgent
     else:
         # Instantiate LLM client
-        client = OpenAI(api_key="EMPTY", base_url=config.base_url)
+        client = OpenAI(
+            api_key="EMPTY", base_url=config.base_url, timeout=config.client.timeout
+        )
 
-        # Instantiate agent (TODO: support future LangChain integration)
-        # This currently would not support multiprocessing, as we have a single agent here.
-        agent = create_agent(client, config)
-    
-    # Instantiate environment
-    env = envs.make(config.environment, **config.env_kwargs)
+        # Instantiate factory for creating agents
+        agent_factory = create_agent(client, config)
 
-    # Instantiate evaluator and run the evaluation
-    evaluator = Evaluator(env, agent, config)
-    results = evaluator.run()
+    results = []
+    for env_name in config.env_names.split(","):
+        evaluator = Evaluator(env_name, agent_factory, config)
+        results.extend(evaluator.run())
 
     # Save results
-    evaluator.save_results(results, config.get("savedir", "eval.json"))
+    with open(config.savedir, "w") as file:
+        json.dump(results, file, indent=4)
 
 
 if __name__ == "__main__":
