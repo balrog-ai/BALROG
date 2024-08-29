@@ -3,28 +3,30 @@ from ..prompt_builder.builders.chat import ChatPromptBuilder
 from ..prompt_builder.builders.history import HistoryPromptBuilder
 from ..prompt_builder.builders.vlm import VLMHistoryPromptBuilder
 
-from iclbench.environments.nle import NLELanguageWrapper
-from nle.nethack import ACTIONS
-
+# Sam: !!!
+# from iclbench.environments.nle import NLELanguageWrapper
+# from nle.nethack import ACTIONS
 
 def create_prompt_builder(strategy):
-    ACTION_NAMES = [
-        action_strs[0]
-        for action, action_strs in NLELanguageWrapper.all_nle_action_map.items()
-        if action in ACTIONS
-    ]
-    ACTIONS_LIST_STR = ",\n".join(ACTION_NAMES)
-    INSTRUCTION_PROMPT = f"""
-    You are an agent playing NetHack. In a moment I will present you an observation. Only output an action from the following list:
-    {ACTIONS_LIST_STR}.
+    # ACTION_NAMES = [
+    #     action_strs[0]
+    #     for action, action_strs in NLELanguageWrapper.all_nle_action_map.items()
+    #     if action in ACTIONS
+    # ]
+    # ACTIONS_LIST_STR = ",\n".join(ACTION_NAMES)
+    # INSTRUCTION_PROMPT = f"""
+    # You are an agent playing NetHack. In a moment I will present you an observation. Only output an action from the following list:
+    # {ACTIONS_LIST_STR}.
 
-    You can only output one action at a time. The goal is to maximize the reward.
-    """.strip()
+    # You can only output one action at a time. The goal is to maximize the reward.
+    # """.strip()
 
     if strategy == "chat":
-        return ChatPromptBuilder(INSTRUCTION_PROMPT)
+        # return ChatPromptBuilder(INSTRUCTION_PROMPT)
+        return ChatPromptBuilder()
     elif strategy == "history":
-        return HistoryPromptBuilder(INSTRUCTION_PROMPT)
+        # return HistoryPromptBuilder(INSTRUCTION_PROMPT)
+        return HistoryPromptBuilder()
     elif strategy == "diff_history":
         return DiffHistoryPromptBuilder()
     elif strategy == "vlm":

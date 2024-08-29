@@ -1,8 +1,8 @@
 # Model and server settings
-base_url: http://0.0.0.0:8000/v1
+# base_url: http://0.0.0.0:8000/v1
 
 # Agent settings
-model_id: meta-llama/Meta-Llama-3.1-8B-Instruct
+# model_id: meta-llama/Meta-Llama-3.1-8B-Instruct
 
 # Agent settings:
 # - dummy: for debugging
@@ -10,7 +10,7 @@ model_id: meta-llama/Meta-Llama-3.1-8B-Instruct
 # - react: 
 # - reflexion:
 # - guidebook:
-agent: naive
+agent: dummy
 
 
 # Prompt builder settings
@@ -19,7 +19,7 @@ agent: naive
 #        full observations
 # - vlm: very simple history of the game (messages and actions). 
 #        Images for the current and previous observation
-prompt_builder: chat
+# prompt_builder: chat
   # history: True
   # diff: False
   # vlm: False
@@ -28,14 +28,14 @@ prompt_builder: chat
 
 
 # Environment settings
-environment: NetHack
+environment: Craftax
 # The options for the game observations are:
 # - language: simple language observations (~100 tokens per obs)
 # - map: only the ascii map (no colors) (~375 tokens per obs)
 # - hybrid: language observations and ascii map (~450 tokens per obs)
 # - vlm: image observations, potentially with language description
 env_kwargs:
-  prompt_mode: language
+  seed: 0
 language: True
 ascii_map: False
 vlm: False
@@ -43,7 +43,7 @@ vlm: False
 # Evaluation settings
 num_episodes: 1
 num_workers: 1
-max_steps_per_episode: 1000
+max_steps_per_episode: 10
 
 # Generation settings
 generate_kwargs:

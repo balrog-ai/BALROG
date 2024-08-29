@@ -33,9 +33,10 @@ class Evaluator:
             **self.env.get_stats(),
         }
 
-    def check_action_validity(self, action):
+    def check_action_validity(self, completion):
         # Extract action from completion
-        for choice in action.choices:
+        action = None
+        for choice in completion.choices:
             candidate_action = choice.message.content or choice.text
             if candidate_action in self.env.language_action_space:
                 action = candidate_action
@@ -45,7 +46,7 @@ class Evaluator:
             logging.warn(
                 f'Failed to generate a valid action. Selecting default action "{action}".'
             )
-            self.failed_generation_counter += 1
+            self.agent.failed_generation_counter += 1
         return action
 
     def run(self):

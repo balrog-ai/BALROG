@@ -1,9 +1,8 @@
 import logging
-import gym
 import hydra
 from openai import OpenAI
-from iclbench.environments.nle import NLELanguageWrapper
-from iclbench.agents import create_agent
+from iclbench import environments as envs
+from iclbench.agents import create_agent, DummyAgent
 from iclbench.evaluator import Evaluator
 
 
@@ -14,16 +13,20 @@ def main(config):
     logging.basicConfig(
         level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
     )
+    
+    # pure filth, I know
+    if config.agent == "dummy":
+        agent = DummyAgent() 
+    else:
+        # Instantiate LLM client
+        client = OpenAI(api_key="EMPTY", base_url=config.base_url)
 
-    # Instantiate LLM client
-    client = OpenAI(api_key="EMPTY", base_url=config.base_url)
-
+        # Instantiate agent (TODO: support future LangChain integration)
+        # This currently would not support multiprocessing, as we have a single agent here.
+        agent = create_agent(client, config)
+    
     # Instantiate environment
-    env = NLELanguageWrapper(gym.make("NetHackChallenge-v0"), **config.env_kwargs)
-
-    # Instantiate agent (TODO: support future LangChain integration)
-    # This currently would not support multiprocessing, as we have a single agent here.
-    agent = create_agent(client, config)
+    env = envs.make(config.environment, **config.env_kwargs)
 
     # Instantiate evaluator and run the evaluation
     evaluator = Evaluator(env, agent, config)

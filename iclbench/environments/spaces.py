@@ -13,5 +13,8 @@ class Strings(spaces.Space):
     def contains(self, value):
         return value in self._dict
     
+    def map(self, action):
+        return self._dict[action]
+    
     def __iter__(self):
         return self._values.__iter__()
