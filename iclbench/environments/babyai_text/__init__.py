@@ -9,21 +9,28 @@ ACTIONS = {
     "toggle": "manipulate the object in front of you",
 }
 
+TASKS = [
+    "BabyAI-MixedTrainLocal-v0",
+]
 
-def get_instruction_prompt(**kwargs):
+
+def get_instruction_prompt(env, mission="BabyAI-MixedTrainLocal-v0"):
+
     action_strings = ",\n".join(
         f"{action}: {description}" for action, description in ACTIONS.items()
     )
 
-    assert "mission" in kwargs, "A text specification of the current game goal must be passed to the instruction builder in BabyAI-Text!"
-
     instruction_prompt = f"""
-You are an agent playing a simple navigation game. Your goal is to {kwargs['mission']}. The following are the possible actions you can take in the game, followed by a short description of each action:
+You are an agent playing a simple navigation game. Your goal is to {mission}. The following are the possible actions you can take in the game, followed by a short description of each action:
 
 {action_strings}.
 
 In a moment I will present you an observation.
-You can only output one of the above actions at a time. Your goal is to get as far as possible in the game.
+You can only output one of the above actions at a time.
+
+Tip: Once you the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.
+
+PLAY!
 """.strip()
 
     return instruction_prompt

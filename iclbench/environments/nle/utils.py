@@ -1,8 +1,6 @@
 from nle.nethack import tty_render
 from nle_language_wrapper.nle_language_obsv import NLELanguageObsv
 
-import numpy as np
-
 nle_language = NLELanguageObsv()
 
 
