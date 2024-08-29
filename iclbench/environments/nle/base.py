@@ -2,7 +2,7 @@ from gym import spaces
 import nle_language_wrapper
 from nle.nethack import USEFUL_ACTIONS
 
-from iclbench.environments.spaces import Strings
+from iclbench.environments import Strings
 from .render import tty_render_image
 from .render_rgb import rgb_render_image
 from .utils import render_ascii_map, render_text, render_hybrid
