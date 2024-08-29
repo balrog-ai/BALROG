@@ -10,11 +10,12 @@ from .progress import get_progress_system
 
 
 class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
-    def __init__(self, env, prompt_mode="tty"):
+    def __init__(self, env, prompt_mode="tty", seed=None):
         super().__init__(env, use_language_action=True)
         self.prompt_mode = prompt_mode
         self.observation_space = spaces.Space()
         self.language_action_space = self.create_action_space()
+        self.env.seed(seed)
 
         self.env = env
         self.progress = get_progress_system(self.env)
