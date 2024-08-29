@@ -41,6 +41,15 @@ env_names: nle,minihack
 # - vlm: image observations, potentially with language description
 env_kwargs:
   prompt_mode: hybrid
+  # nle seed fixes the dungeon layout (this is different than in normal nle!), 
+  # each episode will be played in the same dungeon.
+  # - null: random dungeon layout  
+  # - 0 (or other integer): fixed dungeon layout
+  seed: null
+
+babyai_kwargs:
+  num_dists: 0
+
 language: True
 ascii_map: False
 vlm: False
