@@ -87,8 +87,8 @@ class HistoryPromptBuilder:
             + "\n\nObservation history\n"
             + history
             + current_obs
-            + "\n"
-            + "Action: "
+            + "\n\n"
+            + "Next action: "
         )
         return [
             {
