@@ -58,7 +58,12 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
             SimpleNamespace(
                 index=idx,
                 message=SimpleNamespace(
-                    content=candidate.content.parts[0].text.strip(), role="assistant"
+                    content=(
+                        candidate.content.parts[0].text.strip()
+                        if candidate.content.parts
+                        else ""
+                    ),
+                    role="assistant",
                 ),
             )
             for idx, candidate in enumerate(response.candidates)
