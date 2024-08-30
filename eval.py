@@ -13,8 +13,6 @@ def main(config: DictConfig):
         level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
     )
 
-    print(config)
-
     # Instantiate LLM client
     client = create_llm_client(config.client)
 
