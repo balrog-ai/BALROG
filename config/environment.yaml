@@ -1,0 +1,11 @@
+env_names: babyai
+env_kwargs:
+  prompt_mode: hybrid
+  seed: null
+
+babyai_kwargs:
+  num_dists: 0
+
+language: True
+ascii_map: False
+vlm: False

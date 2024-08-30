@@ -7,11 +7,13 @@ from iclbench.evaluator import Evaluator
 from iclbench.client import create_llm_client
 
 
-@hydra.main(config_path="config", config_name="eval")
+@hydra.main(config_path="config", config_name="config", version_base="1.1")
 def main(config: DictConfig):
     logging.basicConfig(
         level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
     )
+
+    print(config)
 
     # Instantiate LLM client
     client = create_llm_client(config.client)
