@@ -47,6 +47,7 @@ babyai_kwargs:
 textworld_kwargs:
   objective: True
   description: True
+  max_episode_steps: 40
 
 language: True
 ascii_map: False

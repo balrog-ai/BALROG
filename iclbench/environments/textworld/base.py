@@ -34,7 +34,7 @@ class TextWorldFactory:
             cls._instance.initialize(**kwargs)
         return cls._instance
     
-    def initialize(self, **kwargs):
+    def initialize(self, max_episode_steps=40, **kwargs):
         self.count = defaultdict(int)
         
         assert "objective" in kwargs and "description" in kwargs and kwargs["objective"] and kwargs["description"], "objective and description parameters are required."
@@ -45,7 +45,7 @@ class TextWorldFactory:
             for entry in glob.glob(os.path.join(TEXTWORLD_GAMES_PATH, f"**/{pattern}"), recursive=True):
                 task = Path(entry).parent.name
                 if task in TASKS:
-                    env_id = textworld.gym.register_game(entry, self.request_infos)
+                    env_id = textworld.gym.register_game(entry, self.request_infos, max_episode_steps=max_episode_steps)
                     self.env_ids[task].append(env_id)
 
     def get_textworld_env(self, task, prompt_mode="language", seed=None, **kwargs):
