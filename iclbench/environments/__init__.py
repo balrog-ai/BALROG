@@ -34,13 +34,11 @@ def make_env(env_name, task, config):
         import babyai_text
         from iclbench.environments.babyai_text import BabyAITextCleanLangWrapper
 
-        base_env = BabyAITextCleanLangWrapper(
-            gym.make("BabyAI-MixedTrainLocal-v0", **config.babyai_kwargs)
-        )
+        base_env = BabyAITextCleanLangWrapper(gym.make(task, **config.babyai_kwargs))
     elif env_name == "craftax":
         from iclbench.environments.craftax import CraftaxLanguageWrapper
 
-        return CraftaxLanguageWrapper("Craftax-Symbolic-v1", **config.env_kwargs)
+        base_env = CraftaxLanguageWrapper(task, **config.craftax_kwargs)
     else:
         raise ValueError(f"Unknown environment: {env_name}")
 
@@ -61,7 +59,9 @@ def get_tasks(env_name):
 
         return BABYAI_TASKS
     elif env_name == "craftax":
-        raise NotImplementedError("Craftax environment is not supported yet.")
+        from iclbench.environments.craftax import TASKS as CRAFTAX_TASKS
+
+        return CRAFTAX_TASKS
     else:
         raise ValueError(f"Unknown environment: {env_name}")
 
@@ -74,6 +74,9 @@ class Strings(spaces.Space):
 
     def sample(self):
         return self.np_random.choice(self._values)
+
+    def map(self, action):
+        return self._dict[action]
 
     def contains(self, value):
         return value in self._dict

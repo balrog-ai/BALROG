@@ -1,6 +1,6 @@
 # Model and server settings
 client:
-  model_id: meta-llama/Meta-Llama-3.1-8B-Instruct
+  model_id: gemini-1.5-flash
   base_url: https://spotty-toys-teach.loca.lt/v1
   api_key: "EMPTY"
   is_chat_model: True
@@ -32,7 +32,7 @@ prompt_builder_config:
 
 # Environment settings
 # if testing on multiple environments, separate the env_names with commas
-env_names: nle,minihack
+env_names: craftax
 # The options for the game observations are:
 # - language: simple language observations (~100 tokens per obs)
 # - ascii_map: only the ascii map (no colors) (~375 tokens per obs)
@@ -48,6 +48,9 @@ env_kwargs:
 
 babyai_kwargs:
   num_dists: 0
+
+craftax_kwargs:
+  seed: 0
 
 language: True
 ascii_map: False

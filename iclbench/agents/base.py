@@ -1,5 +1,6 @@
 from collections import defaultdict
 
+
 class BaseAgent:
     def __init__(self):
         self.failed_generation_counter = 0

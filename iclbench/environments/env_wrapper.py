@@ -23,7 +23,7 @@ class EnvWrapper:
         elif self.env_name == "babyai":
             obs = obs
         elif self.env_name == "craftax":
-            raise NotImplementedError("Craftax environment is not supported yet.")
+            obs = obs
         else:
             raise ValueError(f"Unknown environment: {self.env_name}")
 
@@ -52,7 +52,7 @@ class EnvWrapper:
 
             return get_instruction_prompt(self.env, mission=instructions)
         elif self.env_name == "craftax":
-            raise NotImplementedError("Craftax environment is not supported yet.")
+            from iclbench.environments.craftax import get_instruction_prompt
 
         else:
             raise ValueError(f"Unknown environment: {self.env_namee}")

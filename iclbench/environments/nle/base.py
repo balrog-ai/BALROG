@@ -64,22 +64,6 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
     def get_stats(self):
         return self.progress.__dict__
 
-    # def default_system_prompt(self):
-    #     ACTION_NAMES = [
-    #         action_strs[0]
-    #         for action, action_strs in self.all_nle_action_map.items()
-    #         if action in ACTIONS
-    #     ]
-    #     ACTIONS_LIST_STR = ",\n".join(ACTION_NAMES)
-    #     INSTRUCTION_PROMPT = f"""
-    #     You are an agent playing NetHack. In a moment I will present you an observation. Only output an action from the following list:
-    #     {ACTIONS_LIST_STR}.
-
-    #     You can only output one action at a time. The goal is to maximize the reward.
-    #     """.strip()
-        
-    #     return INSTRUCTION_PROMPT
-
     def create_action_space(self):
         nle_actions = [
             action_strs[0]
