@@ -2,7 +2,7 @@ from gym import spaces
 import nle_language_wrapper
 from nle.nethack import USEFUL_ACTIONS
 
-from iclbench.environments.spaces import Strings
+from iclbench.environments import Strings
 from .render import tty_render_image
 from .render_rgb import rgb_render_image
 from .utils import render_ascii_map, render_text, render_hybrid
@@ -13,7 +13,6 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
     def __init__(self, env, prompt_mode="tty", seed=None):
         super().__init__(env, use_language_action=True)
         self.prompt_mode = prompt_mode
-        self.observation_space = spaces.Space()
         self.language_action_space = self.create_action_space()
         if seed is not None:
             self.env.seed(seed)

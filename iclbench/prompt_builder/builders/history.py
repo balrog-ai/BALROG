@@ -82,7 +82,14 @@ class HistoryPromptBuilder:
         # Add the current observation separately
         current_obs = f"\nAction: {self.previous_action}\n{self.sep}\nCurrent observation\n{self._last_obs}"
 
-        prompt = self.prefix + "\n\nObservation history\n" + history + current_obs
+        prompt = (
+            self.prefix
+            + "\n\nObservation history\n"
+            + history
+            + current_obs
+            + "\n\n"
+            + "Next action: "
+        )
         return [
             {
                 "role": "user",
