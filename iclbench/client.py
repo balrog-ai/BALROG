@@ -129,14 +129,13 @@ def create_llm_client(client_config):
     """
     Factory function to create the appropriate LLM client based on the model name.
     """
-    if "gpt" in client_config.model_id:
+    if "gpt" in client_config.client_name:
         return OpenAIWrapper(client_config)
-    elif "gemini" in client_config.model_id:
+    elif "gemini" in client_config.client_name:
         return GoogleGenerativeAIWrapper(client_config)
-    elif "claude" in client_config.model_id:
+    elif "claude" in client_config.client_name:
         return ClaudeWrapper(client_config)
-    elif "replicate:" in client_config.model_id:
-        client_config.model_id = client_config.model_id.removeprefix("replicate:")
+    elif "replicate" in client_config.client_name:
         return ReplicateWrapper(client_config)
     else:
         return OpenAIWrapper(client_config)

@@ -1,4 +1,5 @@
 client:
+  client_name: gemini
   model_id: gemini-1.5-flash
   base_url: https://spotty-toys-teach.loca.lt/v1
   api_key: AIzaSyCoyHxTwdxuRJjeMVMclJJdmCUDRkMmp-0
