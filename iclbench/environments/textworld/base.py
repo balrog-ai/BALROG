@@ -9,8 +9,7 @@ import textworld
 import textworld.gym
 
 
-nle_utils_dir = os.path.dirname(importlib.resources.files("iclbench").__str__())
-TEXTWORLD_GAMES_PATH = os.path.join(nle_utils_dir, "iclbench/environments/textworld/tw_games")
+workspace_dir = os.path.dirname(importlib.resources.files("iclbench").__str__())
 
 TASKS = [
     "treasure_hunter",
@@ -34,7 +33,8 @@ class TextWorldFactory:
             cls._instance.initialize(**kwargs)
         return cls._instance
     
-    def initialize(self, max_episode_steps=40, **kwargs):
+    def initialize(self, textworld_games_path, max_episode_steps=40, **kwargs):
+        textworld_games_path = os.path.join(workspace_dir, textworld_games_path)
         self.count = defaultdict(int)
         
         assert "objective" in kwargs and "description" in kwargs and kwargs["objective"] and kwargs["description"], "objective and description parameters are required."
@@ -42,7 +42,7 @@ class TextWorldFactory:
         
         self.env_ids = defaultdict(list)
         for pattern in ["*.ulx", "*.z8"]:
-            for entry in glob.glob(os.path.join(TEXTWORLD_GAMES_PATH, f"**/{pattern}"), recursive=True):
+            for entry in glob.glob(os.path.join(textworld_games_path, f"**/{pattern}"), recursive=True):
                 task = Path(entry).parent.name
                 if task in TASKS:
                     env_id = textworld.gym.register_game(entry, self.request_infos, max_episode_steps=max_episode_steps)

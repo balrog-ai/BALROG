@@ -1,5 +1,15 @@
 # TextWorld
 
+## Download games
+
+We use pregenerated games from https://github.com/conglu1997/intelligent-go-explore/tree/main/textworld/tw_games
+
+Download and unzip them
+
+    curl -L -o tw-games.zip 'https://drive.google.com/uc?export=download&id=1aeT-45-OBxiHzD9Xn99E5OvC86XmqhzA'
+    unzip tw-games.zip
+
+
 ## Installation
 
 TextWorld supports __Python 3.9/3.10/3.11/3.12__ for __Linux__ and __macOS__ systems only at the moment. For __Windows__ users, docker can be used as a workaround (see Docker section below).
