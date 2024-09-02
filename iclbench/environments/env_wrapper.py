@@ -71,7 +71,6 @@ class EnvWrapper:
                 if not hasattr(choice, "message")
                 else choice.message.content
             )
-            candidate_action = "".join(candidate_action).strip()
             if candidate_action in self.env.language_action_space:
                 valid_action = candidate_action
                 break
