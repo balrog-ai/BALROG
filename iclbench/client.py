@@ -1,5 +1,6 @@
 import os
 from openai import OpenAI
+import replicate
 import google.generativeai as genai
 from anthropic import Anthropic
 import time
@@ -90,6 +91,40 @@ class ClaudeWrapper(LLMClientWrapper):
         return completion
 
 
+class ReplicateWrapper(LLMClientWrapper):
+    def __init__(self, client_config):
+        super().__init__(client_config)
+        self.client = replicate.Client(api_token=self.api_key, timeout=self.timeout)
+
+    def generate(self, input):
+        output = self.client.run(
+            self.model_id,
+            input={"prompt": input[0]["content"]},
+            **self.client_kwargs
+        )
+
+        # Handle different output types
+        if isinstance(output, list):
+            content = "".join(output)
+        elif isinstance(output, str):
+            content = output
+        else:
+            content = str(output)
+
+        choices = [
+            SimpleNamespace(
+                index=0,
+                message=SimpleNamespace(
+                    content=content.strip(),
+                    role="assistant",
+                ),
+            )
+        ]
+        completion = SimpleNamespace(choices=choices)
+
+        return completion
+
+
 def create_llm_client(client_config):
     """
     Factory function to create the appropriate LLM client based on the model name.
@@ -100,5 +135,8 @@ def create_llm_client(client_config):
         return GoogleGenerativeAIWrapper(client_config)
     elif "claude" in client_config.model_id:
         return ClaudeWrapper(client_config)
+    elif "replicate:" in client_config.model_id:
+        client_config.model_id = client_config.model_id.removeprefix("replicate:")
+        return ReplicateWrapper(client_config)
     else:
         return OpenAIWrapper(client_config)
