@@ -6,6 +6,12 @@ env_kwargs:
 babyai_kwargs:
   num_dists: 0
 
+textworld_kwargs:
+  objective: True
+  description: True
+  max_episode_steps: 40
+  textworld_games_path: tw_games
+
 language: True
 ascii_map: False
 vlm: False
