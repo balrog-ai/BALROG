@@ -1,18 +1,11 @@
-from typing import List, Optional, Dict, Union
-from pathlib import Path
+from typing import Optional
 import json
-import re
 import os
-import numpy as np
 from dataclasses import dataclass, field
 from typing import Optional
 
 with open(os.path.join(os.path.dirname(__file__), "achievements.json"), "r") as f:
     ACHIEVEMENTS = json.load(f)
-
-with open(os.path.join(os.path.dirname(__file__), "spam.txt"), "r") as f:
-    spam = f.readlines()
-    SPAM = [line.strip() for line in spam]
 
 
 def get_progress_system(env):
@@ -26,19 +19,15 @@ def get_progress_system(env):
 
 @dataclass
 class Progress:
-    # score: list                        = field(default_factory=list)
-    # depth: list                        = field(default_factory=list)
-    # gold: list                         = field(default_factory=list)
-    # experience_level: list             = field(default_factory=list)
-    # time: list                         = field(default_factory=list)
+
     episode_return: float = 0.0
     score: int = 0
     depth: int = 1
     gold: int = 0
     experience_level: int = 1
     time: int = 0
-    achievement_list: list = field(default_factory=list)
     dlvl_list: list = field(default_factory=list)
+    xplvl_list: list = field(default_factory=list)
     highest_achievement: Optional[str] = None
     progression: float = 0.0
     end_reason: Optional[str] = None
@@ -64,23 +53,23 @@ class Progress:
             tty_chars = bytes(nle_obsv["tty_chars"].reshape(-1)).decode()
             self.end_reason = self._get_end_reason(tty_chars, info["end_status"])
 
-        for spam_m in SPAM:
-            if spam_m in message:
-                return self.progression
+        if "You ascend t" in message:
+            self.progression = 1.0
+            self.highest_achievement = "ascend"
 
-        for achievement in ACHIEVEMENTS.keys():
-            if achievement in message and achievement not in self.achievement_list:
-                self.achievement_list.append(achievement)
-                if ACHIEVEMENTS[achievement] > self.progression:
-                    self.progression = ACHIEVEMENTS[achievement]
-                    self.highest_achievement = achievement
+        xp = self._get_xp(stats)
+        if xp not in self.xplvl_list and xp in ACHIEVEMENTS.keys():
+            self.xplvl_list.append(xp)
+            if ACHIEVEMENTS[xp] > self.progression:
+                self.progression = ACHIEVEMENTS[xp]
+                self.highest_achievement = xp
 
-            dlvl = self._get_dlvl(stats)
-            if dlvl not in self.dlvl_list and dlvl in ACHIEVEMENTS.keys():
-                self.dlvl_list.append(dlvl)
-                if ACHIEVEMENTS[dlvl] > self.progression:
-                    self.progression = ACHIEVEMENTS[dlvl]
-                    self.highest_achievement = dlvl
+        dlvl = self._get_dlvl(stats)
+        if dlvl not in self.dlvl_list and dlvl in ACHIEVEMENTS.keys():
+            self.dlvl_list.append(dlvl)
+            if ACHIEVEMENTS[dlvl] > self.progression:
+                self.progression = ACHIEVEMENTS[dlvl]
+                self.highest_achievement = dlvl
 
         return self.progression
 
@@ -115,16 +104,11 @@ class Progress:
         ]
         stats = {name: value for name, value in zip(stats_names, blstats)}
 
-        # self.score.append(stats["score"])
-        # self.depth.append(stats["depth"])
-        # self.gold.append(stats["gold"])
-        # self.experience_level.append(stats["experience_level"])
-        # self.time.append(stats["time"])
-        self.score = stats["score"]
-        self.depth = stats["depth"]
-        self.gold = stats["gold"]
-        self.experience_level = stats["experience_level"]
-        self.time = stats["time"]
+        self.score = int(stats["score"])
+        self.depth = int(stats["depth"])
+        self.gold = int(stats["gold"])
+        self.experience_level = int(stats["experience_level"])
+        self.time = int(stats["time"])
 
         return stats
 
@@ -157,6 +141,18 @@ class Progress:
         # dlvl = string.split("$")[0]
         dlvl = f"Dlvl:{stats['depth']}"
         return dlvl
+
+    def _get_xp(self, stats):
+        """
+        Get the experience points from the stats string.
+
+        Args:
+            string (str): The stats string.
+        Returns:
+            str: The experience points
+        """
+        xp = f"Xp:{stats['experience_level']}"
+        return xp
 
 
 class BaseProgress:
