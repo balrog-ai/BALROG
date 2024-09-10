@@ -1,5 +1,4 @@
 import logging
-import json
 import hydra
 from omegaconf import DictConfig
 from iclbench.agents import create_agent
@@ -19,14 +18,13 @@ def main(config: DictConfig):
     # Instantiate factory for creating agents
     agent_factory = create_agent(client, config)
 
-    results = []
     for env_name in config.env_names.split(","):
         evaluator = Evaluator(env_name, agent_factory, config)
-        results.extend(evaluator.run())
+        results = evaluator.run()
+        evaluator.save_results(results, env_name)
 
-    # Save results
-    with open(config.savedir, "w") as file:
-        json.dump(results, file, indent=4)
+    # TODO:
+    # - Aggregate results from all environments and save/print final stats
 
 
 if __name__ == "__main__":

@@ -1,9 +1,11 @@
-import pdb
+import os
+import time
 import logging
 import json
 import multiprocessing
 from queue import Empty
 from iclbench.environments import make_env, get_tasks
+from collections import defaultdict
 
 
 class Evaluator:
@@ -23,6 +25,10 @@ class Evaluator:
         agent = self.agent_factory()
 
         obs = env.reset()
+        episode_log = {
+            "task": task,
+            "trajectory": [],
+        }
 
         instructions = None
         if self.env_name == "babyai":
@@ -34,21 +40,26 @@ class Evaluator:
         episode_return = 0.0
 
         action = None
-        for _ in range(self.max_steps_per_episode):
+        for step in range(self.max_steps_per_episode):
+
             action = agent.act(obs, prev_action=action)
             action = env.check_action_validity(action)
-            obs, reward, done, _ = env.step(action)
+            episode_log["trajectory"].append((obs["text"][0], action))
+
+            obs, reward, done, info = env.step(action)
             episode_return += reward
 
             if done:
-                print("Episode done with reward:", episode_return)
+                logging.info(f"Episode done with reward: {episode_return}")
+                episode_log["done"] = True
                 break
 
-        return {
-            "episode_return": episode_return,
-            **agent.get_metrics(),
-            **env.get_stats(),
-        }
+        episode_log["episode_return"] = episode_return
+        episode_log["num_steps"] = step + 1
+        episode_log.update(agent.get_metrics())
+        episode_log.update(env.get_stats())
+
+        return episode_log
 
     def run(self):
         if self.num_workers > 1:
@@ -57,10 +68,11 @@ class Evaluator:
             return self._run_sequential()
 
     def _run_sequential(self):
-        results = []
+        results = defaultdict(list)
         for task in self.tasks:
             for _ in range(self.num_episodes):
-                results.append(self.run_episode(task))
+                episode_log = self.run_episode(task)
+                results[task].append(episode_log)
         return results
 
     def _run_parallel(self):
@@ -98,6 +110,14 @@ class Evaluator:
             except Empty:
                 break
 
-    def save_results(self, results, filename):
-        with open(filename, "w") as file:
-            json.dump(results, file, indent=4)
+    def save_results(self, results, env_name):
+
+        for task, result in results.items():
+            task_folder = os.path.join(env_name, task)
+            os.makedirs(task_folder, exist_ok=True)
+
+            for idx, run in enumerate(result):
+                filename = os.path.join(task_folder, f"run_{idx:02d}.json")
+                with open(filename, "w") as file:
+                    json.dump(run, file, indent=4)
+        logging.info(f"Results saved for {env_name}")
