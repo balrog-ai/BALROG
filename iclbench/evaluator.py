@@ -28,6 +28,7 @@ class Evaluator:
         episode_log = {
             "task": task,
             "trajectory": [],
+            "action_frequency": defaultdict(int),
         }
 
         instructions = None
@@ -45,6 +46,7 @@ class Evaluator:
             action = agent.act(obs, prev_action=action)
             action = env.check_action_validity(action)
             episode_log["trajectory"].append((obs["text"][0], action))
+            episode_log["action_frequency"][action] += 1
 
             obs, reward, done, info = env.step(action)
             episode_return += reward
@@ -56,7 +58,7 @@ class Evaluator:
 
         episode_log["episode_return"] = episode_return
         episode_log["num_steps"] = step + 1
-        episode_log.update(agent.get_metrics())
+        episode_log["failed_candidates"] = env.failed_candidates
         episode_log.update(env.get_stats())
 
         return episode_log
