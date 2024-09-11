@@ -71,8 +71,6 @@ class Progress:
                 self.progression = ACHIEVEMENTS[dlvl]
                 self.highest_achievement = dlvl
 
-        return self.progression
-
     def _update_stats(self, blstats):
         # see: https://arxiv.org/pdf/2006.13760#page=16
         stats_names = [
@@ -157,6 +155,8 @@ class Progress:
 
 class BaseProgress:
     episode_return: float = 0.0
+    progression: float = 0.0
+    end_reason: Optional[str] = None
 
     def update(self, nle_obsv, reward, done, info):
         """
@@ -170,3 +170,8 @@ class BaseProgress:
             float: The progression of the player.
         """
         self.episode_return += reward
+        if reward == 1.0:
+            self.progression = 1.0
+        else:
+            self.progression = 0.0
+        self.end_reason = info["end_status"]

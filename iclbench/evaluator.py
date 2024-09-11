@@ -65,9 +65,12 @@ class Evaluator:
 
     def run(self):
         if self.num_workers > 1:
-            return self._run_parallel()
+            results = self._run_parallel()
         else:
-            return self._run_sequential()
+            results = self._run_sequential()
+
+        summary = self._save_results(results, self.env_name)
+        return summary
 
     def _run_sequential(self):
         results = defaultdict(list)
@@ -112,14 +115,55 @@ class Evaluator:
             except Empty:
                 break
 
-    def save_results(self, results, env_name):
+    def _save_results(self, results, env_name):
+
+        progression = 0.0
+        count = 0
+
+        env_summary = defaultdict(list)
 
         for task, result in results.items():
             task_folder = os.path.join(env_name, task)
             os.makedirs(task_folder, exist_ok=True)
-
+            task_progression = 0.0
+            task_count = 0
             for idx, run in enumerate(result):
+                progression += run["progression"]
+                count += 1
+                task_progression += run["progression"]
+                task_count += 1
                 filename = os.path.join(task_folder, f"run_{idx:02d}.json")
                 with open(filename, "w") as file:
                     json.dump(run, file, indent=4)
-        logging.info(f"Results saved for {env_name}")
+            env_summary[task] = (task_progression / task_count, task_count)
+
+        data = {
+            "progression_percentage": 100 * progression / count,
+            "episodes_played": count,
+            "tasks": {
+                task: {"progression_percentage": 100 * prog, "episodes_played": cnt}
+                for task, (prog, cnt) in env_summary.items()
+            },
+        }
+
+        filename = os.path.join(env_name, "summary.json")
+        with open(filename, "w") as file:
+            json.dump(data, file, indent=4)
+        logging.info(f"Results saved for {env_name} in {filename}")
+
+        return data
+
+
+def summarize_env_progressions(results_summaries: defaultdict) -> float:
+    average_progression = 0.0
+    for _, results in results_summaries.items():
+        average_progression += int(results["progression_percentage"])
+    average_progression /= len(results_summaries)
+
+    results_summaries["Final score"] = average_progression
+
+    with open("summary.json", "w") as f:
+        json.dump(results_summaries, f)
+    logging.info(f"Results saved in summary.json")
+
+    return average_progression

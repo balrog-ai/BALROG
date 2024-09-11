@@ -1,8 +1,10 @@
 import logging
 import hydra
+import json
+from collections import defaultdict
 from omegaconf import DictConfig
 from iclbench.agents import create_agent
-from iclbench.evaluator import Evaluator
+from iclbench.evaluator import Evaluator, summarize_env_progressions
 from iclbench.client import create_llm_client
 
 
@@ -18,13 +20,14 @@ def main(config: DictConfig):
     # Instantiate factory for creating agents
     agent_factory = create_agent(client, config)
 
+    results_summaries = defaultdict(list)
     for env_name in config.env_names.split(","):
         evaluator = Evaluator(env_name, agent_factory, config)
-        results = evaluator.run()
-        evaluator.save_results(results, env_name)
+        env_result_summary = evaluator.run()
+        results_summaries[env_name] = env_result_summary
 
-    # TODO:
-    # - Aggregate results from all environments and save/print final stats
+    average_progression = summarize_env_progressions(results_summaries)
+    print(f"Average progression across all environments: {average_progression}")
 
 
 if __name__ == "__main__":

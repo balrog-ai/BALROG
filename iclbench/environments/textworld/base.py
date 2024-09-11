@@ -25,6 +25,7 @@ class TextWorldFactory:
     This class manages the creation of TextWorld environments for different tasks,
     cycling through available games for each task or allowing specific game selection.
     """
+
     _instance = None
 
     def __new__(cls, **kwargs):
@@ -32,20 +33,29 @@ class TextWorldFactory:
             cls._instance = super().__new__(cls)
             cls._instance.initialize(**kwargs)
         return cls._instance
-    
+
     def initialize(self, textworld_games_path, max_episode_steps=40, **kwargs):
         textworld_games_path = os.path.join(workspace_dir, textworld_games_path)
         self.count = defaultdict(int)
-        
-        assert "objective" in kwargs and "description" in kwargs and kwargs["objective"] and kwargs["description"], "objective and description parameters are required."
+
+        assert (
+            "objective" in kwargs
+            and "description" in kwargs
+            and kwargs["objective"]
+            and kwargs["description"]
+        ), "objective and description parameters are required."
         self.request_infos = textworld.EnvInfos(**kwargs)
-        
+
         self.env_ids = defaultdict(list)
         for pattern in ["*.ulx", "*.z8"]:
-            for entry in glob.glob(os.path.join(textworld_games_path, f"**/{pattern}"), recursive=True):
+            for entry in glob.glob(
+                os.path.join(textworld_games_path, f"**/{pattern}"), recursive=True
+            ):
                 task = Path(entry).parent.name
                 if task in TASKS:
-                    env_id = textworld.gym.register_game(entry, self.request_infos, max_episode_steps=max_episode_steps)
+                    env_id = textworld.gym.register_game(
+                        entry, self.request_infos, max_episode_steps=max_episode_steps
+                    )
                     self.env_ids[task].append(env_id)
 
     def get_textworld_env(self, task, prompt_mode="language", seed=None, **kwargs):
@@ -65,14 +75,16 @@ class TextWorldFactory:
             KeyError: If the specified task is not found in the available tasks.
         """
         if task not in self.env_ids:
-            raise KeyError(f"Task '{task}' not found. Available tasks are: {list(self.env_ids.keys())}")
-        
+            raise KeyError(
+                f"Task '{task}' not found. Available tasks are: {list(self.env_ids.keys())}"
+            )
+
         if seed is not None:
             env_id = seed % len(self.env_ids[task])
         else:
             self.count[task] += 1
             env_id = self.env_ids[task][self.count[task] % len(self.env_ids[task])]
-        
+
         env = textworld.gym.make(env_id, **kwargs)
         env = TextWorldWrapper(env, prompt_mode=prompt_mode)
         return env
@@ -97,7 +109,7 @@ class TextWorldWrapper(gym.Wrapper):
             return {"text": (textworld_obsv, "")}
         else:
             raise ValueError(f'"{self.prompt_mode}" is not a valid prompt mode.')
-        
+
     def filter_objective(self, obs, info):
         objective = info["objective"]
         parts = obs.split(objective)
@@ -109,11 +121,14 @@ class TextWorldWrapper(gym.Wrapper):
     def reset(self):
         obs, info = self.env.reset()
         obs = self.filter_objective(obs, info)
-        
+
         return self.textworld_process_obsv(obs)
-    
+
     def step(self, action):
         obs, reward, done, info = self.env.step(action)
         obs = self.filter_objective(obs, info)
 
         return self.textworld_process_obsv(obs), reward, done, info
+
+    def get_stats(self):
+        return {"TODO": 0}

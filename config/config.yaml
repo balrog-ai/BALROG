@@ -3,3 +3,8 @@ defaults:
   - agent
   - environment
   - evaluation
+
+
+hydra:
+  run:
+    dir: ./results/${now:%Y-%m-%d}/${now:%H-%M-%S}
