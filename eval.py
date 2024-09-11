@@ -1,11 +1,11 @@
 import logging
 import hydra
-import json
 from collections import defaultdict
 from omegaconf import DictConfig
 from iclbench.agents import create_agent
-from iclbench.evaluator import Evaluator, summarize_env_progressions
+from iclbench.evaluator import Evaluator
 from iclbench.client import create_llm_client
+from iclbench.utils import summarize_env_progressions, wandb_save_artifact
 
 
 @hydra.main(config_path="config", config_name="config", version_base="1.1")
@@ -28,6 +28,9 @@ def main(config: DictConfig):
 
     average_progression = summarize_env_progressions(results_summaries)
     print(f"Average progression across all environments: {average_progression}")
+
+    if config.wandb_save:
+        wandb_save_artifact(config)
 
 
 if __name__ == "__main__":

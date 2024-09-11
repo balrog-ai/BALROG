@@ -133,7 +133,7 @@ class Evaluator:
                 count += 1
                 task_progression += run["progression"]
                 task_count += 1
-                filename = os.path.join(task_folder, f"run_{idx:02d}.json")
+                filename = os.path.join(task_folder, f"{task}_run_{idx:02d}.json")
                 with open(filename, "w") as file:
                     json.dump(run, file, indent=4)
             env_summary[task] = (task_progression / task_count, task_count)
@@ -147,24 +147,9 @@ class Evaluator:
             },
         }
 
-        filename = os.path.join(env_name, "summary.json")
+        filename = os.path.join(env_name, f"{env_name}_summary.json")
         with open(filename, "w") as file:
             json.dump(data, file, indent=4)
         logging.info(f"Results saved for {env_name} in {filename}")
 
         return data
-
-
-def summarize_env_progressions(results_summaries: defaultdict) -> float:
-    average_progression = 0.0
-    for _, results in results_summaries.items():
-        average_progression += int(results["progression_percentage"])
-    average_progression /= len(results_summaries)
-
-    results_summaries["Final score"] = average_progression
-
-    with open("summary.json", "w") as f:
-        json.dump(results_summaries, f)
-    logging.info(f"Results saved in summary.json")
-
-    return average_progression
