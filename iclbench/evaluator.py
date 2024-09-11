@@ -45,7 +45,8 @@ class Evaluator:
 
             action = agent.act(obs, prev_action=action)
             action = env.check_action_validity(action)
-            episode_log["trajectory"].append((obs["text"][0], action))
+            if self.config.save_trajectories:
+                episode_log["trajectory"].append((obs["text"][0], action))
             episode_log["action_frequency"][action] += 1
 
             obs, reward, done, info = env.step(action)
