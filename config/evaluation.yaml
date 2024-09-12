@@ -1,4 +1,9 @@
 num_episodes: 1
 num_workers: 1
-max_steps_per_episode: 1000
-savedir: ./outputs
+max_steps_per_episode: 100
+save_trajectories: True
+
+wandb_save: True
+wandb:
+  project_name: benchmark
+  entity_name: ICLbench

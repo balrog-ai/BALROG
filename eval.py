@@ -1,10 +1,11 @@
 import logging
-import json
 import hydra
+from collections import defaultdict
 from omegaconf import DictConfig
 from iclbench.agents import create_agent
 from iclbench.evaluator import Evaluator
 from iclbench.client import create_llm_client
+from iclbench.utils import summarize_env_progressions, wandb_save_artifact
 
 
 @hydra.main(config_path="config", config_name="config", version_base="1.1")
@@ -19,14 +20,17 @@ def main(config: DictConfig):
     # Instantiate factory for creating agents
     agent_factory = create_agent(client, config)
 
-    results = []
+    results_summaries = defaultdict(list)
     for env_name in config.env_names.split(","):
         evaluator = Evaluator(env_name, agent_factory, config)
-        results.extend(evaluator.run())
+        env_result_summary = evaluator.run()
+        results_summaries[env_name] = env_result_summary
 
-    # Save results
-    with open(config.savedir, "w") as file:
-        json.dump(results, file, indent=4)
+    average_progression = summarize_env_progressions(results_summaries)
+    print(f"Average progression across all environments: {average_progression}")
+
+    if config.wandb_save:
+        wandb_save_artifact(config)
 
 
 if __name__ == "__main__":

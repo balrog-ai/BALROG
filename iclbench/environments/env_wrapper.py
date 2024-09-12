@@ -7,6 +7,7 @@ class EnvWrapper:
         self.env = env
         self.env_name = env_name
         self.task_name = task_name
+        self.failed_candidates = []
 
     def reset(self):
         obs = self.env.reset()
@@ -73,14 +74,13 @@ class EnvWrapper:
             )
             if candidate_action in self.env.language_action_space:
                 valid_action = candidate_action
-                break
         if not valid_action:
             valid_action = self.env.default_action
             logging.warn(
                 f'Failed to generate a valid action. Output: "{action.choices}".\
                     Selecting default action "{valid_action}".'
             )
-            # self.failed_generation_counter += 1
+            self.failed_candidates.append(candidate_action)
         return valid_action
 
     def get_stats(self):
