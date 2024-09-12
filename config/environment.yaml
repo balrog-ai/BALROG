@@ -9,7 +9,10 @@ babyai_kwargs:
 textworld_kwargs:
   objective: True
   description: True
-  max_episode_steps: 40
+  score: True
+  max_score: True
+  won: True
+  max_episode_steps: 80
   textworld_games_path: tw_games
 
 language: True
