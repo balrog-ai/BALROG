@@ -54,7 +54,7 @@ TASKS = ["Craftax-Symbolic-v1"]
 def get_instruction_prompt(task=None):
     action_strings = ",\n".join(f"{action}" for action in ACTIONS)
     instruction_prompt = f"""
-You are an agent playing NetHack. The following are the possible actions you can take in the game:
+You are an agent playing Craftax. The following are the possible actions you can take in the game:
 
 {action_strings}.
 

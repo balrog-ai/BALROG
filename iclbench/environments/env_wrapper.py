@@ -61,6 +61,7 @@ class EnvWrapper:
         elif self.env_name == "craftax":
             from iclbench.environments.craftax import get_instruction_prompt
 
+            return get_instruction_prompt(self.task_name)
         else:
             raise ValueError(f"Unknown environment: {self.env_namee}")
 

@@ -6,6 +6,8 @@ env_kwargs:
 babyai_kwargs:
   num_dists: 0
 
+craftax_kwargs: {}
+
 textworld_kwargs:
   objective: True
   description: True
