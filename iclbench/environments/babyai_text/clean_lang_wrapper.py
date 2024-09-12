@@ -15,6 +15,7 @@ class BabyAITextCleanLangWrapper(Wrapper):
         super().__init__(env)
         self.language_action_space = BABYAI_ACTION_SPACE[:]
         self._mission = None
+        self.progression = 0.0
 
     @property
     def interleaving_token(self):
@@ -44,10 +45,12 @@ class BabyAITextCleanLangWrapper(Wrapper):
     def step(self, action):
         action_int = self.language_action_space.index(action)
         obs, reward, done, infos = self.env.step(action_int)
+        if reward > 0:
+            self.progression = 1.0
         prompt = self.get_prompt(obs, infos)
         obs["text"] = (prompt, "")
         return obs, reward, done, infos
 
     def get_stats(self):
         # No special stats tracking implemented for now
-        return {"mission": self._mission}
+        return {"mission": self._mission, "progression": self.progression}

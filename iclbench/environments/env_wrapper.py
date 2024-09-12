@@ -7,6 +7,7 @@ class EnvWrapper:
         self.env = env
         self.env_name = env_name
         self.task_name = task_name
+        self.failed_candidates = []
 
     def reset(self):
         obs = self.env.reset()
@@ -21,6 +22,8 @@ class EnvWrapper:
         if self.env_name in ["nle", "minihack"]:
             obs = obs
         elif self.env_name == "babyai":
+            obs = obs
+        elif self.env_name == "textworld":
             obs = obs
         elif self.env_name == "craftax":
             obs = obs
@@ -51,6 +54,10 @@ class EnvWrapper:
             from iclbench.environments.babyai_text import get_instruction_prompt
 
             return get_instruction_prompt(self.env, mission=instructions)
+        elif self.env_name == "textworld":
+            from iclbench.environments.textworld import get_instruction_prompt
+
+            return get_instruction_prompt(self.env, self.task_name)
         elif self.env_name == "craftax":
             from iclbench.environments.craftax import get_instruction_prompt
 
@@ -67,14 +74,13 @@ class EnvWrapper:
             )
             if candidate_action in self.env.language_action_space:
                 valid_action = candidate_action
-                break
         if not valid_action:
             valid_action = self.env.default_action
             logging.warn(
                 f'Failed to generate a valid action. Output: "{action.choices}".\
                     Selecting default action "{valid_action}".'
             )
-            # self.failed_generation_counter += 1
+            self.failed_candidates.append(candidate_action)
         return valid_action
 
     def get_stats(self):

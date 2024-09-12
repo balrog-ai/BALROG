@@ -1,0 +1,10 @@
+agent: naive
+
+prompt_builder_strategy: history
+prompt_builder_config:
+  history: True
+  max_history: 1
+  max_length: 128000
+  simple: False # TODO: If True the history will only contain previous messages and actions, no maps
+  diff: False
+  vlm: False

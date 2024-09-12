@@ -39,6 +39,11 @@ def make_env(env_name, task, config):
         from iclbench.environments.craftax import CraftaxLanguageWrapper
 
         base_env = CraftaxLanguageWrapper(task, **config.craftax_kwargs)
+    elif env_name == "textworld":
+        from iclbench.environments.textworld import TextWorldFactory
+
+        textworld_factory = TextWorldFactory(**config.textworld_kwargs)
+        base_env = textworld_factory(task, **config.env_kwargs)
     else:
         raise ValueError(f"Unknown environment: {env_name}")
 
@@ -58,6 +63,10 @@ def get_tasks(env_name):
         from iclbench.environments.babyai_text import TASKS as BABYAI_TASKS
 
         return BABYAI_TASKS
+    elif env_name == "textworld":
+        from iclbench.environments.textworld import TASKS as TEXTWORLD_TASKS
+        
+        return TEXTWORLD_TASKS
     elif env_name == "craftax":
         from iclbench.environments.craftax import TASKS as CRAFTAX_TASKS
 

@@ -1,9 +1,11 @@
-import pdb
+import os
+import time
 import logging
 import json
 import multiprocessing
 from queue import Empty
 from iclbench.environments import make_env, get_tasks
+from collections import defaultdict
 
 
 class Evaluator:
@@ -23,6 +25,11 @@ class Evaluator:
         agent = self.agent_factory()
 
         obs = env.reset()
+        episode_log = {
+            "task": task,
+            "trajectory": [],
+            "action_frequency": defaultdict(int),
+        }
 
         instructions = None
         if self.env_name == "babyai":
@@ -34,33 +41,44 @@ class Evaluator:
         episode_return = 0.0
 
         action = None
-        for _ in range(self.max_steps_per_episode):
+        for step in range(self.max_steps_per_episode):
+
             action = agent.act(obs, prev_action=action)
             action = env.check_action_validity(action)
-            obs, reward, done, _ = env.step(action)
+            if self.config.save_trajectories:
+                episode_log["trajectory"].append((obs["text"][0], action))
+            episode_log["action_frequency"][action] += 1
+
+            obs, reward, done, info = env.step(action)
             episode_return += reward
 
             if done:
-                print("Episode done with reward:", episode_return)
+                logging.info(f"Episode done with reward: {episode_return}")
+                episode_log["done"] = True
                 break
 
-        return {
-            "episode_return": episode_return,
-            **agent.get_metrics(),
-            **env.get_stats(),
-        }
+        episode_log["episode_return"] = episode_return
+        episode_log["num_steps"] = step + 1
+        episode_log["failed_candidates"] = env.failed_candidates
+        episode_log.update(env.get_stats())
+
+        return episode_log
 
     def run(self):
         if self.num_workers > 1:
-            return self._run_parallel()
+            results = self._run_parallel()
         else:
-            return self._run_sequential()
+            results = self._run_sequential()
+
+        summary = self._save_results(results, self.env_name)
+        return summary
 
     def _run_sequential(self):
-        results = []
+        results = defaultdict(list)
         for task in self.tasks:
             for _ in range(self.num_episodes):
-                results.append(self.run_episode(task))
+                episode_log = self.run_episode(task)
+                results[task].append(episode_log)
         return results
 
     def _run_parallel(self):
@@ -98,6 +116,40 @@ class Evaluator:
             except Empty:
                 break
 
-    def save_results(self, results, filename):
+    def _save_results(self, results, env_name):
+
+        progression = 0.0
+        count = 0
+
+        env_summary = defaultdict(list)
+
+        for task, result in results.items():
+            task_folder = os.path.join(env_name, task)
+            os.makedirs(task_folder, exist_ok=True)
+            task_progression = 0.0
+            task_count = 0
+            for idx, run in enumerate(result):
+                progression += run["progression"]
+                count += 1
+                task_progression += run["progression"]
+                task_count += 1
+                filename = os.path.join(task_folder, f"{task}_run_{idx:02d}.json")
+                with open(filename, "w") as file:
+                    json.dump(run, file, indent=4)
+            env_summary[task] = (task_progression / task_count, task_count)
+
+        data = {
+            "progression_percentage": 100 * progression / count,
+            "episodes_played": count,
+            "tasks": {
+                task: {"progression_percentage": 100 * prog, "episodes_played": cnt}
+                for task, (prog, cnt) in env_summary.items()
+            },
+        }
+
+        filename = os.path.join(env_name, f"{env_name}_summary.json")
         with open(filename, "w") as file:
-            json.dump(results, file, indent=4)
+            json.dump(data, file, indent=4)
+        logging.info(f"Results saved for {env_name} in {filename}")
+
+        return data

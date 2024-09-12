@@ -13,7 +13,6 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
     def __init__(self, env, prompt_mode="tty", seed=None):
         super().__init__(env, use_language_action=True)
         self.prompt_mode = prompt_mode
-        self.observation_space = spaces.Space()
         self.language_action_space = self.create_action_space()
         if seed is not None:
             self.env.seed(seed)

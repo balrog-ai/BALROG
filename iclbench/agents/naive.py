@@ -17,8 +17,6 @@ class NaiveAgent(BaseAgent):
     def act(self, obs, prev_action=None):
         if prev_action:
             self.prompt_builder.update_action(prev_action)
-            self.action_history.append(prev_action)
-            self.action_frequency[prev_action] += 1
 
         # Update observation in the prompt builder
         self.prompt_builder.update_observation(obs["text"])

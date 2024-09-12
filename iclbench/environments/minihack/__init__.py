@@ -51,6 +51,10 @@ TASKS = [
     "MiniHack-Corridor-R5-v0",
     "MiniHack-River-v0",
     "MiniHack-MazeWalk-Mapped-15x15-v0",
+    "MiniHack-Sokoban1a-v0",
+    "MiniHack-Sokoban2a-v0",
+    "MiniHack-Sokoban3a-v0",
+    "MiniHack-Sokoban4a-v0",
 ]
 
 
@@ -59,9 +63,11 @@ def get_instruction_prompt(env, task="MiniHack-ExploreMaze-Hard-Mapped-v0"):
     if "mazewalk" in task or "corridor" in task.lower():
         goal = "Your goal is to explore the level and reach the stairs down."
     elif "key" in task:
-        "Your goal is to pick up the key, navigate to the door and use the key to unlock the door, reaching the stairs down within the locked room"
+        goal = "Your goal is to pick up the key, navigate to the door and use the key to unlock the door, reaching the stairs down within the locked room"
     elif "room" in task:
-        "Your goal is to explore the room and reach the stairs down."
+        goal = "Your goal is to explore the room and reach the stairs down."
+    elif "Sokoban" in task:
+        goal = "You are playing Sokoban, your goal is to move the boulders to cover the holes in the floor, then reach the stairs down. Be careful not to place the boulders in places where they get stuck."
     else:
         goal = "Your goal is to get as far as possible in the game."
 
