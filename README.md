@@ -5,10 +5,10 @@
 ### Collaboration guide:
 When implementing majour features:
 1. Branch out from develop
-2. Implement feature
-3. Once ready, open a PR from your feature branch to develop
-4. Solve conflicts and ask for review
-5. Once reviewers approve, merge (replying with LGTM is fine fow now)
+2. Open PR from your feature branch to develop, describing what you are working on
+3. Implement feature on feature branch
+4. Once feature is ready, solve conflicts and ask for review
+5. Merge when approved (replying with LGTM is fine fow now)
 
 Let's try to keep it fast paces but also organized.
 
@@ -70,3 +70,21 @@ conda activate iclbench
 pip install -e external/nle
 pip install -e external/nle-language-wrapper
 ```
+
+# Run
+
+Spin up a vllm server (if on another GPU, consider tunneling) :
+```
+vllm serve meta-llama/Meta-Llama-3.1-8B-Instruct
+```
+The run eval.py. If you are on the same machine as the vllm server, simply run:
+```
+python eval.py
+```
+
+If you are on a different machine, and are doing tunneling:
+```
+python eval.py base_url=/your/vllm/server/baseurl
+```
+
+

@@ -1,0 +1,65 @@
+# Model and server settings
+client:
+  model_id: gemini-1.5-flash
+  base_url: https://spotty-toys-teach.loca.lt/v1
+  api_key: "EMPTY"
+  is_chat_model: True
+  generate_kwargs:
+    temperature: 0.5
+  timeout: 60
+
+
+# Agent settings:
+# - dummy: for debugging
+# - naive: agent that always takes the first action
+# - react: 
+# - reflexion:
+# - guidebook:
+agent: naive
+
+
+# Prompt builder settings
+prompt_builder_strategy: history
+prompt_builder_config:
+  history: True
+  max_history: 128
+  simple: False # TODO: If True the history will only contain previous messages and actions, no maps
+  diff: False
+  vlm: False
+  
+  max_length: 128000
+
+
+# Environment settings
+# if testing on multiple environments, separate the env_names with commas
+env_names: craftax
+# The options for the game observations are:
+# - language: simple language observations (~100 tokens per obs)
+# - ascii_map: only the ascii map (no colors) (~375 tokens per obs)
+# - hybrid: language observations and ascii map (~450 tokens per obs)
+# - vlm: image observations, potentially with language description
+env_kwargs:
+  prompt_mode: hybrid
+  # nle seed fixes the dungeon layout (this is different than in normal nle!), 
+  # each episode will be played in the same dungeon.
+  # - null: random dungeon layout  
+  # - 0 (or other integer): fixed dungeon layout
+  seed: null
+
+babyai_kwargs:
+  num_dists: 0
+
+craftax_kwargs:
+  seed: 0
+
+language: True
+ascii_map: False
+vlm: False
+
+# Evaluation settings
+num_episodes: 1
+num_workers: 1
+max_steps_per_episode: 1000
+
+# Generation settings
+savedir: ./outputs

@@ -1,7 +1,6 @@
 from .builders.history import HistoryPromptBuilder
 from .builders.vlm import VLMHistoryPromptBuilder
 
-
 def create_prompt_builder(config):
     if config.vlm:
         raise NotImplementedError("VLM prompt builder is not implemented yet.")
