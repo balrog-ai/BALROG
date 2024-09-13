@@ -1,9 +1,7 @@
 import os
-import time
 import logging
 import json
 import multiprocessing
-from queue import Empty
 from iclbench.environments import make_env, get_tasks
 from collections import defaultdict
 
@@ -95,9 +93,8 @@ class Evaluator:
 
         processes = []
         for _ in range(self.num_workers):
-            agent = agent_factory()
             p = ctx.Process(
-                target=self._worker, args=(task_queue, results_queue, agent)
+                target=self._worker, args=(task_queue, results_queue, agent_factory)
             )
             processes.append(p)
             p.start()
@@ -125,7 +122,8 @@ class Evaluator:
 
         return results
 
-    def _worker(self, task_queue, results_queue, agent):
+    def _worker(self, task_queue, results_queue, agent_factory):
+        agent = agent_factory.create_agent()
         while True:
             task = task_queue.get()
             if task is None:
