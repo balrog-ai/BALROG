@@ -15,15 +15,15 @@ def main(config: DictConfig):
     )
 
     # Instantiate LLM client
-    client = create_llm_client(config.client)
+    client_factory = create_llm_client(config.client)
 
     # Instantiate factory for creating agents
-    agent_factory = create_agent(client, config)
+    agent_factory = create_agent(client_factory, config)
 
     results_summaries = defaultdict(list)
     for env_name in config.env_names.split(","):
-        evaluator = Evaluator(env_name, agent_factory, config)
-        env_result_summary = evaluator.run()
+        evaluator = Evaluator(env_name, config)
+        env_result_summary = evaluator.run(agent_factory)
         results_summaries[env_name] = env_result_summary
 
     average_progression = summarize_env_progressions(results_summaries)

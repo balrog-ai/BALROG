@@ -2,12 +2,12 @@ from .naive import NaiveAgent
 from ..prompt_builder import create_prompt_builder
 
 
-def create_agent(client_llm, config):
+def create_agent(client_factory, config):
     def agent_factory():
         prompt_builder = create_prompt_builder(config.prompt_builder_config)
 
         if config.agent == "naive":
-            return NaiveAgent(client_llm, prompt_builder)
+            return NaiveAgent(client_factory, prompt_builder)
         elif config.agent == "react":
             raise NotImplementedError("ReAct agent is not implemented yet.")
         elif config.agent == "reflexion":

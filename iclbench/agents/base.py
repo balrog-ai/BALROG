@@ -1,6 +1,6 @@
 class BaseAgent:
-    def __init__(self, client, prompt_builder):
-        self.client = client
+    def __init__(self, client_factory, prompt_builder):
+        self.client = client_factory()
         self.prompt_builder = prompt_builder
 
     def act(self, obs):
@@ -9,3 +9,6 @@ class BaseAgent:
     def update_prompt(self, observation, action):
         self.prompt_builder.update_observation(observation)
         self.prompt_builder.update_action(action)
+
+    def reset(self):
+        self.prompt_builder.reset()

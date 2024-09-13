@@ -1,4 +1,4 @@
-env_names: babyai
+env_names: nle
 env_kwargs:
   prompt_mode: hybrid
   seed: null
