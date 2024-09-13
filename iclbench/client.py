@@ -1,9 +1,7 @@
-import os
 from openai import OpenAI
 import replicate
 import google.generativeai as genai
 from anthropic import Anthropic
-import time
 from types import SimpleNamespace
 
 
@@ -98,9 +96,7 @@ class ReplicateWrapper(LLMClientWrapper):
 
     def generate(self, input):
         output = self.client.run(
-            self.model_id,
-            input={"prompt": input[0]["content"]},
-            **self.client_kwargs
+            self.model_id, input={"prompt": input[0]["content"]}, **self.client_kwargs
         )
 
         # Handle different output types
@@ -129,13 +125,17 @@ def create_llm_client(client_config):
     """
     Factory function to create the appropriate LLM client based on the model name.
     """
-    if "gpt" in client_config.client_name:
-        return OpenAIWrapper(client_config)
-    elif "gemini" in client_config.client_name:
-        return GoogleGenerativeAIWrapper(client_config)
-    elif "claude" in client_config.client_name:
-        return ClaudeWrapper(client_config)
-    elif "replicate" in client_config.client_name:
-        return ReplicateWrapper(client_config)
-    else:
-        return OpenAIWrapper(client_config)
+
+    def client_factory():
+        if "gpt" in client_config.client_name:
+            return OpenAIWrapper(client_config)
+        elif "gemini" in client_config.client_name:
+            return GoogleGenerativeAIWrapper(client_config)
+        elif "claude" in client_config.client_name:
+            return ClaudeWrapper(client_config)
+        elif "replicate" in client_config.client_name:
+            return ReplicateWrapper(client_config)
+        else:
+            return OpenAIWrapper(client_config)
+
+    return client_factory
