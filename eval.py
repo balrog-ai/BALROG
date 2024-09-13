@@ -2,9 +2,8 @@ import logging
 import hydra
 from collections import defaultdict
 from omegaconf import DictConfig
-from iclbench.agents import create_agent
+from iclbench.agents import AgentFactory
 from iclbench.evaluator import Evaluator
-from iclbench.client import create_llm_client
 from iclbench.utils import summarize_env_progressions, wandb_save_artifact
 
 
@@ -14,11 +13,8 @@ def main(config: DictConfig):
         level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
     )
 
-    # Instantiate LLM client
-    client_factory = create_llm_client(config.client)
-
-    # Instantiate factory for creating agents
-    agent_factory = create_agent(client_factory, config)
+    # Instantiate agent factory
+    agent_factory = AgentFactory(config)
 
     results_summaries = defaultdict(list)
     for env_name in config.env_names.split(","):

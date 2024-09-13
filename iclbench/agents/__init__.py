@@ -1,18 +1,21 @@
 from .naive import NaiveAgent
 from ..prompt_builder import create_prompt_builder
+from iclbench.client import create_llm_client
 
 
-def create_agent(client_factory, config):
-    def agent_factory():
-        prompt_builder = create_prompt_builder(config.prompt_builder_config)
+class AgentFactory:
+    def __init__(self, config):
+        self.config = config
 
-        if config.agent == "naive":
+    def create_agent(self):
+        client_factory = create_llm_client(self.config.client)
+        prompt_builder = create_prompt_builder(self.config.prompt_builder_config)
+
+        if self.config.agent == "naive":
             return NaiveAgent(client_factory, prompt_builder)
-        elif config.agent == "react":
+        elif self.config.agent == "react":
             raise NotImplementedError("ReAct agent is not implemented yet.")
-        elif config.agent == "reflexion":
+        elif self.config.agent == "reflexion":
             raise NotImplementedError("Reflexion agent is not implemented yet.")
         else:
-            raise ValueError(f"Unknown agent type: {config.agent}")
-
-    return agent_factory
+            raise ValueError(f"Unknown agent type: {self.config.agent}")

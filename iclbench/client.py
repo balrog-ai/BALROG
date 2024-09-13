@@ -44,11 +44,17 @@ class OpenAIWrapper(LLMClientWrapper):
 class GoogleGenerativeAIWrapper(LLMClientWrapper):
     def __init__(self, client_config):
         super().__init__(client_config)
-        genai.configure(api_key=self.api_key)
-        self.model = genai.GenerativeModel(self.model_id)
-        self.generation_config = genai.types.GenerationConfig(**self.client_kwargs)
+        self._initialized = False  # Flag to check if client is initialized
+
+    def _initialize_client(self):
+        if not self._initialized:
+            genai.configure(api_key=self.api_key)
+            self.model = genai.GenerativeModel(self.model_id)
+            self.generation_config = genai.types.GenerationConfig(**self.client_kwargs)
+            self._initialized = True
 
     def generate(self, input):
+        self._initialize_client()  # Ensure client is initialized in child process
         response = self.model.generate_content(
             input[0]["content"], generation_config=self.generation_config
         )
@@ -67,9 +73,7 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
             )
             for idx, candidate in enumerate(response.candidates)
         ]
-        completion = SimpleNamespace(choices=choices)
-
-        return completion
+        return SimpleNamespace(choices=choices)
 
 
 class ClaudeWrapper(LLMClientWrapper):
