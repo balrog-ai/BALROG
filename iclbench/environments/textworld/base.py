@@ -38,12 +38,10 @@ class TextWorldFactory:
         textworld_games_path = os.path.join(workspace_dir, textworld_games_path)
         self.count = defaultdict(int)
 
-        assert (
-            "objective" in kwargs
-            and "description" in kwargs
-            and kwargs["objective"]
-            and kwargs["description"]
-        ), "objective and description parameters are required."
+        required_kwargs = ["objective", "description", "score", "max_score", "won"]
+        for kwarg in required_kwargs:
+            assert kwarg in kwargs and kwargs[kwarg]
+
         self.request_infos = textworld.EnvInfos(**kwargs)
 
         self.env_ids = defaultdict(list)
@@ -103,6 +101,7 @@ class TextWorldWrapper(gym.Wrapper):
         super().__init__(env)
         self.prompt_mode = prompt_mode
         self.language_action_space = AlwaysTrue()
+        self.progression = 0.0
 
     def textworld_process_obsv(self, textworld_obsv):
         if self.prompt_mode == "language":
@@ -121,6 +120,7 @@ class TextWorldWrapper(gym.Wrapper):
     def reset(self):
         obs, info = self.env.reset()
         obs = self.filter_objective(obs, info)
+        self.progression = 0.0
 
         return self.textworld_process_obsv(obs)
 
@@ -128,7 +128,10 @@ class TextWorldWrapper(gym.Wrapper):
         obs, reward, done, info = self.env.step(action)
         obs = self.filter_objective(obs, info)
 
+        if done:
+            self.progression = max(info["score"] / info["max_score"], 1.0 if info["won"] else 0.0)
+
         return self.textworld_process_obsv(obs), reward, done, info
 
     def get_stats(self):
-        return {"TODO": 0}
+        return {"progression": self.progression}
