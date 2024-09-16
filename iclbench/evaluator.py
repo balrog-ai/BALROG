@@ -95,7 +95,7 @@ class Evaluator:
         with tqdm(total=total_episodes, desc="Evaluating Episodes") as pbar:
             for task in self.tasks:
                 for _ in range(self.num_episodes):
-                    agent = agent_factory()
+                    agent = agent_factory.create_agent()
                     episode_log = self.run_episode(task, agent)
                     results[task].append(episode_log)
                     pbar.update(1)
