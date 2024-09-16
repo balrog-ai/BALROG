@@ -18,7 +18,6 @@ class NaiveAgent(BaseAgent):
         self.prompt_builder.update_observation(obs["text"])
 
         input = self.prompt_builder.get_prompt()
-        print(input[0]["content"] if isinstance(input, list) else input)
 
         completion = self.client.generate(input)
 
