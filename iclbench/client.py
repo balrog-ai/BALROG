@@ -1,9 +1,7 @@
-import os
 from openai import OpenAI
 import replicate
 import google.generativeai as genai
 from anthropic import Anthropic
-import time
 from types import SimpleNamespace
 
 
@@ -46,11 +44,17 @@ class OpenAIWrapper(LLMClientWrapper):
 class GoogleGenerativeAIWrapper(LLMClientWrapper):
     def __init__(self, client_config):
         super().__init__(client_config)
-        genai.configure(api_key=self.api_key)
-        self.model = genai.GenerativeModel(self.model_id)
-        self.generation_config = genai.types.GenerationConfig(**self.client_kwargs)
+        self._initialized = False  # Flag to check if client is initialized
+
+    def _initialize_client(self):
+        if not self._initialized:
+            genai.configure(api_key=self.api_key)
+            self.model = genai.GenerativeModel(self.model_id)
+            self.generation_config = genai.types.GenerationConfig(**self.client_kwargs)
+            self._initialized = True
 
     def generate(self, input):
+        self._initialize_client()  # Ensure client is initialized in child process
         response = self.model.generate_content(
             input[0]["content"], generation_config=self.generation_config
         )
@@ -69,9 +73,7 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
             )
             for idx, candidate in enumerate(response.candidates)
         ]
-        completion = SimpleNamespace(choices=choices)
-
-        return completion
+        return SimpleNamespace(choices=choices)
 
 
 class ClaudeWrapper(LLMClientWrapper):
@@ -98,9 +100,7 @@ class ReplicateWrapper(LLMClientWrapper):
 
     def generate(self, input):
         output = self.client.run(
-            self.model_id,
-            input={"prompt": input[0]["content"]},
-            **self.client_kwargs
+            self.model_id, input={"prompt": input[0]["content"]}, **self.client_kwargs
         )
 
         # Handle different output types
@@ -129,13 +129,17 @@ def create_llm_client(client_config):
     """
     Factory function to create the appropriate LLM client based on the model name.
     """
-    if "gpt" in client_config.client_name:
-        return OpenAIWrapper(client_config)
-    elif "gemini" in client_config.client_name:
-        return GoogleGenerativeAIWrapper(client_config)
-    elif "claude" in client_config.client_name:
-        return ClaudeWrapper(client_config)
-    elif "replicate" in client_config.client_name:
-        return ReplicateWrapper(client_config)
-    else:
-        return OpenAIWrapper(client_config)
+
+    def client_factory():
+        if "gpt" in client_config.client_name:
+            return OpenAIWrapper(client_config)
+        elif "gemini" in client_config.client_name:
+            return GoogleGenerativeAIWrapper(client_config)
+        elif "claude" in client_config.client_name:
+            return ClaudeWrapper(client_config)
+        elif "replicate" in client_config.client_name:
+            return ReplicateWrapper(client_config)
+        else:
+            return OpenAIWrapper(client_config)
+
+    return client_factory

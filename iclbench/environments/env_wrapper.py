@@ -77,10 +77,6 @@ class EnvWrapper:
                 valid_action = candidate_action
         if not valid_action:
             valid_action = self.env.default_action
-            logging.warn(
-                f'Failed to generate a valid action. Output: "{action.choices}".\
-                    Selecting default action "{valid_action}".'
-            )
             self.failed_candidates.append(candidate_action)
         return valid_action
 

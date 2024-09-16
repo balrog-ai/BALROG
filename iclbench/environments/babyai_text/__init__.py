@@ -26,9 +26,12 @@ You are an agent playing a simple navigation game. Your goal is to {mission}. Th
 {action_strings}.
 
 In a moment I will present you an observation.
-You can only output one of the above actions at a time.
 
-Tip: Once you the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.
+Tips: 
+- Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.
+- It doesn't make sense to repeat the same action over and over if the observation doesn't change.
+
+You can only output one of the above actions at a time, and always have to output an action until the episode terminates.
 
 PLAY!
 """.strip()

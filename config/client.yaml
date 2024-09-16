@@ -2,7 +2,7 @@ client:
   client_name: gemini
   model_id: gemini-1.5-flash
   base_url: https://spotty-toys-teach.loca.lt/v1
-  api_key: AIzaSyCoyHxTwdxuRJjeMVMclJJdmCUDRkMmp-0
+  api_key: AIzaSyB1TP5-0yTMKz5lkey0Vv6pggaLHnzXs4w
   is_chat_model: True
   generate_kwargs:
     temperature: 0.5
