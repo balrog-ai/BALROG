@@ -5,13 +5,14 @@ from collections import defaultdict
 import wandb
 
 
-def summarize_env_progressions(results_summaries: defaultdict) -> float:
+def summarize_env_progressions(results_summaries: defaultdict, config) -> float:
     average_progression = 0.0
     for _, results in results_summaries.items():
         average_progression += int(results["progression_percentage"])
     average_progression /= len(results_summaries)
 
     results_summaries["Final score"] = average_progression
+    results_summaries["model"] = config.model_id
 
     with open("summary.json", "w") as f:
         json.dump(results_summaries, f)
