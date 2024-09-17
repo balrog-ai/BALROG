@@ -69,7 +69,8 @@ class BabaIsAIWrapper(gym.Wrapper):
     def get_ruleset(self):       
         rules = []
         for rule in self.env.grid._ruleset["_rule_"]:
-            # for some reason all objects start with f, eg fwall, fkey...
+            # all objects start with f, eg `fwall`, `fkey`... 
+            # are objects that can be manipulated, `wall` is used to indicate end of map 
             name = rule["object"].removeprefix("f")
             named_property = name_mapping[rule["property"]]
             rules.append(f"{name} is {named_property}")
