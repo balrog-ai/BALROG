@@ -31,10 +31,8 @@ def make_env(env_name, task, config):
             **config.env_kwargs,
         )
     elif env_name == "babyai":
-        import babyai_text
         from iclbench.environments.babyai_text import BabyAITextCleanLangWrapper
-
-        base_env = BabyAITextCleanLangWrapper(gym.make(task, **config.babyai_kwargs))
+        base_env = BabyAITextCleanLangWrapper(task, **config.babyai_kwargs)
     elif env_name == "craftax":
         from iclbench.environments.craftax import CraftaxLanguageWrapper
 
