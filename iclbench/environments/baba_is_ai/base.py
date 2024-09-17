@@ -67,6 +67,13 @@ class BabaIsAIWrapper(gym.Wrapper):
         return BABAISAI_ACTION_SPACE[0]
 
     def get_ruleset(self):       
+        """
+        Retrieve and format the ruleset for the current environment.
+
+        This method extracts rules from the environment's grid ruleset,
+        formats them into human-readable strings, and returns them as a
+        single string with each rule on a new line.
+        """
         rules = []
         for rule in self.env.grid._ruleset["_rule_"]:
             # all objects start with f, eg `fwall`, `fkey`... 
@@ -77,8 +84,15 @@ class BabaIsAIWrapper(gym.Wrapper):
         
         return "\n".join(rules)
         
-    def get_text_observation(self, obs):                       
-        def find_objects(objects):            
+    def get_text_observation(self, obs):
+        """
+        Generate a text-based observation of the environment.
+
+        This method creates a textual description of the environment,
+        including the relative positions of various objects with respect
+        to the player's position (represented by 'baba').
+        """     
+        def find_objects(objects):
             obj = []
             for j in range(0, self.env.height):
                 for i in range(0, self.env.width):
