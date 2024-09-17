@@ -97,7 +97,7 @@ class AlwaysTrue:
 
 
 class TextWorldWrapper(gym.Wrapper):
-    def __init__(self, env, prompt_mode="language"):
+    def __init__(self, env: gym.Env, prompt_mode="language"):
         super().__init__(env)
         self.prompt_mode = prompt_mode
         self.language_action_space = AlwaysTrue()
