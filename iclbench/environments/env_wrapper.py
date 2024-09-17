@@ -25,6 +25,8 @@ class EnvWrapper:
             obs = obs
         elif self.env_name == "textworld":
             obs = obs
+        elif self.env_name == "babaisai":
+            obs = obs
         elif self.env_name == "craftax":
             obs = obs
         else:
@@ -56,6 +58,10 @@ class EnvWrapper:
             return get_instruction_prompt(self.env, mission=instructions)
         elif self.env_name == "textworld":
             from iclbench.environments.textworld import get_instruction_prompt
+
+            return get_instruction_prompt(self.env, self.task_name)
+        elif self.env_name == "babaisai":
+            from iclbench.environments.baba_is_ai import get_instruction_prompt
 
             return get_instruction_prompt(self.env, self.task_name)
         elif self.env_name == "craftax":
