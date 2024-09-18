@@ -1,5 +1,4 @@
 from collections import deque
-import difflib
 import base64
 from io import BytesIO
 
@@ -66,6 +65,8 @@ class HistoryPromptBuilder:
         self._last_short_term_obs = None
 
     def build_content(self, text_content, processed_image):
+        if processed_image is not None and not isinstance(processed_image, list):
+            processed_image = [processed_image]
 
         if self.model_type == "openai":
             # OpenAI expects a list of content elements
@@ -73,7 +74,7 @@ class HistoryPromptBuilder:
             if text_content:
                 content.append({"type": "text", "text": text_content})
             if processed_image:
-                content.append(processed_image)
+                content.extend(processed_image)
             return content
         elif self.model_type == "gemini":
             # Gemini uses 'parts' with text and images
@@ -81,7 +82,7 @@ class HistoryPromptBuilder:
             if text_content:
                 content.append(text_content)
             if processed_image:
-                content.append(processed_image)
+                content.extend(processed_image)
             return content
         else:
             # Default behavior: content is just text
@@ -135,29 +136,38 @@ class HistoryPromptBuilder:
 
         history = "\n\nObservation history\n"
 
+        # Annotate the last N observations with images
+        images_needed = self.max_image_history
+        for event in reversed(self._events):
+            if event["type"] == "observation":
+                if images_needed > 0 and event.get("image") is not None:
+                    event["include_image"] = True
+                    images_needed -= 1
+                else:
+                    event["include_image"] = False
+
         for idx, event in enumerate(self._events):
             if event["type"] == "observation":
-                images.append(event["image"])
+                image = event["image"] if event.get("include_image") else None
+                if image is not None:
+                    images.append(event["image"])
                 if idx == len(self._events) - 1:
                     history += (
-                        self.sep + "\n"
-                        "Current Observation:\n"
+                        self.sep
+                        + "\n"
+                        + "Current Observation:\n"
                         + self._last_short_term_obs
                         + "\n"
-                        + event["text"],
+                        + event["text"]
                     )
                 else:
                     history += self.sep + "\n" + event["text"]
             elif event["type"] == "action":
-                history += event["action"]
+                history += "\n\nAction: " + event["action"] + "\n"
 
-        prompt = self.system_prompt + history + "\n"
-        return [
-            {
-                "role": "user",
-                "content": prompt,
-            },
-        ]
+        prompt = self.system_prompt + history + "\n\n" + "Next action:"
+        content = self.build_content(prompt, images)
+        return self.format_message("user", content)
 
     def get_chat_history(self):
         messages = []

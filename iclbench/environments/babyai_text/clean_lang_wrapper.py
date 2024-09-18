@@ -69,7 +69,6 @@ class BabyAITextCleanLangWrapper(Wrapper):
         prompt, image = self.get_prompt(obs, infos)
         obs["text"] = {"long_term_context": prompt, "short_term_context": ""}
         obs["image"] = image
-        print(prompt)
         return obs, reward, done, infos
 
     def get_stats(self):
