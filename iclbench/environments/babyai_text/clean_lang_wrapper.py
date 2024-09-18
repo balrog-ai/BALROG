@@ -1,3 +1,5 @@
+import gym
+import babyai_text
 from gym import Wrapper
 from PIL import Image
 
@@ -12,7 +14,12 @@ BABYAI_ACTION_SPACE = [
 
 
 class BabyAITextCleanLangWrapper(Wrapper):
-    def __init__(self, env, vlm=False):
+    def __init__(self, task, **kwargs, vlm=False):
+        base_task, goal = task.split('/')
+        while 1:
+            env = gym.make(base_task, **kwargs)
+            if env.env.action_kinds[0].replace(' ', '_') == goal:
+                break
         super().__init__(env)
         self.language_action_space = BABYAI_ACTION_SPACE[:]
         self._mission = None
