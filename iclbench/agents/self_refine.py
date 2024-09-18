@@ -1,0 +1,73 @@
+import copy
+
+from iclbench.agents.base import BaseAgent
+from iclbench.client import LLMClientWrapper
+
+
+class SelfRefineAgent(BaseAgent):
+    def __init__(self, client_factory: LLMClientWrapper, prompt_builder, max_iterations=3):
+        super().__init__(client_factory, prompt_builder)
+        self.max_iterations = max_iterations
+    
+    def act(self, obs, prev_action=None):
+        if prev_action:
+            self.prompt_builder.update_action(prev_action)
+
+        self.prompt_builder.update_observation(obs)
+
+        input = self.prompt_builder.get_prompt()
+
+        # Add initial instructions to the prompt
+        initial_instructions = """
+Please provide an answer to the given question or task. After your response, I will provide feedback for improvement.
+You can approach this by analyzing and decomposing the problem, but please provide the final answer in the form of Action: <action>
+        """.strip()
+        input[-1]["parts"][0] += "\n\n" + initial_instructions
+
+        # Initial response generation
+        response = self.client.generate(input)
+        
+        # Self-refine loop
+        for _ in range(self.max_iterations):
+            # Generate feedback
+            feedback_prompt = """
+"You are an AI assistant tasked with providing feedback on the following response. Analyze the response for clarity, completeness, and accuracy. 
+Suggest specific improvements or write "No further improvements needed" if no further improvements are needed.
+
+Response to evaluate:"
+            """.strip()
+            
+            feedback_input = [
+                *input, 
+                {"role": "user", "parts": [feedback_prompt + response.choices[0].message.content]}
+            ]
+                
+            feedback_response = self.client.generate(feedback_input)
+
+            # If feedback suggests no further improvements, break the loop
+            if "No further improvements needed" in feedback_response.choices[0].message.content:
+                break
+            
+            # Add feedback and refinement instructions to the prompt
+            refine_prompt = f"""
+Feedback: {feedback_response.choices[0].message.content}
+
+Please refine your previous response based on this feedback. Provide an improved answer.
+            """.strip()
+            input.append({"role": "user", "parts": [refine_prompt]})
+            
+            # Generate refined response
+            response = self.client.generate(input)
+        
+        # Extract the final answer from the refined response
+        final_answer = self._extract_final_answer(response)
+
+        return final_answer
+
+    def _extract_final_answer(self, reasoning):
+        answer = copy.deepcopy(reasoning)
+        
+        for choice in answer.choices:
+            choice.message.content = choice.message.content.split("Action:")[-1].strip()
+            
+        return answer
