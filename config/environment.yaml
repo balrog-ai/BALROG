@@ -1,6 +1,5 @@
-env_names: babyai
+env_names: minihack
 env_kwargs:
-  prompt_mode: hybrid
   seed: null
 
 babyai_kwargs:

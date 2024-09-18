@@ -2,7 +2,9 @@ import gym
 import numpy as np
 import jax
 import jax.numpy as jnp
+from PIL import Image
 import craftax
+from collections import defaultdict
 from craftax.craftax_env import make_craftax_env_from_name
 from craftax.craftax.renderer import render_craftax_pixels, render_craftax_text
 from craftax.craftax.constants import (
@@ -61,7 +63,7 @@ USEFUL_ACTION = [
 
 
 class CraftaxLanguageWrapper(gym.Env):
-    def __init__(self, env_id: str = "Craftax-Symbolic-v1", seed=None):
+    def __init__(self, env_id: str = "Craftax-Symbolic-v1", seed=None, vlm=False):
         super(CraftaxLanguageWrapper, self).__init__()
 
         env = make_craftax_env_from_name(env_id, auto_reset=True)
@@ -69,6 +71,7 @@ class CraftaxLanguageWrapper(gym.Env):
         self._reset = jax.jit(env.reset)
         self._render = jax.jit(render_craftax_pixels)
         self._env_params = env.default_params
+        self.vlm = vlm
 
         if seed is None:
             seed = np.random.randint(2**31)
@@ -86,7 +89,17 @@ class CraftaxLanguageWrapper(gym.Env):
         self._rng, _rng = jax.random.split(self._rng)
         obs, self._env_state = self._reset(_rng, self._env_params)
         obs = {"obs": obs, "text": (render_craftax_text(self._env_state), "")}
-        return obs
+
+        obs_dict = defaultdict(lambda: None)
+
+        obs_dict["text"] = {
+            "long_term_context": "",
+            "short_term_context": "",
+        }
+        if self.vlm:
+            obs_dict["image"] = Image.fromarray(self.render()).convert("RGB")
+
+        return obs_dict
 
     def step(self, language_action):
         if language_action not in self.language_action_space:
@@ -99,8 +112,15 @@ class CraftaxLanguageWrapper(gym.Env):
             _rng, self._env_state, action, self._env_params
         )
         # To decide whether craftax has long and short term context observations
-        obs = {"obs": obs, "text": (render_craftax_text(self._env_state), "")}
-        return obs, reward.item(), done, info
+        obs_dict = defaultdict(lambda: None)
+
+        obs_dict["text"] = {
+            "long_term_context": "",
+            "short_term_context": "",
+        }
+        if self.vlm:
+            obs_dict["image"] = Image.fromarray(self.render()).convert("RGB")
+        return obs_dict, reward.item(), done, info
 
     def render(self, mode="human"):
         return np.array(

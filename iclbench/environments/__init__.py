@@ -10,7 +10,9 @@ def make_env(env_name, task, config):
     if env_name == "nle":
         from iclbench.environments.nle import NLELanguageWrapper
 
-        base_env = NLELanguageWrapper(gym.make(task), **config.env_kwargs)
+        base_env = NLELanguageWrapper(
+            gym.make(task), **config.env_kwargs, vlm=config.vlm
+        )
     elif env_name == "minihack":
         import minihack
         from iclbench.environments.nle import NLELanguageWrapper
@@ -29,6 +31,7 @@ def make_env(env_name, task, config):
                 ],
             ),
             **config.env_kwargs,
+            vlm=config.vlm,
         )
     elif env_name == "babyai":
         import babyai_text
@@ -40,7 +43,7 @@ def make_env(env_name, task, config):
     elif env_name == "craftax":
         from iclbench.environments.craftax import CraftaxLanguageWrapper
 
-        base_env = CraftaxLanguageWrapper(task, **config.craftax_kwargs)
+        base_env = CraftaxLanguageWrapper(task, **config.craftax_kwargs, vlm=config.vlm)
     elif env_name == "textworld":
         from iclbench.environments.textworld import TextWorldFactory
 

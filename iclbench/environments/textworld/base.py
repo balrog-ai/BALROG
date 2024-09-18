@@ -97,17 +97,17 @@ class AlwaysTrue:
 
 
 class TextWorldWrapper(gym.Wrapper):
-    def __init__(self, env: gym.Env, prompt_mode="language"):
+    def __init__(self, env: gym.Env):
         super().__init__(env)
-        self.prompt_mode = prompt_mode
         self.language_action_space = AlwaysTrue()
         self.progression = 0.0
 
     def textworld_process_obsv(self, textworld_obsv):
         if self.prompt_mode == "language":
-            return {"text": (textworld_obsv, "")}
-        else:
-            raise ValueError(f'"{self.prompt_mode}" is not a valid prompt mode.')
+            return {
+                "text": {"long_term_context": textworld_obsv, "short_term_context": ""},
+                "image": None,
+            }
 
     def filter_objective(self, obs, info):
         objective = info["objective"]
@@ -129,7 +129,9 @@ class TextWorldWrapper(gym.Wrapper):
         obs = self.filter_objective(obs, info)
 
         if done:
-            self.progression = max(info["score"] / info["max_score"], 1.0 if info["won"] else 0.0)
+            self.progression = max(
+                info["score"] / info["max_score"], 1.0 if info["won"] else 0.0
+            )
 
         return self.textworld_process_obsv(obs), reward, done, info
 

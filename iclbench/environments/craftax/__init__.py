@@ -59,9 +59,9 @@ You are an agent playing Craftax. The following are the possible actions you can
 {action_strings}.
 
 In a moment I will present a history of actions and observations from the game.
-You can only output one of the above actions at a time.
-
 Your goal is to get as far as possible in the game.
+
+You can only output one of the above actions at a time, and always have to output an action until the episode terminates.
 
 PLAY!
 """.strip()
