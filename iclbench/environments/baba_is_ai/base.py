@@ -187,7 +187,6 @@ class BabaIsAIWrapper(gym.Wrapper):
         prompt += f"Objects on the map:\n{text_observation}"
 
         image = Image.fromarray(self.env.render(mode="rgb_array")).convert("RGB")
-        image.save("baba.png")
 
         obs = defaultdict(lambda: None)
 
