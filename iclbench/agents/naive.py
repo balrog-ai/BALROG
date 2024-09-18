@@ -1,6 +1,3 @@
-import logging
-from collections import defaultdict
-
 from iclbench.agents.base import BaseAgent
 
 
@@ -12,9 +9,10 @@ class NaiveAgent(BaseAgent):
         if prev_action:
             self.prompt_builder.update_action(prev_action)
 
-        self.prompt_builder.update_observation(obs["text"])
+        self.prompt_builder.update_observation(obs)
 
         input = self.prompt_builder.get_prompt()
+        # print(input[0]["content"] if isinstance(input, list) else input)
 
         completion = self.client.generate(input)
 

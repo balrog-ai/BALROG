@@ -3,8 +3,8 @@ agent: naive
 prompt_builder_strategy: history
 prompt_builder_config:
   history: True
-  max_history: 1
-  max_length: 128000
-  simple: False # TODO: If True the history will only contain previous messages and actions, no maps
-  diff: False
-  vlm: False
+  max_history: 16
+  max_image_history: 0
+  max_cot_history: 1
+  chat_history: True
+  remember_cot: True

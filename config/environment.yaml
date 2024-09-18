@@ -17,6 +17,4 @@ textworld_kwargs:
   max_episode_steps: 80
   textworld_games_path: tw_games
 
-language: True
-ascii_map: False
-vlm: False
+vlm: True

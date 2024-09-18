@@ -1,5 +1,5 @@
-num_episodes: 8
-num_workers: 8
+num_episodes: 1
+num_workers: 1
 max_steps_per_episode: 50
 save_trajectories: True
 
