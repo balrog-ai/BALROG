@@ -34,7 +34,9 @@ def make_env(env_name, task, config):
         import babyai_text
         from iclbench.environments.babyai_text import BabyAITextCleanLangWrapper
 
-        base_env = BabyAITextCleanLangWrapper(gym.make(task, **config.babyai_kwargs))
+        base_env = BabyAITextCleanLangWrapper(
+            gym.make(task, **config.babyai_kwargs), vlm=config.vlm
+        )
     elif env_name == "craftax":
         from iclbench.environments.craftax import CraftaxLanguageWrapper
 
@@ -46,8 +48,7 @@ def make_env(env_name, task, config):
         base_env = textworld_factory(task, **config.env_kwargs)
     else:
         raise ValueError(f"Unknown environment: {env_name}")
-
-    return EnvWrapper(base_env, env_name, task)
+    return EnvWrapper(base_env, env_name, task, vlm=config.vlm)
 
 
 def get_tasks(env_name):
@@ -65,7 +66,7 @@ def get_tasks(env_name):
         return BABYAI_TASKS
     elif env_name == "textworld":
         from iclbench.environments.textworld import TASKS as TEXTWORLD_TASKS
-        
+
         return TEXTWORLD_TASKS
     elif env_name == "craftax":
         from iclbench.environments.craftax import TASKS as CRAFTAX_TASKS
