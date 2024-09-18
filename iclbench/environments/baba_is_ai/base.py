@@ -194,8 +194,6 @@ class BabaIsAIWrapper(gym.Wrapper):
         if self.vlm:
             obs["image"] = image
 
-        print(obs)
-
         return obs
 
     def reset(self, **kwargs):
