@@ -14,11 +14,11 @@ BABYAI_ACTION_SPACE = [
 
 
 class BabyAITextCleanLangWrapper(Wrapper):
-    def __init__(self, task, **kwargs, vlm=False):
-        base_task, goal = task.split('/')
+    def __init__(self, task, vlm=False, **kwargs):
+        base_task, goal = task.split("/")
         while 1:
             env = gym.make(base_task, **kwargs)
-            if env.env.action_kinds[0].replace(' ', '_') == goal:
+            if env.env.action_kinds[0].replace(" ", "_") == goal:
                 break
         super().__init__(env)
         self.language_action_space = BABYAI_ACTION_SPACE[:]
