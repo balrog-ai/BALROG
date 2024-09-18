@@ -5,11 +5,11 @@ __all__ = [TASKS, BabaIsAIWrapper]
 
 
 ACTIONS = {
-    'idle': "wait for one step",
-    'up': "take one step up", 
-    'right': "take one step to the right", 
-    'down': "take one step down", 
-    'left': "take one step to the left",
+    "idle": "wait for one step",
+    "up": "take one step up",
+    "right": "take one step to the right",
+    "down": "take one step down",
+    "left": "take one step to the left",
 }
 
 
@@ -17,7 +17,7 @@ def get_instruction_prompt(env, task=None):
     action_strings = ",\n".join(
         f"{action}: {description}" for action, description in ACTIONS.items()
     )
-    
+
     instruction_prompt = f"""
 Baba Is You is a puzzle game where you can manipulate the rules of each level. The following are the possible actions you can take in the game, followed by a short description of each action:
 
@@ -32,6 +32,8 @@ Tips:
 - Think creatively about how changing rules can alter the properties and behaviors of objects in unexpected ways.
 - If stuck, try breaking apart existing rules or forming completely new ones.
 - Sometimes the solution involves making yourself a different object or changing what counts as the win condition.
+
+You can only output one of the above actions at a time, and always have to output an action until the episode terminates.
 
 PLAY!
 """.strip()

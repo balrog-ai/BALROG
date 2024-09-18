@@ -151,7 +151,7 @@ class HistoryPromptBuilder:
             elif event["type"] == "action":
                 history += event["action"]
 
-        prompt = self.system_prompt + history + "\n\n" + "Next action: "
+        prompt = self.system_prompt + history + "\n"
         return [
             {
                 "role": "user",
@@ -191,8 +191,7 @@ class HistoryPromptBuilder:
                         + self._last_short_term_obs
                         + "\n"
                         + event["text"]
-                        + image_obs
-                        + "\nNext action: ",
+                        + image_obs,
                         image,
                     )
                 else:

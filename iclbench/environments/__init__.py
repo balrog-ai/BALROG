@@ -49,8 +49,8 @@ def make_env(env_name, task, config):
     elif env_name == "babaisai":
         from baba import make
         from iclbench.environments.baba_is_ai import BabaIsAIWrapper
-        
-        base_env = BabaIsAIWrapper(make(task))
+
+        base_env = BabaIsAIWrapper(make(task), vlm=config.vlm)
     else:
         raise ValueError(f"Unknown environment: {env_name}")
     return EnvWrapper(base_env, env_name, task)
@@ -75,7 +75,7 @@ def get_tasks(env_name):
         return TEXTWORLD_TASKS
     elif env_name == "babaisai":
         from iclbench.environments.baba_is_ai import TASKS as BABAISAI_TASKS
-        
+
         return BABAISAI_TASKS
     elif env_name == "craftax":
         from iclbench.environments.craftax import TASKS as CRAFTAX_TASKS

@@ -1,7 +1,5 @@
 from gym import Wrapper
 from PIL import Image
-import numpy as np
-from matplotlib import cm
 
 BABYAI_ACTION_SPACE = [
     "turn left",
