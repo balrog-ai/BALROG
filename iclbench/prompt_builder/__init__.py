@@ -1,13 +1,10 @@
 from .builders.history import HistoryPromptBuilder
-from .builders.vlm import VLMHistoryPromptBuilder
+
 
 def create_prompt_builder(config):
-    if config.vlm:
-        raise NotImplementedError("VLM prompt builder is not implemented yet.")
-
+    # if config.vlm:
     return HistoryPromptBuilder(
         max_history=config.max_history,
-        max_length=config.max_length,
-        diff=config.diff,
-        use_history=config.history,
+        max_image_history=config.max_image_history,
+        chat_history=config.chat_history,
     )

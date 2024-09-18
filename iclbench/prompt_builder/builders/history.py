@@ -1,98 +1,222 @@
 from collections import deque
-import difflib
+import base64
+from io import BytesIO
 
 
-def get_diff(a, b):
-    return "\n".join(
-        difflib.unified_diff(
-            a.splitlines(),
-            b.splitlines(),
-            n=0,
-            lineterm="",
-        )
-    )
+def process_image_openai(image):
+    # Encode the image as a base64 string
+    buffered = BytesIO()
+    image.save(buffered, format="PNG")
+    base64_image = base64.b64encode(buffered.getvalue()).decode("utf-8")
+    # Return the image content for OpenAI
+    return {
+        "type": "image_url",
+        "image_url": {"url": f"data:image/png;base64,{base64_image}"},
+    }
 
 
-def clean_diff(diff, remove=["---", "+++", "@@"]):
-    return "\n".join(
-        [
-            line
-            for line in diff.splitlines()
-            if not any(line.strip() == r for r in remove)
-        ]
-    )
+def process_image_gemini(image):
+    # For Gemini, include the image directly
+    return image
+
+
+# Model configuration dictionary
+MODEL_CONFIG = {
+    "openai": {
+        "system_name": "system",
+        "assistant_name": "assistant",
+        "content_name": "content",
+        "process_image": process_image_openai,
+    },
+    "gemini": {
+        "system_name": "user",
+        "assistant_name": "model",
+        "content_name": "parts",
+        "process_image": process_image_gemini,
+    },
+}
 
 
 class HistoryPromptBuilder:
     def __init__(
         self,
         *,
-        max_history=128,
-        max_length=128000,
-        diff=False,
-        use_history=True,
-        prefix="You are about to be presented with an observation history. Respond with an appropriate action.\n\n",
+        max_history=16,
+        max_image_history=1,
+        system_prompt=None,
+        model_type="gemini",
+        chat_history=True,
         sep="_" * 80,
     ):
-
-        self._max_history = 1 if not use_history else max_history
-        self._max_length = max_length
-        self.diff = diff
-        self.use_history = use_history
-        self.prefix = prefix
+        self._max_history = max_history
+        self.max_image_history = min(max_image_history, max_history)
+        self.system_prompt = system_prompt
+        self.model_type = model_type
+        self.chat_history = chat_history
         self.sep = sep
 
-        self._near_history = deque(maxlen=2)
-        self._obs_history = deque(maxlen=self._max_history)
-        self.previous_action = None
-        self._last_obs = None
+        model_config = MODEL_CONFIG.get(model_type, {})
+        self.system_role = model_config["system_name"]
+        self.assistant_role = model_config["assistant_name"]
+        self.content_name = model_config["content_name"]
+        self.process_image = model_config["process_image"]
+
+        self._events = deque(maxlen=self._max_history * 2)
+        self._last_short_term_obs = None
+
+    def build_content(self, text_content, processed_image):
+        if processed_image is not None and not isinstance(processed_image, list):
+            processed_image = [processed_image]
+
+        if self.model_type == "openai":
+            # OpenAI expects a list of content elements
+            content = []
+            if text_content:
+                content.append({"type": "text", "text": text_content})
+            if processed_image:
+                content.extend(processed_image)
+            return content
+        elif self.model_type == "gemini":
+            # Gemini uses 'parts' with text and images
+            content = []
+            if text_content:
+                content.append(text_content)
+            if processed_image:
+                content.extend(processed_image)
+            return content
+        else:
+            # Default behavior: content is just text
+            return text_content
+
+    def format_message(self, role, content):
+        return {
+            "role": role,
+            self.content_name: content,
+        }
 
     def update_observation(self, obs):
-        long_term_context, short_term_context = obs
-        self._last_obs = short_term_context + "\n" + long_term_context
-        self._near_history.append(long_term_context)
+        self._last_short_term_obs = obs["text"].get("short_term_context", "")
+        long_term_context = obs["text"].get("long_term_context", "")
 
-        if len(self._near_history) > 1 and self.diff:
-            diff = clean_diff(get_diff(self._near_history[0], self._near_history[-1]))
-            last_timestep = f"\nAction: {self.previous_action}\n{self.sep}\n" + diff
+        image = obs.get("image", None)
+        if image is not None and self.process_image and self.max_image_history > 0:
+            processed_image = self.process_image(image)
         else:
-            last_timestep = (
-                f"\nAction: {self.previous_action}\n{self.sep}\n" + long_term_context
-            )
+            processed_image = None
 
-        self._obs_history.append(last_timestep)
+        event = {
+            "type": "observation",
+            "text": long_term_context,
+            "image": processed_image,
+        }
+        self._events.append(event)
 
     def update_action(self, action):
-        self.previous_action = action
+        event = {
+            "type": "action",
+            "action": action,
+        }
+        self._events.append(event)
 
     def update_instruction_prompt(self, prompt):
-        self.prefix = prompt
+        self.system_prompt = prompt
 
     def reset(self):
-        self._near_history.clear()
-        self._obs_history.clear()
-        self.previous_action = None
+        self._events.clear()
 
     def get_prompt(self):
-        # Build the history from past observations
-        history = ""
-        for i in range(len(self._obs_history) - 2, -1, -1):
-            history = self._obs_history[i] + history
+        if self.chat_history:
+            return self.get_chat_history()
+        else:
+            return self.get_completion_history()
 
-        # Add the current observation separately
-        current_obs = f"\nAction: {self.previous_action}\n{self.sep}\nCurrent observation\n{self._last_obs}"
+    def get_completion_history(self):
+        # Not working yet
+        images = []
 
-        prompt = (
-            self.prefix
-            + "\n\nObservation history\n"
-            + history
-            + current_obs
-            + "\n\n"
-            + "Next action: "
-        )
-        return [
-            {
-                "role": "user",
-                "content": prompt,
-            },
-        ]
+        history = "\n\nObservation history\n"
+
+        # Annotate the last N observations with images
+        images_needed = self.max_image_history
+        for event in reversed(self._events):
+            if event["type"] == "observation":
+                if images_needed > 0 and event.get("image") is not None:
+                    event["include_image"] = True
+                    images_needed -= 1
+                else:
+                    event["include_image"] = False
+
+        for idx, event in enumerate(self._events):
+            if event["type"] == "observation":
+                image = event["image"] if event.get("include_image") else None
+                if image is not None:
+                    images.append(event["image"])
+                if idx == len(self._events) - 1:
+                    history += (
+                        self.sep
+                        + "\n"
+                        + "Current Observation:\n"
+                        + self._last_short_term_obs
+                        + "\n"
+                        + event["text"]
+                    )
+                else:
+                    history += self.sep + "\n" + event["text"]
+            elif event["type"] == "action":
+                history += "\n\nAction: " + event["action"] + "\n"
+
+        prompt = self.system_prompt + history + "\n\n" + "Next action:"
+        content = self.build_content(prompt, images)
+        return self.format_message("user", content)
+
+    def get_chat_history(self):
+        messages = []
+        if self.system_prompt:
+            messages.append(
+                {
+                    "role": self.system_role,
+                    self.content_name: self.system_prompt,
+                }
+            )
+
+        # Annotate the last N observations with images
+        images_needed = self.max_image_history
+        for event in reversed(self._events):
+            if event["type"] == "observation":
+                if images_needed > 0 and event.get("image") is not None:
+                    event["include_image"] = True
+                    images_needed -= 1
+                else:
+                    event["include_image"] = False
+
+        # Build the chat history
+        for idx, event in enumerate(self._events):
+            if event["type"] == "observation":
+                image = event["image"] if event.get("include_image") else None
+                image_obs = "\nObservation Image: " if image is not None else ""
+                if idx == len(self._events) - 1:
+                    # Add short term context to the last observation (NLE/Craftax/MiniHack)
+                    content = self.build_content(
+                        "Current Observation:\n"
+                        + self._last_short_term_obs
+                        + "\n"
+                        + event["text"]
+                        + image_obs,
+                        image,
+                    )
+                else:
+                    content = self.build_content(
+                        "Obesrvation:\n" + event["text"] + image_obs, image
+                    )
+                message = self.format_message("user", content)
+                del event["include_image"]
+            elif event["type"] == "action":
+                content = event["action"]
+                if self.model_type == "openai":
+                    content = [{"type": "text", "text": content}]
+                elif self.model_type == "gemini":
+                    content = [content]
+                message = self.format_message(self.assistant_role, content)
+            messages.append(message)
+
+        return messages

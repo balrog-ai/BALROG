@@ -56,7 +56,7 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
     def generate(self, input):
         self._initialize_client()  # Ensure client is initialized in child process
         response = self.model.generate_content(
-            input[0]["content"], generation_config=self.generation_config
+            input, generation_config=self.generation_config
         )
 
         choices = [

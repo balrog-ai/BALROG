@@ -1,6 +1,7 @@
 import gym
 import babyai_text
 from gym import Wrapper
+from PIL import Image
 
 BABYAI_ACTION_SPACE = [
     "turn left",
@@ -13,16 +14,19 @@ BABYAI_ACTION_SPACE = [
 
 
 class BabyAITextCleanLangWrapper(Wrapper):
-    def __init__(self, task, **kwargs):
-        base_task, goal = task.split('/')
+    def __init__(self, task, vlm=False, **kwargs):
+        base_task, goal = task.split("/")
         while 1:
             env = gym.make(base_task, **kwargs)
-            if env.env.action_kinds[0].replace(' ', '_') == goal:
+            if env.env.action_kinds[0].replace(" ", "_") == goal:
                 break
         super().__init__(env)
         self.language_action_space = BABYAI_ACTION_SPACE[:]
         self._mission = None
         self.progression = 0.0
+        self.vlm = vlm
+        if self.vlm:
+            self.renderer = self.env.render("rgb_array")
 
     @property
     def interleaving_token(self):
@@ -33,20 +37,28 @@ class BabyAITextCleanLangWrapper(Wrapper):
         return "go forward"
 
     def get_prompt(self, obs, infos):
+        if self.vlm:
+            image = Image.fromarray(self.env.get_obs_render(obs["image"])).convert(
+                "RGB"
+            )
+        else:
+            image = None
+
         def _form_prompt(description):
             return "\n".join([d.replace("You see ", "") for d in description])
 
         prompt = _form_prompt(infos["descriptions"])
-        return prompt
+        return prompt, image
 
     def reset(self):
         obs, infos = self.env.reset()
-        prompt = self.get_prompt(obs, infos)
+        prompt, image = self.get_prompt(obs, infos)
         self._mission = obs["mission"]
         # Following the convention from NetHack Language Wrapper for specifying
         # short term vs long term context here. There is no equivalent long term
         # context like e.g. inventory in BabyAI-Text.
-        obs["text"] = (prompt, "")
+        obs["text"] = {"long_term_context": prompt, "short_term_context": ""}
+        obs["image"] = image
         return obs
 
     def step(self, action):
@@ -54,8 +66,9 @@ class BabyAITextCleanLangWrapper(Wrapper):
         obs, reward, done, infos = self.env.step(action_int)
         if reward > 0:
             self.progression = 1.0
-        prompt = self.get_prompt(obs, infos)
-        obs["text"] = (prompt, "")
+        prompt, image = self.get_prompt(obs, infos)
+        obs["text"] = {"long_term_context": prompt, "short_term_context": ""}
+        obs["image"] = image
         return obs, reward, done, infos
 
     def get_stats(self):

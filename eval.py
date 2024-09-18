@@ -22,7 +22,7 @@ def main(config: DictConfig):
         env_result_summary = evaluator.run(agent_factory)
         results_summaries[env_name] = env_result_summary
 
-    average_progression = summarize_env_progressions(results_summaries)
+    average_progression = summarize_env_progressions(results_summaries, config)
     print(f"Average progression across all environments: {average_progression}")
 
     if config.wandb_save:

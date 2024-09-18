@@ -41,25 +41,6 @@ def nle_obsv_to_language(nle_obsv):
     }
 
 
-# rendering schemes with ansi escape codes for terminal rendering (not suitable for llms)
-def render_tty(nle_obsv):
-    return tty_render(
-        nle_obsv["tty_chars"],
-        nle_obsv["tty_colors"],
-        nle_obsv["tty_cursor"],
-    )
-
-
-def render_ascii_map(nle_obsv):
-    map = ascii_render(nle_obsv["tty_chars"])
-    cursor = nle_obsv["tty_cursor"]
-
-    long_term_context = f"Map[\n{map}\n] Cursor[{cursor}]"
-    short_term_context = ""
-
-    return long_term_context, short_term_context
-
-
 def render_text(nle_obsv):
     long_term_observations = [
         ("text_message", "message"),
@@ -80,7 +61,10 @@ def render_text(nle_obsv):
         [f"{name}:\n{text_obsv[key]}\n" for key, name in short_term_observations]
     )
 
-    return (long_term_context, short_term_context)
+    return {
+        "long_term_context": long_term_context,
+        "short_term_context": short_term_context,
+    }
 
 
 def render_hybrid(nle_obsv):
@@ -110,4 +94,7 @@ def render_hybrid(nle_obsv):
         [f"{name}:\n{text_obsv[key]}\n" for key, name in short_term_observation]
     )
 
-    return (long_term_context, short_term_context)
+    return {
+        "long_term_context": long_term_context,
+        "short_term_context": short_term_context,
+    }

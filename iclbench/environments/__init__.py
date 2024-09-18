@@ -10,7 +10,9 @@ def make_env(env_name, task, config):
     if env_name == "nle":
         from iclbench.environments.nle import NLELanguageWrapper
 
-        base_env = NLELanguageWrapper(gym.make(task), **config.env_kwargs)
+        base_env = NLELanguageWrapper(
+            gym.make(task), **config.env_kwargs, vlm=config.vlm
+        )
     elif env_name == "minihack":
         import minihack
         from iclbench.environments.nle import NLELanguageWrapper
@@ -29,14 +31,18 @@ def make_env(env_name, task, config):
                 ],
             ),
             **config.env_kwargs,
+            vlm=config.vlm,
         )
     elif env_name == "babyai":
         from iclbench.environments.babyai_text import BabyAITextCleanLangWrapper
-        base_env = BabyAITextCleanLangWrapper(task, **config.babyai_kwargs)
+
+        base_env = BabyAITextCleanLangWrapper(
+            task, vlm=config.vlm, **config.babyai_kwargs
+        )
     elif env_name == "craftax":
         from iclbench.environments.craftax import CraftaxLanguageWrapper
 
-        base_env = CraftaxLanguageWrapper(task, **config.craftax_kwargs)
+        base_env = CraftaxLanguageWrapper(task, **config.craftax_kwargs, vlm=config.vlm)
     elif env_name == "textworld":
         from iclbench.environments.textworld import TextWorldFactory
 
@@ -45,11 +51,10 @@ def make_env(env_name, task, config):
     elif env_name == "babaisai":
         from baba import make
         from iclbench.environments.baba_is_ai import BabaIsAIWrapper
-        
-        base_env = BabaIsAIWrapper(make(task))
+
+        base_env = BabaIsAIWrapper(make(task), vlm=config.vlm)
     else:
         raise ValueError(f"Unknown environment: {env_name}")
-
     return EnvWrapper(base_env, env_name, task)
 
 
@@ -68,11 +73,11 @@ def get_tasks(env_name):
         return BABYAI_TASKS
     elif env_name == "textworld":
         from iclbench.environments.textworld import TASKS as TEXTWORLD_TASKS
-        
+
         return TEXTWORLD_TASKS
     elif env_name == "babaisai":
         from iclbench.environments.baba_is_ai import TASKS as BABAISAI_TASKS
-        
+
         return BABAISAI_TASKS
     elif env_name == "craftax":
         from iclbench.environments.craftax import TASKS as CRAFTAX_TASKS

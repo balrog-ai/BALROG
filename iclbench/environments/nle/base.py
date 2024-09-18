@@ -1,21 +1,27 @@
-from gym import spaces
+from PIL import Image
 import nle_language_wrapper
 from nle.nethack import USEFUL_ACTIONS
 
 from iclbench.environments import Strings
 from .render import tty_render_image
 from .render_rgb import rgb_render_image
-from .utils import render_ascii_map, render_text, render_hybrid
+
+from .utils import render_text, render_hybrid
 from .progress import get_progress_system
 
 
 class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
-    def __init__(self, env, prompt_mode="tty", seed=None):
+    def __init__(self, env, seed=None, vlm=False):
         super().__init__(env, use_language_action=True)
-        self.prompt_mode = prompt_mode
         self.language_action_space = self.create_action_space()
         if seed is not None:
             self.env.seed(seed)
+        self.vlm = vlm
+
+        if not vlm:
+            self.prompt_mode = "hybrid"
+        else:
+            self.prompt_mode = "language"
 
         self.env = env
         self.progress = get_progress_system(self.env)
@@ -34,28 +40,32 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
         return "esc"
 
     def nle_process_obsv(self, nle_obsv):
-        return self.nle_obsv_to_language(nle_obsv)
+        img = Image.fromarray(self.render("tiles")).convert("RGB") if self.vlm else None
+        text = self.nle_obsv_to_language(nle_obsv)
+
+        return {
+            "text": text,
+            "image": img,
+            "obs": nle_obsv,
+        }
 
     def nle_obsv_to_language(self, nle_obsv):
-        if self.prompt_mode == "ascii_map":
-            return {"obs": nle_obsv, "text": render_ascii_map(nle_obsv)}
-        elif self.prompt_mode == "language":
-            return {"obs": nle_obsv, "text": render_text(nle_obsv)}
+        if self.prompt_mode == "language":
+            return render_text(nle_obsv)
         elif self.prompt_mode == "hybrid":
-            return {"obs": nle_obsv, "text": render_hybrid(nle_obsv)}
+            return render_hybrid(nle_obsv)
         else:
             raise ValueError(f'"{self.prompt_mode}" is not a valid prompt mode.')
 
     def render(self, mode="human"):
-        if mode == "tty_image":
+        if mode == "tiles":
             obs = self.env.last_observation
             glyphs = obs[self.env._observation_keys.index("glyphs")]
             return rgb_render_image(glyphs)
-        elif mode == "image":
+        elif mode == "tty_image":
             obs = self.env.last_observation
             tty_chars = obs[self.env._observation_keys.index("tty_chars")]
             tty_colors = obs[self.env._observation_keys.index("tty_colors")]
-            # tty_cursor = obs[self.env._observation_keys.index("tty_cursor")]
             return tty_render_image(tty_chars, tty_colors)
         else:
             return super().render(mode)
