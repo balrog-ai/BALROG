@@ -103,11 +103,10 @@ class TextWorldWrapper(gym.Wrapper):
         self.progression = 0.0
 
     def textworld_process_obsv(self, textworld_obsv):
-        if self.prompt_mode == "language":
-            return {
-                "text": {"long_term_context": textworld_obsv, "short_term_context": ""},
-                "image": None,
-            }
+        return {
+            "text": {"long_term_context": textworld_obsv, "short_term_context": ""},
+            "image": None,
+        }
 
     def filter_objective(self, obs, info):
         objective = info["objective"]
