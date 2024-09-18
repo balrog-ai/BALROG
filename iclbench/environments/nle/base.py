@@ -40,12 +40,7 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
         return "esc"
 
     def nle_process_obsv(self, nle_obsv):
-        img = (
-            Image.fromarray(self.render("tty_image")).convert("RGB")
-            if self.vlm
-            else None
-        )
-        img.save("nle.png")
+        img = Image.fromarray(self.render("tiles")).convert("RGB") if self.vlm else None
         text = self.nle_obsv_to_language(nle_obsv)
 
         return {
@@ -63,15 +58,14 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
             raise ValueError(f'"{self.prompt_mode}" is not a valid prompt mode.')
 
     def render(self, mode="human"):
-        if mode == "tty_image":
+        if mode == "tiles":
             obs = self.env.last_observation
             glyphs = obs[self.env._observation_keys.index("glyphs")]
             return rgb_render_image(glyphs)
-        elif mode == "image":
+        elif mode == "tty_image":
             obs = self.env.last_observation
             tty_chars = obs[self.env._observation_keys.index("tty_chars")]
             tty_colors = obs[self.env._observation_keys.index("tty_colors")]
-            # tty_cursor = obs[self.env._observation_keys.index("tty_cursor")]
             return tty_render_image(tty_chars, tty_colors)
         else:
             return super().render(mode)
