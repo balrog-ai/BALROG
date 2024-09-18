@@ -1,7 +1,3 @@
-import logging
-import numpy as np
-
-
 class EnvWrapper:
     def __init__(self, env, env_name, task_name):
         self.env = env
