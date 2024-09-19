@@ -6,4 +6,5 @@ client:
   is_chat_model: True
   generate_kwargs:
     temperature: 0.5
+    max_tokens: 1024
   timeout: 60

@@ -4,6 +4,7 @@ from iclbench.agents.base import BaseAgent
 class NaiveAgent(BaseAgent):
     def __init__(self, client_factory, prompt_builder):
         super().__init__(client_factory, prompt_builder)
+        self.client = client_factory()
 
     def act(self, obs, prev_action=None):
         if prev_action:
@@ -11,15 +12,17 @@ class NaiveAgent(BaseAgent):
 
         self.prompt_builder.update_observation(obs)
 
-        input = self.prompt_builder.get_prompt()
+        messages = self.prompt_builder.get_prompt()
 
-        # Add Naive instructions to the prompt
+        # Add naive instructions to the last user message
         naive_instruction = """
 You can only output one of the above actions at a time, and always have to output an action until the episode terminates.
-Action: 
+Action:
         """.strip()
-        input[-1]["parts"][0] += "\n\n" + naive_instruction
 
-        completion = self.client.generate(input)
+        if messages and messages[-1].role == "user":
+            messages[-1].content += "\n\n" + naive_instruction
 
-        return completion
+        response = self.client.generate(messages)
+
+        return response
