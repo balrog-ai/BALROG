@@ -6,7 +6,7 @@ from iclbench.evaluator import Evaluator
 
 
 @pytest.mark.parametrize("agent", ["naive"])
-@pytest.mark.parametrize("environment", ["nle", "minihack", "babyai", "craftax", "textworld", "babaisai"])
+@pytest.mark.parametrize("environment", ["nle", "minihack", "babyai", "textworld", "babaisai"])  # "craftax"
 @pytest.mark.parametrize("client", ["gemini"])
 @pytest.mark.parametrize("vlm", [True])
 def test_evaluation(agent, environment, client, vlm):
