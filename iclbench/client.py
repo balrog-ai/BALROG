@@ -1,6 +1,6 @@
 import base64
+from dataclasses import dataclass
 from io import BytesIO
-from typing import NamedTuple
 
 import google.generativeai as genai
 import replicate
@@ -8,12 +8,14 @@ from anthropic import Anthropic
 from openai import OpenAI
 
 
-class LLMResponse(NamedTuple):
+@dataclass(slots=True)
+class LLMResponse:
     model_id: str
     completion: str
     stop_reason: str
     input_tokens: int
     output_tokens: int
+    reasoning: str = None
 
 
 class LLMClientWrapper:
