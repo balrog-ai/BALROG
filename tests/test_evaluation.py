@@ -33,6 +33,8 @@ def test_evaluation(agent, environment, client, vlm):
 
         # Run evaluation
         env_name = cfg.env_names.split(",")[0]
+        # we could pass task name as an argument, for now just use the first task
+        cfg[f"{env_name}_tasks"] = cfg[f"{env_name}_tasks"][:1]
         evaluator = Evaluator(env_name, cfg)
         agent_factory = AgentFactory(cfg)
         evaluator.run(agent_factory)
