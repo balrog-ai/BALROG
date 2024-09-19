@@ -97,8 +97,6 @@ You are an agent playing NetHack. The following are the possible actions you can
 
 In a moment I will present a history of actions and observations from the game.
 
-You can only output one of the above actions at a time.
-
 Tips:
 - There is no point in taking the same action over and over if nothing changes.
 - When the message asks for a completion, such as: "What do you want to eat? [d or ?*]", you should respond with a single character corresponding to the item you want to eat/use.
