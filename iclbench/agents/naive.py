@@ -19,7 +19,6 @@ You can only output one of the above actions at a time, and always have to outpu
 Action: 
         """.strip()
         input[-1]["parts"][0] += "\n\n" + naive_instruction
-        # print(input[0]["content"] if isinstance(input, list) else input)
 
         completion = self.client.generate(input)
 
