@@ -1,6 +1,15 @@
-env_names: minihack
+env_names: textworld
 env_kwargs:
   seed: null
+
+nle_kwargs:
+  character: "@"
+  max_episode_steps: 100_000
+  no_progress_timeout: 150
+  savedir: null
+  save_ttyrec_every: 0
+
+minihack_kwargs: {}
 
 babyai_kwargs:
   num_dists: 0
@@ -15,5 +24,8 @@ textworld_kwargs:
   won: True
   max_episode_steps: 80
   textworld_games_path: tw_games
+
+babaisai_kwargs: 
+  add_ruleset: True
 
 vlm: True

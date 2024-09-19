@@ -1,6 +1,6 @@
 num_episodes: 1
 num_workers: 1
-max_steps_per_episode: 50
+max_steps_per_episode: null
 save_trajectories: True
 
 wandb_save: False
