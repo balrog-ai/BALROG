@@ -1,10 +1,12 @@
-import os
-import logging
 import json
+import logging
 import multiprocessing
-from iclbench.environments import make_env, get_tasks
+import os
 from collections import defaultdict
+
 from tqdm import tqdm
+
+from iclbench.environments import get_tasks, make_env
 
 
 class Evaluator:
@@ -31,9 +33,7 @@ class Evaluator:
         instructions = None
         if self.env_name == "babyai":
             instructions = obs["mission"]
-        agent.prompt_builder.update_instruction_prompt(
-            env.get_instruction_prompt(instructions=instructions)
-        )
+        agent.prompt_builder.update_instruction_prompt(env.get_instruction_prompt(instructions=instructions))
 
         episode_return = 0.0
 
@@ -51,9 +51,7 @@ class Evaluator:
             action = agent.act(obs, prev_action=action)
             action = env.check_action_validity(action)
             if self.config.save_trajectories:
-                episode_log["trajectory"].append(
-                    (obs["text"]["long_term_context"], action)
-                )
+                episode_log["trajectory"].append((obs["text"]["long_term_context"], action))
             episode_log["action_frequency"][action] += 1
 
             obs, reward, done, info = env.step(action)
@@ -145,9 +143,7 @@ class Evaluator:
 
                 # Update progress bar
                 pbar.update(1)
-                pbar.set_description(
-                    f"Last task: {result['task']}, Process: {result.get('process_num', 'N/A')}"
-                )
+                pbar.set_description(f"Last task: {result['task']}, Process: {result.get('process_num', 'N/A')}")
 
                 # Queue another task if there are any left
                 if tasks_queued < len(all_tasks):
@@ -171,19 +167,14 @@ class Evaluator:
             if task is None:
                 break
             try:
-                result = self.run_episode(
-                    task, agent, process_num=process_num, position=position + 1
-                )
+                result = self.run_episode(task, agent, process_num=process_num, position=position + 1)
                 result["process_num"] = process_num  # Include process number in result
                 results_queue.put(result)
             except Exception as e:
                 logging.error(f"Error in worker: {e}")
-                results_queue.put(
-                    {"task": task, "error": str(e), "process_num": process_num}
-                )
+                results_queue.put({"task": task, "error": str(e), "process_num": process_num})
 
     def _save_results(self, results, env_name):
-
         progression = 0.0
         count = 0
 

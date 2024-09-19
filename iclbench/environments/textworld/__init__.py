@@ -1,11 +1,10 @@
-from iclbench.environments.textworld.base import TextWorldFactory, TASKS
+from iclbench.environments.textworld.base import TASKS, TextWorldFactory
 
 __all__ = [TextWorldFactory, TASKS]
 
 
-
 intruction_prompts = dict(
-    treasure_hunter = """
+    treasure_hunter="""
     You are an agent playing TextWorld, a text-based adventure game where you are in a randomly generated
     maze and must find a specific object. You need to explore different rooms to find the target object.
     Here are the available commands: look: describe the current room. goal: print the goal of this game
@@ -23,7 +22,7 @@ intruction_prompts = dict(
     door or container, it will remain closed. You will then need to open it.
     You have 40 steps to complete the task. Restarting is forbidden.
     """,
-    the_cooking_game = """
+    the_cooking_game="""
     You are an agent playing TextWorld, a text-based adventure game where you navigate through different
     rooms, interact with objects, and solve puzzles. Your goal is to first find the recipe, find and prepare food
     according to the recipe, and finally prepare and eat the meal.
@@ -53,7 +52,7 @@ intruction_prompts = dict(
     it says something like "there isn’t a thing on it"/"has nothing on it"
     You have 80 steps to complete the task. Restarting is forbidden.
     """,
-    coin_collector = """
+    coin_collector="""
     You are an agent playing TextWorld, a text-based adventure game where you are in a randomly generated
     maze and must find the coin. You need to explore different rooms to find the target object.
     Here are the available commands: goal: print the goal of this game go <dir>: move the player north, east,
@@ -62,7 +61,7 @@ intruction_prompts = dict(
     The only action you can do is go <dir> to explore the maze and ‘take coin’ when you see the coin in the
     room.
     You have 25 steps to complete the task. Restarting is forbidden.
-    """
+    """,
 )
 
 

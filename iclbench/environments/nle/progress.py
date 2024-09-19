@@ -1,4 +1,3 @@
-from typing import Optional
 import json
 import os
 from dataclasses import dataclass, field
@@ -19,7 +18,6 @@ def get_progress_system(env):
 
 @dataclass
 class Progress:
-
     episode_return: float = 0.0
     score: int = 0
     depth: int = 1

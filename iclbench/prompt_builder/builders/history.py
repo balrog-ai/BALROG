@@ -1,5 +1,5 @@
-from collections import deque
 import base64
+from collections import deque
 from io import BytesIO
 
 
@@ -153,12 +153,7 @@ class HistoryPromptBuilder:
                     images.append(event["image"])
                 if idx == len(self._events) - 1:
                     history += (
-                        self.sep
-                        + "\n"
-                        + "Current Observation:\n"
-                        + self._last_short_term_obs
-                        + "\n"
-                        + event["text"]
+                        self.sep + "\n" + "Current Observation:\n" + self._last_short_term_obs + "\n" + event["text"]
                     )
                 else:
                     history += self.sep + "\n" + event["text"]
@@ -197,17 +192,11 @@ class HistoryPromptBuilder:
                 if idx == len(self._events) - 1:
                     # Add short term context to the last observation (NLE/Craftax/MiniHack)
                     content = self.build_content(
-                        "Current Observation:\n"
-                        + self._last_short_term_obs
-                        + "\n"
-                        + event["text"]
-                        + image_obs,
+                        "Current Observation:\n" + self._last_short_term_obs + "\n" + event["text"] + image_obs,
                         image,
                     )
                 else:
-                    content = self.build_content(
-                        "Obesrvation:\n" + event["text"] + image_obs, image
-                    )
+                    content = self.build_content("Obesrvation:\n" + event["text"] + image_obs, image)
                 message = self.format_message("user", content)
                 del event["include_image"]
             elif event["type"] == "action":

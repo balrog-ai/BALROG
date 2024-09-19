@@ -1,6 +1,5 @@
 from nle_language_wrapper import NLELanguageWrapper
 
-
 ACTIONS = {
     "north": "move north",
     "east": "move east",
@@ -40,9 +39,7 @@ ACTIONS = {
 
 def get_available_actions(env):
     return {
-        NLELanguageWrapper.all_nle_action_map[action][0]: ACTIONS[
-            NLELanguageWrapper.all_nle_action_map[action][0]
-        ]
+        NLELanguageWrapper.all_nle_action_map[action][0]: ACTIONS[NLELanguageWrapper.all_nle_action_map[action][0]]
         for action in env.actions
     }
 
@@ -59,7 +56,6 @@ TASKS = [
 
 
 def get_instruction_prompt(env, task="MiniHack-ExploreMaze-Hard-Mapped-v0"):
-
     if "mazewalk" in task or "corridor" in task.lower():
         goal = "Your goal is to explore the level and reach the stairs down."
     elif "key" in task:
@@ -72,9 +68,7 @@ def get_instruction_prompt(env, task="MiniHack-ExploreMaze-Hard-Mapped-v0"):
         goal = "Your goal is to get as far as possible in the game."
 
     available_actions = get_available_actions(env)
-    action_strings = ",\n".join(
-        f"{action}: {description}" for action, description in available_actions.items()
-    )
+    action_strings = ",\n".join(f"{action}: {description}" for action, description in available_actions.items())
     instruction_prompt = f"""
 You are an agent playing MiniHack. The following are the possible actions you can take in the game, followed by a short description of each action:
 

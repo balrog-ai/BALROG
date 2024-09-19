@@ -1,5 +1,6 @@
-from .env import CraftaxLanguageWrapper
 from craftax.craftax.constants import Action
+
+from .env import CraftaxLanguageWrapper
 
 ACTIONS = [
     "noop",

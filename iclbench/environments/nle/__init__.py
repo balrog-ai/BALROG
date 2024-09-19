@@ -87,9 +87,7 @@ TASKS = ["NetHackChallenge-v0"]
 
 
 def get_instruction_prompt(task=None):
-    action_strings = ",\n".join(
-        f"{action}: {description}" for action, description in ACTIONS.items()
-    )
+    action_strings = ",\n".join(f"{action}: {description}" for action, description in ACTIONS.items())
     instruction_prompt = f"""
 You are an agent playing NetHack. The following are the possible actions you can take in the game, followed by a short description of each action:
 

@@ -1,7 +1,8 @@
-import os
 import json
 import logging
+import os
 from collections import defaultdict
+
 import wandb
 
 
@@ -16,7 +17,7 @@ def summarize_env_progressions(results_summaries: defaultdict, config) -> float:
 
     with open("summary.json", "w") as f:
         json.dump(results_summaries, f)
-    logging.info(f"Results saved in summary.json")
+    logging.info("Results saved in summary.json")
 
     return average_progression
 

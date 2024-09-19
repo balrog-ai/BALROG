@@ -1,5 +1,5 @@
-import gym
 import babyai_text
+import gym
 from gym import Wrapper
 from PIL import Image
 
@@ -38,9 +38,7 @@ class BabyAITextCleanLangWrapper(Wrapper):
 
     def get_prompt(self, obs, infos):
         if self.vlm:
-            image = Image.fromarray(self.env.get_obs_render(obs["image"])).convert(
-                "RGB"
-            )
+            image = Image.fromarray(self.env.get_obs_render(obs["image"])).convert("RGB")
         else:
             image = None
 

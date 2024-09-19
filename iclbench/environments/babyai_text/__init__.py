@@ -11,19 +11,16 @@ ACTIONS = {
 
 
 TASKS = [
-    "BabyAI-MixedTrainLocal-v0/goto", 
-    "BabyAI-MixedTrainLocal-v0/pickup", 
-    "BabyAI-MixedTrainLocal-v0/open", 
-    "BabyAI-MixedTrainLocal-v0/putnext", 
+    "BabyAI-MixedTrainLocal-v0/goto",
+    "BabyAI-MixedTrainLocal-v0/pickup",
+    "BabyAI-MixedTrainLocal-v0/open",
+    "BabyAI-MixedTrainLocal-v0/putnext",
     "BabyAI-MixedTrainLocal-v0/pick_up_seq_go_to",
 ]
 
 
 def get_instruction_prompt(env, mission="BabyAI-MixedTrainLocal-v0"):
-
-    action_strings = ",\n".join(
-        f"{action}: {description}" for action, description in ACTIONS.items()
-    )
+    action_strings = ",\n".join(f"{action}: {description}" for action, description in ACTIONS.items())
 
     instruction_prompt = f"""
 You are an agent playing a simple navigation game. Your goal is to {mission}. The following are the possible actions you can take in the game, followed by a short description of each action:
@@ -32,7 +29,7 @@ You are an agent playing a simple navigation game. Your goal is to {mission}. Th
 
 In a moment I will present you an observation.
 
-Tips: 
+Tips:
 - Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.
 - It doesn't make sense to repeat the same action over and over if the observation doesn't change.
 

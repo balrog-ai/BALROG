@@ -1,11 +1,10 @@
-import gym
+from collections import defaultdict
 
 import baba
+import gym
 import numpy as np
-from PIL import Image
-
 from baba.world_object import name_mapping
-from collections import defaultdict
+from PIL import Image
 
 TASKS = [
     "env/make_win-distr_obj_rule",
@@ -170,9 +169,7 @@ class BabaIsAIWrapper(gym.Wrapper):
             ]
         )
         offsets = calculate_offsets(my_position[0], [p[0] for p in other_positions])
-        relative_positions = [
-            (tuple(offset), pos[1]) for offset, pos in zip(offsets, other_positions)
-        ]
+        relative_positions = [(tuple(offset), pos[1]) for offset, pos in zip(offsets, other_positions)]
         text_observation = form_description(relative_positions)
 
         return text_observation

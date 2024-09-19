@@ -1,5 +1,5 @@
-import re
 import copy
+import re
 
 from iclbench.agents.base import BaseAgent
 from iclbench.client import LLMClientWrapper
@@ -8,7 +8,7 @@ from iclbench.client import LLMClientWrapper
 class ChainOfThoughtAgent(BaseAgent):
     def __init__(self, client_factory: LLMClientWrapper, prompt_builder):
         super().__init__(client_factory, prompt_builder)
-    
+
     def act(self, obs, prev_action=None):
         if prev_action:
             self.prompt_builder.update_action(prev_action)
@@ -39,11 +39,11 @@ Please provide reasoning first and only after reasoning provide the final answer
 
     def _extract_final_answer(self, reasoning):
         def filter_letters(input_string):
-            return re.sub(r'[^a-zA-Z\s:]', '', input_string)
-        
+            return re.sub(r"[^a-zA-Z\s:]", "", input_string)
+
         answer = copy.deepcopy(reasoning)
-        
+
         for choice in answer.choices:
             choice.message.content = filter_letters(choice.message.content).split("Action:")[-1].strip()
-            
+
         return answer
