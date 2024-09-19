@@ -1,6 +1,6 @@
-from iclbench.environments.textworld.base import TASKS, TextWorldFactory
+from iclbench.environments.textworld.base import TextWorldFactory
 
-__all__ = [TextWorldFactory, TASKS]
+__all__ = [TextWorldFactory]
 
 
 intruction_prompts = dict(

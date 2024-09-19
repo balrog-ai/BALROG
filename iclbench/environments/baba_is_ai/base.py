@@ -6,51 +6,6 @@ import numpy as np
 from baba.world_object import name_mapping
 from PIL import Image
 
-TASKS = [
-    "env/make_win-distr_obj_rule",
-    "env/goto_win-distr_obj_rule",
-    "env/goto_win",
-    "env/goto_win-distr_obj",
-    "env/goto_win-distr_rule",
-    "env/goto_win-distr_obj-irrelevant_rule",
-    "env/goto_win-distr_win_rule",
-    "env/make_win-distr_obj",
-    "env/make_win-distr_rule",
-    "env/make_win",
-    "env/make_win-distr_obj-irrelevant_rule",
-    "env/two_room-goto_win",
-    "env/two_room-goto_win-distr_obj_rule",
-    "env/two_room-goto_win-distr_rule",
-    "env/two_room-goto_win-distr_obj",
-    "env/two_room-goto_win-distr_obj-irrelevant_rule",
-    "env/two_room-goto_win-distr_win_rule",
-    "env/two_room-break_stop-goto_win-distr_obj_rule",
-    "env/two_room-break_stop-goto_win-distr_obj",
-    "env/two_room-break_stop-goto_win-distr_rule",
-    "env/two_room-break_stop-goto_win-distr_obj-irrelevant_rule",
-    "env/two_room-break_stop-goto_win",
-    "env/two_room-maybe_break_stop-goto_win-distr_obj_rule",
-    "env/two_room-maybe_break_stop-goto_win",
-    "env/two_room-maybe_break_stop-goto_win-distr_obj",
-    "env/two_room-maybe_break_stop-goto_win-distr_rule",
-    "env/two_room-maybe_break_stop-goto_win-distr_obj-irrelevant_rule",
-    "env/two_room-make_win-distr_obj_rule",
-    "env/two_room-make_win-distr_rule",
-    "env/two_room-make_win",
-    "env/two_room-make_win-distr_obj-irrelevant_rule",
-    "env/two_room-make_win-distr_obj",
-    "env/two_room-make_win-distr_win_rule",
-    "env/two_room-break_stop-make_win-distr_obj_rule",
-    "env/two_room-break_stop-make_win-distr_rule",
-    "env/two_room-break_stop-make_win",
-    "env/two_room-break_stop-make_win-distr_obj-irrelevant_rule",
-    "env/two_room-break_stop-make_win-distr_obj",
-    "env/two_room-make_you",
-    "env/two_room-make_you-make_win",
-    "env/two_room-make_wall_win",
-]
-
-
 BABAISAI_ACTION_SPACE = [a.name for a in baba.grid.BabaIsYouEnv.Actions]
 
 

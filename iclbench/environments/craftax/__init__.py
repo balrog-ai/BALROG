@@ -49,9 +49,6 @@ ACTIONS = [
 ]
 
 
-TASKS = ["Craftax-Symbolic-v1"]
-
-
 def get_instruction_prompt(task=None):
     action_strings = ",\n".join(f"{action}" for action in ACTIONS)
     instruction_prompt = f"""

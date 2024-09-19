@@ -1,6 +1,6 @@
-from iclbench.environments.baba_is_ai.base import TASKS, BabaIsAIWrapper
+from iclbench.environments.baba_is_ai.base import BabaIsAIWrapper
 
-__all__ = [TASKS, BabaIsAIWrapper]
+__all__ = [BabaIsAIWrapper]
 
 
 ACTIONS = {
