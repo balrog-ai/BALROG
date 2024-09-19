@@ -19,13 +19,8 @@ class ChainOfThoughtAgent(BaseAgent):
 
         # Add CoT-specific instructions to the prompt
         cot_instructions = """
-Let's approach this step-by-step:
-1. Analyze the given information
-2. Break down the problem into smaller parts
-3. Reason about each part
-4. Combine the insights to form a conclusion
-You can only output one of the above actions at a time, and always have to output an action until the episode terminates.
-Please provide reasoning first and only after reasoning provide the final answer in the form of Action: <action>
+First think about what's the best cuorse of action step by step.
+Finally, provide a single output action at the end of the message in the form of: ACTION: <action>
         """.strip()
 
         messages[-1].content += "\n\n" + cot_instructions
