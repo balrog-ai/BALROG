@@ -114,6 +114,7 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
     def generate(self, messages):
         self._initialize_client()
         converted_messages = self.convert_messages(messages)
+
         response = self.model.generate_content(
             converted_messages,
             generation_config=self.generation_config,

@@ -28,8 +28,7 @@ class HistoryPromptBuilder:
         long_term_context = obs["text"].get("long_term_context", "")
         self._last_short_term_obs = obs["text"].get("short_term_context", "")
         text = long_term_context
-        if self._last_short_term_obs:
-            text = f"Current Observation:\n{self._last_short_term_obs}\n{text}"
+
         image = obs.get("image", None)
 
         # Add observation to events
@@ -70,11 +69,17 @@ class HistoryPromptBuilder:
                     event["include_image"] = False
 
         # Process events to create messages
-        for event in self._events:
+        for idx, event in enumerate(self._events):
             if event["type"] == "observation":
                 content = event["text"]
                 image = event.get("image") if event.get("include_image", False) else None
+                image_obs = "\nImage observation provided." if image is not None else ""
+                if idx == len(self._events) - 1:
+                    content = "Current Observation:\n" + self._last_short_term_obs + "\n" + event["text"] + image_obs
+                else:
+                    content = "Obesrvation:\n" + event["text"] + image_obs
                 message = Message(role="user", content=content, attachment=image)
+
                 # Clean up the temporary flag
                 if "include_image" in event:
                     del event["include_image"]
