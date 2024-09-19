@@ -15,7 +15,7 @@ class ChainOfThoughtAgent(BaseAgent):
 
         self.prompt_builder.update_observation(obs)
 
-        input = self.prompt_builder.get_prompt()
+        messages = self.prompt_builder.get_prompt()
 
         # Add CoT-specific instructions to the prompt
         cot_instructions = """
@@ -27,10 +27,11 @@ Let's approach this step-by-step:
 You can only output one of the above actions at a time, and always have to output an action until the episode terminates.
 Please provide reasoning first and only after reasoning provide the final answer in the form of Action: <action>
         """.strip()
-        input[-1]["parts"][0] += "\n\n" + cot_instructions
+
+        messages[-1].content += "\n\n" + cot_instructions
 
         # Generate the CoT reasoning
-        cot_reasoning = self.client.generate(input)
+        cot_reasoning = self.client.generate(messages)
 
         # Extract the final answer from the CoT reasoning
         final_answer = self._extract_final_answer(cot_reasoning)
@@ -43,7 +44,7 @@ Please provide reasoning first and only after reasoning provide the final answer
 
         answer = copy.deepcopy(reasoning)
 
-        for choice in answer.choices:
-            choice.message.content = filter_letters(choice.message.content).split("Action:")[-1].strip()
+        answer.reasoning = answer.completion
+        answer.completion = filter_letters(answer.completion).split("ACTION:")[-1].strip()
 
         return answer

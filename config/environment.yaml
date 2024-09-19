@@ -1,4 +1,5 @@
-env_names: textworld
+env_names: babyai
+
 env_kwargs:
   seed: null
 
