@@ -21,13 +21,13 @@ class SelfRefineAgent(BaseAgent):
         # Add initial instructions to the prompt
         initial_instructions = """
 Please provide an answer to the given question or task. After your response, I will provide feedback for improvement.
-You can approach this by analyzing and decomposing the problem, but please provide the final answer in the form of Action: <action>
+You can only output one of the above actions at a time, and always have to output an action until the episode terminates.
+Please provide reasoning first and only after reasoning provide the final answer in the form of Action: <action>
         """.strip()
         input[-1]["parts"][0] += "\n\n" + initial_instructions
 
         # Initial response generation
         response = self.client.generate(input)
-        
         # Self-refine loop
         for _ in range(self.max_iterations):
             # Generate feedback
@@ -53,13 +53,14 @@ Response to evaluate:"
             refine_prompt = f"""
 Feedback: {feedback_response.choices[0].message.content}
 
-Please refine your previous response based on this feedback. Provide an improved answer.
+Please refine your previous response based on this feedback.
+You can only output one of the above actions at a time, and always have to output an action until the episode terminates.
+Please provide reasoning first and only after reasoning provide the final answer in the form of Action: <action>
             """.strip()
             input.append({"role": "user", "parts": [refine_prompt]})
             
             # Generate refined response
             response = self.client.generate(input)
-        
         # Extract the final answer from the refined response
         final_answer = self._extract_final_answer(response)
 

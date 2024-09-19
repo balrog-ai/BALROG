@@ -24,8 +24,8 @@ Let's approach this step-by-step:
 2. Break down the problem into smaller parts
 3. Reason about each part
 4. Combine the insights to form a conclusion
-5. Provide the final answer in the form of Action: <action>
-Now, let's begin:
+You can only output one of the above actions at a time, and always have to output an action until the episode terminates.
+Please provide reasoning first and only after reasoning provide the final answer in the form of Action: <action>
         """.strip()
         input[-1]["parts"][0] += "\n\n" + cot_instructions
 
