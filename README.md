@@ -67,8 +67,13 @@ Ideally we should in the future also support interaction with the benchmark pure
 ```
 conda create --y --name iclbench python=3.10
 conda activate iclbench
-pip install -e external/nle
 pip install -e external/nle-language-wrapper
+pip install -e external/nle
+pip install git+https://github.com/Farama-Foundation/Minigrid.git
+pip install git+https://github.com/nacloos/baba-is-ai.git
+pip install textworld
+pip install -e external/Grounding_LLMs_with_online_RL/babyai-text
+pip install -e external/Grounding_LLMs_with_online_RL/babyai-text/gym-minigrid
 ```
 
 ### pre-commit installation and setup 
