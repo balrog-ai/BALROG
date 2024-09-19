@@ -3,17 +3,18 @@ import logging
 import multiprocessing
 import os
 from collections import defaultdict
+from pathlib import Path
 
 from tqdm import tqdm
 
-from iclbench.environments import get_tasks, make_env
+from iclbench.environments import make_env
 
 
 class Evaluator:
     def __init__(self, env_name, config):
         self.env_name = env_name.strip()  # Ensure no leading/trailing whitespace
         self.config = config
-        self.tasks = get_tasks(self.env_name)
+        self.tasks = config[f"{self.env_name}_tasks"]
 
         self.num_episodes = config.num_episodes
         self.num_workers = config.num_workers
@@ -182,7 +183,6 @@ class Evaluator:
 
         for task, result in results.items():
             task_folder = os.path.join(env_name, task)
-            os.makedirs(task_folder, exist_ok=True)
             task_progression = 0.0
             task_count = 0
             for idx, run in enumerate(result):
@@ -191,6 +191,7 @@ class Evaluator:
                 task_progression += run.get("progression", 0.0)
                 task_count += 1
                 filename = os.path.join(task_folder, f"{task}_run_{idx:02d}.json")
+                Path(filename).parent.mkdir(exist_ok=True, parents=True)
                 with open(filename, "w") as file:
                     json.dump(run, file, indent=4)
             env_summary[task] = (

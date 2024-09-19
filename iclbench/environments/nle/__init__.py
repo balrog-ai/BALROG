@@ -83,8 +83,6 @@ ACTIONS = {
     # "9": "9",
 }
 
-TASKS = ["NetHackChallenge-v0"]
-
 
 def get_instruction_prompt(task=None):
     action_strings = ",\n".join(f"{action}: {description}" for action, description in ACTIONS.items())

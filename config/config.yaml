@@ -3,6 +3,7 @@ defaults:
   - agent
   - environment
   - evaluation
+  - tasks
 
 
 hydra:

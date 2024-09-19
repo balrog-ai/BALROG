@@ -10,12 +10,6 @@ import textworld.gym
 
 workspace_dir = os.path.dirname(importlib.resources.files("iclbench").__str__())
 
-TASKS = [
-    "treasure_hunter",
-    "the_cooking_game",
-    "coin_collector",
-]
-
 
 class TextWorldFactory:
     """
@@ -33,7 +27,7 @@ class TextWorldFactory:
             cls._instance.initialize(**kwargs)
         return cls._instance
 
-    def initialize(self, textworld_games_path, max_episode_steps=40, **kwargs):
+    def initialize(self, textworld_games_path, tasks, max_episode_steps=40, **kwargs):
         textworld_games_path = os.path.join(workspace_dir, textworld_games_path)
         self.count = defaultdict(int)
 
@@ -47,11 +41,11 @@ class TextWorldFactory:
         for pattern in ["*.ulx", "*.z8"]:
             for entry in glob.glob(os.path.join(textworld_games_path, f"**/{pattern}"), recursive=True):
                 task = Path(entry).parent.name
-                if task in TASKS:
+                if task in tasks:
                     env_id = textworld.gym.register_game(entry, self.request_infos, max_episode_steps=max_episode_steps)
                     self.env_ids[task].append(env_id)
 
-    def get_textworld_env(self, task, prompt_mode="language", seed=None, **kwargs):
+    def get_textworld_env(self, task, seed=None, **kwargs):
         """
         Create and return a TextWorld environment for the specified task.
 
@@ -77,7 +71,7 @@ class TextWorldFactory:
             env_id = self.env_ids[task][self.count[task] % len(self.env_ids[task])]
 
         env = textworld.gym.make(env_id, **kwargs)
-        env = TextWorldWrapper(env, prompt_mode=prompt_mode)
+        env = TextWorldWrapper(env)
         return env
 
     def __call__(self, task, **kwargs):
@@ -94,6 +88,10 @@ class TextWorldWrapper(gym.Wrapper):
         super().__init__(env)
         self.language_action_space = AlwaysTrue()
         self.progression = 0.0
+
+    @property
+    def default_action(self):
+        return "help"
 
     def textworld_process_obsv(self, textworld_obsv):
         return {

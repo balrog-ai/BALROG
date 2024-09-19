@@ -44,17 +44,6 @@ def get_available_actions(env):
     }
 
 
-TASKS = [
-    "MiniHack-Corridor-R5-v0",
-    "MiniHack-River-v0",
-    "MiniHack-MazeWalk-Mapped-15x15-v0",
-    "MiniHack-Sokoban1a-v0",
-    "MiniHack-Sokoban2a-v0",
-    "MiniHack-Sokoban3a-v0",
-    "MiniHack-Sokoban4a-v0",
-]
-
-
 def get_instruction_prompt(env, task="MiniHack-ExploreMaze-Hard-Mapped-v0"):
     if "mazewalk" in task or "corridor" in task.lower():
         goal = "Your goal is to explore the level and reach the stairs down."
