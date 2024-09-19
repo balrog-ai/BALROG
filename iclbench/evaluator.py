@@ -3,6 +3,7 @@ import logging
 import multiprocessing
 import os
 from collections import defaultdict
+from pathlib import Path
 
 from tqdm import tqdm
 
@@ -182,7 +183,6 @@ class Evaluator:
 
         for task, result in results.items():
             task_folder = os.path.join(env_name, task)
-            os.makedirs(task_folder, exist_ok=True)
             task_progression = 0.0
             task_count = 0
             for idx, run in enumerate(result):
@@ -191,6 +191,7 @@ class Evaluator:
                 task_progression += run.get("progression", 0.0)
                 task_count += 1
                 filename = os.path.join(task_folder, f"{task}_run_{idx:02d}.json")
+                Path(filename).parent.mkdir(exist_ok=True, parents=True)
                 with open(filename, "w") as file:
                     json.dump(run, file, indent=4)
             env_summary[task] = (
