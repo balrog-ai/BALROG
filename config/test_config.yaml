@@ -1,0 +1,12 @@
+defaults:
+  - client
+  - agent
+  - environment
+  - evaluation
+
+hydra:
+  run:
+    dir: ./results/tests/${now:%Y-%m-%d}/${now:%H-%M-%S}
+
+test:
+  enabled: true

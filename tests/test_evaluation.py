@@ -1,0 +1,38 @@
+import pytest
+from hydra import compose, initialize
+
+from iclbench.agents import AgentFactory
+from iclbench.evaluator import Evaluator
+
+
+@pytest.mark.parametrize("agent", ["naive"])
+@pytest.mark.parametrize("environment", ["nle", "minihack", "babyai", "craftax", "textworld", "babaisai"])
+@pytest.mark.parametrize("client", ["gemini"])
+@pytest.mark.parametrize("vlm", [True])
+def test_evaluation(agent, environment, client, vlm):
+    with initialize(config_path="../config", version_base=None):
+        cfg = compose(
+            config_name="test_config",
+            overrides=[
+                f"agent={agent}",
+                f"env_names={environment}",
+                f"client.client_name={client}",
+                f"vlm={vlm}",
+                # to reduce computational footprint of the tests
+                f"num_episodes={1}",
+                f"num_workers={1}",
+                f"max_steps_per_episode={5}",
+            ],
+        )
+
+        # Check that the config is correct
+        assert cfg.agent == agent
+        assert cfg.env_names == environment
+        assert cfg.client.client_name == client
+        assert cfg.vlm == vlm
+
+        # Run evaluation
+        env_name = cfg.env_names.split(",")[0]
+        evaluator = Evaluator(env_name, cfg)
+        agent_factory = AgentFactory(cfg)
+        evaluator.run(agent_factory)
