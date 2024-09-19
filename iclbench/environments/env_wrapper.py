@@ -5,6 +5,10 @@ class EnvWrapper:
         self.task_name = task_name
         self.failed_candidates = []
 
+    @property
+    def max_steps(self):
+        return self.env.max_steps
+
     def reset(self):
         obs = self.env.reset()
         return self._process_observation(obs)

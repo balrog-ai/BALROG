@@ -10,10 +10,9 @@ def make_env(env_name, task, config):
     if env_name == "nle":
         from iclbench.environments.nle import NLELanguageWrapper
 
-        base_env = NLELanguageWrapper(gym.make(task), **config.env_kwargs, vlm=config.vlm)
+        base_env = NLELanguageWrapper(gym.make(task, **config.nle_kwargs), **config.env_kwargs, vlm=config.vlm)
     elif env_name == "minihack":
         import minihack
-
         from iclbench.environments.nle import NLELanguageWrapper
 
         base_env = NLELanguageWrapper(
@@ -28,6 +27,7 @@ def make_env(env_name, task, config):
                     "tty_cursor",
                     "tty_colors",
                 ],
+                **config.minihack_kwargs,
             ),
             **config.env_kwargs,
             vlm=config.vlm,
@@ -50,7 +50,7 @@ def make_env(env_name, task, config):
 
         from iclbench.environments.baba_is_ai import BabaIsAIWrapper
 
-        base_env = BabaIsAIWrapper(make(task), vlm=config.vlm)
+        base_env = BabaIsAIWrapper(make(task, **config.babaisai_kwargs), vlm=config.vlm)
     else:
         raise ValueError(f"Unknown environment: {env_name}")
     return EnvWrapper(base_env, env_name, task)

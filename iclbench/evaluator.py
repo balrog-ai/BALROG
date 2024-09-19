@@ -38,9 +38,11 @@ class Evaluator:
 
         episode_return = 0.0
 
+        max_steps_per_episode = env.max_steps if self.max_steps_per_episode is None else self.max_steps_per_episode
+
         pbar_desc = f"Task: {task}, Proc: {process_num}"
         pbar = tqdm(
-            total=self.max_steps_per_episode,
+            total=max_steps_per_episode,
             desc=pbar_desc,
             position=position,
             leave=True,  # Keep the progress bar after completion
@@ -48,9 +50,9 @@ class Evaluator:
         )
 
         action = None
-        for step in range(self.max_steps_per_episode):
-            response = agent.act(obs, prev_action=action)
-            action = env.check_action_validity(response.completion)
+        for step in range(max_steps_per_episode):
+            action = agent.act(obs, prev_action=action)
+            action = env.check_action_validity(action)
             if self.config.save_trajectories:
                 episode_log["trajectory"].append((obs["text"]["long_term_context"], action))
             episode_log["action_frequency"][action] += 1

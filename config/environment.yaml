@@ -1,6 +1,16 @@
 env_names: babyai
+
 env_kwargs:
   seed: null
+
+nle_kwargs:
+  character: "@"
+  max_episode_steps: 100_000
+  no_progress_timeout: 150
+  savedir: null
+  save_ttyrec_every: 0
+
+minihack_kwargs: {}
 
 babyai_kwargs:
   num_dists: 0
@@ -16,4 +26,7 @@ textworld_kwargs:
   max_episode_steps: 80
   textworld_games_path: tw_games
 
-vlm: False
+babaisai_kwargs: 
+  add_ruleset: True
+
+vlm: True

@@ -25,6 +25,7 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
 
         self.env = env
         self.progress = get_progress_system(self.env)
+        self.max_steps = self.env._max_episode_steps
 
     def step(self, action):
         obs, reward, done, info = super().step(action)

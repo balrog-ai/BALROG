@@ -2,13 +2,13 @@ nle_tasks:
   - NetHackChallenge-v0
 
 minihack_tasks:
-  - "MiniHack-Corridor-R5-v0"
-  - "MiniHack-River-v0"
-  - "MiniHack-MazeWalk-Mapped-15x15-v0"
-  - "MiniHack-Sokoban1a-v0"
-  - "MiniHack-Sokoban2a-v0"
-  - "MiniHack-Sokoban3a-v0"
-  - "MiniHack-Sokoban4a-v0"
+  - "MiniHack-Boxoban-Hard-v0"
+  - "MiniHack-Boxoban-Medium-v0"
+  - "MiniHack-Corridor-R3-v0"
+  - "MiniHack-CorridorBattle-Dark-v0"
+  - "MiniHack-Quest-Easy-v0"
+  - "MiniHack-Quest-Medium-v0"
+  - "MiniHack-Quest-Hard-v0"
 
 craftax_tasks:
   - "Craftax-Symbolic-v1"

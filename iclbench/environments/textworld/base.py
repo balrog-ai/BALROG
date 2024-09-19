@@ -5,8 +5,9 @@ from collections import defaultdict
 from pathlib import Path
 
 import gym
-import textworld
 import textworld.gym
+
+import textworld
 
 workspace_dir = os.path.dirname(importlib.resources.files("iclbench").__str__())
 
@@ -28,6 +29,8 @@ class TextWorldFactory:
         return cls._instance
 
     def initialize(self, textworld_games_path, tasks, max_episode_steps=40, **kwargs):
+        self.max_steps = max_episode_steps
+
         textworld_games_path = os.path.join(workspace_dir, textworld_games_path)
         self.count = defaultdict(int)
 
@@ -71,7 +74,7 @@ class TextWorldFactory:
             env_id = self.env_ids[task][self.count[task] % len(self.env_ids[task])]
 
         env = textworld.gym.make(env_id, **kwargs)
-        env = TextWorldWrapper(env)
+        env = TextWorldWrapper(env, max_steps=self.max_steps)
         return env
 
     def __call__(self, task, **kwargs):
@@ -84,10 +87,11 @@ class AlwaysTrue:
 
 
 class TextWorldWrapper(gym.Wrapper):
-    def __init__(self, env: gym.Env):
+    def __init__(self, env: gym.Env, max_steps=40):
         super().__init__(env)
         self.language_action_space = AlwaysTrue()
         self.progression = 0.0
+        self.max_steps = max_steps
 
     @property
     def default_action(self):
