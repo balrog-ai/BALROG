@@ -1,6 +1,4 @@
-import time
-from types import SimpleNamespace
-from typing import List, NamedTuple
+from typing import NamedTuple
 
 import google.generativeai as genai
 import replicate
