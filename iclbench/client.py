@@ -18,6 +18,7 @@ class LLMResponse(NamedTuple):
 
 class LLMClientWrapper:
     def __init__(self, client_config):
+        self.client_name = client_config.client_name
         self.model_id = client_config.model_id
         self.api_key = client_config.api_key
         self.base_url = client_config.base_url
@@ -55,7 +56,10 @@ class OpenAIWrapper(LLMClientWrapper):
 
     def _initialize_client(self):
         if not self._initialized:
-            self.client = OpenAI(api_key=self.api_key)
+            if self.client_name.lower() == "vllm":
+                self.client = OpenAI(api_key="EMPTY", base_url=self.base_url)
+            elif self.client_name.lower() == "openai":
+                self.client = OpenAI(api_key=self.api_key)
             self._initialized = True
 
     def convert_messages(self, messages):
@@ -217,7 +221,7 @@ def create_llm_client(client_config):
     """
 
     def client_factory():
-        if "openai" in client_config.client_name.lower():
+        if "openai" in client_config.client_name.lower() or "vllm" in client_config.client_name.lower():
             return OpenAIWrapper(client_config)
         elif "gemini" in client_config.client_name.lower():
             return GoogleGenerativeAIWrapper(client_config)
