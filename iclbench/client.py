@@ -68,14 +68,27 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
 class ClaudeWrapper(LLMClientWrapper):
     def __init__(self, client_config):
         super().__init__(client_config)
-        self.client = Anthropic(api_key=self.api_key)
+        self._initialized = False
 
-    def generate(self, input):
-        if self.is_chat_model and isinstance(input, list):  # Chat-based input
-            completion = self.client.chat.completions.create(**self.client_kwargs, messages=input)
-        else:  # Text-based input
-            completion = self.client.completions.create(prompt=input[0]["content"], **self.client_kwargs)
-        return completion
+    def _initialize_client(self):
+        if not self._initialized:
+            self.model = Anthropic(api_key=self.api_key)
+            self._initialized = True
+
+    def generate(self, input, max_tokens=1024):
+        self._initialize_client()
+
+        input.insert(1, {"role": "assistant", "content": "I'm ready!"})
+
+        response = self.model.messages.create(
+            max_tokens=max_tokens,
+            messages=input,
+            model=self.model_id,
+        )
+
+        print(response)
+
+        return response
 
 
 class ReplicateWrapper(LLMClientWrapper):

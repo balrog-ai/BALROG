@@ -34,6 +34,12 @@ MODEL_CONFIG = {
         "content_name": "parts",
         "process_image": process_image_gemini,
     },
+    "claude": {
+        "system_name": "user",
+        "assistant_name": "assistant",
+        "content_name": "content",
+        "process_image": process_image_openai,
+    },
 }
 
 
@@ -44,7 +50,7 @@ class HistoryPromptBuilder:
         max_history=16,
         max_image_history=1,
         system_prompt=None,
-        model_type="gemini",
+        model_type="claude",
         chat_history=True,
         sep="_" * 80,
     ):
