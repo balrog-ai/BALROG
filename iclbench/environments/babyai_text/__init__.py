@@ -10,15 +10,6 @@ ACTIONS = {
 }
 
 
-TASKS = [
-    "BabyAI-MixedTrainLocal-v0/goto",
-    "BabyAI-MixedTrainLocal-v0/pickup",
-    "BabyAI-MixedTrainLocal-v0/open",
-    "BabyAI-MixedTrainLocal-v0/putnext",
-    "BabyAI-MixedTrainLocal-v0/pick_up_seq_go_to",
-]
-
-
 def get_instruction_prompt(env, mission="BabyAI-MixedTrainLocal-v0"):
     action_strings = ",\n".join(f"{action}: {description}" for action, description in ACTIONS.items())
 

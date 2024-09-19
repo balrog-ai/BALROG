@@ -43,7 +43,7 @@ def make_env(env_name, task, config):
     elif env_name == "textworld":
         from iclbench.environments.textworld import TextWorldFactory
 
-        textworld_factory = TextWorldFactory(**config.textworld_kwargs)
+        textworld_factory = TextWorldFactory(tasks=config.textworld_tasks, **config.textworld_kwargs)
         base_env = textworld_factory(task, **config.env_kwargs)
     elif env_name == "babaisai":
         from baba import make
@@ -54,35 +54,6 @@ def make_env(env_name, task, config):
     else:
         raise ValueError(f"Unknown environment: {env_name}")
     return EnvWrapper(base_env, env_name, task)
-
-
-def get_tasks(env_name):
-    if env_name == "nle":
-        from iclbench.environments.nle import TASKS as NLE_TASKS
-
-        return NLE_TASKS
-    elif env_name == "minihack":
-        from iclbench.environments.minihack import TASKS as MINIHACK_TASKS
-
-        return MINIHACK_TASKS
-    elif env_name == "babyai":
-        from iclbench.environments.babyai_text import TASKS as BABYAI_TASKS
-
-        return BABYAI_TASKS
-    elif env_name == "textworld":
-        from iclbench.environments.textworld import TASKS as TEXTWORLD_TASKS
-
-        return TEXTWORLD_TASKS
-    elif env_name == "babaisai":
-        from iclbench.environments.baba_is_ai import TASKS as BABAISAI_TASKS
-
-        return BABAISAI_TASKS
-    elif env_name == "craftax":
-        from iclbench.environments.craftax import TASKS as CRAFTAX_TASKS
-
-        return CRAFTAX_TASKS
-    else:
-        raise ValueError(f"Unknown environment: {env_name}")
 
 
 class Strings(spaces.Space):

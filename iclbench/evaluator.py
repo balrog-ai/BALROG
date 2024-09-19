@@ -7,14 +7,14 @@ from pathlib import Path
 
 from tqdm import tqdm
 
-from iclbench.environments import get_tasks, make_env
+from iclbench.environments import make_env
 
 
 class Evaluator:
     def __init__(self, env_name, config):
         self.env_name = env_name.strip()  # Ensure no leading/trailing whitespace
         self.config = config
-        self.tasks = get_tasks(self.env_name)
+        self.tasks = config[f"{self.env_name}_tasks"]
 
         self.num_episodes = config.num_episodes
         self.num_workers = config.num_workers

@@ -10,12 +10,6 @@ import textworld.gym
 
 workspace_dir = os.path.dirname(importlib.resources.files("iclbench").__str__())
 
-TASKS = [
-    "treasure_hunter",
-    "the_cooking_game",
-    "coin_collector",
-]
-
 
 class TextWorldFactory:
     """
@@ -33,7 +27,7 @@ class TextWorldFactory:
             cls._instance.initialize(**kwargs)
         return cls._instance
 
-    def initialize(self, textworld_games_path, max_episode_steps=40, **kwargs):
+    def initialize(self, textworld_games_path, tasks, max_episode_steps=40, **kwargs):
         textworld_games_path = os.path.join(workspace_dir, textworld_games_path)
         self.count = defaultdict(int)
 
@@ -47,7 +41,7 @@ class TextWorldFactory:
         for pattern in ["*.ulx", "*.z8"]:
             for entry in glob.glob(os.path.join(textworld_games_path, f"**/{pattern}"), recursive=True):
                 task = Path(entry).parent.name
-                if task in TASKS:
+                if task in tasks:
                     env_id = textworld.gym.register_game(entry, self.request_infos, max_episode_steps=max_episode_steps)
                     self.env_ids[task].append(env_id)
 
