@@ -62,11 +62,16 @@ USEFUL_ACTION = [
 class CraftaxLanguageWrapper(gym.Env):
     def __init__(self, env_id: str = "Craftax-Symbolic-v1", seed=None, vlm=False):
         super(CraftaxLanguageWrapper, self).__init__()
-
+        
+        @jax.jit
+        def render_state(env_state):
+            image = render_craftax_pixels(env_state, block_pixel_size=BLOCK_PIXEL_SIZE_HUMAN)
+            return jnp.round(image).astype(jnp.uint8)
+            
         env = make_craftax_env_from_name(env_id, auto_reset=True)
         self._step = jax.jit(env.step)
         self._reset = jax.jit(env.reset)
-        self._render = jax.jit(render_craftax_pixels)
+        self._render = render_state
         self._env_params = env.default_params
         self.vlm = vlm
 
@@ -116,7 +121,7 @@ class CraftaxLanguageWrapper(gym.Env):
         return obs_dict, reward.item(), done, info
 
     def render(self, mode="human"):
-        return np.array(self._render(self._env_state, block_pixel_size=BLOCK_PIXEL_SIZE_HUMAN))
+        return np.array(self._render(self._env_state))
 
     def get_stats(self):
         # TODO: convert to string list rather than bool list
