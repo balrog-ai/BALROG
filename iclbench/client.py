@@ -1,3 +1,4 @@
+import time
 from types import SimpleNamespace
 from typing import List, NamedTuple
 
@@ -31,36 +32,45 @@ class LLMClientWrapper:
 class OpenAIWrapper(LLMClientWrapper):
     def __init__(self, client_config):
         super().__init__(client_config)
-        self.client = OpenAI(api_key=self.api_key, base_url=self.base_url, timeout=self.timeout)
-        self.client_kwargs["model"] = self.model_id
+        self._initialized = False
+
+    def _initialize_client(self):
+        if not self._initialized:
+            self.client = OpenAI(api_key=self.api_key)
+            self._initialized = True
 
     def convert_messages(self, messages):
-        # Convert standard Message objects to OpenAI's format
         converted_messages = []
         for msg in messages:
-            content = msg.content
-            # Handle attachments if needed (OpenAI currently doesn't support images in chat)
             converted_messages.append(
                 {
                     "role": msg.role,
-                    "content": content,
+                    "content": msg.content,
                 }
             )
+            if converted_messages[-1]["role"] == "system":
+                # Claude doesn't support system prompt and requires alternating roles
+                converted_messages[-1]["role"] = "user"
+                converted_messages.append({"role": "assistant", "content": "I'm ready!"})
+
         return converted_messages
 
     def generate(self, messages):
+        self._initialize_client()
         converted_messages = self.convert_messages(messages)
-        completion = self.client.chat.completions.create(**self.client_kwargs, messages=converted_messages)
 
-        response_content = completion.choices[0].message.content.strip()
-        stop_reason = completion.choices[0].finish_reason
-        token_usage = completion.usage  # Adjust based on actual response structure
+        response = self.client.chat.completions.create(
+            messages=converted_messages,
+            model=self.model_id,
+            max_tokens=self.client_kwargs.get("max_tokens", 1024),
+        )
 
         return LLMResponse(
             model_id=self.model_id,
-            completion=response_content,
-            stop_reason=stop_reason,
-            token_usage=token_usage,
+            completion=response.choices[0].message.content.strip(),
+            stop_reason=response.choices[0].finish_reason,
+            input_tokens=response.usage.prompt_tokens,
+            output_tokens=response.usage.completion_tokens,
         )
 
 
