@@ -1,8 +1,9 @@
-from openai import OpenAI
-import replicate
-import google.generativeai as genai
-from anthropic import Anthropic
 from types import SimpleNamespace
+
+import google.generativeai as genai
+import replicate
+from anthropic import Anthropic
+from openai import OpenAI
 
 
 class LLMClientWrapper:
@@ -24,20 +25,14 @@ class LLMClientWrapper:
 class OpenAIWrapper(LLMClientWrapper):
     def __init__(self, client_config):
         super().__init__(client_config)
-        self.client = OpenAI(
-            api_key=self.api_key, base_url=self.base_url, timeout=self.timeout
-        )
+        self.client = OpenAI(api_key=self.api_key, base_url=self.base_url, timeout=self.timeout)
         self.client_kwargs["model"] = self.model_id
 
     def generate(self, input):
         if self.is_chat_model and isinstance(input, list):  # Chat-based input
-            completion = self.client.chat.completions.create(
-                **self.client_kwargs, messages=input
-            )
+            completion = self.client.chat.completions.create(**self.client_kwargs, messages=input)
         else:  # Text-based input
-            completion = self.client.completions.create(
-                prompt=input[0]["content"], **self.client_kwargs
-            )
+            completion = self.client.completions.create(prompt=input[0]["content"], **self.client_kwargs)
         return completion
 
 
@@ -55,19 +50,13 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
 
     def generate(self, input):
         self._initialize_client()  # Ensure client is initialized in child process
-        response = self.model.generate_content(
-            input, generation_config=self.generation_config
-        )
+        response = self.model.generate_content(input, generation_config=self.generation_config)
 
         choices = [
             SimpleNamespace(
                 index=idx,
                 message=SimpleNamespace(
-                    content=(
-                        candidate.content.parts[0].text.strip()
-                        if candidate.content.parts
-                        else ""
-                    ),
+                    content=(candidate.content.parts[0].text.strip() if candidate.content.parts else ""),
                     role="assistant",
                 ),
             )
@@ -83,13 +72,9 @@ class ClaudeWrapper(LLMClientWrapper):
 
     def generate(self, input):
         if self.is_chat_model and isinstance(input, list):  # Chat-based input
-            completion = self.client.chat.completions.create(
-                **self.client_kwargs, messages=input
-            )
+            completion = self.client.chat.completions.create(**self.client_kwargs, messages=input)
         else:  # Text-based input
-            completion = self.client.completions.create(
-                prompt=input[0]["content"], **self.client_kwargs
-            )
+            completion = self.client.completions.create(prompt=input[0]["content"], **self.client_kwargs)
         return completion
 
 
@@ -99,9 +84,7 @@ class ReplicateWrapper(LLMClientWrapper):
         self.client = replicate.Client(api_token=self.api_key, timeout=self.timeout)
 
     def generate(self, input):
-        output = self.client.run(
-            self.model_id, input={"prompt": input[0]["content"]}, **self.client_kwargs
-        )
+        output = self.client.run(self.model_id, input={"prompt": input[0]["content"]}, **self.client_kwargs)
 
         # Handle different output types
         if isinstance(output, list):

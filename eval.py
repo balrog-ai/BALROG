@@ -1,7 +1,9 @@
 import logging
-import hydra
 from collections import defaultdict
+
+import hydra
 from omegaconf import DictConfig
+
 from iclbench.agents import AgentFactory
 from iclbench.evaluator import Evaluator
 from iclbench.utils import summarize_env_progressions, wandb_save_artifact
@@ -9,9 +11,7 @@ from iclbench.utils import summarize_env_progressions, wandb_save_artifact
 
 @hydra.main(config_path="config", config_name="config", version_base="1.1")
 def main(config: DictConfig):
-    logging.basicConfig(
-        level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
-    )
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
     # Instantiate agent factory
     agent_factory = AgentFactory(config)

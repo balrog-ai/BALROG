@@ -1,8 +1,9 @@
-from .naive import NaiveAgent
-from .chain_of_thought import ChainOfThoughtAgent
-from .self_refine import SelfRefineAgent
-from ..prompt_builder import create_prompt_builder
 from iclbench.client import create_llm_client
+
+from ..prompt_builder import create_prompt_builder
+from .chain_of_thought import ChainOfThoughtAgent
+from .naive import NaiveAgent
+from .self_refine import SelfRefineAgent
 
 
 class AgentFactory:
@@ -18,7 +19,9 @@ class AgentFactory:
         elif self.config.agent == "cot":
             return ChainOfThoughtAgent(client_factory, prompt_builder)
         elif self.config.agent == "self_refine":
-            return SelfRefineAgent(client_factory, prompt_builder, max_iterations=self.config.self_refine_max_iterations)
+            return SelfRefineAgent(
+                client_factory, prompt_builder, max_iterations=self.config.self_refine_max_iterations
+            )
         elif self.config.agent == "react":
             raise NotImplementedError("ReAct agent is not implemented yet.")
         elif self.config.agent == "reflexion":

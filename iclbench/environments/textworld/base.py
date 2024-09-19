@@ -1,13 +1,12 @@
-import os
 import glob
 import importlib.resources
+import os
 from collections import defaultdict
 from pathlib import Path
 
 import gym
 import textworld
 import textworld.gym
-
 
 workspace_dir = os.path.dirname(importlib.resources.files("iclbench").__str__())
 
@@ -46,14 +45,10 @@ class TextWorldFactory:
 
         self.env_ids = defaultdict(list)
         for pattern in ["*.ulx", "*.z8"]:
-            for entry in glob.glob(
-                os.path.join(textworld_games_path, f"**/{pattern}"), recursive=True
-            ):
+            for entry in glob.glob(os.path.join(textworld_games_path, f"**/{pattern}"), recursive=True):
                 task = Path(entry).parent.name
                 if task in TASKS:
-                    env_id = textworld.gym.register_game(
-                        entry, self.request_infos, max_episode_steps=max_episode_steps
-                    )
+                    env_id = textworld.gym.register_game(entry, self.request_infos, max_episode_steps=max_episode_steps)
                     self.env_ids[task].append(env_id)
 
     def get_textworld_env(self, task, prompt_mode="language", seed=None, **kwargs):
@@ -73,9 +68,7 @@ class TextWorldFactory:
             KeyError: If the specified task is not found in the available tasks.
         """
         if task not in self.env_ids:
-            raise KeyError(
-                f"Task '{task}' not found. Available tasks are: {list(self.env_ids.keys())}"
-            )
+            raise KeyError(f"Task '{task}' not found. Available tasks are: {list(self.env_ids.keys())}")
 
         if seed is not None:
             env_id = seed % len(self.env_ids[task])
@@ -128,9 +121,7 @@ class TextWorldWrapper(gym.Wrapper):
         obs = self.filter_objective(obs, info)
 
         if done:
-            self.progression = max(
-                info["score"] / info["max_score"], 1.0 if info["won"] else 0.0
-            )
+            self.progression = max(info["score"] / info["max_score"], 1.0 if info["won"] else 0.0)
 
         return self.textworld_process_obsv(obs), reward, done, info
 

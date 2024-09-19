@@ -1,6 +1,5 @@
 from iclbench.environments.baba_is_ai.base import TASKS, BabaIsAIWrapper
 
-
 __all__ = [TASKS, BabaIsAIWrapper]
 
 
@@ -14,9 +13,7 @@ ACTIONS = {
 
 
 def get_instruction_prompt(env, task=None):
-    action_strings = ",\n".join(
-        f"{action}: {description}" for action, description in ACTIONS.items()
-    )
+    action_strings = ",\n".join(f"{action}: {description}" for action, description in ACTIONS.items())
 
     instruction_prompt = f"""
 Baba Is You is a puzzle game where you can manipulate the rules of each level. The following are the possible actions you can take in the game, followed by a short description of each action:

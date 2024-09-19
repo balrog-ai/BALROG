@@ -32,12 +32,8 @@ def nle_obsv_to_language(nle_obsv):
         "text_glyphs": nle_language.text_glyphs(glyphs, blstats).decode("latin-1"),
         "text_message": nle_language.text_message(tty_chars).decode("latin-1"),
         "text_blstats": nle_language.text_blstats(blstats).decode("latin-1"),
-        "text_inventory": nle_language.text_inventory(inv_strs, inv_letters).decode(
-            "latin-1"
-        ),
-        "text_cursor": nle_language.text_cursor(glyphs, blstats, tty_cursor).decode(
-            "latin-1"
-        ),
+        "text_inventory": nle_language.text_inventory(inv_strs, inv_letters).decode("latin-1"),
+        "text_cursor": nle_language.text_cursor(glyphs, blstats, tty_cursor).decode("latin-1"),
     }
 
 
@@ -54,12 +50,8 @@ def render_text(nle_obsv):
         ("text_inventory", "inventory"),
     ]
 
-    long_term_context = "\n".join(
-        [f"{name}:\n{text_obsv[key]}\n" for key, name in long_term_observations]
-    )
-    short_term_context = "\n".join(
-        [f"{name}:\n{text_obsv[key]}\n" for key, name in short_term_observations]
-    )
+    long_term_context = "\n".join([f"{name}:\n{text_obsv[key]}\n" for key, name in long_term_observations])
+    short_term_context = "\n".join([f"{name}:\n{text_obsv[key]}\n" for key, name in short_term_observations])
 
     return {
         "long_term_context": long_term_context,
@@ -87,12 +79,8 @@ def render_hybrid(nle_obsv):
         ("text_inventory", "inventory"),
     ]
 
-    long_term_context = "\n".join(
-        [f"{name}:\n{text_obsv[key]}\n" for key, name in long_term_observations]
-    )
-    short_term_context = "\n".join(
-        [f"{name}:\n{text_obsv[key]}\n" for key, name in short_term_observation]
-    )
+    long_term_context = "\n".join([f"{name}:\n{text_obsv[key]}\n" for key, name in long_term_observations])
+    short_term_context = "\n".join([f"{name}:\n{text_obsv[key]}\n" for key, name in short_term_observation])
 
     return {
         "long_term_context": long_term_context,

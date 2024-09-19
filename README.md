@@ -71,6 +71,13 @@ pip install -e external/nle
 pip install -e external/nle-language-wrapper
 ```
 
+### pre-commit installation and setup 
+```
+pip install black isort flake8 pre-commit
+pre-commit install
+pre-commit run --all-files
+``` 
+
 # Run
 
 Spin up a vllm server (if on another GPU, consider tunneling) :

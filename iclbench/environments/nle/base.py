@@ -1,13 +1,13 @@
-from PIL import Image
 import nle_language_wrapper
 from nle.nethack import USEFUL_ACTIONS
+from PIL import Image
 
 from iclbench.environments import Strings
+
+from .progress import get_progress_system
 from .render import tty_render_image
 from .render_rgb import rgb_render_image
-
-from .utils import render_text, render_hybrid
-from .progress import get_progress_system
+from .utils import render_hybrid, render_text
 
 
 class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
@@ -79,9 +79,7 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
             for action, action_strs in NLELanguageWrapper.all_nle_action_map.items()
             if action in USEFUL_ACTIONS
         ]
-        single_chars = [chr(i) for i in range(ord("a"), ord("z") + 1)] + [
-            chr(i) for i in range(ord("A"), ord("Z") + 1)
-        ]
+        single_chars = [chr(i) for i in range(ord("a"), ord("z") + 1)] + [chr(i) for i in range(ord("A"), ord("Z") + 1)]
         single_digits = [str(i) for i in range(10)]
         double_digits = [f"{i:02d}" for i in range(100)]
 

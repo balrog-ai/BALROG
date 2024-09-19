@@ -1,0 +1,22 @@
+[build-system]
+requires = [
+    "setuptools>=42",
+    "wheel",
+    "Cython"
+]
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 120
+target-version = ['py38']
+include = '\.pyi?$'
+# check = 'True'
+
+[tool.isort]
+py_version = 38
+line_length = 120
+profile = 'black'
+known_third_party = ["nle"]
+
+[tool.pytest.ini_options]
+addopts = "-s"

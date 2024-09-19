@@ -1,5 +1,5 @@
-import re
 import copy
+import re
 
 from iclbench.agents.base import BaseAgent
 from iclbench.client import LLMClientWrapper
@@ -9,7 +9,7 @@ class SelfRefineAgent(BaseAgent):
     def __init__(self, client_factory: LLMClientWrapper, prompt_builder, max_iterations=3):
         super().__init__(client_factory, prompt_builder)
         self.max_iterations = max_iterations
-    
+
     def act(self, obs, prev_action=None):
         if prev_action:
             self.prompt_builder.update_action(prev_action)
@@ -32,23 +32,23 @@ Please provide reasoning first and only after reasoning provide the final answer
         for _ in range(self.max_iterations):
             # Generate feedback
             feedback_prompt = """
-"You are an AI assistant tasked with providing feedback on the following response. Analyze the response for clarity, completeness, and accuracy. 
+"You are an AI assistant tasked with providing feedback on the following response. Analyze the response for clarity, completeness, and accuracy.
 Suggest specific improvements or write "No further improvements needed" if no further improvements are needed.
 
 Response to evaluate:"
             """.strip()
-            
+
             feedback_input = [
-                *input, 
-                {"role": "user", "parts": [feedback_prompt + response.choices[0].message.content]}
+                *input,
+                {"role": "user", "parts": [feedback_prompt + response.choices[0].message.content]},
             ]
-                
+
             feedback_response = self.client.generate(feedback_input)
 
             # If feedback suggests no further improvements, break the loop
             if "No further improvements needed" in feedback_response.choices[0].message.content:
                 break
-            
+
             # Add feedback and refinement instructions to the prompt
             refine_prompt = f"""
 Feedback: {feedback_response.choices[0].message.content}
@@ -58,7 +58,7 @@ You can only output one of the above actions at a time, and always have to outpu
 Please provide reasoning first and only after reasoning provide the final answer in the form of Action: <action>
             """.strip()
             input.append({"role": "user", "parts": [refine_prompt]})
-            
+
             # Generate refined response
             response = self.client.generate(input)
         # Extract the final answer from the refined response
@@ -68,11 +68,11 @@ Please provide reasoning first and only after reasoning provide the final answer
 
     def _extract_final_answer(self, reasoning):
         def filter_letters(input_string):
-            return re.sub(r'[^a-zA-Z\s:]', '', input_string)
-        
+            return re.sub(r"[^a-zA-Z\s:]", "", input_string)
+
         answer = copy.deepcopy(reasoning)
-        
+
         for choice in answer.choices:
             choice.message.content = filter_letters(choice.message.content).split("Action:")[-1].strip()
-            
+
         return answer

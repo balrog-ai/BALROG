@@ -33,11 +33,7 @@ class EnvWrapper:
     @property
     def actions(self):
         # This property should return the list of available actions
-        return (
-            self.env.actions
-            if hasattr(self.env, "actions")
-            else list(range(len(self.env.action_space)))
-        )
+        return self.env.actions if hasattr(self.env, "actions") else list(range(len(self.env.action_space)))
 
     def get_instruction_prompt(self, instructions=None):
         if self.env_name == "nle":
@@ -70,11 +66,7 @@ class EnvWrapper:
     def check_action_validity(self, action):
         valid_action = None
         for choice in action.choices:
-            candidate_action = (
-                choice.text
-                if not hasattr(choice, "message")
-                else choice.message.content
-            )
+            candidate_action = choice.text if not hasattr(choice, "message") else choice.message.content
             if candidate_action in self.env.language_action_space:
                 valid_action = candidate_action
         if not valid_action:
