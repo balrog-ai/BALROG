@@ -1,4 +1,4 @@
-agent: self_refine
+agent: naive
 
 self_refine_max_iterations: 3
 
