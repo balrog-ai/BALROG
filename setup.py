@@ -34,11 +34,7 @@ setup(
     keywords="reinforcement learning ai nlp llm",
     project_urls={},
     install_requires=[],
-    extras_require={
-        # some tests require Atari and Mujoco so let's make sure dev environment has that
-        "dev": ["black", "isort>=5.12", "pytest<8.0", "flake8", "pre-commit", "twine"]
-        + _docs_deps
-    },
+    extras_require={"dev": ["black", "isort>=5.12", "pytest<8.0", "flake8", "pre-commit", "twine"] + _docs_deps},
     package_dir={"": "./"},
     packages=setuptools.find_packages(where="./", include=["iclbench*"]),
     include_package_data=True,
