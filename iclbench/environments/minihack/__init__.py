@@ -82,7 +82,7 @@ You are an agent playing MiniHack. The following are the possible actions you ca
 
 In a moment I will present a history of actions and observations from the game.
 
-You can only output one of the above actions at a time. Tip: there is no point in outputting the same action over and over if nothing changes.
+Tip: there is no point in outputting the same action over and over if nothing changes.
 
 {goal}
 

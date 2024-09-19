@@ -1,5 +1,7 @@
 agent: naive
 
+self_refine_max_iterations: 3
+
 prompt_builder_strategy: history
 prompt_builder_config:
   history: True
