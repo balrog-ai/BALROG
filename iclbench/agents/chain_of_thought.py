@@ -1,3 +1,4 @@
+import re
 import copy
 
 from iclbench.agents.base import BaseAgent
@@ -37,9 +38,12 @@ Now, let's begin:
         return final_answer
 
     def _extract_final_answer(self, reasoning):
+        def filter_letters(input_string):
+            return re.sub(r'[^a-zA-Z\s:]', '', input_string)
+        
         answer = copy.deepcopy(reasoning)
         
         for choice in answer.choices:
-            choice.message.content = choice.message.content.split("Action:")[-1].strip()
+            choice.message.content = filter_letters(choice.message.content).split("Action:")[-1].strip()
             
         return answer
