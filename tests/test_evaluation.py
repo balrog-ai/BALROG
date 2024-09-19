@@ -12,7 +12,7 @@ from iclbench.evaluator import Evaluator
 def test_evaluation(agent, environment, client, vlm):
     with initialize(config_path="../config", version_base=None):
         cfg = compose(
-            config_name="test_config",
+            config_name="config",
             overrides=[
                 f"agent={agent}",
                 f"env_names={environment}",
