@@ -8,5 +8,4 @@ prompt_builder_config:
   max_history: 16
   max_image_history: 0
   max_cot_history: 1
-  chat_history: True
   remember_cot: True

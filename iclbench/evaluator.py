@@ -49,8 +49,8 @@ class Evaluator:
 
         action = None
         for step in range(self.max_steps_per_episode):
-            action = agent.act(obs, prev_action=action)
-            action = env.check_action_validity(action)
+            response = agent.act(obs, prev_action=action)
+            action = env.check_action_validity(response.completion)
             if self.config.save_trajectories:
                 episode_log["trajectory"].append((obs["text"]["long_term_context"], action))
             episode_log["action_frequency"][action] += 1

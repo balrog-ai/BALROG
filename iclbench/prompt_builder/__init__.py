@@ -6,5 +6,4 @@ def create_prompt_builder(config):
     return HistoryPromptBuilder(
         max_history=config.max_history,
         max_image_history=config.max_image_history,
-        chat_history=config.chat_history,
     )
