@@ -1,3 +1,5 @@
+import base64
+from io import BytesIO
 from typing import NamedTuple
 
 import google.generativeai as genai
@@ -27,6 +29,25 @@ class LLMClientWrapper:
         raise NotImplementedError("This method should be overridden by subclasses")
 
 
+def process_image_openai(image):
+    buffered = BytesIO()
+    image.save(buffered, format="PNG")
+    base64_image = base64.b64encode(buffered.getvalue()).decode("utf-8")
+    # Return the image content for OpenAI
+    return {
+        "type": "image_url",
+        "image_url": {"url": f"data:image/png;base64,{base64_image}"},
+    }
+
+
+def process_image_claude(image):
+    buffered = BytesIO()
+    image.save(buffered, format="PNG")
+    base64_image = base64.b64encode(buffered.getvalue()).decode("utf-8")
+    # Return the image content for Anthropic
+    return {"type": "image", "source": {"type": "base64", "media_type": "image/png", "data": base64_image}}
+
+
 class OpenAIWrapper(LLMClientWrapper):
     def __init__(self, client_config):
         super().__init__(client_config)
@@ -40,16 +61,9 @@ class OpenAIWrapper(LLMClientWrapper):
     def convert_messages(self, messages):
         converted_messages = []
         for msg in messages:
-            converted_messages.append(
-                {
-                    "role": msg.role,
-                    "content": msg.content,
-                }
-            )
-            if converted_messages[-1]["role"] == "system":
-                # Claude doesn't support system prompt and requires alternating roles
-                converted_messages[-1]["role"] = "user"
-                converted_messages.append({"role": "assistant", "content": "I'm ready!"})
+            converted_messages.append({"role": msg.role, "content": [{"type": "text", "text": msg.content}]})
+            if msg.attachment is not None:
+                converted_messages[-1]["content"].append(process_image_openai(msg.attachment))
 
         return converted_messages
 
@@ -142,16 +156,13 @@ class ClaudeWrapper(LLMClientWrapper):
     def convert_messages(self, messages):
         converted_messages = []
         for msg in messages:
-            converted_messages.append(
-                {
-                    "role": msg.role,
-                    "content": msg.content,
-                }
-            )
+            converted_messages.append({"role": msg.role, "content": [{"type": "text", "text": msg.content}]})
             if converted_messages[-1]["role"] == "system":
                 # Claude doesn't support system prompt and requires alternating roles
                 converted_messages[-1]["role"] = "user"
                 converted_messages.append({"role": "assistant", "content": "I'm ready!"})
+            if msg.attachment is not None:
+                converted_messages[-1]["content"].append(process_image_claude(msg.attachment))
 
         return converted_messages
 
