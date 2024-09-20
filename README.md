@@ -93,6 +93,16 @@ pre-commit install
 pre-commit run --all-files
 ``` 
 
+# Create a SECRETS file
+
+```txt
+OPENAI_API_KEY=<KEY>
+GEMINI_API_KEY=<KEY>
+ANTHROPIC_API_KEY=<KEY>
+REPLICATE_API_TOKEN=<KEY>
+DEFAULT_ORG=
+```
+
 # Run
 
 Spin up a vllm server (if on another GPU, consider tunneling) :
