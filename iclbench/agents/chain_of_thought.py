@@ -38,8 +38,7 @@ Finally, provide a single output action at the end of the message in the form of
             return re.sub(r"[^a-zA-Z\s:]", "", input_string)
 
         answer = copy.deepcopy(reasoning)
-
-        answer.reasoning = answer.completion
-        answer.completion = filter_letters(answer.completion).split("ACTION:")[-1].strip()
+        answer = answer._replace(reasoning=answer.completion)
+        answer = answer._replace(completion=filter_letters(answer.completion).split("ACTION:")[-1].strip())
 
         return answer

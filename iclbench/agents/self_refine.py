@@ -71,8 +71,7 @@ Please provide reasoning first and only after reasoning provide the final answer
             return re.sub(r"[^a-zA-Z\s:]", "", input_string)
 
         answer = copy.deepcopy(reasoning)
-
-        for choice in answer.choices:
-            choice.message.content = filter_letters(choice.message.content).split("Action:")[-1].strip()
+        answer = answer._replace(reasoning=answer.completion)
+        answer = answer._replace(completion=filter_letters(answer.completion).split("ACTION:")[-1].strip())
 
         return answer
