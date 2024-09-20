@@ -51,7 +51,7 @@ class Evaluator:
 
         action = None
         for step in range(max_steps_per_episode):
-            action = agent.act(obs, prev_action=action)
+            action = agent.act(obs, prev_action=action).completion
             action = env.check_action_validity(action)
             if self.config.save_trajectories:
                 episode_log["trajectory"].append((obs["text"]["long_term_context"], action))

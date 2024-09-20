@@ -1,0 +1,9 @@
+client_name: claude
+model_id: claude-3-5-sonnet-20240620
+base_url: https://spotty-toys-teach.loca.lt/v1
+api_key: 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
+is_chat_model: True
+generate_kwargs:
+  temperature: 0.5
+  max_tokens: 1024
+timeout: 60

@@ -1,5 +1,6 @@
 defaults:
-  - client
+  - _self_
+  - client: claude
   - agent
   - environment
   - evaluation

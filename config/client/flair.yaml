@@ -1,0 +1,10 @@
+# MAKE SURE THIS DOES NOT GO OUT TO PUBLIC RELEASE
+client_name: vllm
+model_id: meta-llama/Meta-Llama-3.1-70B-Instruct
+base_url: https://gentle-crabs-unite.loca.lt/v1
+api_key: EMPTY
+is_chat_model: True
+generate_kwargs:
+  temperature: 0.5
+  max_tokens: 1024
+timeout: 60
