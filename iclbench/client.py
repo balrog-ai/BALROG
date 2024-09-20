@@ -1,5 +1,5 @@
 import base64
-from dataclasses import dataclass
+from collections import namedtuple
 from io import BytesIO
 
 import google.generativeai as genai
@@ -7,15 +7,9 @@ import replicate
 from anthropic import Anthropic
 from openai import OpenAI
 
-
-@dataclass(slots=True)
-class LLMResponse:
-    model_id: str
-    completion: str
-    stop_reason: str
-    input_tokens: int
-    output_tokens: int
-    reasoning: str = None
+LLMResponse = namedtuple(
+    "LLMResponse", ["model_id", "completion", "stop_reason", "input_tokens", "output_tokens", "reasoning"]
+)
 
 
 class LLMClientWrapper:
@@ -88,6 +82,7 @@ class OpenAIWrapper(LLMClientWrapper):
             stop_reason=response.choices[0].finish_reason,
             input_tokens=response.usage.prompt_tokens,
             output_tokens=response.usage.completion_tokens,
+            reasoning=None,
         )
 
 
@@ -144,6 +139,7 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
             stop_reason=response.candidates[0].finish_reason,
             input_tokens=response.usage_metadata.prompt_token_count,
             output_tokens=response.usage_metadata.candidates_token_count,
+            reasoning=None,
         )
 
 
@@ -186,6 +182,7 @@ class ClaudeWrapper(LLMClientWrapper):
             stop_reason=response.stop_reason,
             input_tokens=response.usage.input_tokens,
             output_tokens=response.usage.output_tokens,
+            reasoning=None,
         )
 
 
@@ -211,7 +208,9 @@ class ReplicateWrapper(LLMClientWrapper):
             model_id=self.model_id,
             completion=content.strip(),
             stop_reason=None,
-            token_usage=None,
+            input_tokens=None,
+            output_tokens=None,
+            reasoning=None,
         )
 
 
