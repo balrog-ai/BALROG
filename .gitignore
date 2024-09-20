@@ -165,3 +165,7 @@ cython_debug/
 /outputs
 /tw_games
 tw-games.zip
+
+babyai/
+babaisai/
+craftax/

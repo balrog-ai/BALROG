@@ -35,6 +35,14 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
     def reset(self):
         self.progress = get_progress_system(self.env)
         return super().reset()
+    
+    # @Sam: I added these two methods to make sure that the language
+    #       model is updated with the new observation. Wasn't working for me
+    #       without these.
+    def post_reset(self, nle_obsv):
+        return self.nle_process_obsv(nle_obsv)
+    def post_step(self, nle_obsv):
+        return self.nle_process_obsv(nle_obsv)
 
     @property
     def default_action(self):

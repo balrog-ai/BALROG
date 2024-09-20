@@ -9,11 +9,11 @@ agents = [
 ]
 
 environments = [
-    # "nethack",
-    # "minihack",
+    "nle",
+    "minihack",
     "babyai",
-    # "textworld",
-    # "babaisai",
+    "textworld",
+    "babaisai",
     # "craftax",
 ]
 
