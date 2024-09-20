@@ -22,7 +22,6 @@ class LLMClientWrapper:
     def __init__(self, client_config):
         self.client_name = client_config.client_name
         self.model_id = client_config.model_id
-        self.api_key = client_config.api_key
         self.base_url = client_config.base_url
         self.timeout = client_config.timeout
         self.is_chat_model = client_config.is_chat_model
@@ -61,7 +60,7 @@ class OpenAIWrapper(LLMClientWrapper):
             if self.client_name.lower() == "vllm":
                 self.client = OpenAI(api_key="EMPTY", base_url=self.base_url)
             elif self.client_name.lower() == "openai":
-                self.client = OpenAI(api_key=self.api_key)
+                self.client = OpenAI()
             self._initialized = True
 
     def convert_messages(self, messages):
@@ -99,7 +98,6 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
 
     def _initialize_client(self):
         if not self._initialized:
-            genai.configure(api_key=self.api_key)
             self.model = genai.GenerativeModel(self.model_id)
 
             client_kwargs = {
@@ -156,7 +154,7 @@ class ClaudeWrapper(LLMClientWrapper):
 
     def _initialize_client(self):
         if not self._initialized:
-            self.client = Anthropic(api_key=self.api_key)
+            self.client = Anthropic()
             self._initialized = True
 
     def convert_messages(self, messages):
@@ -194,7 +192,7 @@ class ClaudeWrapper(LLMClientWrapper):
 class ReplicateWrapper(LLMClientWrapper):
     def __init__(self, client_config):
         super().__init__(client_config)
-        self.client = replicate.Client(api_token=self.api_key, timeout=self.timeout)
+        self.client = replicate.Client(timeout=self.timeout)
 
     def generate(self, messages):
         # Replicate models might not support multi-turn conversations; we concatenate messages

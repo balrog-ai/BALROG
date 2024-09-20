@@ -3,6 +3,8 @@ import logging
 import os
 from collections import defaultdict
 
+import google.generativeai as genai
+import openai
 import wandb
 
 
@@ -32,3 +34,29 @@ def wandb_save_artifact(config):
     wandb.log(json_data)
 
     wandb.finish()
+
+
+def load_secrets(file_path):
+    secrets = {}
+    with open(file_path) as f:
+        for line in f:
+            key, value = line.strip().split("=", 1)
+            secrets[key] = value
+    return secrets
+
+
+def setup_environment(
+    openai_tag: str = "OPENAI_API_KEY",
+    gemini_tag: str = "GEMINI_API_KEY",
+    anthropic_tag: str = "ANTHROPIC_API_KEY",
+    replicate_tag: str = "REPLICATE_API_KEY",
+    organization: str = None,
+    original_cwd: str = "",
+):
+    secrets = load_secrets(os.path.join(original_cwd, "SECRETS"))
+    genai.configure(api_key=secrets[gemini_tag])
+    os.environ["ANTHROPIC_API_KEY"] = secrets[anthropic_tag]
+    os.environ["REPLICATE_API_TOKEN"] = secrets[replicate_tag]
+    os.environ["OPENAI_API_KEY"] = secrets[openai_tag]
+    if organization is not None:
+        openai.organization = secrets[organization]
