@@ -1,6 +1,6 @@
 [submodule "external/nle-language-wrapper"]
 	path = external/nle-language-wrapper
-	url = git@github.com:DavidePaglieri/nle-language-wrapper.git
+	url = git@github.com:ngoodger/nle-language-wrapper.git
 [submodule "external/nle"]
 	path = external/nle
 	url = git@github.com:BartekCupial/nle.git

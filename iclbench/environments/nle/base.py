@@ -32,9 +32,16 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
         self.progress.update(obs["obs"], reward, done, info)
         return obs, reward, done, info
 
-    def reset(self):
+    def post_reset(self, obsv):
+        return self.post_step(obsv)
+
+    def reset(self, **kwargs):
         self.progress = get_progress_system(self.env)
-        return super().reset()
+        obsv = self.env.reset(**kwargs)
+        return self.post_reset(obsv)
+
+    def post_step(self, nle_obsv):
+        return self.nle_process_obsv(nle_obsv)
 
     @property
     def default_action(self):
