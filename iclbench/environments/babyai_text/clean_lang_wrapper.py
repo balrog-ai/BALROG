@@ -28,6 +28,7 @@ class BabyAITextCleanLangWrapper(Wrapper):
         if self.vlm:
             from functools import partial
             self.renderer = partial(self.env.render, mode="rgb_array")
+            # self.renderer = self.env.render("rgb_array")
 
     @property
     def interleaving_token(self):

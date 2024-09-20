@@ -48,13 +48,15 @@ RUN sed -i -e '/from setuptools import setup/a from setuptools import find_packa
 RUN pip install .
 RUN pip install git+https://github.com/flowersteam/Grounding_LLMs_with_online_RL.git@31847fb8c1db58bc8f595bea8f8cbaf26fb79dc2#subdirectory=babyai-text/gym-minigrid
 
-# RUN pip install --git+https://github.com/nacloos/baba-is-ai.git
-# RUN pip install craftax
+RUN pip install git+https://github.com/nacloos/baba-is-ai.git
+RUN pip install gym==0.26.2
+
 # RUN pip install git+https://github.com/BartekCupial/nle.git@099cad98e05faa605d002d1bea8cf36c4dac79b8
 # RUN pip install git+https://${GIT_ACCESS_TOKEN}@github.com/DavidePaglieri/nle-language-wrapper.git@021491de4251ceffafcd5d50fef7c28708d65d7c
 # RUN pip install git+https://github.com/Farama-Foundation/Minigrid.git
 # RUN pip install git+https://github.com/facebookresearch/minihack
 # RUN pip install textworld
+# RUN pip install craftax
 
 
 RUN echo "alias wandb='/home/user/.local/bin/wandb'" >> /home/user/.bashrc

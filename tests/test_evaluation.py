@@ -13,7 +13,7 @@ environments = [
     # "minihack",
     "babyai",
     # "textworld",
-    # "babaisai",
+    "babaisai",
     # "craftax",
 ]
 
