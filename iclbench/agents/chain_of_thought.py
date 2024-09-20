@@ -19,7 +19,7 @@ class ChainOfThoughtAgent(BaseAgent):
 
         # Add CoT-specific instructions to the prompt
         cot_instructions = """
-First think about what's the best cuorse of action step by step.
+First think about what's the best course of action step by step.
 Finally, provide a single output action at the end of the message in the form of: ACTION: <action>
         """.strip()
 
