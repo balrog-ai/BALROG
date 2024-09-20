@@ -8,6 +8,7 @@ from .progress import get_progress_system
 from .render import tty_render_image
 from .render_rgb import rgb_render_image
 from .utils import render_hybrid, render_text
+from ..minihack import ACTIONS as MINIHACK_ACTIONS
 
 
 class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
@@ -45,7 +46,10 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
 
     @property
     def default_action(self):
-        return "esc"
+        if "minihack" in self.env.spec.id.lower():
+            return "north"
+        else:
+            return "esc"
 
     def nle_process_obsv(self, nle_obsv):
         img = Image.fromarray(self.render("tiles")).convert("RGB") if self.vlm else None
@@ -82,6 +86,18 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
         return self.progress.__dict__
 
     def create_action_space(self):
+
+        if "minihack" in self.env.spec.id.lower():
+            available_actions = {
+                NLELanguageWrapper.all_nle_action_map[action][0]: MINIHACK_ACTIONS[
+                    NLELanguageWrapper.all_nle_action_map[action][0]
+                ]
+                for action in self.env.actions
+            }
+
+            minihack_actions = [action for action, _ in available_actions.items()]
+            return Strings(minihack_actions)
+
         nle_actions = [
             action_strs[0]
             for action, action_strs in NLELanguageWrapper.all_nle_action_map.items()

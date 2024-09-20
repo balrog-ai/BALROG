@@ -45,14 +45,13 @@ def get_available_actions(env):
 
 
 def get_instruction_prompt(env, task="MiniHack-ExploreMaze-Hard-Mapped-v0"):
-    if "mazewalk" in task or "corridor" in task.lower():
-        goal = "Your goal is to explore the level and reach the stairs down."
-    elif "key" in task:
-        goal = "Your goal is to pick up the key, navigate to the door and use the key to unlock the door, reaching the stairs down within the locked room"
-    elif "room" in task:
-        goal = "Your goal is to explore the room and reach the stairs down."
-    elif "Sokoban" in task:
-        goal = "You are playing Sokoban, your goal is to move the boulders to cover the holes in the floor, then reach the stairs down. Be careful not to place the boulders in places where they get stuck."
+
+    if "corridor" in task.lower():
+        goal = "Your goal is to explore the level and reach the stairs down"
+    elif "quest" in task.lower():
+        goal = "Your goal is to explore the level, fight monsters, and navigate rooms and mazes to ultimately reach the stairs down."
+    elif "boxoban" in task.lower():
+        goal = "You are playing Boxoban, a box pushing game inspired by Sokoban. Your goal is to push the boulders to cover all the holes in the floor. You can push the boulders by walking into them if they have no obstacles behind them."
     else:
         goal = "Your goal is to get as far as possible in the game."
 
