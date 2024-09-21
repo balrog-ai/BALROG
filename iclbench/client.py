@@ -133,9 +133,15 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
             generation_config=self.generation_config,
         )
 
+        completion = (
+            response.candidates[0].content.parts[0].text.strip()
+            if len(response.candidates[0].content.parts) > 0
+            else ""
+        ).strip()
+
         return LLMResponse(
             model_id=self.model_id,
-            completion=response.candidates[0].content.parts[0].text.strip(),
+            completion=completion,
             stop_reason=response.candidates[0].finish_reason,
             input_tokens=response.usage_metadata.prompt_token_count,
             output_tokens=response.usage_metadata.candidates_token_count,
