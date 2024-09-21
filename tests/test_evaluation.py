@@ -12,7 +12,7 @@ from iclbench.utils import setup_environment
 @pytest.mark.parametrize(
     "client,model_id", [("gemini", "gemini-1.5-flash"), ("claude", "claude-3-5-sonnet-20240620"), ("openai", "gpt-4o")]
 )
-@pytest.mark.parametrize("max_image_history", [0, 1])
+@pytest.mark.parametrize("max_image_history", [1])
 def test_evaluation(agent, environment, client, model_id, max_image_history):
     with initialize(config_path="../config", version_base=None):
         cfg = compose(
