@@ -1,9 +1,0 @@
-client:
-  client_name: openai
-  model_id: gpt-4o
-  base_url: https://spotty-toys-teach.loca.lt/v1
-  is_chat_model: True
-  generate_kwargs:
-    temperature: 0.0
-    max_tokens: 1024
-  timeout: 60

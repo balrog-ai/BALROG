@@ -12,17 +12,17 @@ from iclbench.utils import setup_environment
 @pytest.mark.parametrize(
     "client,model_id", [("gemini", "gemini-1.5-flash"), ("claude", "claude-3-5-sonnet-20240620"), ("openai", "gpt-4o")]
 )
-@pytest.mark.parametrize("vlm", [True])
-def test_evaluation(agent, environment, client, model_id, vlm):
+@pytest.mark.parametrize("max_image_history", [0, 1])
+def test_evaluation(agent, environment, client, model_id, max_image_history):
     with initialize(config_path="../config", version_base=None):
         cfg = compose(
             config_name="config",
             overrides=[
-                f"agent={agent}",
-                f"env_names={environment}",
+                f"agent.type={agent}",
+                f"envs.names={environment}",
                 f"client.client_name={client}",
                 f"client.model_id={model_id}",
-                f"vlm={vlm}",
+                f"agent.max_image_history={max_image_history}",
                 # to reduce computational footprint of the tests
                 f"num_episodes={1}",
                 f"num_workers={1}",
@@ -38,7 +38,6 @@ def test_evaluation(agent, environment, client, model_id, vlm):
         assert cfg.agent == agent
         assert cfg.env_names == environment
         assert cfg.client.client_name == client
-        assert cfg.vlm == vlm
 
         # Run evaluation
         env_name = cfg.env_names.split(",")[0]
