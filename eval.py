@@ -19,7 +19,7 @@ def main(config: DictConfig):
     agent_factory = AgentFactory(config)
 
     results_summaries = defaultdict(list)
-    for env_name in config.env_names.split(","):
+    for env_name in config.envs.names.split(","):
         evaluator = Evaluator(env_name, config)
         env_result_summary = evaluator.run(agent_factory)
         results_summaries[env_name] = env_result_summary

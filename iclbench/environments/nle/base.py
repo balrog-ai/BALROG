@@ -16,6 +16,7 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
         super().__init__(env, use_language_action=True)
         self.nle_language = NLELanguageObsv()
         self.language_action_space = self.create_action_space()
+        self.env = env
         if seed is not None:
             self.env.seed(seed)
         self.vlm = vlm
@@ -25,7 +26,6 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
         else:
             self.prompt_mode = "language"
 
-        self.env = env
         self.progress = get_progress_system(self.env)
         self.max_steps = self.env._max_episode_steps
 
@@ -125,7 +125,6 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
         all_actions = nle_actions + single_chars + single_digits + double_digits
         return Strings(all_actions)
 
-
     def ascii_render(self, chars):
         rows, cols = chars.shape
         result = ""
@@ -136,7 +135,6 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
             result += "\n"
         return result
 
-
     def nle_obsv_to_language(self, nle_obsv):
         """Translate NLE Observation into a language observation.
         Args:
@@ -144,10 +142,9 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
         Returns:
             (dict): language observation
         """
-        
+
         message, nle_obsv = self.clean_message(nle_obsv)
-        
-        
+
         glyphs = nle_obsv["glyphs"]
         blstats = nle_obsv["blstats"]
         tty_cursor = nle_obsv["tty_cursor"]
@@ -161,9 +158,8 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
             "text_inventory": self.nle_language.text_inventory(inv_strs, inv_letters).decode("latin-1"),
             "text_cursor": self.nle_language.text_cursor(glyphs, blstats, tty_cursor).decode("latin-1"),
             "tty_chars": nle_obsv["tty_chars"],
-            "tty_cursor": nle_obsv["tty_cursor"]
+            "tty_cursor": nle_obsv["tty_cursor"],
         }
-
 
     def render_text(self, nle_obsv):
         long_term_observations = [
@@ -184,7 +180,6 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
             "long_term_context": long_term_context,
             "short_term_context": short_term_context,
         }
-
 
     def render_hybrid(self, nle_obsv):
         ascii_map = self.ascii_render(nle_obsv["tty_chars"])

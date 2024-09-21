@@ -12,7 +12,7 @@ class AgentFactory:
 
     def create_agent(self):
         client_factory = create_llm_client(self.config.client)
-        prompt_builder = create_prompt_builder(self.config.prompt_builder_config)
+        prompt_builder = create_prompt_builder(self.config.agent)
 
         if self.config.agent.type == "naive":
             return NaiveAgent(client_factory, prompt_builder)
