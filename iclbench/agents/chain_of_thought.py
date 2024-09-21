@@ -6,8 +6,9 @@ from iclbench.client import LLMClientWrapper
 
 
 class ChainOfThoughtAgent(BaseAgent):
-    def __init__(self, client_factory: LLMClientWrapper, prompt_builder):
+    def __init__(self, client_factory: LLMClientWrapper, prompt_builder, config):
         super().__init__(client_factory, prompt_builder)
+        self.remember_cot = config.remember_cot
 
     def act(self, obs, prev_action=None):
         if prev_action:
@@ -38,6 +39,7 @@ Finally, provide a single output action at the end of the message in the form of
             return re.sub(r"[^a-zA-Z\s:]", "", input_string)
 
         answer = copy.deepcopy(reasoning)
+        self.prompt_builder.update_reasoning(reasoning.completion)
         answer = answer._replace(reasoning=answer.completion)
         answer = answer._replace(completion=filter_letters(answer.completion).split("ACTION:")[-1].strip())
 

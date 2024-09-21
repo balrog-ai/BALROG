@@ -13,12 +13,20 @@ class Message:
 
 
 class HistoryPromptBuilder:
-    def __init__(self, max_history: int = 16, max_image_history: int = 1, system_prompt: Optional[str] = None):
+    def __init__(
+        self,
+        max_history: int = 16,
+        max_image_history: int = 1,
+        system_prompt: Optional[str] = None,
+        max_cot_history: int = 1,
+    ):
         self.max_history = max_history
         self.max_image_history = min(max_image_history, max_history)
         self.system_prompt = system_prompt
         self._events = deque(maxlen=max_history * 2)  # Stores observations and actions
         self._last_short_term_obs = None  # To store the latest short-term observation
+        self.previous_reasoning = None
+        self.max_cot_history = max_cot_history
 
     def update_instruction_prompt(self, instruction: str):
         self.system_prompt = instruction
@@ -46,8 +54,12 @@ class HistoryPromptBuilder:
             {
                 "type": "action",
                 "action": action,
+                "reasoning": self.previous_reasoning,
             }
         )
+
+    def update_reasoning(self, reasoning: str):
+        self.previous_reasoning = reasoning
 
     def reset(self):
         self._events.clear()
@@ -68,6 +80,15 @@ class HistoryPromptBuilder:
                 else:
                     event["include_image"] = False
 
+        # determine the reasoning to include
+        reasoning_needed = self.max_cot_history
+        for event in reversed(self._events):
+            if event["type"] == "action":
+                if reasoning_needed > 0 and event.get("reasoning") is not None:
+                    reasoning_needed -= 1
+                else:
+                    event["reasoning"] = None
+
         # Process events to create messages
         for idx, event in enumerate(self._events):
             if event["type"] == "observation":
@@ -84,7 +105,10 @@ class HistoryPromptBuilder:
                 if "include_image" in event:
                     del event["include_image"]
             elif event["type"] == "action":
-                content = event["action"]
+                if event.get("reasoning") is not None:
+                    content = "Previous plan:\n" + event["reasoning"]
+                else:
+                    content = event["action"]
                 message = Message(role="assistant", content=content)
             messages.append(message)
 

@@ -17,7 +17,7 @@ class AgentFactory:
         if self.config.agent == "naive":
             return NaiveAgent(client_factory, prompt_builder)
         elif self.config.agent == "cot":
-            return ChainOfThoughtAgent(client_factory, prompt_builder)
+            return ChainOfThoughtAgent(client_factory, prompt_builder, config=self.config)
         elif self.config.agent == "self_refine":
             return SelfRefineAgent(
                 client_factory, prompt_builder, max_iterations=self.config.self_refine_max_iterations
