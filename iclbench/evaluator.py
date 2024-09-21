@@ -110,7 +110,7 @@ class Evaluator:
         results_queue = multiprocessing.Queue()
 
         # Create a multiprocessing context with spawn
-        ctx = multiprocessing.get_context("spawn")
+        ctx = multiprocessing.get_context("fork")
 
         # Create a list of all tasks to be executed
         all_tasks = [task for task in self.tasks for _ in range(self.num_episodes)]
