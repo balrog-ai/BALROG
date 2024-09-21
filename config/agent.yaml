@@ -1,4 +1,5 @@
-agent: cot
+agent:
+  type: naive
 remember_cot: True
 self_refine_max_iterations: 3
 

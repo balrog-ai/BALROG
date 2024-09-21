@@ -14,17 +14,13 @@ class AgentFactory:
         client_factory = create_llm_client(self.config.client)
         prompt_builder = create_prompt_builder(self.config.prompt_builder_config)
 
-        if self.config.agent == "naive":
+        if self.config.agent.type == "naive":
             return NaiveAgent(client_factory, prompt_builder)
-        elif self.config.agent == "cot":
+        elif self.config.agent.type == "cot":
             return ChainOfThoughtAgent(client_factory, prompt_builder, config=self.config)
-        elif self.config.agent == "self_refine":
+        elif self.config.agent.type == "self_refine":
             return SelfRefineAgent(
                 client_factory, prompt_builder, max_iterations=self.config.self_refine_max_iterations
             )
-        elif self.config.agent == "react":
-            raise NotImplementedError("ReAct agent is not implemented yet.")
-        elif self.config.agent == "reflexion":
-            raise NotImplementedError("Reflexion agent is not implemented yet.")
         else:
             raise ValueError(f"Unknown agent type: {self.config.agent}")
