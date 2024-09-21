@@ -1,6 +1,7 @@
 import json
 import logging
 import multiprocessing
+import traceback
 import os
 from collections import defaultdict
 from pathlib import Path
@@ -141,7 +142,13 @@ class Evaluator:
         with tqdm(total=total_tasks, desc="Evaluating Episodes") as pbar:
             while tasks_completed < total_tasks:
                 result = results_queue.get()
-                results[result["task"]].append(result)
+                if "error" in result:
+                    logging.error(
+                        f"Error in task {result['task']} processed by {result['process_num']}: {result['error']}"
+                    )
+                    logging.error(f"Traceback:\n{result['traceback']}")
+                else:
+                    results[result["task"]].append(result)
                 tasks_completed += 1
 
                 # Update progress bar
@@ -174,8 +181,9 @@ class Evaluator:
                 result["process_num"] = process_num  # Include process number in result
                 results_queue.put(result)
             except Exception as e:
-                logging.error(f"Error in worker: {e}")
-                results_queue.put({"task": task, "error": str(e), "process_num": process_num})
+                tb = traceback.format_exc()
+                logging.error(f"Error in worker processing task {task}: {e}\n{tb}")
+                results_queue.put({"task": task, "error": str(e), "traceback": tb, "process_num": process_num})
 
     def _save_results(self, results, env_name):
         progression = 0.0

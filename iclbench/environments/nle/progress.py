@@ -109,21 +109,25 @@ class Progress:
         return stats
 
     def _get_end_reason(self, tty_chars, end_status):
-        end_reason = tty_chars.replace("You made the top ten list!", "").split()
-        if end_reason[7].startswith("Agent"):
-            end_reason = " ".join(end_reason[8:-2])
+        end_reason_words = tty_chars.replace("You made the top ten list!", "").split()
+
+        if len(end_reason_words) > 7 and end_reason_words[7].startswith("Agent"):
+            end_reason = " ".join(end_reason_words[8:-2])
         else:
-            end_reason = " ".join(end_reason[7:-2])
-        first_sentence = end_reason.split(".")[0].split()
-        return (
-            end_status.name
-            + ": "
-            + (
-                " ".join(first_sentence[: first_sentence.index("in")])
-                + ". "
-                + ".".join(end_reason.split(".")[1:]).strip()
-            ).strip()
-        )
+            end_reason = " ".join(end_reason_words[7:-2])
+        sentences = end_reason.split(".")
+        first_sentence = sentences[0].split()
+
+        if "in" in first_sentence:
+            index_in = first_sentence.index("in")
+            first_part = " ".join(first_sentence[:index_in])
+        else:
+            first_part = " ".join(first_sentence)
+
+        remaining_sentences = ".".join(sentences[1:]).strip()
+        end_reason_final = f"{end_status.name}: " f"{first_part}." f" {remaining_sentences}".strip()
+
+        return end_reason_final
 
     def _get_dlvl(self, stats):
         """
