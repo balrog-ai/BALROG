@@ -1,5 +1,5 @@
-agent: naive
-
+agent: cot
+remember_cot: True
 self_refine_max_iterations: 3
 
 prompt_builder_strategy: history
@@ -8,4 +8,4 @@ prompt_builder_config:
   max_history: 16
   max_image_history: 0
   max_cot_history: 1
-  remember_cot: True
+  
