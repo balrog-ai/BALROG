@@ -24,9 +24,9 @@ def test_evaluation(agent, environment, client, model_id, max_image_history):
                 f"client.model_id={model_id}",
                 f"agent.max_image_history={max_image_history}",
                 # to reduce computational footprint of the tests
-                f"num_episodes={1}",
-                f"num_workers={1}",
-                f"max_steps_per_episode={5}",
+                f"eval.num_episodes={1}",
+                f"eval.num_workers={1}",
+                f"eval.max_steps_per_episode={5}",
             ],
             return_hydra_config=True,
         )
@@ -35,14 +35,14 @@ def test_evaluation(agent, environment, client, model_id, max_image_history):
         setup_environment(original_cwd=cfg.hydra.runtime.cwd)
 
         # Check that the config is correct
-        assert cfg.agent == agent
-        assert cfg.env_names == environment
+        assert cfg.agent.type == agent
+        assert cfg.envs.names == environment
         assert cfg.client.client_name == client
 
         # Run evaluation
-        env_name = cfg.env_names.split(",")[0]
+        env_name = cfg.envs.names.split(",")[0]
         # we could pass task name as an argument, for now just use the first task
-        cfg[f"{env_name}_tasks"] = cfg[f"{env_name}_tasks"][:1]
+        cfg.tasks[f"{env_name}_tasks"] = cfg.tasks[f"{env_name}_tasks"][:1]
         evaluator = Evaluator(env_name, cfg)
         agent_factory = AgentFactory(cfg)
         evaluator.run(agent_factory)
