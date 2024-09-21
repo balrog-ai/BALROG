@@ -30,7 +30,7 @@ def make_env(env_name, task, config):
                     "tty_cursor",
                     "tty_colors",
                 ],
-                **config.minihack_kwargs,
+                **config.envs.minihack_kwargs,
             ),
             **config.env_kwargs,
         )
