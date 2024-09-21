@@ -1,4 +1,5 @@
 import nle_language_wrapper
+from nle_language_wrapper.nle_language_obsv import NLELanguageObsv
 from nle.nethack import USEFUL_ACTIONS
 from PIL import Image
 
@@ -7,13 +8,13 @@ from iclbench.environments import Strings
 from .progress import get_progress_system
 from .render import tty_render_image
 from .render_rgb import rgb_render_image
-from .utils import render_hybrid, render_text
 from ..minihack import ACTIONS as MINIHACK_ACTIONS
 
 
 class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
     def __init__(self, env, seed=None, vlm=False):
         super().__init__(env, use_language_action=True)
+        self.nle_language = NLELanguageObsv()
         self.language_action_space = self.create_action_space()
         if seed is not None:
             self.env.seed(seed)
@@ -53,7 +54,7 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
 
     def nle_process_obsv(self, nle_obsv):
         img = Image.fromarray(self.render("tiles")).convert("RGB") if self.vlm else None
-        text = self.nle_obsv_to_language(nle_obsv)
+        text = self.nle_obsv_type(nle_obsv)
 
         return {
             "text": text,
@@ -61,12 +62,12 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
             "obs": nle_obsv,
         }
 
-    def nle_obsv_to_language(self, nle_obsv):
-        message, nle_obsv = self.clean_message(nle_obsv)
+    def nle_obsv_type(self, nle_obsv):
+        nle_obsv = self.nle_obsv_to_language(nle_obsv)
         if self.prompt_mode == "language":
-            return render_text(nle_obsv, message)
+            return self.render_text(nle_obsv)
         elif self.prompt_mode == "hybrid":
-            return render_hybrid(nle_obsv, message)
+            return self.render_hybrid(nle_obsv)
         else:
             raise ValueError(f'"{self.prompt_mode}" is not a valid prompt mode.')
 
@@ -78,8 +79,9 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
             message = message.replace("\n", " ")
 
             nle_obsv, reward, done, info = self.step("more")
-            add = self.nle_language.text_message(nle_obsv["tty_chars"]).decode("latin-1")
+            add = self.nle_language.text_message(nle_obsv["obs"]["tty_chars"]).decode("latin-1")
             message += add
+            return message, nle_obsv["obs"]
         return message, nle_obsv
 
     def render(self, mode="human"):
@@ -122,3 +124,91 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
 
         all_actions = nle_actions + single_chars + single_digits + double_digits
         return Strings(all_actions)
+
+
+    def ascii_render(self, chars):
+        rows, cols = chars.shape
+        result = ""
+        for i in range(rows):
+            for j in range(cols):
+                entry = chr(chars[i, j])
+                result += entry
+            result += "\n"
+        return result
+
+
+    def nle_obsv_to_language(self, nle_obsv):
+        """Translate NLE Observation into a language observation.
+        Args:
+            nle_obsv (dict): NLE observation from the base environment
+        Returns:
+            (dict): language observation
+        """
+        
+        message, nle_obsv = self.clean_message(nle_obsv)
+        
+        
+        glyphs = nle_obsv["glyphs"]
+        blstats = nle_obsv["blstats"]
+        tty_cursor = nle_obsv["tty_cursor"]
+        inv_strs = nle_obsv["inv_strs"]
+        inv_letters = nle_obsv["inv_letters"]
+
+        return {
+            "text_glyphs": self.nle_language.text_glyphs(glyphs, blstats).decode("latin-1"),
+            "text_message": message,
+            "text_blstats": self.nle_language.text_blstats(blstats).decode("latin-1"),
+            "text_inventory": self.nle_language.text_inventory(inv_strs, inv_letters).decode("latin-1"),
+            "text_cursor": self.nle_language.text_cursor(glyphs, blstats, tty_cursor).decode("latin-1"),
+            "tty_chars": nle_obsv["tty_chars"],
+            "tty_cursor": nle_obsv["tty_cursor"]
+        }
+
+
+    def render_text(self, nle_obsv):
+        long_term_observations = [
+            ("text_message", "message"),
+            ("text_glyphs", "language observation"),
+            ("text_cursor", "cursor"),
+        ]
+
+        short_term_observations = [
+            ("text_blstats", "statistics"),
+            ("text_inventory", "inventory"),
+        ]
+
+        long_term_context = "\n".join([f"{name}:\n{nle_obsv[key]}\n" for key, name in long_term_observations])
+        short_term_context = "\n".join([f"{name}:\n{nle_obsv[key]}\n" for key, name in short_term_observations])
+
+        return {
+            "long_term_context": long_term_context,
+            "short_term_context": short_term_context,
+        }
+
+
+    def render_hybrid(self, nle_obsv):
+        ascii_map = self.ascii_render(nle_obsv["tty_chars"])
+        cursor = nle_obsv["tty_cursor"]
+        cursor = f"(x={cursor[1]}, y={cursor[0]})"
+        ascii_map = "\n".join(ascii_map.split("\n")[1:])  # remove first line
+
+        nle_obsv["map"] = ascii_map
+        nle_obsv["text_cursor"] = nle_obsv["text_cursor"] + "\n" + cursor
+
+        long_term_observations = [
+            ("text_message", "message"),
+            ("text_glyphs", "language observation"),
+            ("text_cursor", "cursor"),
+            ("map", "map"),
+        ]
+        short_term_observation = [
+            ("text_inventory", "inventory"),
+        ]
+
+        long_term_context = "\n".join([f"{name}:\n{nle_obsv[key]}\n" for key, name in long_term_observations])
+        short_term_context = "\n".join([f"{name}:\n{nle_obsv[key]}\n" for key, name in short_term_observation])
+
+        return {
+            "long_term_context": long_term_context,
+            "short_term_context": short_term_context,
+        }
