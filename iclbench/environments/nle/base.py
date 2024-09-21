@@ -62,12 +62,25 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
         }
 
     def nle_obsv_to_language(self, nle_obsv):
+        message, nle_obsv = self.clean_message(nle_obsv)
         if self.prompt_mode == "language":
-            return render_text(nle_obsv)
+            return render_text(nle_obsv, message)
         elif self.prompt_mode == "hybrid":
-            return render_hybrid(nle_obsv)
+            return render_hybrid(nle_obsv, message)
         else:
             raise ValueError(f'"{self.prompt_mode}" is not a valid prompt mode.')
+
+    def clean_message(self, nle_obsv):
+        message = self.nle_language.text_message(nle_obsv["tty_chars"]).decode("latin-1")
+        done = False
+        while "--More--" in message and not done:
+            message = message.replace("--More--", " ")
+            message = message.replace("\n", " ")
+
+            nle_obsv, reward, done, info = self.step("more")
+            add = self.nle_language.text_message(nle_obsv["tty_chars"]).decode("latin-1")
+            message += add
+        return message, nle_obsv
 
     def render(self, mode="human"):
         if mode == "tiles":

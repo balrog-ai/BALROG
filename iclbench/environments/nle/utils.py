@@ -37,13 +37,14 @@ def nle_obsv_to_language(nle_obsv):
     }
 
 
-def render_text(nle_obsv):
+def render_text(nle_obsv, message):
     long_term_observations = [
         ("text_message", "message"),
         ("text_glyphs", "language observation"),
         ("text_cursor", "cursor"),
     ]
     text_obsv = nle_obsv_to_language(nle_obsv)
+    text_obsv["text_message"] = message
 
     short_term_observations = [
         ("text_blstats", "statistics"),
@@ -59,7 +60,7 @@ def render_text(nle_obsv):
     }
 
 
-def render_hybrid(nle_obsv):
+def render_hybrid(nle_obsv, message):
     ascii_map = ascii_render(nle_obsv["tty_chars"])
     cursor = nle_obsv["tty_cursor"]
     cursor = f"(x={cursor[1]}, y={cursor[0]})"
@@ -68,6 +69,7 @@ def render_hybrid(nle_obsv):
     text_obsv = nle_obsv_to_language(nle_obsv)
     text_obsv["map"] = ascii_map
     text_obsv["text_cursor"] = text_obsv["text_cursor"] + "\n" + cursor
+    text_obsv["text_message"] = message
 
     long_term_observations = [
         ("text_message", "message"),
