@@ -19,7 +19,12 @@ def summarize_env_progressions(results_summaries: defaultdict, config) -> float:
     results_summaries["client"] = OmegaConf.to_container(config.client, resolve=True)
     results_summaries["agent"] = OmegaConf.to_container(config.agent, resolve=True)
 
-    with open("summary.json", "w") as f:
+    if config.agent.max_image_history > 0:
+        summary_name = f"{config.client.model_id}_{config.agent.type}_vlm_{config.agent.max_image_history}.json"
+    else:
+        summary_name = f"{config.client.model_id}_{config.agent.type}.json"
+
+    with open(summary_name, "w") as f:
         json.dump(results_summaries, f)
     logging.info("Results saved in summary.json")
 
