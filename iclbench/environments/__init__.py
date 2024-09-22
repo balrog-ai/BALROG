@@ -32,7 +32,7 @@ def make_env(env_name, task, config):
                 ],
                 **config.envs.minihack_kwargs,
             ),
-            **config.env_kwargs,
+            **config.envs.env_kwargs,
         )
     elif env_name == "babyai":
         from iclbench.environments.babyai_text import BabyAITextCleanLangWrapper
