@@ -7,10 +7,13 @@ from iclbench.environments.env_wrapper import EnvWrapper
 
 
 def make_env(env_name, task, config):
+
     if env_name == "nle":
         from iclbench.environments.nle import NLELanguageWrapper
 
-        base_env = NLELanguageWrapper(gym.make(task, **config.nle_kwargs), **config.env_kwargs, vlm=config.vlm)
+        vlm = True if config.agent.max_image_history > 0 else False
+        env = gym.make(task, **config.envs.nle_kwargs)
+        base_env = NLELanguageWrapper(env, vlm=vlm)
     elif env_name == "minihack":
         import minihack
         from iclbench.environments.nle import NLELanguageWrapper
@@ -27,30 +30,29 @@ def make_env(env_name, task, config):
                     "tty_cursor",
                     "tty_colors",
                 ],
-                **config.minihack_kwargs,
+                **config.envs.minihack_kwargs,
             ),
             **config.env_kwargs,
-            vlm=config.vlm,
         )
     elif env_name == "babyai":
         from iclbench.environments.babyai_text import BabyAITextCleanLangWrapper
 
-        base_env = BabyAITextCleanLangWrapper(task, vlm=config.vlm, **config.babyai_kwargs)
+        base_env = BabyAITextCleanLangWrapper(task, **config.envs.babyai_kwargs)
     elif env_name == "craftax":
         from iclbench.environments.craftax import CraftaxLanguageWrapper
 
-        base_env = CraftaxLanguageWrapper(task, **config.craftax_kwargs, vlm=config.vlm)
+        base_env = CraftaxLanguageWrapper(task, **config.envs.craftax_kwargs)
     elif env_name == "textworld":
         from iclbench.environments.textworld import TextWorldFactory
 
-        textworld_factory = TextWorldFactory(tasks=config.textworld_tasks, **config.textworld_kwargs)
-        base_env = textworld_factory(task, **config.env_kwargs)
+        textworld_factory = TextWorldFactory(tasks=config.tasks.textworld_tasks, **config.envs.textworld_kwargs)
+        base_env = textworld_factory(task, **config.envs.env_kwargs)
     elif env_name == "babaisai":
         from baba import make
 
         from iclbench.environments.baba_is_ai import BabaIsAIWrapper
 
-        base_env = BabaIsAIWrapper(make(task, **config.babaisai_kwargs), vlm=config.vlm)
+        base_env = BabaIsAIWrapper(make(task, **config.envs.babaisai_kwargs))
     else:
         raise ValueError(f"Unknown environment: {env_name}")
     return EnvWrapper(base_env, env_name, task)

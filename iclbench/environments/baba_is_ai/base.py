@@ -13,7 +13,6 @@ class BabaIsAIWrapper(gym.Wrapper):
     def __init__(self, env: gym.Env, add_ruleset=True, vlm=False):
         super().__init__(env)
         self.add_ruleset = add_ruleset
-        self.vlm = vlm
         self.language_action_space = BABAISAI_ACTION_SPACE[:]
         self.progression = 0.0
         self.target_plan = None
@@ -138,13 +137,11 @@ class BabaIsAIWrapper(gym.Wrapper):
             prompt += f"Active rules:\n{ruleset}\n\n"
         prompt += f"Objects on the map:\n{text_observation}"
 
-        image = Image.fromarray(self.env.render(mode="rgb_array")).convert("RGB")
-
         obs = defaultdict(lambda: None)
 
         obs["text"] = {"long_term_context": prompt, "short_term_context": ""}
-        if self.vlm:
-            obs["image"] = image
+        image = Image.fromarray(self.env.render(mode="rgb_array")).convert("RGB")
+        obs["image"] = image
 
         return obs
 

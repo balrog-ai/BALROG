@@ -60,20 +60,19 @@ USEFUL_ACTION = [
 
 
 class CraftaxLanguageWrapper(gym.Env):
-    def __init__(self, env_id: str = "Craftax-Symbolic-v1", seed=None, vlm=False):
+    def __init__(self, env_id: str = "Craftax-Symbolic-v1", seed=None):
         super(CraftaxLanguageWrapper, self).__init__()
-        
+
         @jax.jit
         def render_state(env_state):
             image = render_craftax_pixels(env_state, block_pixel_size=BLOCK_PIXEL_SIZE_HUMAN)
             return jnp.round(image).astype(jnp.uint8)
-            
+
         env = make_craftax_env_from_name(env_id, auto_reset=True)
         self._step = jax.jit(env.step)
         self._reset = jax.jit(env.reset)
         self._render = render_state
         self._env_params = env.default_params
-        self.vlm = vlm
 
         if seed is None:
             seed = np.random.randint(2**31)
@@ -98,8 +97,7 @@ class CraftaxLanguageWrapper(gym.Env):
             "long_term_context": "",
             "short_term_context": "",
         }
-        if self.vlm:
-            obs_dict["image"] = Image.fromarray(self.render()).convert("RGB")
+        obs_dict["image"] = Image.fromarray(self.render()).convert("RGB")
 
         return obs_dict
 
@@ -116,8 +114,7 @@ class CraftaxLanguageWrapper(gym.Env):
             "long_term_context": "",
             "short_term_context": "",
         }
-        if self.vlm:
-            obs_dict["image"] = Image.fromarray(self.render()).convert("RGB")
+        obs_dict["image"] = Image.fromarray(self.render()).convert("RGB")
         return obs_dict, reward.item(), done, info
 
     def render(self, mode="human"):

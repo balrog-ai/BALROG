@@ -15,11 +15,11 @@ class Evaluator:
     def __init__(self, env_name, config):
         self.env_name = env_name.strip()  # Ensure no leading/trailing whitespace
         self.config = config
-        self.tasks = config[f"{self.env_name}_tasks"]
+        self.tasks = config.tasks[f"{self.env_name}_tasks"]
 
-        self.num_episodes = config.num_episodes
-        self.num_workers = config.num_workers
-        self.max_steps_per_episode = config.max_steps_per_episode
+        self.num_episodes = config.eval.num_episodes[self.env_name]
+        self.num_workers = config.eval.num_workers
+        self.max_steps_per_episode = config.eval.max_steps_per_episode
 
     def run_episode(self, task, agent, process_num=None, position=0):
         env = make_env(self.env_name, task, self.config)
@@ -54,7 +54,7 @@ class Evaluator:
         for step in range(max_steps_per_episode):
             response = agent.act(obs, prev_action=action)
             action = env.check_action_validity(response.completion)
-            if self.config.save_trajectories:
+            if self.config.eval.save_trajectories:
                 reasoning = response.reasoning if hasattr(response, "reasoning") else None
                 episode_log["trajectory"].append((obs["text"]["long_term_context"], reasoning if reasoning else action))
             episode_log["action_frequency"][action] += 1

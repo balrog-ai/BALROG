@@ -24,9 +24,7 @@ class BabyAITextCleanLangWrapper(Wrapper):
         self.language_action_space = BABYAI_ACTION_SPACE[:]
         self._mission = None
         self.progression = 0.0
-        self.vlm = vlm
-        if self.vlm:
-            self.renderer = self.env.render("rgb_array")
+        self.renderer = self.env.render("rgb_array")
 
     @property
     def interleaving_token(self):
@@ -37,10 +35,7 @@ class BabyAITextCleanLangWrapper(Wrapper):
         return "go forward"
 
     def get_prompt(self, obs, infos):
-        if self.vlm:
-            image = Image.fromarray(self.env.get_obs_render(obs["image"])).convert("RGB")
-        else:
-            image = None
+        image = Image.fromarray(self.env.get_obs_render(obs["image"])).convert("RGB")
 
         def _form_prompt(description):
             return "\n".join([d.replace("You see ", "") for d in description])

@@ -1,9 +1,0 @@
-num_episodes: 1
-num_workers: 1
-max_steps_per_episode: null
-save_trajectories: True
-
-wandb_save: False
-wandb:
-  project_name: benchmark
-  entity_name: ICLbench
