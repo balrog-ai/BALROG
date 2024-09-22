@@ -2,6 +2,7 @@ import json
 import logging
 import os
 from collections import defaultdict
+from omegaconf import OmegaConf
 
 import google.generativeai as genai
 import openai
@@ -15,8 +16,8 @@ def summarize_env_progressions(results_summaries: defaultdict, config) -> float:
     average_progression /= len(results_summaries)
 
     results_summaries["Final score"] = average_progression
-    results_summaries["client"] = config.client
-    results_summaries["agent"] = config.agent
+    results_summaries["client"] = OmegaConf.to_container(config.client, resolve=True)
+    results_summaries["agent"] = OmegaConf.to_container(config.agent, resolve=True)
 
     with open("summary.json", "w") as f:
         json.dump(results_summaries, f)
