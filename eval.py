@@ -27,7 +27,7 @@ def main(config: DictConfig):
     average_progression = summarize_env_progressions(results_summaries, config)
     print(f"Average progression across all environments: {average_progression}")
 
-    if config.wandb_save:
+    if config.eval.wandb_save:
         wandb_save_artifact(config)
 
 
