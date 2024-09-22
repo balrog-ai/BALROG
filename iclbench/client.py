@@ -1,6 +1,7 @@
 import base64
 from collections import namedtuple
 from io import BytesIO
+import logging
 
 import google.generativeai as genai
 import replicate
@@ -10,6 +11,9 @@ from openai import OpenAI
 LLMResponse = namedtuple(
     "LLMResponse", ["model_id", "completion", "stop_reason", "input_tokens", "output_tokens", "reasoning"]
 )
+
+httpx_logger = logging.getLogger("httpx")
+httpx_logger.setLevel(logging.WARNING)
 
 
 class LLMClientWrapper:
