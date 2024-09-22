@@ -38,10 +38,13 @@ ACTIONS = {
 
 
 def get_available_actions(env):
-    return {
-        NLELanguageWrapper.all_nle_action_map[action][0]: ACTIONS[NLELanguageWrapper.all_nle_action_map[action][0]]
-        for action in env.actions
-    }
+    available_actions = {}
+    for action in env.actions:
+        action_key = NLELanguageWrapper.all_nle_action_map[action][0]
+        if action_key not in ACTIONS:
+            continue
+        available_actions[action_key] = ACTIONS[action_key]
+    return available_actions
 
 
 def get_instruction_prompt(env, task="MiniHack-ExploreMaze-Hard-Mapped-v0"):

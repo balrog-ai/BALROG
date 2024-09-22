@@ -104,12 +104,12 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
     def create_action_space(self):
 
         if "minihack" in self.env.spec.id.lower():
-            available_actions = {
-                NLELanguageWrapper.all_nle_action_map[action][0]: MINIHACK_ACTIONS[
-                    NLELanguageWrapper.all_nle_action_map[action][0]
-                ]
-                for action in self.env.actions
-            }
+            available_actions = {}
+            for action in self.env.actions:
+                action_key = NLELanguageWrapper.all_nle_action_map[action][0]
+                if action_key not in MINIHACK_ACTIONS:
+                    continue
+                available_actions[action_key] = MINIHACK_ACTIONS[action_key]
 
             minihack_actions = [action for action, _ in available_actions.items()]
             return Strings(minihack_actions)
