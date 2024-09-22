@@ -20,6 +20,7 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
         if seed is not None:
             self.env.seed(seed)
         self.vlm = vlm
+        self.done = False
 
         if not vlm:
             self.prompt_mode = "hybrid"
@@ -31,8 +32,9 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
 
     def step(self, action):
         obs, reward, done, info = super().step(action)
-        self.progress.update(obs["obs"], reward, done, info)
-        return obs, reward, done, info
+        self.done = done if not self.done else self.done
+        self.progress.update(obs["obs"], reward, self.done, info)
+        return obs, reward, self.done, info
 
     def post_reset(self, obsv):
         return self.post_step(obsv)
@@ -73,12 +75,11 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
 
     def clean_message(self, nle_obsv):
         message = self.nle_language.text_message(nle_obsv["tty_chars"]).decode("latin-1")
-        done = False
-        while "--More--" in message and not done:
+        while "--More--" in message and not self.done:
             message = message.replace("--More--", " ")
             message = message.replace("\n", " ")
 
-            nle_obsv, reward, done, info = self.step("more")
+            nle_obsv, reward, self.done, info = self.step("more")
             add = self.nle_language.text_message(nle_obsv["obs"]["tty_chars"]).decode("latin-1")
             message += add
             return message, nle_obsv["obs"]

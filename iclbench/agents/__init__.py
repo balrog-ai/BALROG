@@ -4,6 +4,7 @@ from ..prompt_builder import create_prompt_builder
 from .chain_of_thought import ChainOfThoughtAgent
 from .naive import NaiveAgent
 from .self_refine import SelfRefineAgent
+from .dummy import DummyAgent
 
 
 class AgentFactory:
@@ -22,5 +23,7 @@ class AgentFactory:
             return SelfRefineAgent(
                 client_factory, prompt_builder, max_iterations=self.config.self_refine_max_iterations
             )
+        elif self.config.agent.type == "dummy":
+            return DummyAgent(client_factory, prompt_builder)
         else:
             raise ValueError(f"Unknown agent type: {self.config.agent}")
