@@ -24,7 +24,7 @@ def test_evaluation(agent, environment, client, model_id, max_image_history):
                 f"client.model_id={model_id}",
                 f"agent.max_image_history={max_image_history}",
                 # to reduce computational footprint of the tests
-                f"eval.num_episodes={1}",
+                f"eval.num_episodes.{environment}={1}",
                 f"eval.num_workers={1}",
                 f"eval.max_steps_per_episode={5}",
             ],

@@ -17,7 +17,7 @@ class Evaluator:
         self.config = config
         self.tasks = config.tasks[f"{self.env_name}_tasks"]
 
-        self.num_episodes = config.eval.num_episodes
+        self.num_episodes = config.eval.num_episodes[self.env_name]
         self.num_workers = config.eval.num_workers
         self.max_steps_per_episode = config.eval.max_steps_per_episode
 

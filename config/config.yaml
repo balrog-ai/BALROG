@@ -6,8 +6,13 @@ agent:
   max_cot_history: 1
 
 eval:
-  num_episodes: 1
   num_workers: 1
+  num_episodes:
+    nle: 5
+    minihack: 5
+    babyai: 20
+    babaisai: 5
+    textworld: 20
   max_steps_per_episode: null
   save_trajectories: True
 
