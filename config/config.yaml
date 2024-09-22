@@ -10,7 +10,7 @@ eval:
   num_episodes:
     nle: 5
     minihack: 5
-    babyai: 20
+    babyai: 25
     babaisai: 5
     textworld: 20
   max_steps_per_episode: null
