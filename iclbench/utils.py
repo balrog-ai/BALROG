@@ -16,6 +16,7 @@ def summarize_env_progressions(results_summaries: defaultdict, config) -> float:
 
     results_summaries["Final score"] = average_progression
     results_summaries["model"] = config.client.model_id
+    results_summaries["agent"] = config.agent
 
     with open("summary.json", "w") as f:
         json.dump(results_summaries, f)
