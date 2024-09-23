@@ -119,4 +119,9 @@ If you are on a different machine, and are doing tunneling:
 python eval.py base_url=/your/vllm/server/baseurl
 ```
 
+### In Context Learning
+We use expert demonstrations for ICL
+Download and unzip them
 
+    curl -L -o demos.zip 'https://drive.google.com/uc?export=download&id=15GctN1XLL2h4L3Q7siRLbKq_OhBtetps'
+    unzip demos.zip
