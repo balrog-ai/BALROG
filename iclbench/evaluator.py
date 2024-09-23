@@ -30,6 +30,8 @@ class Evaluator:
             "task": task,
             "trajectory": [],
             "action_frequency": defaultdict(int),
+            "input_tokens": 0,
+            "output_tokens": 0,
         }
 
         instructions = None
@@ -58,6 +60,8 @@ class Evaluator:
                 reasoning = response.reasoning if hasattr(response, "reasoning") else None
                 episode_log["trajectory"].append((obs["text"]["long_term_context"], reasoning if reasoning else action))
             episode_log["action_frequency"][action] += 1
+            episode_log["input_tokens"] += response.input_tokens
+            episode_log["output_tokens"] += response.output_tokens
 
             obs, reward, done, info = env.step(action)
 
@@ -217,6 +221,8 @@ class Evaluator:
                 task: {"progression_percentage": 100 * prog, "episodes_played": cnt}
                 for task, (prog, cnt) in env_summary.items()
             },
+            "input_tokens": sum(run["input_tokens"] for task_results in results.values() for run in task_results),
+            "output_tokens": sum(run["output_tokens"] for task_results in results.values() for run in task_results),
         }
 
         filename = os.path.join(env_name, f"{env_name}_summary.json")
