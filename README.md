@@ -74,7 +74,6 @@ pip install -e external/nle-language-wrapper
 pip install -e external/nle
 pip install textworld
 pip install craftax
-pip install git+https://github.com/Farama-Foundation/Minigrid.git
 pip install git+https://github.com/facebookresearch/minihack
 pip install git+https://github.com/nacloos/baba-is-ai.git
 

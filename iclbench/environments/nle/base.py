@@ -1,14 +1,16 @@
+import random
+
 import nle_language_wrapper
-from nle_language_wrapper.nle_language_obsv import NLELanguageObsv
 from nle.nethack import USEFUL_ACTIONS
+from nle_language_wrapper.nle_language_obsv import NLELanguageObsv
 from PIL import Image
 
 from iclbench.environments import Strings
 
+from ..minihack import ACTIONS as MINIHACK_ACTIONS
 from .progress import get_progress_system
 from .render import tty_render_image
 from .render_rgb import rgb_render_image
-from ..minihack import ACTIONS as MINIHACK_ACTIONS
 
 
 class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
@@ -18,6 +20,7 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
         self.language_action_space = self.create_action_space()
         self.env = env
         if seed is not None:
+            random.seed(seed)
             self.env.seed(seed)
         self.vlm = vlm
         self.done = False
@@ -101,8 +104,10 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
     def get_stats(self):
         return self.progress.__dict__
 
-    def create_action_space(self):
+    def get_text_action(self, action):
+        return NLELanguageWrapper.all_nle_action_map[action][0]
 
+    def create_action_space(self):
         if "minihack" in self.env.spec.id.lower():
             available_actions = {}
             for action in self.env.actions:
