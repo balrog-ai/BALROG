@@ -25,6 +25,6 @@ class DummyAgent(BaseAgent):
         self.client = client_factory()
 
     def act(self, obs, prev_action=None):
-        print("\n", obs["obs"].keys())
-        print("_" * 80, "\n", obs["text"]["long_term_context"])
+        # print("\n", obs["obs"].keys())
+        # print("_" * 80, "\n", obs["text"]["long_term_context"])
         return make_dummy_action("dummy_action")
