@@ -27,6 +27,8 @@ class EnvWrapper:
             obs = obs
         elif self.env_name == "babaisai":
             obs = obs
+        elif self.env_name == "crafter":
+            obs = obs
         elif self.env_name == "craftax":
             obs = obs
         else:
@@ -60,6 +62,10 @@ class EnvWrapper:
             from iclbench.environments.baba_is_ai import get_instruction_prompt
 
             return get_instruction_prompt(self.env, self.task_name)
+        elif self.env_name == "crafter":
+            from iclbench.environments.crafter import get_instruction_prompt
+
+            return get_instruction_prompt(self.task_name)
         elif self.env_name == "craftax":
             from iclbench.environments.craftax import get_instruction_prompt
 

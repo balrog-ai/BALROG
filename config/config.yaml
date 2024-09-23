@@ -11,6 +11,7 @@ eval:
     nle: 5
     minihack: 5
     babyai: 25
+    crafter: 5
     babaisai: 5
     textworld: 20
   max_steps_per_episode: null
@@ -45,6 +46,7 @@ envs:
   minihack_kwargs: {}
   babyai_kwargs:
     num_dists: 0
+  crafter_kwargs: {}
   craftax_kwargs: {}
   textworld_kwargs:
     objective: True
@@ -69,6 +71,9 @@ tasks:
     - "MiniHack-Quest-Easy-v0"
     - "MiniHack-Quest-Medium-v0"
     - "MiniHack-Quest-Hard-v0"
+
+  crafter_tasks:
+    - "default"
 
   craftax_tasks:
     - "Craftax-Symbolic-v1"

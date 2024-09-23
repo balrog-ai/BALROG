@@ -38,6 +38,10 @@ def make_env(env_name, task, config):
         from iclbench.environments.babyai_text import BabyAITextCleanLangWrapper
 
         base_env = BabyAITextCleanLangWrapper(task, **config.envs.babyai_kwargs)
+    elif env_name == "crafter":
+        from iclbench.environments.crafter import CrafterLanguageWrapper
+        
+        base_env = CrafterLanguageWrapper(task, **config.envs.crafter_kwargs)
     elif env_name == "craftax":
         from iclbench.environments.craftax import CraftaxLanguageWrapper
 

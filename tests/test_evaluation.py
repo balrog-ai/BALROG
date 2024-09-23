@@ -6,12 +6,28 @@ from iclbench.agents import AgentFactory
 from iclbench.evaluator import Evaluator
 from iclbench.utils import setup_environment
 
+agents = [
+    "naive",
+]
 
-@pytest.mark.parametrize("agent", ["naive"])
-@pytest.mark.parametrize("environment", ["nle", "minihack", "babyai", "textworld", "babaisai"])  # "craftax"
-@pytest.mark.parametrize(
-    "client,model_id", [("gemini", "gemini-1.5-flash"), ("claude", "claude-3-5-sonnet-20240620"), ("openai", "gpt-4o")]
-)
+environments = [
+    "nle",
+    "minihack",
+    "babyai",
+    "crafter",
+    "textworld",
+    "babaisai",
+]
+
+clients = [
+    ("gemini", "gemini-1.5-flash"),
+    ("claude", "claude-3-5-sonnet-20240620"),
+    ("openai", "gpt-4o"),
+]
+
+@pytest.mark.parametrize("agent", agents)
+@pytest.mark.parametrize("environment", environments)
+@pytest.mark.parametrize("client,model_id", clients)
 @pytest.mark.parametrize("max_image_history", [1])
 def test_evaluation(agent, environment, client, model_id, max_image_history):
     with initialize(config_path="../config", version_base=None):
