@@ -41,6 +41,9 @@ class EnvWrapper:
         # This property should return the list of available actions
         return self.env.actions if hasattr(self.env, "actions") else list(range(len(self.env.action_space)))
 
+    def get_text_action(self, action):
+        return self.env.get_text_action(action)
+
     def get_instruction_prompt(self, instructions=None):
         if self.env_name == "nle":
             from iclbench.environments.nle import get_instruction_prompt
