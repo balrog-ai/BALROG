@@ -185,6 +185,7 @@ class CrafterLanguageWrapper(crafter.Env):
         self.language_action_space = Strings(ACTIONS)
         self.default_action = "Noop"
         self.max_steps = max_episode_steps
+        self.achievements = None
 
     def _step_impl(self, action):
         obs, reward, done, info = super().step(action)
@@ -202,12 +203,13 @@ class CrafterLanguageWrapper(crafter.Env):
     def reset(self):
         super().reset()
         obs, reward, done, info = self._step_impl(0)
-        self.score_tracker = 0 + sum([1.0 for k, v in info["achievements"].items() if v > 0])
+        self.score_tracker = 0
+        self.achievements = None
         return self.process_obs(obs, info)
 
     def step(self, action):
         obs, reward, done, info = self._step_impl(self.language_action_space.map(action))
-        self.score_tracker = self.score_tracker + sum([1.0 for k, v in info["achievements"].items() if v > 0])
+        self.score_tracker = self.update_progress(info)
         obs = self.process_obs(obs, info)
         return obs, reward, done, info
 
@@ -223,9 +225,12 @@ class CrafterLanguageWrapper(crafter.Env):
 
     def update_progress(self, info):
         self.score_tracker = 0 + sum([1.0 for k, v in info["achievements"].items() if v > 0])
+        self.achievements = info["achievements"]
+        return self.score_tracker
 
     def get_stats(self):
         return {
             "score": self.score_tracker,
-            "progression": self.score_tracker / 22.0,
+            "progression": float(self.score_tracker) / 22.0,
+            "achievements": self.achievements,
         }
