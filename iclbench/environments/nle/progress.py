@@ -42,7 +42,7 @@ class Progress:
         stats = self._update_stats(nle_obsv["blstats"])
 
         if done:
-            tty_chars = bytes(nle_obsv["tty_chars"].reshape(-1)).decode()
+            tty_chars = bytes(nle_obsv["tty_chars"].reshape(-1)).decode(errors="ignore")
             self.end_reason = self._get_end_reason(tty_chars, info["end_status"])
 
         xp = self._get_xp(stats)
