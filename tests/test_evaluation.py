@@ -10,7 +10,7 @@ from iclbench.utils import setup_environment
 @pytest.mark.parametrize("agent", ["naive"])
 @pytest.mark.parametrize("environment", ["nle", "minihack", "babyai", "textworld", "babaisai"])  # "craftax"
 @pytest.mark.parametrize(
-    "client,model_id", [("gemini", "gemini-1.5-flash"), ("claude", "claude-3-5-sonnet-20240620"), ("openai", "gpt-4o")]
+    "client,model_id", [("gemini", "gemini-1.5-flash"), ("claude", "claude-3-5-sonnet-20240620"), ("openai", "gpt-4o-mini")]
 )
 @pytest.mark.parametrize("max_image_history", [1])
 def test_evaluation(agent, environment, client, model_id, max_image_history):
