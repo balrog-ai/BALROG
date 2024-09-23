@@ -46,7 +46,8 @@ envs:
   minihack_kwargs: {}
   babyai_kwargs:
     num_dists: 0
-  crafter_kwargs: {}
+  crafter_kwargs:
+    max_episode_steps: 2000
   craftax_kwargs: {}
   textworld_kwargs:
     objective: True
