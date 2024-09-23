@@ -34,26 +34,16 @@ class Progress:
         """
         Update the progress of the player given a message and stats.
 
-        Args:
-            message (str): The message to check for achievements.
-            stats (str): The stats to check for achievements.
-
         Returns:
             float: The progression of the player.
         """
         self.episode_return += reward
 
-        # message = ''.join(np.vectorize(chr)(message)).strip()
-        message = bytes(nle_obsv["message"]).decode(errors="ignore")
         stats = self._update_stats(nle_obsv["blstats"])
 
         if done:
             tty_chars = bytes(nle_obsv["tty_chars"].reshape(-1)).decode(errors="ignore")
             self.end_reason = self._get_end_reason(tty_chars, info["end_status"])
-
-        if "You ascend t" in message:
-            self.progression = 1.0
-            self.highest_achievement = "ascend"
 
         xp = self._get_xp(stats)
         if xp not in self.xplvl_list and xp in ACHIEVEMENTS.keys():

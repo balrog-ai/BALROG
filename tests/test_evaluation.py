@@ -22,8 +22,9 @@ environments = [
 clients = [
     ("gemini", "gemini-1.5-flash"),
     ("claude", "claude-3-5-sonnet-20240620"),
-    ("openai", "gpt-4o"),
+    ("openai", "gpt-4o-mini"),
 ]
+
 
 @pytest.mark.parametrize("agent", agents)
 @pytest.mark.parametrize("environment", environments)
