@@ -12,7 +12,11 @@ environments = [
     "nle",
     "minihack",
     "babyai",
+<<<<<<< HEAD
     "textworld",
+=======
+    # "textworld",
+>>>>>>> b144c2d61c139326160abfe1da2324e9190ff67b
     "babaisai",
     # "craftax",
 ]
