@@ -5,9 +5,8 @@ from collections import defaultdict
 from pathlib import Path
 
 import gym
-import textworld.gym
-
 import textworld
+import textworld.gym
 
 workspace_dir = os.path.dirname(importlib.resources.files("iclbench").__str__())
 
@@ -68,7 +67,7 @@ class TextWorldFactory:
             raise KeyError(f"Task '{task}' not found. Available tasks are: {list(self.env_ids.keys())}")
 
         if seed is not None:
-            env_id = seed % len(self.env_ids[task])
+            env_id = self.env_ids[task][seed % len(self.env_ids[task])]
         else:
             self.count[task] += 1
             env_id = self.env_ids[task][self.count[task] % len(self.env_ids[task])]
