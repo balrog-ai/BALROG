@@ -122,5 +122,5 @@ python eval.py base_url=/your/vllm/server/baseurl
 We use expert demonstrations for ICL
 Download and unzip them
 
-    curl -L -o demos.zip 'https://drive.google.com/uc?export=download&id=15GctN1XLL2h4L3Q7siRLbKq_OhBtetps'
+    curl -L -o demos.zip 'https://drive.google.com/uc?export=download&id=11vYFclIY4RoJ6Ha7I5rWhuA5lQnhDtPL'
     unzip demos.zip
