@@ -21,6 +21,9 @@ class BabaIsAIWrapper(gym.Wrapper):
     def default_action(self):
         return BABAISAI_ACTION_SPACE[0]
 
+    def get_text_action(self, action):
+        return self.language_action_space[action.value]
+
     def get_ruleset(self):
         """
         Retrieve and format the ruleset for the current environment.

@@ -1,6 +1,9 @@
-import numpy as np
+import itertools
+
 import crafter
+import numpy as np
 from PIL import Image
+
 from iclbench.environments import Strings
 
 ACTIONS = [
@@ -24,7 +27,7 @@ ACTIONS = [
 ]
 
 id_to_item = [0] * 19
-import itertools
+
 
 dummyenv = crafter.Env()
 for name, ind in itertools.chain(dummyenv._world._mat_ids.items(), dummyenv._sem_view._obj_ids.items()):
@@ -194,6 +197,9 @@ class CrafterLanguageWrapper(crafter.Env):
         self.default_action = "Noop"
         self.max_steps = max_episode_steps
         self.achievements = None
+
+    def get_text_action(self, action):
+        raise self.language_action_space._values[action]
 
     def _step_impl(self, action):
         obs, reward, done, info = super().step(action)

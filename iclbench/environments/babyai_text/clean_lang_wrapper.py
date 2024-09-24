@@ -34,6 +34,9 @@ class BabyAITextCleanLangWrapper(Wrapper):
     def default_action(self):
         return "go forward"
 
+    def get_text_action(self, action):
+        return self.language_action_space[action.value]
+
     def get_prompt(self, obs, infos):
         image = Image.fromarray(self.env.get_obs_render(obs["image"])).convert("RGB")
 
