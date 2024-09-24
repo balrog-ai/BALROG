@@ -7,7 +7,7 @@ ACTION_DICT = {
     "Move East": "move east on flat ground",
     "Move North": "move north on flat ground",
     "Move South": "move south on flat ground",
-    "Do": "Collect material, drink from lake, hit creature",
+    "Do": "Multiuse action to collect material, drink from lake and hit creature in front",
     "Sleep": "sleep when energy level is below maximum",
     "Place Stone": "place a stone in front",
     "Place Table": "place a table",
@@ -25,11 +25,11 @@ ACTION_DICT = {
 def get_instruction_prompt(task=None):
     action_strings = ",\n".join(f"{action}: {ACTION_DICT[action]}" for action in ACTIONS)
     instruction_prompt = f"""
-You are an agent playing Crafter. The following are the possible actions you can take in the game:
+You are an agent playing Crafter. The following are the only valid actions you can take in the game, followed by a short description of each action:
 
 {action_strings}.
 
-The following are the game achievements you can get in the game:
+These are the game achievements you can get:
 1. Collect Wood
 2. Place Table
 3. Eat Cow
