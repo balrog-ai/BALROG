@@ -31,23 +31,19 @@ class Evaluator:
         recorded_actions = self.dataset.load_incontext_actions(i, task)
 
         obs = env.reset()
-        prev_action = None
         for action in recorded_actions:
             text_action = env.get_text_action(action)
 
-            if prev_action:
-                agent.prompt_builder.update_action(prev_action)
-
-            agent.prompt_builder.update_observation(obs)
+            agent.update_icl_observation(obs)
+            agent.update_icl_action(text_action)
 
             if self.config.eval.save_trajectories:
                 episode_log["trajectory"].append((obs["text"]["long_term_context"], text_action))
             episode_log["action_frequency"][text_action] += 1
 
             obs, reward, done, info = env.step(text_action)
-            prev_action = text_action
 
-        # assert done, "episode should have ended by now"
+        agent.wrap_episode()
 
     def run_episode(self, task, agent, process_num=None, position=0):
         env = make_env(self.env_name, task, self.config)
@@ -71,8 +67,10 @@ class Evaluator:
 
         max_steps_per_episode = env.max_steps if self.max_steps_per_episode is None else self.max_steps_per_episode
 
-        for icl_episode in range(self.config.eval.icl_episodes):
-            self.load_in_context_learning_episode(icl_episode, task, agent, episode_log)
+        # if the agent class is ICLAgent, load the in-context learning episode
+        if agent.__class__.__name__ == "ICLAgent":
+            for icl_episode in range(self.config.eval.icl_episodes):
+                self.load_in_context_learning_episode(icl_episode, task, agent, episode_log)
 
         pbar_desc = f"Task: {task}, Proc: {process_num}"
         pbar = tqdm(

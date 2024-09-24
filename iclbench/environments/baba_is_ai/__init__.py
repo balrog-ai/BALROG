@@ -30,8 +30,6 @@ Tips:
 - If stuck, try breaking apart existing rules or forming completely new ones.
 - Sometimes the solution involves making yourself a different object or changing what counts as the win condition.
 
-You can only output one of the above actions at a time, and always have to output an action until the episode terminates.
-
 PLAY!
 """.strip()
 
