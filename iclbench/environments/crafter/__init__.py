@@ -29,7 +29,7 @@ You are an agent playing Crafter. The following are the possible actions you can
 
 {action_strings}.
 
-The following are the game achievements you get in the game:
+The following are the game achievements you can get in the game:
 1. Collect Wood
 2. Place Table
 3. Eat Cow
