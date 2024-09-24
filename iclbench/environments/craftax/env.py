@@ -85,6 +85,9 @@ class CraftaxLanguageWrapper(gym.Env):
     def default_action(self):
         return "noop"
 
+    def get_text_action(self, action):
+        raise NotImplementedError
+
     def reset(self):
         # Reset the state of the environment to an initial state
         self._rng, _rng = jax.random.split(self._rng)

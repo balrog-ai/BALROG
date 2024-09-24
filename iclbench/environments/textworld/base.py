@@ -96,6 +96,9 @@ class TextWorldWrapper(gym.Wrapper):
     def default_action(self):
         return "help"
 
+    def get_text_action(self, action):
+        return action
+
     def textworld_process_obsv(self, textworld_obsv):
         return {
             "text": {"long_term_context": textworld_obsv, "short_term_context": ""},

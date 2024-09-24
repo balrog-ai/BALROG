@@ -16,7 +16,7 @@ eval:
     textworld: 20
   max_steps_per_episode: null
   save_trajectories: True
-  icl_episodes: 0
+  icl_episodes: 1
   icl_dataset: demos
 
   wandb_save: False

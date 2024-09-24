@@ -57,6 +57,9 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
         else:
             return "esc"
 
+    def get_text_action(self, action):
+        return NLELanguageWrapper.all_nle_action_map[self.env.actions[action]][0]
+
     def nle_process_obsv(self, nle_obsv):
         img = Image.fromarray(self.render("tiles")).convert("RGB") if self.vlm else None
         text = self.nle_obsv_type(nle_obsv)
@@ -103,9 +106,6 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
 
     def get_stats(self):
         return self.progress.__dict__
-
-    def get_text_action(self, action):
-        return NLELanguageWrapper.all_nle_action_map[action][0]
 
     def create_action_space(self):
         if "minihack" in self.env.spec.id.lower():

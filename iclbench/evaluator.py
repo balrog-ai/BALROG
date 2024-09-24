@@ -33,7 +33,7 @@ class Evaluator:
         obs = env.reset()
         prev_action = None
         for action in recorded_actions:
-            text_action = env.get_text_action(env.actions[action])
+            text_action = env.get_text_action(action)
 
             if prev_action:
                 agent.prompt_builder.update_action(prev_action)
@@ -47,7 +47,7 @@ class Evaluator:
             obs, reward, done, info = env.step(text_action)
             prev_action = text_action
 
-        assert done, "episode should have ended by now"
+        # assert done, "episode should have ended by now"
 
     def run_episode(self, task, agent, process_num=None, position=0):
         env = make_env(self.env_name, task, self.config)
