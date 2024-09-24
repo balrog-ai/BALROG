@@ -18,6 +18,7 @@ def make_env(env_name, task, config):
         import minihack
         from iclbench.environments.nle import NLELanguageWrapper
 
+        vlm = True if config.agent.max_image_history > 0 else False
         base_env = NLELanguageWrapper(
             gym.make(
                 task,
@@ -33,6 +34,7 @@ def make_env(env_name, task, config):
                 **config.envs.minihack_kwargs,
             ),
             **config.envs.env_kwargs,
+            vlm=vlm,
         )
     elif env_name == "babyai":
         from iclbench.environments.babyai_text import BabyAITextCleanLangWrapper
