@@ -1,8 +1,10 @@
 import base64
 from collections import namedtuple
 from io import BytesIO
+import datetime
 import logging
 
+from google.generativeai import caching
 import google.generativeai as genai
 import replicate
 from anthropic import Anthropic
@@ -106,6 +108,26 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
 
             self.generation_config = genai.types.GenerationConfig(**client_kwargs)
             self._initialized = True
+
+    def cache_icl_demo(self, icl_demo):
+        # Cache needs to be at least 32768 tokens long
+        demo = self.convert_messages(icl_demo)
+        cache = caching.CachedContent.create(
+            model=self.model_id,
+            display_name="ICL Demo",
+            system_instruction=(
+                "You are an agent playing a game. Use the provided demonstration to learn how to play the game."
+            ),
+            contents=demo,
+            ttl=datetime.timedelta(minutes=300),
+        )
+        client_kwargs = {
+            "temperature": self.client_kwargs.get("temperature", 0.5),
+            "max_output_tokens": self.client_kwargs.get("max_tokens", 1024),
+        }
+
+        self.model.cache_content(cached_content=cache, generation_config=genai.types.GenerationConfig(**client_kwargs))
+        self._initialized = True
 
     def convert_messages(self, messages):
         # Convert standard Message objects to Gemini's format
