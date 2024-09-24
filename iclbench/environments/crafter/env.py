@@ -104,8 +104,16 @@ def describe_env(info):
 
     facing = info["player_facing"]
     target = (center[0] + facing[0], center[1] + facing[1])
-    target = id_to_item[semantic[target]]
-    obs = "You face {} at your front.".format(target, describe_loc(np.array([0, 0]), facing))
+    max_y, max_x = semantic.shape
+    target_x = center[0] + facing[0]
+    target_y = center[1] + facing[1]
+
+    if 0 <= target_x < max_x and 0 <= target_y < max_y:
+        target_id = semantic[int(target_y), int(target_x)]
+        target_item = id_to_item[target_id]
+        obs = "You face {} at your front.".format(target_item)
+    else:
+        obs = "You face nothing at your front."
 
     for idx in np.unique(semantic):
         if idx == player_idx:
