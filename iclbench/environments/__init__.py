@@ -40,9 +40,17 @@ def make_env(env_name, task, config):
             vlm=vlm,
         )
     elif env_name == "babyai":
+        import babyai_text
+
         from iclbench.environments.babyai_text import BabyAITextCleanLangWrapper
 
-        base_env = BabyAITextCleanLangWrapper(task, **config.envs.babyai_kwargs)
+        base_task, goal = task.split("/")
+        while 1:
+            env = gym.make(base_task)
+            if env.env.action_kinds[0].replace(" ", "_") == goal:
+                break
+
+        base_env = BabyAITextCleanLangWrapper(env, **config.envs.babyai_kwargs)
     elif env_name == "crafter":
         from iclbench.environments.crafter import CrafterLanguageWrapper
 
