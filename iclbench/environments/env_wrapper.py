@@ -1,6 +1,9 @@
-class EnvWrapper:
+import gym
+
+
+class EnvWrapper(gym.Wrapper):
     def __init__(self, env, env_name, task_name):
-        self.env = env
+        super().__init__(env)
         self.env_name = env_name
         self.task_name = task_name
         self.failed_candidates = []
