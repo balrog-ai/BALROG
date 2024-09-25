@@ -71,10 +71,10 @@ def make_env(env_name, task, config):
 
         base_env = CraftaxLanguageWrapper(task, **config.envs.craftax_kwargs)
     elif env_name == "textworld":
-        from iclbench.environments.textworld import TextWorldFactory
+        from iclbench.environments.textworld import global_textworld_context
 
-        textworld_factory = TextWorldFactory(tasks=config.tasks.textworld_tasks, **config.envs.textworld_kwargs)
-        base_env = textworld_factory(task, **config.envs.env_kwargs)
+        textworld_context = global_textworld_context(tasks=config.tasks.textworld_tasks, **config.envs.textworld_kwargs)
+        base_env = textworld_context(task, **config.envs.env_kwargs)
     elif env_name == "babaisai":
         from baba import make
 

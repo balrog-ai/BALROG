@@ -1,6 +1,13 @@
 from iclbench.environments.textworld.base import TextWorldFactory
 
-__all__ = [TextWorldFactory]
+TEXTWORLD_FACTORY = None
+
+
+def global_textworld_context(**kwargs) -> TextWorldFactory:
+    global TEXTWORLD_FACTORY
+    if TEXTWORLD_FACTORY is None:
+        TEXTWORLD_FACTORY = TextWorldFactory(**kwargs)
+    return TEXTWORLD_FACTORY
 
 
 intruction_prompts = dict(
