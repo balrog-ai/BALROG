@@ -52,9 +52,19 @@ def make_env(env_name, task, config):
 
         base_env = BabyAITextCleanLangWrapper(env, **config.envs.babyai_kwargs)
     elif env_name == "crafter":
+        import crafter
+
         from iclbench.environments.crafter import CrafterLanguageWrapper
 
-        base_env = CrafterLanguageWrapper(task, **config.envs.crafter_kwargs)
+        crafter_kwargs = dict(config.envs.crafter_kwargs)
+        max_episode_steps = crafter_kwargs.pop("max_episode_steps", 2)
+
+        for param in ["area", "view", "size"]:
+            if param in crafter_kwargs:
+                crafter_kwargs[param] = tuple(crafter_kwargs[param])
+
+        env = crafter.Env(**crafter_kwargs)
+        base_env = CrafterLanguageWrapper(env, task, max_episode_steps=max_episode_steps)
     elif env_name == "craftax":
         from iclbench.environments.craftax import CraftaxLanguageWrapper
 

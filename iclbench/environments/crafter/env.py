@@ -1,6 +1,7 @@
 import itertools
 
 import crafter
+import gym
 import numpy as np
 from PIL import Image
 
@@ -176,22 +177,17 @@ def describe_frame(info):
         return "Error, you are out of the map."
 
 
-class CrafterLanguageWrapper(crafter.Env):
+class CrafterLanguageWrapper(gym.Wrapper):
     default_iter = 10
     default_steps = 10000
 
     def __init__(
         self,
+        env,
         task="",
-        area=(64, 64),
-        view=(9, 9),
-        size=(64, 64),
-        reward=True,
-        length=10000,
-        seed=None,
         max_episode_steps=2,
     ):
-        super().__init__(area, view, size, reward, length, seed)
+        super().__init__(env)
         self.score_tracker = 0
         self.language_action_space = Strings(ACTIONS)
         self.default_action = "Noop"
@@ -199,23 +195,25 @@ class CrafterLanguageWrapper(crafter.Env):
         self.achievements = None
 
     def get_text_action(self, action):
-        raise self.language_action_space._values[action]
+        return self.language_action_space._values[action]
 
     def _step_impl(self, action):
         obs, reward, done, info = super().step(action)
         # extra stuff for language wrapper
         aug_info = info.copy()
-        aug_info["sleeping"] = self._player.sleeping
-        aug_info["player_facing"] = self._player.facing
-        aug_info["dead"] = self._player.health <= 0
+        aug_info["sleeping"] = self.env._player.sleeping
+        aug_info["player_facing"] = self.env._player.facing
+        aug_info["dead"] = self.env._player.health <= 0
         aug_info["unlocked"] = {
-            name for name, count in self._player.achievements.items() if count > 0 and name not in self._unlocked
+            name
+            for name, count in self.env._player.achievements.items()
+            if count > 0 and name not in self.env._unlocked
         }
-        aug_info["view"] = self._view
+        aug_info["view"] = self.env._view
         return obs, reward, done, aug_info
 
     def reset(self):
-        super().reset()
+        self.env.reset()
         obs, reward, done, info = self._step_impl(0)
         self.score_tracker = 0
         self.achievements = None
@@ -228,7 +226,7 @@ class CrafterLanguageWrapper(crafter.Env):
         return obs, reward, done, info
 
     def process_obs(self, obs, info):
-        img = Image.fromarray(self.render()).convert("RGB")
+        img = Image.fromarray(self.env.render()).convert("RGB")
         long_term_context, short_term_context = describe_frame(info)
 
         return {
