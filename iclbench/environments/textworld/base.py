@@ -41,7 +41,7 @@ class TextWorldFactory:
 
         self.env_ids = defaultdict(list)
         for pattern in ["*.ulx", "*.z8"]:
-            for entry in glob.glob(os.path.join(textworld_games_path, f"**/{pattern}"), recursive=True):
+            for entry in sorted(glob.glob(os.path.join(textworld_games_path, f"**/{pattern}"), recursive=True)):
                 task = Path(entry).parent.name
                 if task in tasks:
                     env_id = textworld.gym.register_game(entry, self.request_infos, max_episode_steps=max_episode_steps)
