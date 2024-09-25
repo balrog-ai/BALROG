@@ -1,3 +1,4 @@
+import copy
 import json
 import logging
 import multiprocessing
@@ -29,11 +30,14 @@ class Evaluator:
         self.dataset = InContextDataset(self.config, self.env_name, original_cwd=get_original_cwd())
 
     def load_in_context_learning_episode(self, i, task, agent, episode_log):
-        episode_config = self.dataset.load_incontext_config(i, task)
-        env = make_env(self.env_name, task, episode_config)
-        recorded_actions = self.dataset.load_incontext_actions(i, task)
+        demo_config = copy.deepcopy(self.config)
+        demo_task = self.dataset.demo_task(task)
+        demo_path = self.dataset.demo_path(i, demo_task, demo_config)
+        self.dataset.override_incontext_config(demo_config, demo_path)
+        env = make_env(self.env_name, demo_task, demo_config)
+        recorded_actions = self.dataset.load_incontext_actions(demo_path)
 
-        seed = episode_config.envs.env_kwargs.seed
+        seed = demo_config.envs.env_kwargs.seed
         if seed is not None:
             random.seed(seed)
             np.random.seed(seed)
@@ -51,6 +55,12 @@ class Evaluator:
             episode_log["action_frequency"][text_action] += 1
 
             obs, reward, done, info = env.step(text_action)
+
+            if done:
+                break
+
+        if not done:
+            print("warning: icl trajectory ended without done")
 
         agent.wrap_episode()
 
