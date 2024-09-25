@@ -10,10 +10,6 @@ from iclbench.environments.env_wrapper import EnvWrapper
 
 
 def make_env(env_name, task, config):
-    if config.envs.env_kwargs.seed is not None:
-        np.random.seed(config.envs.env_kwargs.seed)
-        random.seed(config.envs.env_kwargs.seed)
-
     if env_name == "nle":
         from iclbench.environments.nle import NLELanguageWrapper
 
