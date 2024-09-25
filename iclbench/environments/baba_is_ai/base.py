@@ -113,7 +113,13 @@ class BabaIsAIWrapper(gym.Wrapper):
 
             return "\n".join(descriptions)
 
-        my_position = find_objects(["baba"])[0]
+        you = None
+        for rule in self.env.grid._ruleset["_rule_"]:
+            named_property = name_mapping[rule["property"]]
+            if named_property == "you":
+                you = rule["object"]
+
+        my_position = find_objects([you])[0]
         other_positions = find_objects(
             [
                 "fball",
