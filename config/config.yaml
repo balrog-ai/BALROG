@@ -49,6 +49,12 @@ envs:
   babyai_kwargs:
     num_dists: 0
   crafter_kwargs:
+    area: [64, 64]
+    view: [9, 9]
+    size: [64, 64]
+    reward: True
+    length: 10000
+    seed: null
     max_episode_steps: 2000
   craftax_kwargs: {}
   textworld_kwargs:
