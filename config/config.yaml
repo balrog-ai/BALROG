@@ -100,7 +100,6 @@ tasks:
     - "env/goto_win-distr_obj"
     - "env/goto_win-distr_rule"
     - "env/goto_win-distr_obj-irrelevant_rule"
-    - "env/goto_win-distr_win_rule"
     - "env/make_win-distr_obj"
     - "env/make_win-distr_rule"
     - "env/make_win"
