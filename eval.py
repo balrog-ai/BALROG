@@ -12,7 +12,8 @@ from iclbench.utils import setup_environment, summarize_env_progressions, wandb_
 
 @hydra.main(config_path="config", config_name="config", version_base="1.1")
 def main(config: DictConfig):
-    setup_environment(original_cwd=get_original_cwd())
+    original_cwd = get_original_cwd()
+    setup_environment(original_cwd=original_cwd)
     logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
     # Instantiate agent factory
@@ -20,7 +21,7 @@ def main(config: DictConfig):
 
     results_summaries = defaultdict(list)
     for env_name in config.envs.names.split(","):
-        evaluator = Evaluator(env_name, config)
+        evaluator = Evaluator(env_name, config, original_cwd=original_cwd)
         env_result_summary = evaluator.run(agent_factory)
         results_summaries[env_name] = env_result_summary
 
