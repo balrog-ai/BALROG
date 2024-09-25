@@ -2,13 +2,16 @@ import json
 import logging
 import multiprocessing
 import os
+import random
 import traceback
 from collections import defaultdict
 from pathlib import Path
 
+import numpy as np
 from hydra.utils import get_original_cwd
 from tqdm import tqdm
 
+from iclbench.agents.icl import ICLAgent
 from iclbench.dataset import InContextDataset
 from iclbench.environments import make_env
 
@@ -30,6 +33,12 @@ class Evaluator:
         env = make_env(self.env_name, task, episode_config)
         recorded_actions = self.dataset.load_incontext_actions(i, task)
 
+        seed = episode_config.envs.env_kwargs.seed
+        if seed is not None:
+            random.seed(seed)
+            np.random.seed(seed)
+        env.seed(seed=seed)
+
         obs = env.reset()
         for action in recorded_actions:
             text_action = env.get_text_action(action)
@@ -48,6 +57,12 @@ class Evaluator:
     def run_episode(self, task, agent, process_num=None, position=0):
         env = make_env(self.env_name, task, self.config)
         agent.reset()
+
+        seed = self.config.envs.env_kwargs.seed
+        if seed is not None:
+            random.seed(seed)
+            np.random.seed(seed)
+        env.seed(seed=seed)
 
         obs = env.reset()
         episode_log = {
@@ -68,7 +83,7 @@ class Evaluator:
         max_steps_per_episode = env.max_steps if self.max_steps_per_episode is None else self.max_steps_per_episode
 
         # if the agent class is ICLAgent, load the in-context learning episode
-        if agent.__class__.__name__ == "ICLAgent":
+        if isinstance(agent, ICLAgent):
             for icl_episode in range(self.config.eval.icl_episodes):
                 self.load_in_context_learning_episode(icl_episode, task, agent, episode_log)
 
