@@ -36,7 +36,7 @@ class InContextDataset:
 
     def demo_path(self, i, task, demo_config):
         icl_episodes = self.icl_episodes(task)
-        demo_path = icl_episodes[i]
+        demo_path = icl_episodes[i % len(icl_episodes)]
 
         # use the same role
         if self.env_name == "nle":
