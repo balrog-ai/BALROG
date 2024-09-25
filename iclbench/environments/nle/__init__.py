@@ -1,4 +1,23 @@
+import enum
+
 from .base import NLELanguageWrapper
+
+
+class Role(enum.Enum):
+    ARCHEOLOGIST = "arc"
+    BARBARIAN = "bar"
+    CAVEMAN = "cav"
+    HEALER = "hea"
+    KNIGHT = "kni"
+    MONK = "mon"
+    PRIEST = "pri"
+    RANGER = "ran"
+    ROGUE = "rog"
+    SAMURAI = "sam"
+    TOURIST = "tou"
+    VALKYRIE = "val"
+    WIZARD = "wiz"
+
 
 ACTIONS = {
     "north": "move north",
