@@ -119,6 +119,7 @@ class BabaIsAIWrapper(gym.Wrapper):
             if named_property == "you":
                 you = rule["object"]
 
+        # TODO: we need to handle multilpe me
         my_position = find_objects([you])[0]
         other_positions = find_objects(
             [
