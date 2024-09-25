@@ -28,6 +28,7 @@ class InContextDataset:
         return int(demo_path.stem.split("seed_")[1])
 
     def demo_task(self, task):
+        # use different task - avoid the case where we put the solution into the context
         if self.env_name == "babaisai":
             task = choice_excluding(self.config.tasks[f"{self.env_name}_tasks"], task)
 
@@ -37,6 +38,7 @@ class InContextDataset:
         icl_episodes = self.icl_episodes(task)
         demo_path = icl_episodes[i]
 
+        # use the same role
         if self.env_name == "nle":
             from iclbench.environments.nle import Role
 
@@ -50,10 +52,10 @@ class InContextDataset:
                         if new_demo_paths:
                             demo_path = random.choice(new_demo_paths)
 
+        # use different seed - avoid the case where we put the solution into the context
         if self.env_name == "textworld":
             from iclbench.environments.textworld import global_textworld_context
 
-            # avoid the case where we put the solution into the context
             textworld_context = global_textworld_context(
                 tasks=self.config.tasks.textworld_tasks, **self.config.envs.textworld_kwargs
             )
@@ -70,12 +72,14 @@ class InContextDataset:
         demo_config.envs.env_kwargs.seed = seed
 
         if self.env_name == "nle" or self.env_name == "minihack":
+            # dataset was collected with "more" action
             demo_config.envs[f"{self.env_name}_kwargs"].skip_more = True
             # TODO: this has to be hardcoded because of the way we've generated the trajectories
             # keep in mind this won't affect the global config, only the demo config
             demo_config.envs.nle_kwargs.character = "@"
 
         if self.env_name == "crafter":
+            # crafter passes seed in a specific fashion
             demo_config.envs.crafter_kwargs.seed = seed
 
     def load_incontext_actions(self, demo_path):
