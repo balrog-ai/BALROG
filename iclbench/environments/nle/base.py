@@ -14,16 +14,14 @@ from .render_rgb import rgb_render_image
 
 
 class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
-    def __init__(self, env, seed=None, vlm=False):
+    def __init__(self, env, vlm=False, skip_more=False):
         super().__init__(env, use_language_action=True)
         self.nle_language = NLELanguageObsv()
         self.language_action_space = self.create_action_space()
         self.env = env
-        if seed is not None:
-            random.seed(seed)
-            self.env.seed(seed)
         self.vlm = vlm
         self.done = False
+        self.skip_more = skip_more
 
         if not vlm:
             self.prompt_mode = "hybrid"
@@ -81,14 +79,15 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
 
     def clean_message(self, nle_obsv):
         message = self.nle_language.text_message(nle_obsv["tty_chars"]).decode("latin-1")
-        while "--More--" in message and not self.done:
-            message = message.replace("--More--", " ")
-            message = message.replace("\n", " ")
+        if not self.skip_more:
+            while "--More--" in message and not self.done:
+                message = message.replace("--More--", " ")
+                message = message.replace("\n", " ")
 
-            nle_obsv, reward, self.done, info = self.step("more")
-            add = self.nle_language.text_message(nle_obsv["obs"]["tty_chars"]).decode("latin-1")
-            message += add
-            return message, nle_obsv["obs"]
+                nle_obsv, reward, self.done, info = self.step("more")
+                add = self.nle_language.text_message(nle_obsv["obs"]["tty_chars"]).decode("latin-1")
+                message += add
+                return message, nle_obsv["obs"]
         return message, nle_obsv
 
     def render(self, mode="human"):

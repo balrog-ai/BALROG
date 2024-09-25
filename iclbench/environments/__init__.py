@@ -13,32 +13,33 @@ def make_env(env_name, task, config):
     if env_name == "nle":
         from iclbench.environments.nle import NLELanguageWrapper
 
+        nle_kwargs = dict(config.envs.nle_kwargs)
+        skip_more = nle_kwargs.pop("skip_more", False)
         vlm = True if config.agent.max_image_history > 0 else False
-        env = gym.make(task, **config.envs.nle_kwargs)
-        base_env = NLELanguageWrapper(env, vlm=vlm)
+        env = gym.make(task, **nle_kwargs)
+        base_env = NLELanguageWrapper(env, vlm=vlm, skip_more=skip_more)
     elif env_name == "minihack":
         import minihack
 
         from iclbench.environments.nle import NLELanguageWrapper
 
+        minihack_kwargs = dict(config.envs.minihack_kwargs)
+        skip_more = minihack_kwargs.pop("skip_more", False)
         vlm = True if config.agent.max_image_history > 0 else False
-        base_env = NLELanguageWrapper(
-            gym.make(
-                task,
-                observation_keys=[
-                    "glyphs",
-                    "blstats",
-                    "tty_chars",
-                    "inv_letters",
-                    "inv_strs",
-                    "tty_cursor",
-                    "tty_colors",
-                ],
-                **config.envs.minihack_kwargs,
-            ),
-            **config.envs.env_kwargs,
-            vlm=vlm,
+        env = gym.make(
+            task,
+            observation_keys=[
+                "glyphs",
+                "blstats",
+                "tty_chars",
+                "inv_letters",
+                "inv_strs",
+                "tty_cursor",
+                "tty_colors",
+            ],
+            **minihack_kwargs,
         )
+        base_env = NLELanguageWrapper(env, vlm=vlm, skip_more=skip_more)
     elif env_name == "babyai":
         import babyai_text
 
