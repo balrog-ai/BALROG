@@ -18,7 +18,7 @@ from iclbench.environments import make_env
 
 
 class Evaluator:
-    def __init__(self, env_name, config):
+    def __init__(self, env_name, config, original_cwd=""):
         self.env_name = env_name.strip()  # Ensure no leading/trailing whitespace
         self.config = config
         self.tasks = config.tasks[f"{self.env_name}_tasks"]
@@ -27,7 +27,7 @@ class Evaluator:
         self.num_workers = config.eval.num_workers
         self.max_steps_per_episode = config.eval.max_steps_per_episode
 
-        self.dataset = InContextDataset(self.config, self.env_name, original_cwd=get_original_cwd())
+        self.dataset = InContextDataset(self.config, self.env_name, original_cwd=original_cwd)
 
     def load_in_context_learning_episode(self, i, task, agent, episode_log):
         demo_config = copy.deepcopy(self.config)
