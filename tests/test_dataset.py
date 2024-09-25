@@ -12,11 +12,11 @@ from iclbench.utils import setup_environment
 
 environments = [
     "nle",
-    # "minihack",
-    # "babyai",
-    # "crafter",
-    # "textworld",
-    # "babaisai",
+    "minihack",
+    "babyai",
+    "crafter",
+    "textworld",
+    "babaisai",
 ]
 
 
@@ -27,7 +27,7 @@ def test_dataset(environment):
             config_name="config",
             overrides=[
                 f"envs.names={environment}",
-                "envs.nle_kwargs.character=Val-Hum-Mal-Neu",
+                "envs.nle_kwargs.character=Mon-Hum-Mal-Neu",
             ],
             return_hydra_config=True,
         )
@@ -38,7 +38,6 @@ def test_dataset(environment):
         dataset = InContextDataset(cfg, environment, original_cwd=cfg.hydra.runtime.cwd)
 
         for task in cfg.tasks[f"{environment}_tasks"]:
-            # for task in ["MiniHack-Quest-Easy-v0", "MiniHack-Quest-Medium-v0", "MiniHack-Quest-Hard-v0"]:
             for episode_number in range(len(dataset.icl_episodes(task))):
                 demo_config = copy.deepcopy(cfg)
                 demo_task = dataset.demo_task(task)
