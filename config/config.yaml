@@ -45,7 +45,10 @@ envs:
     no_progress_timeout: 150
     savedir: null
     save_ttyrec_every: 0
-  minihack_kwargs: {}
+    skip_more: False
+  minihack_kwargs: 
+    skip_more: False
+    autopickup: False
   babyai_kwargs:
     num_dists: 0
   crafter_kwargs:
