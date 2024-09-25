@@ -47,8 +47,14 @@ envs:
     save_ttyrec_every: 0
     skip_more: False
   minihack_kwargs: 
-    skip_more: False
+    character: "@"
+    penalty_step: 0.0
+    penalty_time: 0.001
+    penalty_mode: constant
+    savedir: null
+    save_ttyrec_every: 0
     autopickup: False
+    skip_more: False
   babyai_kwargs:
     num_dists: 0
   crafter_kwargs:
