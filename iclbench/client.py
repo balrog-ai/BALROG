@@ -3,6 +3,7 @@ from collections import namedtuple
 from io import BytesIO
 import datetime
 import logging
+import time
 
 from google.generativeai import caching
 import google.generativeai as genai
@@ -125,8 +126,8 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
             "temperature": self.client_kwargs.get("temperature", 0.5),
             "max_output_tokens": self.client_kwargs.get("max_tokens", 1024),
         }
-
-        self.model.cache_content(cached_content=cache, generation_config=genai.types.GenerationConfig(**client_kwargs))
+        self.generation_config = genai.types.GenerationConfig(**client_kwargs)
+        self.model = genai.GenerativeModel.from_cached_content(cached_content=cache)
         self._initialized = True
 
     def convert_messages(self, messages):
@@ -134,43 +135,91 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
         converted_messages = []
         for msg in messages:
             parts = []
-            if msg.role == "assistant":
-                msg.role = "model"
-            if msg.role == "system":
-                msg.role = "user"
+            role = msg.role
+            if role == "assistant":
+                role = "model"
+            elif role == "system":
+                role = "user"
             if msg.content:
                 parts.append(msg.content)
             if msg.attachment is not None:
                 parts.append(msg.attachment)
             converted_messages.append(
                 {
-                    "role": msg.role,
+                    "role": role,
                     "parts": parts,
                 }
             )
         return converted_messages
 
+
+    def get_completion(self, converted_messages, max_retries=5, delay=5):
+        retries = 0
+        while retries < max_retries:
+            try:
+                response = self.model.generate_content(
+                    converted_messages,
+                    generation_config=self.generation_config,
+                )
+                return response
+            except Exception as e:
+                retries += 1
+                logger.error(f"Retryable error during generate_content: {e}. Retry {retries}/{max_retries}")
+                sleep_time = delay * (2 ** (retries - 1))  # Exponential backoff
+                time.sleep(sleep_time)
+
+        # If maximum retries are reached and still no valid response
+        raise Exception(f"Failed to get a valid completion after {max_retries} retries.")
+
+    def extract_completion(self, response):
+        """Extracts and returns the completion from the response safely."""
+        if not response:
+            logger.error("Response is None, cannot extract completion.")
+            return ""
+
+        candidates = getattr(response, 'candidates', [])
+        if not candidates:
+            logger.error("No candidates found in the response.")
+            return ""
+        
+        candidate = candidates[0]
+        content = getattr(candidate, 'content', None)
+        content_parts = getattr(content, 'parts', [])
+        if not content_parts:
+            logger.error("No content parts found in the candidate.")
+            return ""
+        
+        text = getattr(content_parts[0], 'text', "")
+        return text.strip()
+
     def generate(self, messages):
         self._initialize_client()
-        converted_messages = self.convert_messages(messages)
+        
+        try:
+            converted_messages = self.convert_messages(messages)
+            response = self.get_completion(converted_messages)
+        except Exception as e:
+            logger.error(f"Error during get_completion: {e}")
+            raise Exception(f"Failed to get a valid completion after multiple retries: {e}")
 
-        response = self.model.generate_content(
-            converted_messages,
-            generation_config=self.generation_config,
-        )
-
-        completion = (
-            response.candidates[0].content.parts[0].text.strip()
-            if len(response.candidates[0].content.parts) > 0
-            else ""
-        ).strip()
-
+        try:
+            completion = self.extract_completion(response)
+        except Exception as e:
+            logger.error(f"Error during extract_completion: {e}")
+            completion = ""
+        
         return LLMResponse(
             model_id=self.model_id,
             completion=completion,
-            stop_reason=response.candidates[0].finish_reason,
-            input_tokens=response.usage_metadata.prompt_token_count,
-            output_tokens=response.usage_metadata.candidates_token_count,
+            stop_reason=getattr(
+                response.candidates[0], 'finish_reason', 'unknown'
+            ) if response and getattr(response, 'candidates', []) else 'unknown',
+            input_tokens=getattr(
+                response.usage_metadata, 'prompt_token_count', 0
+            ) if response and getattr(response, 'usage_metadata', None) else 0,
+            output_tokens=getattr(
+                response.usage_metadata, 'candidates_token_count', 0
+            ) if response and getattr(response, 'usage_metadata', None) else 0,
             reasoning=None,
         )
 

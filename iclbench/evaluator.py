@@ -96,6 +96,9 @@ class Evaluator:
         if isinstance(agent, ICLAgent):
             for icl_episode in range(self.config.eval.icl_episodes):
                 self.load_in_context_learning_episode(icl_episode, task, agent, episode_log)
+            
+            if self.config.agent.cache_icl and self.config.client.client_name == "gemini":
+                agent.cache_icl()
 
         pbar_desc = f"Task: {task}, Proc: {process_num}"
         pbar = tqdm(

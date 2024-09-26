@@ -4,6 +4,7 @@ agent:
   max_history: 16
   max_image_history: 0
   max_cot_history: 1
+  cache_icl: False
 
 eval:
   num_workers: 1
