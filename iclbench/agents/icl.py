@@ -18,6 +18,7 @@ class ICLAgent(BaseAgent):
         self.client = client_factory()
         self.icl_episodes = []
         self.icl_events = []
+        self.cached_icl = False
 
     def update_icl_observation(self, obs: dict):
         long_term_context = obs["text"].get("long_term_context", "")
@@ -35,6 +36,10 @@ class ICLAgent(BaseAgent):
                 "action": action,
             }
         )
+        
+    def cache_icl(self):
+        self.client.cache_icl_demo(self.get_icl_prompt())
+        self.cached_icl = True
 
     def wrap_episode(self):
         icl_episode = []
@@ -75,7 +80,6 @@ class ICLAgent(BaseAgent):
             content="****** Now it's your turn to play the game! ******",
         )
         icl_messages.append(end_demo_message)
-        icl_messages.extend(self.prompt_builder.get_prompt(icl_episodes=True))
 
         return icl_messages
 
@@ -85,7 +89,12 @@ class ICLAgent(BaseAgent):
 
         self.prompt_builder.update_observation(obs)
 
-        messages = self.get_icl_prompt()
+        if not self.cached_icl:
+            messages = self.get_icl_prompt()
+        else:
+            messages = []
+            
+        messages.extend(self.prompt_builder.get_prompt(icl_episodes=True))
 
         # Add naive instructions to the last user message
         naive_instruction = """
