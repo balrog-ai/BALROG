@@ -113,16 +113,15 @@ You are an agent playing NetHack. The following are the possible actions you can
 In a moment I will present a history of actions and observations from the game.
 
 Tips:
-- There is no point in taking the same action over and over if nothing changes.
 - When the message asks for a completion, such as: "What do you want to eat? [d or ?*]", you should respond with a single character corresponding to the item you want to eat/use.
     - For example, "What do you want to eat? [dgh or ?*]" -> Possible answers are "d", "g", or "h" to eat the associated food.
-- Do NOT keep eating when you are not hungry or when you are Satiated
 - When the message asks for a direction, such as: "In what direction?" you should respond with a direction.
 - When the message has --More-- at the end, your next action should be "more" to see the rest of the message.
 - Explore the environment to find the stairs down to the next level.
 - Always carefully read the last message to understand the current state of the game and decide your next action accordingly.
 - If you keep moving in the same direction, you will eventually hit a wall and stop moving. Your message might be: "It's solid stone", or "It's a wall". Change your action to move in another direction to continue exploring the environment.
 - Read the language observation carefully to decide the next action to take and where to move next.
+- Use the ascii map or the image observation when provided to 
 - You can attack monsters by moving into them.
 
 Your goal is to get as far as possible in the game.
