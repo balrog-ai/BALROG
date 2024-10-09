@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>SWE-bench</title>
+    <meta name="description" content="SWE-bench: Evaluate Language Models on Open Source Software Tasks" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta property="og:image" content="/logo.png" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/fonts.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+        integrity="..." crossorigin="anonymous" />
+    <style>
+        code {
+            background-color: #ddd;
+            color: black;
+        }
+
+        h3 {
+            margin-bottom: 0.5em;
+        }
+
+        li {
+            margin-bottom: 0.5em;
+        }
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H9XFCMDPNS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
+
+        gtag("config", "G-H9XFCMDPNS");
+    </script>
+</head>
+
+<body>
+    <div style="padding-bottom: 50px">
+        <section style="background-color: var(--dark_accent_color)">
+            <div class="content-wrapper title-wrapper" style="flex-direction: column;text-align: center;">
+                <h1 style="font-size: 60px; padding-top: 0.4em">Submit to SWE-bench</h1>
+                <div class="content-wrapper" style="margin-top: 2em">
+                    <a href="index.html">
+                        <button class="outline"
+                            style="flex-direction: row; display: flex; justify-content: center; align-items: center;">
+                            <img src="img/swellama.png"
+                                style="height: 1.3em; margin-right: 0.4em; margin-bottom: 0.3em;" />
+                            Home&nbsp;
+                        </button>
+                    </a>
+                    <a href="https://arxiv.org/abs/2310.06770">
+                        <button class="outline">
+                            <i class="fa fa-paperclip"></i> Paper&nbsp;
+                        </button>
+                    </a>
+                    <a href="https://github.com/princeton-nlp/SWE-bench">
+                        <button class="outline">
+                            <i class="fab fa-github"></i> Code&nbsp;
+                        </button>
+                    </a>
+                    <a href="viewer.html">
+                        <button class="outline">
+                            <i class="fa fa-chart-simple"></i> Analysis&nbsp;
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </section>
+        <section class="main-container">
+            <div class="content-wrapper" style="display: flex; justify-content: center; align-items: center;">
+                <div
+                    style="background-color: black; padding: 1.5em 1em; color: white; border-radius: 1em; text-align: center; width: 80%;">
+                    All official submissions to the SWE-bench leaderboard are maintained at
+                    <a href="https://github.com/swe-bench/experiments/" class="light-blue-link" target="_blank"
+                        rel="noopener noreferrer">
+                        <i class="fab fa-github"></i> SWE-bench/experiments
+                    </a>
+                </div>
+            </div>
+            <div class="content-wrapper">
+                <div class="content-box">
+                    <h3>
+                        Submit to SWE-bench Leaderboard
+                    </h3>
+                    <p>
+                        If you are interested in submitting your model to the <a
+                            href="https://www.swebench.com/">SWE-bench Leaderboard</a>, please do the following:
+                    </p>
+                    <ol>
+                        <li>Fork the <a href="https://github.com/swe-bench/experiments">SWE-bench/experiments</a>
+                            repository.</li>
+                        <li>Clone the repository. Due to this repository's large diff history, consider using `git clone
+                            --depth 1` if cloning takes too long.</li>
+                        <li>Under the split that you evaluate on (<code>evaluation/lite/</code> or
+                            <code>evaluation/test</code>), create a new folder with the submission date and the model
+                            name (e.g. <code>20240415_sweagent_gpt4</code>).</li>
+                        <li>Within the folder, please include the following files:
+                            <ul>
+                                <li><code>all_preds.jsonl</code>: Model predictions</li>
+                                <li><code>logs/</code>: SWE-bench evaluation artifacts dump</li>
+                                <ul>
+                                    <li>Eval. artifacts means 300/2294 (Lite/Test) folders. Each folder (e.g.
+                                        <code>astropy__astropy-1234</code>) contains:</li>
+                                    <ul>
+                                        <li><code>eval.sh</code>: The evaluation script</li>
+                                        <li><code>patch.diff</code>: The model's generated prediction</li>
+                                        <li><code>report.json</code>: Summary of evaluation outcomes for this instance
+                                        </li>
+                                        <li><code>run_instance.log</code>: A log of SWE-bench evaluation steps</li>
+                                        <li><code>test_output.txt</code>: An output of running <code>eval.sh</code> on
+                                            <code>patch.diff</code></li>
+                                    </ul>
+                                    <li><b>NOTE</b>: You shouldn't have to create any of these files. They should
+                                        automatically be generated by SWE-bench evaluation.</li>
+                                </ul>
+                                <li><code>metadata.yaml</code>: Metadata for how result is shown on website. Please
+                                    include the following fields:</li>
+                                <ul>
+                                    <li><code>name</code>: The name of your leaderboard entry</li>
+                                    <li><code>oss</code>: <code>true</code> if your system is open-source</li>
+                                    <li><code>site</code>: URL/link to more information about your system</li>
+                                    <li><code>verified</code>: <code>false</code> (See below for results verification)
+                                    </li>
+                                </ul>
+                                <li><code>trajs/</code>: Reasoning trace reflecting how your system solved the problem
+                                </li>
+                                <ul>
+                                    <li>Submit one reasoning trace per task instance. The reasoning trace should show
+                                        all of the steps your system took while solving the task. If your system outputs
+                                        thoughts or comments during operation, they should be included as well.</li>
+                                    <li>The reasoning trace can be represented with any text based file format (e.g.
+                                        <code>md</code>, <code>json</code>, <code>yaml</code>)</li>
+                                    <li>Ensure the task instance ID is in the name of the corresponding reasoning trace
+                                        file.</li>
+                                    <li>For an example, see <a
+                                            href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240402_sweagent_gpt4/logs">SWE-agent
+                                            + GPT 4 Turbo</a></li>
+                                </ul>
+                                <li><code>README.md</code>: Include anything you'd like to share about your model here!
+                                </li>
+                            </ul>
+                        </li>
+                        <li>Run
+                            <code>python -m analysis.get_results evaluation/&lt;split&gt;/&lt;date + model&gt;</date></code>
+                        </li>
+                        <li>Create a pull request to the SWE-bench/experiments repository with the new folder.</li>
+                    </ol>
+                    <p>
+                        You can refer to this <a
+                            href="https://github.com/princeton-nlp/SWE-bench/blob/main/tutorials/evaluation.md">tutorial</a>
+                        for a quick overview of how to evaluate your model on SWE-bench.
+                    </p>
+                </div>
+            </div>
+            <div class="content-wrapper">
+                <div class="content-box">
+                    <h3>
+                        Submission Guidelines
+                    </h3>
+                    <p>
+                        Please note that we consider an eligible submission to the SWE-bench [Lite] leaderboard to
+                        satisfy these criteria:
+                    </p>
+                    <ol>
+                        <li>The use of the <code>hints_text</code> field is <i>not</i> allowed. See our explanation <a
+                                href="https://github.com/princeton-nlp/SWE-bench/issues/133">here</a>.</li>
+                        <li>The result should be pass@1. There should be one execution log per task instance for all
+                            2294 task instances.</li>
+                        <li>The result should <i>not</i> be in the "Oracle" retrieval setting. The agent cannot be told
+                            the correct files to edit, where "correct" refers to the files modified by the reference
+                            solution patch.</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="content-wrapper">
+                <div class="content-box">
+                    <h3>Verify Your Results</h3>
+                    <p>
+                        The <i>Verified</i> check ✓ indicates that we (the SWE-bench team) received access to the model
+                        and were able to reproduce the patch generations.
+                    </p>
+                    <p style="margin-top:0.5em;">
+                        If you are interested in receiving the "verified" checkmark ✓ on your submission, please do the
+                        following:
+                    </p>
+                    <ol>
+                        <li>Create an issue</li>
+                        <li>In the issue, provide us instructions on how to run your model on SWE-bench.</li>
+                        <li>We will run your model on a random subset of SWE-bench and verify the results.</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="content-wrapper">
+                <div class="content-box" id="reasoning-traces">
+                    <h3>Reasoning Traces</h3>
+                    <p>
+                        (07/29/2024) We have updated the SWE-bench leaderboard submission criteria to require the
+                        inclusion of <i>reasoning traces</i>.
+                        The goal of this requirement is to provide the community with more insight into how cutting edge
+                        methods work without requiring a code release (although the latter is still highly encouraged!).
+                    </p>
+                    <p><b>What is a reasoning trace?</b></p>
+                    <p>
+                        A reasoning trace is a text-based file that describes the steps your system took to solve a task
+                        instance.
+                        It should provide a detailed account of the reasoning process that your system used to arrive at
+                        its solution.
+                    </p>
+                    <p>
+                        We purposely do not explicitly define reasoning traces in a strict, explicit format.
+                    </p>
+                    <p>
+                        We do have some guidelines. the reasoning trace should be...
+                    <ul>
+                        <li>Human-readable.</li>
+                        <li>Reflects the intermediate steps your system took that led to the final solution.</li>
+                        <li>Generated <i>with</i> the inference process, not post-hoc.</li>
+                    </ul>
+                    </p>
+                    <p>
+                        We do not require reasoning traces to be...
+                    <ul>
+                        <li>In a specific file format (e.g. <code>json</code>, <code>yaml</code>, <code>md</code>)</li>
+                        <li>Conform to a specific problem solving style (e.g. agentic, procedural, etc.)</li>
+                    </ul>
+                    </p>
+                    <p>
+                        A simple solution to this? When running inference, simply log the intermediate output generated
+                        by your system.
+                        For an example, see <a
+                            href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240402_sweagent_gpt4/logs">SWE-agent
+                            + GPT-4 Turbo Trajectories</a>.
+                        In short, our requirements for what a reasoning trace should specific look like are
+                        non-specific.
+                        We trust you to provide a detailed account of how your system solved the task instance.
+                    </p>
+                    <p><b>Why are we requiring it?</b></p>
+                    <p>
+                        We believe that reasoning traces can provide valuable insights into how cutting edge methods
+                        work without requiring a code release.
+                    </p>
+                    <p>
+                        As of this post (7/29/2024), we have received many submissions that have pushed the state of the
+                        art on SWE-bench, which is exciting to see!
+                    </p>
+                    <p>
+                        However, we have also found that the top-performing submissions to SWE-bench typically have not
+                        open sourced their code nor been verified.
+                        We recognize that some leaderboard participants (1) would like to add an entry to SWE-bench but
+                        (2) do not want to release their code or proprietary system, which is completely understandable.
+                        On the other hand, given that open source systems submitted to SWE-bench have propelled the
+                        development of closed-source participants, we would like to continuing promoting development on
+                        SWE-bench as a community-level collaborative process.
+                    </p>
+                    <p>
+                        Therefore, we believe that providing reasoning traces serves as a valuable compromise between
+                        these two groups.
+                    </p>
+                    <p><b>What should I submit?</b></p>
+                    <ol>
+                        <li>Create a <code>trajs/</code> folder in your submission directory.</li>
+                        <li>Within this folder, upload a reasoning trace per task instance that your system generated a
+                            prediction for.</li>
+                        <li>Make sure the naming convention of the reasoning trace file reflects the SWE-bench task
+                            instance it corresponds to. (e.g. <code>astropy__astropy-1234.md</code>)</li>
+                    </ol>
+                    <p>
+                        We will review the reasoning traces you submit.
+                        We plan to only accept submissions with reasoning traces for the SWE-bench leaderboard.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+
+</html>
