@@ -1,0 +1,126 @@
+.table-results {
+    width: 100%;
+    border-collapse: collapse;
+
+    th, td {
+        padding: 0.5em;
+        text-align: left;
+    }
+
+    tr {
+        border-bottom: 1px solid #ddd;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+}
+
+.outcome-list {
+    margin-left: 1em;
+}
+
+#readme {
+    p {
+        margin-top: 0.5em;
+    }
+
+    pre {
+        border-radius: 0.5em;
+        background-color: #0e1117;
+        color: white;
+        margin: 1em 0 0 0;
+        padding: 1em;
+        white-space: pre-wrap;
+    }
+
+    img {
+        width: 80%;
+    }
+
+    code {
+        background-color: black;
+        border-radius: 0.25em;
+    }
+}
+
+.table-by-statuses {
+    width: 100%;
+    overflow: auto;
+    height: 10em;
+    border: 1px solid #ccc;
+
+    thead {
+        position: sticky;
+        top: 0;
+    }
+
+    tbody {
+        font-size: 0.8em;
+    }
+
+    table  {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        padding: 0.5em;
+        width: 20%;
+    }
+
+    th {
+        background:#eee;
+        border-bottom: 1px solid #ccc;
+    }
+
+    th, td {
+        vertical-align: top;
+        border-left: 1px solid #ccc;
+        border-right: 1px solid #ccc;
+    }
+
+    th:nth-child(1), td:nth-child(1) {
+        border-left: none;
+    }
+
+    th:nth-child(5), td:nth-child(5) {
+        border-right: none;
+    }
+
+    .instance {
+        color: blue;
+        cursor: pointer;
+    }
+
+    .instance:hover {
+        text-decoration: underline;
+    }
+
+    .instance-not-clickable {
+        color: gray;
+    }
+}
+
+#log-viewer {
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+
+    pre {
+        border: 2px solid var(--accent_color);
+        border-radius: 0.5em;
+        margin: 1em 0 0 0;
+        padding: 1em;
+        overflow-x: none;
+        overflow-y: scroll;
+        white-space: pre-wrap;
+        height: 15em;
+        font-size: 0.8em;
+    }
+}
+
+#displaySelections {
+    margin: 0 auto;
+    text-align: center;
+}

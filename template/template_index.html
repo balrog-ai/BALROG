@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>SWE-bench</title>
+    <meta
+      name="description"
+      content="SWE-bench: Evaluate Language Models on Open Source Software Tasks"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+    />
+    <meta property="og:image" content="/logo.png" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/fonts.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="..."
+      crossorigin="anonymous"
+    />
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-H9XFCMDPNS"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-H9XFCMDPNS");
+    </script>
+  </head>
+  <body>
+    <div style="padding-bottom: 50px">
+      <section style="background-color: var(--dark_accent_color)">
+        <div
+          class="content-wrapper title-wrapper"
+          style="flex-direction: column"
+        >
+          <div
+            style="
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              padding-bottom: 15px;
+            "
+          >
+            <h1 style="font-size: 60px; padding-top: 0.4em">SWE-bench</h1>
+            <img
+              src="img/swellama.png"
+              style="height: 100px; padding-top: 0em; padding-left: 0.5em"
+            />
+          </div>
+          <h3>Can Language Models Resolve Real-World GitHub Issues?</h3>
+          <h3 style="font-size: 20px; padding-top: 1.2em">ICLR 2024</h3>
+          <p style="text-align: center;margin-top:1em;">
+            Carlos E. Jimenez*, John Yang*, <br />
+            Alexander Wettig, Shunyu Yao, Kexin Pei, <br />
+            Ofir Press, Karthik Narasimhan
+          </p>
+          <div class="content-wrapper" style="margin-top: 2em">
+            <a href="https://arxiv.org/abs/2310.06770">
+              <button class="outline">
+                <i class="fa fa-paperclip"></i> Paper&nbsp;
+              </button>
+            </a>
+            <a href="https://github.com/princeton-nlp/SWE-bench">
+              <button class="outline">
+                <i class="fab fa-github"></i> Code&nbsp;
+              </button>
+            </a>
+            <a href="submit.html">
+              <button class="outline">
+                <i class="fa fa-upload"></i> Submit&nbsp;
+              </button>
+            </a>
+            <a href="viewer.html">
+              <button class="outline">
+                <i class="fa fa-chart-simple"></i> Analysis&nbsp;
+              </button>
+            </a>
+          </div>
+        </div>
+      </section>
+      <section class="main-container">
+        <div class="content-wrapper" style="margin-top: 1em; display: flex; justify-content: center; align-items: center;">
+          <a href="multimodal.html">
+            <button
+              class="outline mmteaser"
+              style="flex-direction: row; display: flex; justify-content: center; align-items: center; width: 15em;">
+              <img
+                src="img/swellamamm.png"
+                style="height: 1.3em; margin-right: 0.4em; margin-bottom: 0.3em;" />
+                SWE-bench Multimodal&nbsp;
+            </button>
+          </a>
+        </div>
+        <div class="content-wrapper" style="display: flex; justify-content: center; align-items: center;">
+          <div class="content-box">
+            <h2 class="text-title">News</h2>
+            <p style="margin-bottom: 0.5em">
+              📣 [10/2024] Introducing <b>SWE-bench Multimodal</b>! Can AI systems "see" bugs and fix them? 👀 💻
+              [<a style="color:#0ca7ff" href="multimodal.html">Link</a>]
+            </p>
+            <p style="margin-bottom: 0.5em">
+              📣 [08/2024] SWE-bench x OpenAI = <b>SWE-bench Verified</b>, a human-validated subset of 
+              500 problems reviewed by software engineers!
+              [<a style="color:#0ca7ff" href="https://openai.com/index/introducing-swe-bench-verified/">Report</a>]
+            </p>
+            <p style="margin-bottom: 0.5em">
+              📣 [06/2024] We've <b>Docker</b>-ized SWE-bench for easier, containerized, reproducible evaluation.
+              [<a style="color:#0ca7ff" href="https://github.com/princeton-nlp/SWE-bench/tree/main/docs/20240627_docker">Report</a>]
+            </p>
+            <p style="margin-bottom: 0.5em">
+              📣 [03/2024] Check out our latest work, <b>SWE-agent</b>, which achieves a 12.47% resolve rate on SWE-bench!
+              [<a href="https://github.com/princeton-nlp/SWE-agent" class="light-blue-link" target="_blank" rel="noopener noreferrer">Link</a>]
+            </p>
+            <p style="margin-bottom: 0.5em">
+              📣 [03/2024] We've released <b>SWE-bench Lite</b>! Running all of SWE-bench can take time. This subset makes it easier!
+              [<a style="color:#0ca7ff" href="lite.html">Report</a>]
+            </p>
+          </div>
+        </div>
+        <div class="content-wrapper">
+          <div class="content-box">
+            <h2 class="text-title">Leaderboard</h2>
+            <ul class="tab">
+              <li><button id="tab-lite" class="tablinks" data-leaderboard="Lite">Lite</button></li>
+              <li><button id="tab-verified" class="tablinks" data-leaderboard="Verified">Verified</button></li>
+              <li><button id="tab-test" class="tablinks" data-leaderboard="Test">Full</button></li>
+            </ul>
+            {% for leaderboard in leaderboards %}
+            <div class="tabcontent" style="display: block" id="leaderboard-{{leaderboard.name}}">
+              <table class="table scrollable">
+                <thead>
+                  <tr>
+                    <th><div class="sticky-header-content">Model</div></th>
+                    <th><div class="sticky-header-content">% Resolved</div></th>
+                    <th><div class="sticky-header-content">Date</div></th>
+                    <th><div class="sticky-header-content">Logs</div></th>
+                    <th><div class="sticky-header-content">Trajs</div></th>
+                    <th><div class="sticky-header-content">Site</div></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for item in leaderboard.results %}
+                  <tr>
+                    <td>
+                      <p class="model-type">
+                        {% if loop.index == 1 %}🥇
+                        {% elif loop.index == 2 %}🥈
+                        {% elif loop.index == 3 %}🥉
+                        {% endif %}
+                        {% if item.oss %}🤠{% endif %}
+                        {% if item.verified %}✅{% endif %}
+                        {{item.name}}
+                      </p>
+                    </td>
+                    <td><p class="number">{{ "%.2f"|format(item.resolved|float) }}</p></td>
+                    <td><p><span class="label-date">{{item.date}}</span></p></td>
+                    <td>
+                        <p style="text-align: center;">
+                        {% if item.logs %}
+                            <a href="{{item.logs}}">🔗</a>
+                        {% else %} - {% endif %}
+                        </p>
+                    </td>
+                    <td>
+                        <p style="text-align: center;">
+                        {% if item.trajs %}
+                            <a href="{{item.trajs}}">🔗</a>
+                        {% else %} - {% endif %}
+                        </p>
+                    </td>
+                    <td>
+                        <p style="text-align: center;">
+                        {% if item.site %}
+                            <a href="{{item.site}}">🔗</a>
+                        {% else %} - {% endif %}
+                        </p>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            {% endfor %}
+            <p class="text-content">
+              SWE-bench <b>Lite</b> is a subset of SWE-bench that's been curated to make evaluation less costly and more accessible
+              [<a href="lite.html">Post</a>].
+              <br>
+              SWE-bench <b>Verified</b> is a human annotator filtered subset that has been deemed to have a ceiling of 100% resolution rate
+              [<a href="https://openai.com/index/introducing-swe-bench-verified/">Post</a>].
+              <br><br>
+              - The <span style="color:#0ea7ff;"><b>% Resolved</b></span> metric refers to the percentage of SWE-bench instances
+              (<b>2294</b> for test, <b>500</b> for verified, <b>300</b> for lite)
+              that were <i>resolved</i> by the model.
+              <br>
+              - <span style="color:#0ea7ff;"><b>✅ Checked</b></span> indicates that we, the SWE-bench team, received access to the system and
+              were able to reproduce the patch generations.
+              <br>
+              - <span style="color:#0ea7ff;"><b>🤠 Open</b></span> refers to submissions that have open-source code. This does <i>not</i>
+              necessarily mean the underlying model is open-source.
+              <br>
+              - The leaderboard is updated once a week on <b>Monday</b>.
+              <br>
+              - If you would like to submit your model to the leaderboard, please check the <a href="submit.html">submission</a> page.
+              <br>
+              - All submissions are Pass@1, do not use
+              <code style="color:black;background-color:#ddd;border-radius: 0.25em">hints_text</code>,
+              and are in the unassisted setting.
+            </p>
+          </div>
+        </div>
+        <div class="content-wrapper">
+          <div class="content-box">
+            <h2 class="text-title">Resources</h2>
+            <p class="text-content">
+              You can download the SWE-bench task instances from HuggingFace or directly as a JSON
+              file (<a href="https://drive.google.com/uc?export=download&id=1SbOxHiR0eXlq2azPSSOIDZz-Hva0ETpX">development</a>,
+              <a href="https://drive.google.com/uc?export=download&id=164g55i3_B78F6EphCZGtgSrd2GneFyRM">test</a> sets).
+              For your convenience, to fine tune your own model for evaluation on SWE-bench, we provide five pre-processed datasets at different retrieval settings ("Oracle", 13K, 27K, 40K, 50K "Llama"). We recommend using the 13K, 27K, or 40K datasets for evaluation. The 50K "Llama" dataset is provided for reproducing the results of the SWE-bench paper.
+            </p>
+            <div class="content-wrapper" style="width: 100%">
+              <div class="content-box column">
+                <a
+                  style="width: 100%"
+                  href="https://huggingface.co/datasets/princeton-nlp/SWE-bench"
+                >
+                  <div class="download">🤗 SWE-bench</div>
+                </a>
+                <a
+                  style="width: 100%"
+                  href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_oracle"
+                >
+                  <div class="download">
+                    🤗 "Oracle" Retrieval
+                  </div>
+                </a>
+                <a
+                style="width: 100%"
+                href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_bm25_50k_llama"
+              >
+                <div class="download">
+                  🤗 BM25 Retrieval 50K (Llama)
+                </div>
+              </a>
+              </div>
+              <div class="content-box column">
+                <a
+                  style="width: 100%"
+                  href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_bm25_13K"
+                >
+                  <div class="download">
+                    🤗 BM25 Retrieval 13K
+                  </div>
+                </a>
+                <a
+                  style="width: 100%"
+                  href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_bm25_27K"
+                >
+                  <div class="download">
+                    🤗 BM25 Retrieval 27K
+                  </div>
+                </a>
+                <a
+                  style="width: 100%"
+                  href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_bm25_40K"
+                >
+                  <div class="download">
+                    🤗 BM25 Retrieval 40K
+                  </div>
+                </a>
+              </div>
+            </div>
+            <p class="text-content" style="margin-top:1em;">
+              SWE-bench Lite is also available for download from HuggingFace.
+            </p>
+            <div class="content-wrapper" style="width: 100%">
+              <div class="content-box column">
+                <a
+                  style="width: 100%"
+                  href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_Lite"
+                >
+                  <div class="download">🤗 SWE-bench Lite</div>
+                </a>
+                <a
+                  style="width: 100%"
+                  href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_Lite_oracle"
+                >
+                  <div class="download">
+                    🤗 "Oracle" Retrieval Lite
+                  </div>
+                </a>
+              </div>
+              <div class="content-box column">
+                <a
+                  style="width: 100%"
+                  href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_Lite_bm25_13K"
+                >
+                  <div class="download">
+                    🤗 BM25 Retrieval 13K Lite
+                  </div>
+                </a>
+                <a
+                  style="width: 100%"
+                  href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_Lite_bm25_27K"
+                >
+                  <div class="download">
+                    🤗 BM25 Retrieval 27K Lite
+                  </div>
+                </a>
+              </div>
+            </div>
+            <p class="text-content" style="margin-top:1em;">
+              SWE-bench Verified can be downloaded from HuggingFace.
+            </p>
+            <div class="content-wrapper" style="width: 100%">
+              <div class="content-box column">
+                <a
+                  style="width: 50%"
+                  href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_Verified"
+                >
+                  <div class="download">🤗 SWE-bench Verified</div>
+                </a>
+              </div>
+            </div>
+            <p class="text-content" style="margin-top:1em;">
+              We also provide the full SWE-Llama model weights at 13b and 7b parameters, along with their PEFT LoRA weights.
+            </p>
+            <div class="content-wrapper" style="width: 100%">
+              <div class="content-box column">
+                <a
+                  style="width: 100%"
+                  href="https://huggingface.co/princeton-nlp/SWE-Llama-13b"
+                >
+                  <div class="download">
+                    <img
+                      src="img/swellama.png"
+                      style="height:1.3em;vertical-align: middle;margin-bottom:0.35em;margin-right:0.2em"
+                    />
+                    SWE-Llama 13b
+                  </div>
+                </a>
+                <a
+                  style="width: 100%"
+                  href="https://huggingface.co/princeton-nlp/SWE-Llama-13b-peft"
+                >
+                  <div class="download">
+                    <img
+                      src="img/swellama.png"
+                      style="height:1.3em;vertical-align: middle;margin-bottom:0.35em;margin-right:0.2em"
+                    />
+                    SWE-Llama 13b (PEFT)
+                  </div>
+                </a>
+              </div>
+              <div class="content-box column">
+                <a
+                  style="width: 100%"
+                  href="https://huggingface.co/princeton-nlp/SWE-Llama-7b"
+                >
+                  <div class="download">
+                    <img
+                      src="img/swellama.png"
+                      style="height:1.3em;vertical-align: middle;margin-bottom:0.35em;margin-right:0.2em"
+                    />
+                    SWE-Llama 7b
+                  </div>
+                </a>
+                <a
+                  style="width: 100%"
+                  href="https://huggingface.co/princeton-nlp/SWE-Llama-7b-peft"
+                >
+                  <div class="download">
+                    <img
+                      src="img/swellama.png"
+                      style="height:1.3em;vertical-align: middle;margin-bottom:0.35em;margin-right:0.2em"
+                    />
+                    SWE-Llama 7b (PEFT)
+                  </div>
+                </a>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+        <div class="content-wrapper">
+          <div class="content-box">
+            <h2 class="text-title">About</h2>
+            <img src="img/teaser.png" style="width:80%;margin:auto;display:block;"/>
+            <p class="text-content">
+              SWE-bench is a dataset that tests systems' ability to solve GitHub
+              issues automatically. The dataset collects 2,294 Issue-Pull Request
+              pairs from 12 popular Python repositories. Evaluation is performed by unit test verification using post-PR behavior as the reference solution.
+              Read more about SWE-bench in our <a href="https://arxiv.org/abs/2310.06770", target="_blank">paper</a>!
+            </p class="text-content">
+            <h3 class="text-title" style="margin-bottom:0.5em">Citation</h3>
+            <pre id="citation"><code>@inproceedings{
+    jimenez2024swebench,
+    title={{"{"}}{{"{"}}SWE{{"}"}}-bench: Can Language Models Resolve Real-world Github Issues?},
+    author={Carlos E Jimenez and John Yang and Alexander Wettig and Shunyu Yao and Kexin Pei and Ofir Press and Karthik R Narasimhan},
+    booktitle={The Twelfth International Conference on Learning Representations},
+    year={2024},
+    url={https://openreview.net/forum?id=VTF8yNQM66}
+}</code></pre>
+            <p class="text-content" style="margin-bottom: 0;">
+              <b>Disclaimer:</b> SWE-bench is for research purposes only. Models
+              trained and evaluated on SWE-bench can produce unexpected results.
+              We are not responsible for any damages caused by the use of
+              SWE-bench, including but not limited to, any loss of profit, data,
+              or use of data.
+            <p style="line-height: 1.6667em;">
+              <b>Usage:</b> If you would like to use this website template for your
+              own leaderboard, please send Carlos & John an email requesting permission.
+              If granted, please make sure to acknowledge the SWE-bench team and link to
+              this leaderboard on the home page of the website.
+            </p>
+            <p class="text-content">
+              Correspondence to: <a href="mailto:carlosej@princeton.edu">carlosej@princeton.edu</a>,
+              <a href="mailto:jy1682@princeton.edu">johnby@stanford.edu</a>
+            </p>
+            <div class="content-wrapper" style="display: flex; flex-direction: row; margin-top: 0.5em;">
+              <a href="https://princeton-nlp.github.io/">
+                <img src="img/princeton_seal.svg" style="height: 3em;padding-top:0.5em;padding-right: 1em" />
+              </a>
+              <a href="https://pli.princeton.edu/">
+                <img src="img/pli_logo.svg" style="height: 3em;padding-top:0.5em;padding-right: 1em" />
+              </a>
+              <a href="https://cs.uchicago.edu/">
+                <img src="img/chicago_seal.svg" style="height: 3em;padding-top:0.5em;padding-right: 1em" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <script>
+      function openLeaderboard(leaderboard) {
+        var tabcontent = document.getElementsByClassName("tabcontent");
+        for (var i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+        }
+
+        var tablinks = document.getElementsByClassName("tablinks");
+        for (var i = 0; i < tablinks.length; i++) {
+          tablinks[i].classList.remove("active");
+        }
+
+        document.getElementById(`leaderboard-${leaderboard}`).style.display = "block";
+        document.querySelector(`[data-leaderboard="${leaderboard}"]`).classList.add("active");
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+        var tabs = document.querySelectorAll('.tablinks');
+        tabs.forEach(function(tab) {
+          tab.addEventListener('click', function(event) {
+            openLeaderboard(this.getAttribute('data-leaderboard'));
+          });
+        });
+
+        // Open the 'lite' leaderboard by default
+        openLeaderboard('Lite');
+      });
+    </script>
+  </body>
+</html>

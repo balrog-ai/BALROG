@@ -1,156 +1,3109 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <title>AgentQuest Leaderboard</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        /* Basic styles for the leaderboard */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
+    <meta charset="utf-8" />
+    <title>AgentQuest</title>
+    <meta name="description" content="AgentQuest: Benchmarking LLM and VLM Agents on Long-Horizon Interactive Tasks" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta property="og:image" content="/logo.png" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/fonts.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+        integrity="..." crossorigin="anonymous" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H9XFCMDPNS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
         }
+        gtag("js", new Date());
 
-        h1 {
-            text-align: center;
-        }
-
-        .leaderboard-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        .leaderboard-table th,
-        .leaderboard-table td {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
-
-        .leaderboard-table th {
-            background-color: #f2f2f2;
-            text-align: left;
-        }
-
-        .verified {
-            color: green;
-        }
-
-        .oss {
-            color: blue;
-        }
-
-        .buttons a {
-            margin-right: 10px;
-        }
-    </style>
+        gtag("config", "G-H9XFCMDPNS");
+    </script>
 </head>
 
 <body>
+    <div style="padding-bottom: 50px">
+        <section style="background-color: var(--dark_accent_color)">
+            <div class="content-wrapper title-wrapper" style="flex-direction: column">
+                <div style="
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              padding-bottom: 15px;
+            ">
+                    <h1 style="font-size: 60px; padding-top: 0.4em">AgentQuest</h1>
+                    <img src="img/agentquest-logo.png" style="height: 100px; padding-top: 0em; padding-left: 0.5em" />
+                </div>
+                <h3>Benchmarking LLM and VLM Agents on Long-Horizon Interactive Tasks</h3>
+                <h3 style="font-size: 20px; padding-top: 1.2em">ICLR 2024</h3>
+                <p style="text-align: center;margin-top:1em;">
+                    Davide Paglieri*, Bartłomiej Cupiał*, Samuel Coward, Ulyana Piterbarg, <br />
+                    Maciej Wolczyk, Akbir Khan, Eduardo Pignatelli, Łukasz Kuciński, Lerrel Pinto <br />
+                    Rob Fergus, Jakob Nicolaus Foerster, Jack Parker-Holder, Tim Rocktäschel
+                </p>
+                <div class="content-wrapper" style="margin-top: 2em">
+                    <a href="https://arxiv.org/abs/2310.06770">
+                        <button class="outline">
+                            <i class="fa fa-paperclip"></i> Paper&nbsp;
+                        </button>
+                    </a>
+                    <a href="https://github.com/DavidePaglieri/AgentQuest">
+                        <button class="outline">
+                            <i class="fab fa-github"></i> Code&nbsp;
+                        </button>
+                    </a>
+                    <a href="submit.html">
+                        <button class="outline">
+                            <i class="fa fa-upload"></i> Submit&nbsp;
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </section>
+        <section class="main-container">
+            <div class="content-wrapper"
+                style="margin-top: 1em; display: flex; justify-content: center; align-items: center;">
+                <div class="content-box">
+                    <h2 class="text-title">News</h2>
+                    <p style="margin-bottom: 0.5em">
+                        📣 [10/2024] Introducing <b>AgentQuest Multimodal</b>! Can AI systems "see" bugs and fix them?
+                        👀 💻
+                        [<a style="color:#0ca7ff" href="multimodal.html">Link</a>]
+                    </p>
+                    <p style="margin-bottom: 0.5em">
+                        📣 [08/2024] AgentQuest x OpenAI = <b>AgentQuest Verified</b>, a human-validated subset of
+                        500 problems reviewed by software engineers!
+                        [<a style="color:#0ca7ff"
+                            href="https://openai.com/index/introducing-swe-bench-verified/">Report</a>]
+                    </p>
+                    <p style="margin-bottom: 0.5em">
+                        📣 [06/2024] We've <b>Docker</b>-ized AgentQuest for easier, containerized, reproducible
+                        evaluation.
+                        [<a style="color:#0ca7ff"
+                            href="https://github.com/princeton-nlp/SWE-bench/tree/main/docs/20240627_docker">Report</a>]
+                    </p>
+                    <p style="margin-bottom: 0.5em">
+                        📣 [03/2024] Check out our latest work, <b>SWE-agent</b>, which achieves a 12.47% resolve rate
+                        on AgentQuest!
+                        [<a href="https://github.com/princeton-nlp/SWE-agent" class="light-blue-link" target="_blank"
+                            rel="noopener noreferrer">Link</a>]
+                    </p>
+                    <p style="margin-bottom: 0.5em">
+                        📣 [03/2024] We've released <b>AgentQuest Lite</b>! Running all of AgentQuest can take time.
+                        This subset makes it easier!
+                        [<a style="color:#0ca7ff" href="lite.html">Report</a>]
+                    </p>
+                </div>
+            </div>
+            <div class="content-wrapper">
+                <div class="content-box">
+                    <h2 class="text-title">Leaderboard</h2>
+                    <ul class="tab">
+                        <li><button id="tab-lite" class="tablinks" data-leaderboard="Lite">Lite</button></li>
+                        <li><button id="tab-verified" class="tablinks" data-leaderboard="Verified">Verified</button>
+                        </li>
+                        <li><button id="tab-test" class="tablinks" data-leaderboard="Test">Full</button></li>
+                    </ul>
 
-    <h1>AgentQuest leaderboard</h1>
+                    <div class="tabcontent" style="display: block" id="leaderboard-Test">
+                        <table class="table scrollable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <div class="sticky-header-content">Model</div>
+                                    </th>
+                                    <th>
+                                        <div class="sticky-header-content">% Resolved</div>
+                                    </th>
+                                    <th>
+                                        <div class="sticky-header-content">Date</div>
+                                    </th>
+                                    <th>
+                                        <div class="sticky-header-content">Logs</div>
+                                    </th>
+                                    <th>
+                                        <div class="sticky-header-content">Trajs</div>
+                                    </th>
+                                    <th>
+                                        <div class="sticky-header-content">Site</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-    <div style="text-align: center; margin-bottom: 20px;">
-        <img src="images/balrog.png" alt="Balrog" style="max-width: 100%; height: auto;">
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+                                            🥇
+
+
+
+                                            Honeycomb
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">22.06</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-08-20</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/test/20240820_honeycomb/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/test/20240820_honeycomb/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://honeycomb.sh/">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+                                            🥈
+
+
+
+                                            Amazon Q Developer Agent (v20240719-dev)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">19.75</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-07-21</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/test/20240721_amazon-q-developer-agent-20240719-dev/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/test/20240721_amazon-q-developer-agent-20240719-dev/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://aws.amazon.com/q/developer/">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+                                            🥉
+
+
+
+                                            Factory Code Droid
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">19.27</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-06-17</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/test/20240617_factory_code_droid/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://www.factory.ai/">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+
+
+                                            AutoCodeRover (v20240620) + GPT 4o (2024-05-13)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">18.83</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-06-28</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/test/20240628_autocoderover-v20240620/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://autocoderover.dev/">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            SWE-agent + Claude 3.5 Sonnet
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">18.13</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-06-20</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/test/20240620_sweagent_claude3.5sonnet/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/test/20240620_sweagent_claude3.5sonnet/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            AppMap Navie + GPT 4o (2024-05-13)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">14.60</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-06-15</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/test/20240615_appmap-navie_gpt4o/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://appmap.io/navie">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+
+
+                                            Amazon Q Developer Agent (v20240430-dev)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">13.82</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-05-09</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/test/20240509_amazon-q-developer-agent-20240430-dev/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://aws.amazon.com/q/developer/">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            SWE-agent + GPT 4 (1106)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">12.47</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-04-02</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/test/20240402_sweagent_gpt4/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/test/20240402_sweagent_gpt4/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://github.com/princeton-nlp/SWE-agent">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            SWE-agent + GPT 4o (2024-05-13)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">11.99</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-07-28</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/test/20240728_sweagent_gpt4o/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/test/20240728_sweagent_gpt4o/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://github.com/princeton-nlp/SWE-agent">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            SWE-agent + Claude 3 Opus
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">10.51</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-04-02</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/test/20240402_sweagent_claude3opus/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/test/20240402_sweagent_claude3opus/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            RAG + Claude 3 Opus
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">3.79</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-04-02</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/test/20240402_rag_claude3opus/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/princeton-nlp/SWE-bench/tree/main/swebench/inference">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            RAG + Claude 2
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">1.96</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2023-10-10</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/test/20231010_rag_claude2/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            RAG + GPT 4 (1106)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">1.31</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-04-02</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/test/20240402_rag_gpt4/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            RAG + SWE-Llama 13B
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">0.70</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2023-10-10</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/test/20231010_rag_swellama13b/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            RAG + SWE-Llama 7B
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">0.70</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2023-10-10</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/test/20231010_rag_swellama7b/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            RAG + ChatGPT 3.5
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">0.17</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2023-10-10</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/test/20231010_rag_gpt35/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="tabcontent" style="display: block" id="leaderboard-Verified">
+                        <table class="table scrollable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <div class="sticky-header-content">Model</div>
+                                    </th>
+                                    <th>
+                                        <div class="sticky-header-content">% Resolved</div>
+                                    </th>
+                                    <th>
+                                        <div class="sticky-header-content">Date</div>
+                                    </th>
+                                    <th>
+                                        <div class="sticky-header-content">Logs</div>
+                                    </th>
+                                    <th>
+                                        <div class="sticky-header-content">Trajs</div>
+                                    </th>
+                                    <th>
+                                        <div class="sticky-header-content">Site</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+                                            🥇
+
+
+
+                                            Gru(2024-08-24)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">45.20</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-08-24</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/verified/20240824_gru/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/verified/20240824_gru/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://gru.ai">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+                                            🥈
+
+
+
+                                            Honeycomb
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">40.60</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-08-20</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/verified/20240820_honeycomb/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/verified/20240820_honeycomb/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://honeycomb.sh/">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+                                            🥉
+
+
+
+                                            Amazon Q Developer Agent (v20240719-dev)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">38.80</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-07-21</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/verified/20240721_amazon-q-developer-agent-20240719-dev/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/verified/20240721_amazon-q-developer-agent-20240719-dev/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://aws.amazon.com/q/developer/">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+
+
+                                            AutoCodeRover (v20240620) + GPT 4o (2024-05-13)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">38.40</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-06-28</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/verified/20240628_autocoderover-v20240620/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://autocoderover.dev/">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+
+
+                                            Factory Code Droid
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">37.00</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-06-17</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/verified/20240617_factory_code_droid/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://www.factory.ai/">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            SWE-agent + Claude 3.5 Sonnet
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">33.60</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-06-20</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/verified/20240620_sweagent_claude3.5sonnet/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/verified/20240620_sweagent_claude3.5sonnet/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            AppMap Navie + GPT 4o (2024-05-13)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">26.20</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-06-15</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/verified/20240615_appmap-navie_gpt4o/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://appmap.io/navie">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+
+
+                                            Amazon Q Developer Agent (v20240430-dev)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">25.60</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-05-09</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/verified/20240509_amazon-q-developer-agent-20240430-dev/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://aws.amazon.com/q/developer/">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+
+
+                                            EPAM AI/Run Developer Agent + GPT4o
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">24.00</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-08-20</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/verified/20240820_epam-ai-run-gpt-4o/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/verified/20240820_epam-ai-run-gpt-4o/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://www.epam.com/services/artificial-intelligence">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            SWE-agent + GPT 4o (2024-05-13)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">23.20</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-07-28</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/verified/20240728_sweagent_gpt4o/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/verified/20240728_sweagent_gpt4o/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://github.com/princeton-nlp/SWE-agent">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            SWE-agent + GPT 4 (1106)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">22.40</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-04-02</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/verified/20240402_sweagent_gpt4/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/verified/20240402_sweagent_gpt4/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://github.com/princeton-nlp/SWE-agent">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            SWE-agent + Claude 3 Opus
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">18.20</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-04-02</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/verified/20240402_sweagent_claude3opus/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/verified/20240402_sweagent_claude3opus/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            RAG + Claude 3 Opus
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">7.00</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-04-02</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/verified/20240402_rag_claude3opus/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/princeton-nlp/SWE-bench/tree/main/swebench/inference">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            RAG + Claude 2
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">4.40</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2023-10-10</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/verified/20231010_rag_claude2/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            RAG + GPT 4 (1106)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">2.80</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-04-02</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/verified/20240402_rag_gpt4/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            RAG + SWE-Llama 7B
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">1.40</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2023-10-10</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/verified/20231010_rag_swellama7b/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            RAG + SWE-Llama 13B
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">1.20</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2023-10-10</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/verified/20231010_rag_swellama13b/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            RAG + ChatGPT 3.5
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">0.40</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2023-10-10</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/verified/20231010_rag_gpt35/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="tabcontent" style="display: block" id="leaderboard-Lite">
+                        <table class="table scrollable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <div class="sticky-header-content">Model</div>
+                                    </th>
+                                    <th>
+                                        <div class="sticky-header-content">% Resolved</div>
+                                    </th>
+                                    <th>
+                                        <div class="sticky-header-content">Date</div>
+                                    </th>
+                                    <th>
+                                        <div class="sticky-header-content">Logs</div>
+                                    </th>
+                                    <th>
+                                        <div class="sticky-header-content">Trajs</div>
+                                    </th>
+                                    <th>
+                                        <div class="sticky-header-content">Site</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+                                            🥇
+
+
+
+                                            CodeStory Aide + Mixed Models
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">43.00</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-07-02</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240702_codestory_aide_mixed/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://aide.dev/">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+                                            🥈
+
+
+
+                                            Honeycomb
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">38.33</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-08-20</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240820_honeycomb/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240820_honeycomb/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://honeycomb.sh/">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+                                            🥉
+
+
+
+                                            AbanteAI MentatBot + GPT 4o (2024-05-13)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">38.00</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-06-27</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240627_abanteai_mentatbot_gpt4o/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://mentat.ai/blog/mentatbot-sota-coding-agent">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+
+
+                                            Gru(2024-08-11)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">35.67</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-08-11</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240811_gru/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240811_gru/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://gru.ai">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+
+
+                                            Isoform
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">35.00</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-08-29</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240829_Isoform/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240829_Isoform/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://isoform.ai">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+
+
+                                            SuperCoder2.0
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">34.00</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-08-06</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240806_SuperCoder2.0/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240806_SuperCoder2.0/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://superagi.com/supercoder/">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+
+
+                                            Bytedance MarsCode Agent + GPT 4o (2024-05-13)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">34.00</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-07-23</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240723_marscode-agent-dev/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://www.marscode.com/">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+
+
+                                            Alibaba Lingma Agent
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">33.00</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-06-22</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240622_Lingma_Agent/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240622_Lingma_Agent/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://arxiv.org/abs/2406.01422">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+
+
+                                            Factory Code Droid
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">31.33</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-06-17</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240617_factory_code_droid/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://www.factory.ai/">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+
+                                            AutoCodeRover (v20240620) + GPT 4o (2024-05-13)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">30.67</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-06-21</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240621_autocoderover-v20240620/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240621_autocoderover-v20240620/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://autocoderover.dev/">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+
+
+                                            Amazon Q Developer Agent (v20240719-dev)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">29.67</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-07-21</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240721_amazon-q-developer-agent-20240719-dev/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240721_amazon-q-developer-agent-20240719-dev/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://aws.amazon.com/q/developer/">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+
+                                            Agentless + RepoGraph + GPT-4o
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">29.67</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-08-08</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240808_RepoGraph_gpt4o/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240808_RepoGraph_gpt4o/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://github.com/ozyyshr/RepoGraph">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+
+
+                                            CodeR + GPT 4 (1106)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">28.33</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-06-04</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240604_CodeR/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://github.com/NL2Code/CodeR">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+
+
+                                            MASAI + GPT 4o (2024-05-13)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">28.00</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-06-12</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240612_MASAI_gpt4o/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://github.com/masai-dev-agent/masai">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+
+
+                                            SIMA + GPT 4o (2024-05-13)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">27.67</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-07-06</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240706_sima_gpt4o/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240706_sima_gpt4o/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240706_sima_gpt4o">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+
+                                            Agentless + GPT 4o (2024-05-13)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">27.33</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-06-30</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240630_agentless_gpt4o/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://github.com/OpenAutoCoder/Agentless">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            Moatless Tools + Claude 3.5 Sonnet
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">26.67</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-06-23</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240623_moatless_claude35sonnet/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240623_moatless_claude35sonnet/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://github.com/aorwall/moatless-tools">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            OpenDevin + CodeAct v1.8
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">26.67</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-07-25</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240725_opendevin_codeact_v1.8_claude35sonnet/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240725_opendevin_codeact_v1.8_claude35sonnet/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://docs.all-hands.dev/">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+
+
+                                            IBM Research Agent-101
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">26.67</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-06-12</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240612_IBM_Research_Agent101/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240612_IBM_Research_Agent101">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+
+                                            Aider + GPT 4o & Claude 3 Opus
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">26.33</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-05-23</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240523_aider/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://github.com/paul-gauthier/aider">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            Moatless Tools + GPT 4o (2024-05-13)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">24.67</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-06-17</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240617_moatless_gpt4o/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240617_moatless_gpt4o/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://github.com/aorwall/moatless-tools">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+
+
+                                            OpenCSG StarShip CodeGenAgent + GPT 4 (0613)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">23.67</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-05-24</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240524_opencsg_starship_gpt4/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://opencsg.com/product?class=StarShip">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            SWE-agent + Claude 3.5 Sonnet
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">23.00</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-06-20</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240620_sweagent_claude3.5sonnet/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240620_sweagent_claude3.5sonnet/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            AppMap Navie + GPT 4o (2024-05-13)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">21.67</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-06-15</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240615_appmap-navie_gpt4o/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://appmap.io/navie">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+
+
+                                            Bytedance AutoSE (based on SWE-Agent) + GPT4/GPT4o Mixed (20240828)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">21.67</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-08-28</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240828_autose_mixed/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240828_autose_mixed/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+
+
+                                            Amazon Q Developer Agent (v20240430-dev)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">20.33</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-05-09</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240509_amazon-q-developer-agent-20240430-dev/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://aws.amazon.com/q/developer/">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+
+                                            AutoCodeRover (v20240408) + GPT 4 (0125)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">19.00</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-05-30</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240530_autocoderover-v20240408/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://github.com/nus-apr/auto-code-rover">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            SWE-agent + GPT 4o (2024-05-13)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">18.33</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-07-28</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240728_sweagent_gpt4o/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240728_sweagent_gpt4o/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://github.com/princeton-nlp/SWE-agent">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            SWE-agent + GPT 4 (1106)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">18.00</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-04-02</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240402_sweagent_gpt4/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240402_sweagent_gpt4/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a href="https://github.com/princeton-nlp/SWE-agent">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            SWE-agent + Claude 3 Opus
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">11.67</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-04-02</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240402_sweagent_claude3opus/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240402_sweagent_claude3opus/trajs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            RAG + Claude 3 Opus
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">4.33</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-04-02</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240402_rag_claude3opus/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/princeton-nlp/SWE-bench/tree/main/swebench/inference">🔗</a>
+
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            RAG + Claude 2
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">3.00</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2023-10-10</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20231010_rag_claude2/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            RAG + GPT 4 (1106)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">2.67</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2024-04-02</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240402_rag_gpt4/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            RAG + SWE-Llama 7B
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">1.33</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2023-10-10</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20231010_rag_swellama7b/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            RAG + SWE-Llama 13B
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">1.00</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2023-10-10</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20231010_rag_swellama13b/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <p class="model-type">
+
+                                            🤠
+                                            ✅
+                                            RAG + ChatGPT 3.5
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="number">0.33</p>
+                                    </td>
+                                    <td>
+                                        <p><span class="label-date">2023-10-10</span></p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+
+                                            <a
+                                                href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20231010_rag_gpt35/logs">🔗</a>
+
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="text-align: center;">
+                                            -
+                                        </p>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p class="text-content">
+                        AgentQuest <b>Lite</b> is a subset of AgentQuest that's been curated to make evaluation less
+                        costly and more accessible
+                        [<a href="lite.html">Post</a>].
+                        <br>
+                        AgentQuest <b>Verified</b> is a human annotator filtered subset that has been deemed to have a
+                        ceiling of 100% resolution rate
+                        [<a href="https://openai.com/index/introducing-swe-bench-verified/">Post</a>].
+                        <br><br>
+                        - The <span style="color:#0ea7ff;"><b>% Resolved</b></span> metric refers to the percentage of
+                        AgentQuest instances
+                        (<b>2294</b> for test, <b>500</b> for verified, <b>300</b> for lite)
+                        that were <i>resolved</i> by the model.
+                        <br>
+                        - <span style="color:#0ea7ff;"><b>✅ Checked</b></span> indicates that we, the AgentQuest team,
+                        received access to the system and
+                        were able to reproduce the patch generations.
+                        <br>
+                        - <span style="color:#0ea7ff;"><b>🤠 Open</b></span> refers to submissions that have open-source
+                        code. This does <i>not</i>
+                        necessarily mean the underlying model is open-source.
+                        <br>
+                        - The leaderboard is updated once a week on <b>Monday</b>.
+                        <br>
+                        - If you would like to submit your model to the leaderboard, please check the <a
+                            href="submit.html">submission</a> page.
+                        <br>
+                        - All submissions are Pass@1, do not use
+                        <code style="color:black;background-color:#ddd;border-radius: 0.25em">hints_text</code>,
+                        and are in the unassisted setting.
+                    </p>
+                </div>
+            </div>
+            <div class="content-wrapper">
+                <div class="content-box">
+                    <h2 class="text-title">Resources</h2>
+                    <p class="text-content">
+                        You can download the AgentQuest task instances from HuggingFace or directly as a JSON
+                        file (<a
+                            href="https://drive.google.com/uc?export=download&id=1SbOxHiR0eXlq2azPSSOIDZz-Hva0ETpX">development</a>,
+                        <a
+                            href="https://drive.google.com/uc?export=download&id=164g55i3_B78F6EphCZGtgSrd2GneFyRM">test</a>
+                        sets).
+                        For your convenience, to fine tune your own model for evaluation on AgentQuest, we provide five
+                        pre-processed datasets at different retrieval settings ("Oracle", 13K, 27K, 40K, 50K "Llama").
+                        We recommend using the 13K, 27K, or 40K datasets for evaluation. The 50K "Llama" dataset is
+                        provided for reproducing the results of the AgentQuest paper.
+                    </p>
+                    <div class="content-wrapper" style="width: 100%">
+                        <div class="content-box column">
+                            <a style="width: 100%" href="https://huggingface.co/datasets/princeton-nlp/SWE-bench">
+                                <div class="download">🤗 AgentQuest</div>
+                            </a>
+                            <a style="width: 100%"
+                                href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_oracle">
+                                <div class="download">
+                                    🤗 "Oracle" Retrieval
+                                </div>
+                            </a>
+                            <a style="width: 100%"
+                                href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_bm25_50k_llama">
+                                <div class="download">
+                                    🤗 BM25 Retrieval 50K (Llama)
+                                </div>
+                            </a>
+                        </div>
+                        <div class="content-box column">
+                            <a style="width: 100%"
+                                href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_bm25_13K">
+                                <div class="download">
+                                    🤗 BM25 Retrieval 13K
+                                </div>
+                            </a>
+                            <a style="width: 100%"
+                                href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_bm25_27K">
+                                <div class="download">
+                                    🤗 BM25 Retrieval 27K
+                                </div>
+                            </a>
+                            <a style="width: 100%"
+                                href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_bm25_40K">
+                                <div class="download">
+                                    🤗 BM25 Retrieval 40K
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <p class="text-content" style="margin-top:1em;">
+                        AgentQuest Lite is also available for download from HuggingFace.
+                    </p>
+                    <div class="content-wrapper" style="width: 100%">
+                        <div class="content-box column">
+                            <a style="width: 100%" href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_Lite">
+                                <div class="download">🤗 AgentQuest Lite</div>
+                            </a>
+                            <a style="width: 100%"
+                                href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_Lite_oracle">
+                                <div class="download">
+                                    🤗 "Oracle" Retrieval Lite
+                                </div>
+                            </a>
+                        </div>
+                        <div class="content-box column">
+                            <a style="width: 100%"
+                                href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_Lite_bm25_13K">
+                                <div class="download">
+                                    🤗 BM25 Retrieval 13K Lite
+                                </div>
+                            </a>
+                            <a style="width: 100%"
+                                href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_Lite_bm25_27K">
+                                <div class="download">
+                                    🤗 BM25 Retrieval 27K Lite
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <p class="text-content" style="margin-top:1em;">
+                        AgentQuest Verified can be downloaded from HuggingFace.
+                    </p>
+                    <div class="content-wrapper" style="width: 100%">
+                        <div class="content-box column">
+                            <a style="width: 50%"
+                                href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_Verified">
+                                <div class="download">🤗 AgentQuest Verified</div>
+                            </a>
+                        </div>
+                    </div>
+                    <p class="text-content" style="margin-top:1em;">
+                        We also provide the full SWE-Llama model weights at 13b and 7b parameters, along with their PEFT
+                        LoRA weights.
+                    </p>
+                    <div class="content-wrapper" style="width: 100%">
+                        <div class="content-box column">
+                            <a style="width: 100%" href="https://huggingface.co/princeton-nlp/SWE-Llama-13b">
+                                <div class="download">
+                                    <img src="img/swellama.png"
+                                        style="height:1.3em;vertical-align: middle;margin-bottom:0.35em;margin-right:0.2em" />
+                                    SWE-Llama 13b
+                                </div>
+                            </a>
+                            <a style="width: 100%" href="https://huggingface.co/princeton-nlp/SWE-Llama-13b-peft">
+                                <div class="download">
+                                    <img src="img/swellama.png"
+                                        style="height:1.3em;vertical-align: middle;margin-bottom:0.35em;margin-right:0.2em" />
+                                    SWE-Llama 13b (PEFT)
+                                </div>
+                            </a>
+                        </div>
+                        <div class="content-box column">
+                            <a style="width: 100%" href="https://huggingface.co/princeton-nlp/SWE-Llama-7b">
+                                <div class="download">
+                                    <img src="img/swellama.png"
+                                        style="height:1.3em;vertical-align: middle;margin-bottom:0.35em;margin-right:0.2em" />
+                                    SWE-Llama 7b
+                                </div>
+                            </a>
+                            <a style="width: 100%" href="https://huggingface.co/princeton-nlp/SWE-Llama-7b-peft">
+                                <div class="download">
+                                    <img src="img/swellama.png"
+                                        style="height:1.3em;vertical-align: middle;margin-bottom:0.35em;margin-right:0.2em" />
+                                    SWE-Llama 7b (PEFT)
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="content-wrapper">
+                <div class="content-box">
+                    <h2 class="text-title">About</h2>
+                    <img src="img/teaser.png" style="width:80%;margin:auto;display:block;" />
+                    <p class="text-content">
+                        AgentQuest is a dataset that tests systems' ability to solve GitHub
+                        issues automatically. The dataset collects 2,294 Issue-Pull Request
+                        pairs from 12 popular Python repositories. Evaluation is performed by unit test verification
+                        using post-PR behavior as the reference solution.
+                        Read more about AgentQuest in our <a href="https://arxiv.org/abs/2310.06770" ,
+                            target="_blank">paper</a>!
+                    </p class="text-content">
+                    <h3 class="text-title" style="margin-bottom:0.5em">Citation</h3>
+                    <pre id="citation"><code>@inproceedings{
+    jimenez2024swebench,
+    title={{SWE}-bench: Can Language Models Resolve Real-world Github Issues?},
+    author={Carlos E Jimenez and John Yang and Alexander Wettig and Shunyu Yao and Kexin Pei and Ofir Press and Karthik R Narasimhan},
+    booktitle={The Twelfth International Conference on Learning Representations},
+    year={2024},
+    url={https://openreview.net/forum?id=VTF8yNQM66}
+}</code></pre>
+                    <p class="text-content" style="margin-bottom: 0;">
+                        <b>Disclaimer:</b> AgentQuest is for research purposes only. Models
+                        trained and evaluated on AgentQuest can produce unexpected results.
+                        We are not responsible for any damages caused by the use of
+                        AgentQuest, including but not limited to, any loss of profit, data,
+                        or use of data.
+                    <p style="line-height: 1.6667em;">
+                        <b>Usage:</b> If you would like to use this website template for your
+                        own leaderboard, please send Carlos & John an email requesting permission.
+                        If granted, please make sure to acknowledge the AgentQuest team and link to
+                        this leaderboard on the home page of the website.
+                    </p>
+                    <p class="text-content">
+                        Correspondence to: <a href="mailto:d.paglieri@cs.ucl.ac.uk">d.paglieri@cs.ucl.ac.uk</a>,
+                    </p>
+                    <div class="content-wrapper" style="display: flex; flex-direction: row; margin-top: 0.5em;">
+                        <a href="https://princeton-nlp.github.io/">
+                            <img src="img/princeton_seal.svg"
+                                style="height: 3em;padding-top:0.5em;padding-right: 1em" />
+                        </a>
+                        <a href="https://pli.princeton.edu/">
+                            <img src="img/pli_logo.svg" style="height: 3em;padding-top:0.5em;padding-right: 1em" />
+                        </a>
+                        <a href="https://cs.uchicago.edu/">
+                            <img src="img/chicago_seal.svg" style="height: 3em;padding-top:0.5em;padding-right: 1em" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
-
-    <div class="buttons" style="text-align: center; margin-bottom: 20px;">
-        <a href="index.html"><button>Home</button></a>
-        <a href="https://arxiv.org/abs/2310.06770"><button>Paper</button></a>
-        <a href="https://github.com/your-repo"><button>Code</button></a>
-        <a href="submit.html"><button>Submit</button></a>
-    </div>
-
-    <table class="leaderboard-table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Model Name</th>
-                <th>Split</th>
-                <th>Resolved</th>
-                <th>Total</th>
-                <th>% Resolved</th>
-                <th>Verified</th>
-                <th>Open Source</th>
-            </tr>
-        </thead>
-        <tbody id="leaderboard-body">
-            <!-- Entries will be populated here -->
-        </tbody>
-    </table>
-
     <script>
-        // Fetch the leaderboard data
-        fetch('data/leaderboard.json')
-            .then(response => response.json())
-            .then(data => {
-                const tbody = document.getElementById('leaderboard-body');
-                data.forEach(entry => {
-                    const tr = document.createElement('tr');
+        function openLeaderboard(leaderboard) {
+            var tabcontent = document.getElementsByClassName("tabcontent");
+            for (var i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
 
-                    // Date
-                    const dateTd = document.createElement('td');
-                    dateTd.textContent = entry.date;
-                    tr.appendChild(dateTd);
+            var tablinks = document.getElementsByClassName("tablinks");
+            for (var i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
 
-                    // Model Name with link to viewer.html
-                    const nameTd = document.createElement('td');
-                    const nameLink = document.createElement('a');
-                    nameLink.href = `viewer.html?model_id=${encodeURIComponent(entry.model_id)}`;
-                    nameLink.textContent = entry.name;
-                    nameTd.appendChild(nameLink);
-                    tr.appendChild(nameTd);
+            document.getElementById(`leaderboard-${leaderboard}`).style.display = "block";
+            document.querySelector(`[data-leaderboard="${leaderboard}"]`).classList.add("active");
+        }
 
-                    // Split
-                    const splitTd = document.createElement('td');
-                    splitTd.textContent = entry.split;
-                    tr.appendChild(splitTd);
-
-                    // Resolved
-                    const resolvedTd = document.createElement('td');
-                    resolvedTd.textContent = entry.resolved;
-                    tr.appendChild(resolvedTd);
-
-                    // Total
-                    const totalTd = document.createElement('td');
-                    totalTd.textContent = entry.total;
-                    tr.appendChild(totalTd);
-
-                    // Percentage Resolved
-                    const percentageTd = document.createElement('td');
-                    percentageTd.textContent = entry.percentage.toFixed(2) + '%';
-                    tr.appendChild(percentageTd);
-
-                    // Verified
-                    const verifiedTd = document.createElement('td');
-                    verifiedTd.innerHTML = entry.verified ? '✓' : '✗';
-                    verifiedTd.className = entry.verified ? 'verified' : '';
-                    tr.appendChild(verifiedTd);
-
-                    // Open Source
-                    const ossTd = document.createElement('td');
-                    if (entry.oss) {
-                        const ossLink = document.createElement('a');
-                        ossLink.href = entry.site;
-                        ossLink.textContent = 'GitHub';
-                        ossLink.target = '_blank';
-                        ossLink.className = 'oss';
-                        ossTd.appendChild(ossLink);
-                    } else {
-                        ossTd.textContent = 'Closed';
-                    }
-                    tr.appendChild(ossTd);
-
-                    tbody.appendChild(tr);
+        document.addEventListener('DOMContentLoaded', function () {
+            var tabs = document.querySelectorAll('.tablinks');
+            tabs.forEach(function (tab) {
+                tab.addEventListener('click', function (event) {
+                    openLeaderboard(this.getAttribute('data-leaderboard'));
                 });
-            })
-            .catch(error => {
-                console.error('Error fetching leaderboard data:', error);
             });
-    </script>
 
+            // Open the 'lite' leaderboard by default
+            openLeaderboard('Lite');
+        });
+    </script>
 </body>
 
 </html>

@@ -2,114 +2,315 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8" />
     <title>AgentQuest</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        /* Basic styles */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
+    <meta name="description" content="AgentQuest: Evaluate Language Models on Open Source Software Tasks" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta property="og:image" content="/logo.png" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/fonts.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/viewer.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+        integrity="..." crossorigin="anonymous" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H9XFCMDPNS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
         }
+        gtag("js", new Date());
 
-        h1 {
-            text-align: center;
-        }
-
-        .details {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .details h2 {
-            text-align: center;
-        }
-
-        .details p {
-            font-size: 1.1em;
-        }
-
-        .buttons a {
-            margin-right: 10px;
-        }
-    </style>
+        gtag("config", "G-H9XFCMDPNS");
+    </script>
+    <!-- Custom Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 
 <body>
+    <div style="padding-bottom: 50px">
+        <section style="background-color: var(--dark_accent_color)">
+            <div class="content-wrapper title-wrapper" style="flex-direction: column;text-align: center;">
+                <h1 style="font-size: 60px; padding-top: 0.4em">AgentQuest Analysis</h1>
+                <div class="content-wrapper" style="margin-top: 2em">
+                    <a href="index.html">
+                        <button class="outline"
+                            style="flex-direction: row; display: flex; justify-content: center; align-items: center;">
+                            <img src="img/swellama.png"
+                                style="height: 1.3em; margin-right: 0.4em; margin-bottom: 0.3em;" />
+                            Home&nbsp;
+                        </button>
+                    </a>
+                    <a href="https://arxiv.org/abs/2310.06770">
+                        <button class="outline">
+                            <i class="fa fa-paperclip"></i> Paper&nbsp;
+                        </button>
+                    </a>
+                    <a href="https://github.com/princeton-nlp/SWE-bench">
+                        <button class="outline">
+                            <i class="fab fa-github"></i> Code&nbsp;
+                        </button>
+                    </a>
+                    <a href="submit.html">
+                        <button class="outline">
+                            <i class="fa fa-upload"></i> Submit&nbsp;
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </section>
+        <section class="main-container">
+            <div class="content-wrapper" style="display: flex; justify-content: center; align-items: center;">
+                <div
+                    style="background-color: black; padding: 1.5em 1em; color: white; border-radius: 1em; text-align: center; width: 80%;">
+                    Select the split & model below to get automated analyses of the model's performance on the
+                    AgentQuest split.
+                </div>
+            </div>
+            <div style="text-align: center; margin: 1em 0 1.5em 0;">
+                <label for="split-select">Split:</label>
+                <select id="split-select">
 
-    <h1>Model Details</h1>
+                    <option value="test">Test</option>
+                    <option value="verified">Verified</option>
+                    <option value="lite">Lite</option>
+                </select>
+                &nbsp;
+                <label for="model-select">Model:</label>
 
-    <div class="buttons" style="text-align: center; margin-bottom: 20px;">
-        <a href="index.html"><button>Home</button></a>
-        <a href="https://arxiv.org/abs/2310.06770"><button>Paper</button></a>
-        <a href="https://github.com/your-repo"><button>Code</button></a>
-        <a href="submit.html"><button>Submit</button></a>
+                <select id="model-select-test" hidden>
+
+                    <option value="20240820_honeycomb">(2024-08-20) Honeycomb</option>
+                    <option value="20240721_amazon-q-developer-agent-20240719-dev">(2024-07-21) Amazon Q Developer Agent
+                        (v20240719-dev)</option>
+                    <option value="20240617_factory_code_droid">(2024-06-17) Factory Code Droid</option>
+                    <option value="20240628_autocoderover-v20240620">(2024-06-28) AutoCodeRover (v20240620) + GPT 4o
+                        (2024-05-13)</option>
+                    <option value="20240620_sweagent_claude3.5sonnet">(2024-06-20) SWE-agent + Claude 3.5 Sonnet
+                    </option>
+                    <option value="20240615_appmap-navie_gpt4o">(2024-06-15) AppMap Navie + GPT 4o (2024-05-13)</option>
+                    <option value="20240509_amazon-q-developer-agent-20240430-dev">(2024-05-09) Amazon Q Developer Agent
+                        (v20240430-dev)</option>
+                    <option value="20240402_sweagent_gpt4">(2024-04-02) SWE-agent + GPT 4 (1106)</option>
+                    <option value="20240728_sweagent_gpt4o">(2024-07-28) SWE-agent + GPT 4o (2024-05-13)</option>
+                    <option value="20240402_sweagent_claude3opus">(2024-04-02) SWE-agent + Claude 3 Opus</option>
+                    <option value="20240402_rag_claude3opus">(2024-04-02) RAG + Claude 3 Opus</option>
+                    <option value="20231010_rag_claude2">(2023-10-10) RAG + Claude 2</option>
+                    <option value="20240402_rag_gpt4">(2024-04-02) RAG + GPT 4 (1106)</option>
+                    <option value="20231010_rag_swellama13b">(2023-10-10) RAG + SWE-Llama 13B</option>
+                    <option value="20231010_rag_swellama7b">(2023-10-10) RAG + SWE-Llama 7B</option>
+                    <option value="20231010_rag_gpt35">(2023-10-10) RAG + ChatGPT 3.5</option>
+                </select>
+
+                <select id="model-select-verified" hidden>
+
+                    <option value="20240824_gru">(2024-08-24) Gru(2024-08-24)</option>
+                    <option value="20240820_honeycomb">(2024-08-20) Honeycomb</option>
+                    <option value="20240721_amazon-q-developer-agent-20240719-dev">(2024-07-21) Amazon Q Developer Agent
+                        (v20240719-dev)</option>
+                    <option value="20240628_autocoderover-v20240620">(2024-06-28) AutoCodeRover (v20240620) + GPT 4o
+                        (2024-05-13)</option>
+                    <option value="20240617_factory_code_droid">(2024-06-17) Factory Code Droid</option>
+                    <option value="20240620_sweagent_claude3.5sonnet">(2024-06-20) SWE-agent + Claude 3.5 Sonnet
+                    </option>
+                    <option value="20240615_appmap-navie_gpt4o">(2024-06-15) AppMap Navie + GPT 4o (2024-05-13)</option>
+                    <option value="20240509_amazon-q-developer-agent-20240430-dev">(2024-05-09) Amazon Q Developer Agent
+                        (v20240430-dev)</option>
+                    <option value="20240820_epam-ai-run-gpt-4o">(2024-08-20) EPAM AI/Run Developer Agent + GPT4o
+                    </option>
+                    <option value="20240728_sweagent_gpt4o">(2024-07-28) SWE-agent + GPT 4o (2024-05-13)</option>
+                    <option value="20240402_sweagent_gpt4">(2024-04-02) SWE-agent + GPT 4 (1106)</option>
+                    <option value="20240402_sweagent_claude3opus">(2024-04-02) SWE-agent + Claude 3 Opus</option>
+                    <option value="20240402_rag_claude3opus">(2024-04-02) RAG + Claude 3 Opus</option>
+                    <option value="20231010_rag_claude2">(2023-10-10) RAG + Claude 2</option>
+                    <option value="20240402_rag_gpt4">(2024-04-02) RAG + GPT 4 (1106)</option>
+                    <option value="20231010_rag_swellama7b">(2023-10-10) RAG + SWE-Llama 7B</option>
+                    <option value="20231010_rag_swellama13b">(2023-10-10) RAG + SWE-Llama 13B</option>
+                    <option value="20231010_rag_gpt35">(2023-10-10) RAG + ChatGPT 3.5</option>
+                </select>
+
+                <select id="model-select-lite" hidden>
+
+                    <option value="20240702_codestory_aide_mixed">(2024-07-02) CodeStory Aide + Mixed Models</option>
+                    <option value="20240820_honeycomb">(2024-08-20) Honeycomb</option>
+                    <option value="20240627_abanteai_mentatbot_gpt4o">(2024-06-27) AbanteAI MentatBot + GPT 4o
+                        (2024-05-13)</option>
+                    <option value="20240811_gru">(2024-08-11) Gru(2024-08-11)</option>
+                    <option value="20240829_Isoform">(2024-08-29) Isoform</option>
+                    <option value="20240806_SuperCoder2.0">(2024-08-06) SuperCoder2.0</option>
+                    <option value="20240723_marscode-agent-dev">(2024-07-23) Bytedance MarsCode Agent + GPT 4o
+                        (2024-05-13)</option>
+                    <option value="20240622_Lingma_Agent">(2024-06-22) Alibaba Lingma Agent</option>
+                    <option value="20240617_factory_code_droid">(2024-06-17) Factory Code Droid</option>
+                    <option value="20240621_autocoderover-v20240620">(2024-06-21) AutoCodeRover (v20240620) + GPT 4o
+                        (2024-05-13)</option>
+                    <option value="20240721_amazon-q-developer-agent-20240719-dev">(2024-07-21) Amazon Q Developer Agent
+                        (v20240719-dev)</option>
+                    <option value="20240808_RepoGraph_gpt4o">(2024-08-08) Agentless + RepoGraph + GPT-4o</option>
+                    <option value="20240604_CodeR">(2024-06-04) CodeR + GPT 4 (1106)</option>
+                    <option value="20240612_MASAI_gpt4o">(2024-06-12) MASAI + GPT 4o (2024-05-13)</option>
+                    <option value="20240706_sima_gpt4o">(2024-07-06) SIMA + GPT 4o (2024-05-13)</option>
+                    <option value="20240630_agentless_gpt4o">(2024-06-30) Agentless + GPT 4o (2024-05-13)</option>
+                    <option value="20240623_moatless_claude35sonnet">(2024-06-23) Moatless Tools + Claude 3.5 Sonnet
+                    </option>
+                    <option value="20240725_opendevin_codeact_v1.8_claude35sonnet">(2024-07-25) OpenDevin + CodeAct v1.8
+                    </option>
+                    <option value="20240612_IBM_Research_Agent101">(2024-06-12) IBM Research Agent-101</option>
+                    <option value="20240523_aider">(2024-05-23) Aider + GPT 4o & Claude 3 Opus</option>
+                    <option value="20240617_moatless_gpt4o">(2024-06-17) Moatless Tools + GPT 4o (2024-05-13)</option>
+                    <option value="20240524_opencsg_starship_gpt4">(2024-05-24) OpenCSG StarShip CodeGenAgent + GPT 4
+                        (0613)</option>
+                    <option value="20240620_sweagent_claude3.5sonnet">(2024-06-20) SWE-agent + Claude 3.5 Sonnet
+                    </option>
+                    <option value="20240615_appmap-navie_gpt4o">(2024-06-15) AppMap Navie + GPT 4o (2024-05-13)</option>
+                    <option value="20240828_autose_mixed">(2024-08-28) Bytedance AutoSE (based on SWE-Agent) +
+                        GPT4/GPT4o Mixed (20240828)</option>
+                    <option value="20240509_amazon-q-developer-agent-20240430-dev">(2024-05-09) Amazon Q Developer Agent
+                        (v20240430-dev)</option>
+                    <option value="20240530_autocoderover-v20240408">(2024-05-30) AutoCodeRover (v20240408) + GPT 4
+                        (0125)</option>
+                    <option value="20240728_sweagent_gpt4o">(2024-07-28) SWE-agent + GPT 4o (2024-05-13)</option>
+                    <option value="20240402_sweagent_gpt4">(2024-04-02) SWE-agent + GPT 4 (1106)</option>
+                    <option value="20240402_sweagent_claude3opus">(2024-04-02) SWE-agent + Claude 3 Opus</option>
+                    <option value="20240402_rag_claude3opus">(2024-04-02) RAG + Claude 3 Opus</option>
+                    <option value="20231010_rag_claude2">(2023-10-10) RAG + Claude 2</option>
+                    <option value="20240402_rag_gpt4">(2024-04-02) RAG + GPT 4 (1106)</option>
+                    <option value="20231010_rag_swellama7b">(2023-10-10) RAG + SWE-Llama 7B</option>
+                    <option value="20231010_rag_swellama13b">(2023-10-10) RAG + SWE-Llama 13B</option>
+                    <option value="20231010_rag_gpt35">(2023-10-10) RAG + ChatGPT 3.5</option>
+                </select>
+
+                &nbsp;
+                <button id="loadData">Load Data</button>
+            </div>
+            <div class="content-wrapper">
+                <div id="displaySelections">
+                    Viewing <span style="color:#0ca7ff" id="selectedModel"></span>'s performance
+                    on the AgentQuest <span style="color:#0ca7ff" id="selectedSplit"></span> split,
+                    which resolved <span style="color:#0ca7ff" id="selectedResolved"></span>% of
+                    <span style="color:#0ca7ff" id="selectedSplitNum"></span> issues.
+                    (<a href="" id="modelSplitURL">Logs</a>)
+                </div>
+            </div>
+            <div class="content-wrapper">
+                <div class="content-box" id="readme">
+                    Loading README.md...
+                </div>
+            </div>
+            <div class="content-wrapper">
+                <h3 style="flex: 0 0 15%;margin: 0;">% Resolved by Repository</h3>
+                <table id="table-by-repo" class="table-results">
+                    <thead>
+                        <tr>
+                            <th width="40%">Repository</th>
+                            <th>Resolved</th>
+                            <th>Total</th>
+                            <th>% Resolved</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <br><br>
+            <div class="content-wrapper">
+                <h3 style="flex: 0 0 15%;margin: 0;">% Resolved by Year</h3>
+                <table id="table-by-year" class="table-results">
+                    <thead>
+                        <tr>
+                            <th style="width: 40%">Year</th>
+                            <th>Resolved</th>
+                            <th>Total</th>
+                            <th>% Resolved</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <br><br>
+            <!-- <div class="content-wrapper">
+            <h3 style="flex: 0 0 15%;margin: 0;">Log Viewer</h3>
+            <div id="log-viewer"></div>
+        </div> -->
+        </section>
     </div>
-
-    <div class="details" id="model-details">
-        <!-- Model details will be populated here -->
-    </div>
-
+    <script src="js/mainResults.js"></script>
+    <script src="js/tableByRepo.js"></script>
+    <script src="js/tableByYear.js"></script>
     <script>
-        // Function to get query parameters
-        function getQueryParams() {
-            const params = {};
-            window.location.search.substring(1).split("&").forEach(pair => {
-                const [key, value] = pair.split("=");
-                params[decodeURIComponent(key)] = decodeURIComponent(value);
-            });
-            return params;
-        }
-
-        const params = getQueryParams();
-        const modelId = params['model_id'];
-
-        if (!modelId) {
-            document.getElementById('model-details').innerHTML = '<p>No model selected.</p>';
-        } else {
-            // Fetch the leaderboard data
-            fetch('data/leaderboard.json')
-                .then(response => response.json())
+        function updateReadme(split, model) {
+            const url = `https://raw.githubusercontent.com/swe-bench/experiments/main/evaluation/${split}/${model}/README.md`;
+            fetch(url)
+                .then(response => response.text())
                 .then(data => {
-                    const model = data.find(entry => entry.model_id === modelId);
-                    if (!model) {
-                        document.getElementById('model-details').innerHTML = '<p>Model not found.</p>';
-                        return;
-                    }
-
-                    // Display model details
-                    const detailsDiv = document.getElementById('model-details');
-                    detailsDiv.innerHTML = `
-                    <h2>${model.name}</h2>
-                    <p><strong>Date:</strong> ${model.date}</p>
-                    <p><strong>Split:</strong> ${model.split}</p>
-                    <p><strong>Issues Resolved:</strong> ${model.resolved} / ${model.total} (${model.percentage.toFixed(2)}%)</p>
-                    <p><strong>Verified:</strong> ${model.verified ? 'Yes' : 'No'}</p>
-                    <p><strong>Open Source:</strong> ${model.oss ? `<a href="${model.site}" target="_blank">GitHub Link</a>` : 'Closed'}</p>
-                `;
-
-                    // Load README if available
-                    if (model.oss) {
-                        const readmeUrl = `${model.site.replace('github.com', 'raw.githubusercontent.com')}/main/README.md`;
-                        fetch(readmeUrl)
-                            .then(response => response.text())
-                            .then(readme => {
-                                const readmeDiv = document.createElement('div');
-                                readmeDiv.innerHTML = '<h3>README.md</h3><pre>' + readme + '</pre>';
-                                detailsDiv.appendChild(readmeDiv);
-                            })
-                            .catch(err => {
-                                console.log('README not found.');
-                            });
+                    if (data === '404: Not Found') {
+                        document.getElementById('readme').innerHTML = "README.md not provided."
+                    } else {
+                        document.getElementById('readme').innerHTML = marked.parse(data);
                     }
                 })
                 .catch(error => {
-                    console.error('Error fetching leaderboard data:', error);
+                    document.getElementById('readme').innerHTML = "README.md not provided."
                 });
         }
-    </script>
 
+        document.getElementById('loadData').addEventListener('click', () => {
+            const splitValue = document.getElementById('split-select').value;
+            const modelValue = document.getElementById(`model-select-${splitValue}`).value;
+
+            document.getElementById('selectedSplit').textContent = splitValue;
+            document.getElementById('selectedModel').textContent = modelValue;
+            document.getElementById('selectedSplitNum').textContent = splitValue == 'lite' ? 300 : 'verified' ? 500 : 2294;
+            document.getElementById('modelSplitURL').href = `https://github.com/swe-bench/experiments/tree/main/evaluation/${splitValue}/${modelValue}`;
+
+            updateMainResults(splitValue, modelValue);
+            updateReadme(splitValue, modelValue);
+            updateTableByRepo(splitValue, modelValue);
+            updateTableByYear(splitValue, modelValue);
+        });
+
+        document.getElementById('split-select').addEventListener('change', () => {
+            const splitValue = document.getElementById('split-select').value;
+
+            // Hide all model selects except the selected one
+            for (const leaderboard of document.querySelectorAll('[id^="model-select-"]')) {
+                if (leaderboard.id === `model-select-${splitValue}`) {
+                    leaderboard.removeAttribute('hidden');
+                } else {
+                    leaderboard.setAttribute('hidden', '');
+                }
+            }
+        })
+
+        // Display table for the default values
+        document.addEventListener('DOMContentLoaded', () => {
+            const defaultSplit = 'lite';
+            const defaultModel = '20240402_sweagent_gpt4';
+
+            // Unhide lite model select
+            document.getElementById('model-select-lite').removeAttribute('hidden');
+
+            // Set default values for the select elements
+            document.getElementById('split-select').value = defaultSplit;
+            document.getElementById('model-select-lite').value = defaultModel;
+
+            // Display the default values
+            document.getElementById('selectedSplit').textContent = defaultSplit;
+            document.getElementById('selectedModel').textContent = defaultModel;
+            document.getElementById('selectedSplitNum').textContent = 300;
+            document.getElementById('modelSplitURL').href = `https://github.com/swe-bench/experiments/tree/main/evaluation/${defaultSplit}/${defaultModel}`;
+
+            updateLogViewer("astropy__astropy-14995", defaultSplit, defaultModel);
+            updateMainResults(defaultSplit, defaultModel);
+            updateReadme(defaultSplit, defaultModel);
+            updateTableByRepo(defaultSplit, defaultModel);
+            updateTableByYear(defaultSplit, defaultModel);
+        });
+    </script>
 </body>
 
 </html>

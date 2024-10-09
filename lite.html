@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>SWE-bench</title>
+    <meta
+      name="description"
+      content="SWE-bench: Evaluate Language Models on Open Source Software Tasks"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+    />
+    <meta property="og:image" content="/logo.png" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/fonts.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="..."
+      crossorigin="anonymous"
+    />
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-H9XFCMDPNS"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-H9XFCMDPNS");
+    </script>
+  </head>
+  <body>
+    <div style="padding-bottom: 50px">
+      <section style="background-color: var(--dark_accent_color)">
+        <div
+          class="content-wrapper title-wrapper"
+          style="flex-direction: column;text-align: center;"
+        >
+          <h1 style="font-size: 60px; padding-top: 0.4em">SWE-bench Lite</h1>
+          <h3>A Canonical Subset for Efficient Evaluation of Language Models as Software Engineers</h3>
+          <p style="margin-top:1em;">
+            Carlos E. Jimenez, John Yang, Jiayi Geng<br />
+            March 19, 2024
+          </p>
+          <div class="content-wrapper" style="margin-top: 2em">
+            <a href="index.html">
+              <button class="outline" style="flex-direction: row; display: flex; justify-content: center; align-items: center; width: 9em;">
+                <img src="img/swellama.png" style="height: 1.3em; margin-right: 0.4em; margin-bottom: 0.3em;" />
+                 SWE-bench&nbsp;
+              </button>
+            </a>
+          </div>
+        </div>
+      </section>
+      <section class="main-container">
+        <div class="content-wrapper">
+          <div class="content-box">
+          <p class="text-content">
+              SWE-bench was designed to provide a diverse set of codebase problems that were verifiable using in-repo unit tests. The full SWE-bench test split comprises 2,294 issue-commit pairs across 12 python repositories.
+              <br/>
+              <br/>
+              Since its release, we've found that for most systems evaluating on SWE-bench, running each instance can take a lot of time and compute. We've also found that SWE-bench can be a particularly difficult benchmark, which is useful for evaluating LMs in the long term, but discouraging for systems trying to make progress in the short term.
+              <br/>
+              <br/>
+              To remedy these issues, we've released a canonical subset of SWE-bench called SWE-bench Lite. SWE-bench Lite comprises 300 instances from SWE-bench that have been sampled to be more self-contained, with a focus on evaluating functional bug fixes. SWE-bench Lite covers 11 of the original 12 repositories in SWE-bench, with a similar diversity and distribution of repositories as the original. We perform similar filtering on the SWE-bench dev set to provide 23 development instances that can be useful for active development on the SWE-bench task. We recommend future systems evaluating on SWE-bench to report numbers on SWE-bench Lite in lieu of the full SWE-bench set if necessary. You can find the source code for how SWE-bench Lite was created in <a href="https://github.com/princeton-nlp/SWE-bench/tree/main/swebench/collect/make_lite">SWE-bench/swebench/collect/make_lite</a>.
+              <br/>
+              <br/>
+              Here's a list of the general criteria we used to select SWE-bench Lite instances:
+              <li> We remove instances with images, external hyperlinks, references to specific commit shas and references to other pull requests or issues. </li>
+              <li> We remove instances that have fewer than 40 words in the problem statement. </li>
+              <li> We remove instances that edit more than 1 file. </li>
+              <li> We remove instances where the gold patch has more than 3 edit hunks (see patch). </li>
+              <li> We remove instances that create or remove files. </li>
+              <li> We remove instances that contain tests with error message checks. </li>
+              <li> Finally, we sample 300 test instances and 23 development instances from the remaining instances. </li>
+          </p>
+          <br/>
+          <p class="text-content">
+            You can download SWE-bench Lite and its baselines from Hugging Face Datasets:
+          </p>
+          <br/>
+          <div class="content-wrapper" style="width: 100%">
+            <div class="content-box column">
+              <a
+                style="width: 100%"
+                href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_Lite"
+              >
+                <div class="download">🤗 SWE-bench Lite</div>
+              </a>
+              <a
+                style="width: 100%"
+                href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_Lite_oracle"
+              >
+                <div class="download">
+                  🤗 "Oracle" Retrieval Lite
+                </div>
+              </a>
+            </div>
+            <div class="content-box column">
+              <a
+                style="width: 100%"
+                href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_Lite_bm25_13K"
+              >
+                <div class="download">
+                  🤗 BM25 Retrieval 13K Lite
+                </div>
+              </a>
+              <a
+                style="width: 100%"
+                href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_Lite_bm25_27K"
+              >
+                <div class="download">
+                  🤗 BM25 Retrieval 27K Lite
+                </div>
+              </a>
+            </div>
+          </div>
+          <br/>
+          <img src="img/swebench-lite-pie.png" style="width: 50%; max-width: 400px; margin: auto; display: block;"/>
+          <p class="text-content" style="width: 50%; margin: auto; text-align: center;">
+            SWE-bench Lite distribution across repositories. Compare to the full SWE-bench in Figure 3 of the <a href="https://arxiv.org/abs/2310.06770">SWE-bench paper</a>.
+          </p>
+          </br>
+          <img src="img/swe-bench_lite_results.png" style="width: 50%; max-width: 400px; margin: auto; display: block;"/>
+          <p class="text-content" style="width: 50%; margin: auto; text-align: center;">
+            SWE-bench Lite performance for our baselines. Compare to the full SWE-bench baseline performance in Table 5 of the <a href="https://arxiv.org/abs/2310.06770">SWE-bench paper</a>.
+          </p>
+        </div>
+        </div>
+      </section>
+    </div>
+    <footer class="footer-container">
+      <div class="content-wrapper">
+        <div class="footer-text">
+          <a href="https://princeton-nlp.github.io/">© Princeton NLP 2024</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

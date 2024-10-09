@@ -1,0 +1,27 @@
+@font-face {
+  font-family: 'DM-Sans';
+  font-weight: 400;
+  font-style: normal;
+  src: url('dmsans/static/DMSans-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'DM-Sans';
+  font-weight: 700;
+  font-style: normal;
+  src: url('dmsans/static/DMSans-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'DM-Sans';
+  font-weight: 400;
+  font-style: italic;
+  src: url('dmsans/static/DMSans-Italic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'DM-Sans';
+  font-weight: 700;
+  font-style: italic;
+  src: url('dmsans/static/DMSans-BoldItalic.ttf') format('truetype');
+}

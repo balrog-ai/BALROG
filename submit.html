@@ -3,8 +3,8 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>SWE-bench</title>
-    <meta name="description" content="SWE-bench: Evaluate Language Models on Open Source Software Tasks" />
+    <title>AgentQuest</title>
+    <meta name="description" content="AgentQuest: Evaluate Language Models on Open Source Software Tasks" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     <meta property="og:image" content="/logo.png" />
@@ -46,7 +46,7 @@
     <div style="padding-bottom: 50px">
         <section style="background-color: var(--dark_accent_color)">
             <div class="content-wrapper title-wrapper" style="flex-direction: column;text-align: center;">
-                <h1 style="font-size: 60px; padding-top: 0.4em">Submit to SWE-bench</h1>
+                <h1 style="font-size: 60px; padding-top: 0.4em">Submit to AgentQuest</h1>
                 <div class="content-wrapper" style="margin-top: 2em">
                     <a href="index.html">
                         <button class="outline"
@@ -61,16 +61,12 @@
                             <i class="fa fa-paperclip"></i> Paper&nbsp;
                         </button>
                     </a>
-                    <a href="https://github.com/princeton-nlp/SWE-bench">
+                    <a href="https://github.com/DavidePaglieri/AgentQuest">
                         <button class="outline">
                             <i class="fab fa-github"></i> Code&nbsp;
                         </button>
                     </a>
-                    <a href="viewer.html">
-                        <button class="outline">
-                            <i class="fa fa-chart-simple"></i> Analysis&nbsp;
-                        </button>
-                    </a>
+                    <!-- Removed the Analysis button -->
                 </div>
             </div>
         </section>
@@ -78,48 +74,51 @@
             <div class="content-wrapper" style="display: flex; justify-content: center; align-items: center;">
                 <div
                     style="background-color: black; padding: 1.5em 1em; color: white; border-radius: 1em; text-align: center; width: 80%;">
-                    All official submissions to the SWE-bench leaderboard are maintained at
+                    All official submissions to the AgentQuest leaderboard are maintained at
                     <a href="https://github.com/swe-bench/experiments/" class="light-blue-link" target="_blank"
                         rel="noopener noreferrer">
-                        <i class="fab fa-github"></i> SWE-bench/experiments
+                        <i class="fab fa-github"></i> AgentQuest/experiments
                     </a>
                 </div>
             </div>
             <div class="content-wrapper">
                 <div class="content-box">
                     <h3>
-                        Submit to SWE-bench Leaderboard
+                        Submit to AgentQuest Leaderboard
                     </h3>
                     <p>
                         If you are interested in submitting your model to the <a
-                            href="https://www.swebench.com/">SWE-bench Leaderboard</a>, please do the following:
+                            href="https://www.swebench.com/">AgentQuest Leaderboard</a>, please do the following:
                     </p>
                     <ol>
-                        <li>Fork the <a href="https://github.com/swe-bench/experiments">SWE-bench/experiments</a>
+                        <li>Fork the <a href="https://github.com/swe-bench/experiments">AgentQuest/experiments</a>
                             repository.</li>
                         <li>Clone the repository. Due to this repository's large diff history, consider using `git clone
                             --depth 1` if cloning takes too long.</li>
                         <li>Under the split that you evaluate on (<code>evaluation/lite/</code> or
                             <code>evaluation/test</code>), create a new folder with the submission date and the model
-                            name (e.g. <code>20240415_sweagent_gpt4</code>).</li>
+                            name (e.g. <code>20240415_sweagent_gpt4</code>).
+                        </li>
                         <li>Within the folder, please include the following files:
                             <ul>
                                 <li><code>all_preds.jsonl</code>: Model predictions</li>
-                                <li><code>logs/</code>: SWE-bench evaluation artifacts dump</li>
+                                <li><code>logs/</code>: AgentQuest evaluation artifacts dump</li>
                                 <ul>
                                     <li>Eval. artifacts means 300/2294 (Lite/Test) folders. Each folder (e.g.
-                                        <code>astropy__astropy-1234</code>) contains:</li>
+                                        <code>astropy__astropy-1234</code>) contains:
+                                    </li>
                                     <ul>
                                         <li><code>eval.sh</code>: The evaluation script</li>
                                         <li><code>patch.diff</code>: The model's generated prediction</li>
                                         <li><code>report.json</code>: Summary of evaluation outcomes for this instance
                                         </li>
-                                        <li><code>run_instance.log</code>: A log of SWE-bench evaluation steps</li>
+                                        <li><code>run_instance.log</code>: A log of AgentQuest evaluation steps</li>
                                         <li><code>test_output.txt</code>: An output of running <code>eval.sh</code> on
-                                            <code>patch.diff</code></li>
+                                            <code>patch.diff</code>
+                                        </li>
                                     </ul>
                                     <li><b>NOTE</b>: You shouldn't have to create any of these files. They should
-                                        automatically be generated by SWE-bench evaluation.</li>
+                                        automatically be generated by AgentQuest evaluation.</li>
                                 </ul>
                                 <li><code>metadata.yaml</code>: Metadata for how result is shown on website. Please
                                     include the following fields:</li>
@@ -137,7 +136,8 @@
                                         all of the steps your system took while solving the task. If your system outputs
                                         thoughts or comments during operation, they should be included as well.</li>
                                     <li>The reasoning trace can be represented with any text based file format (e.g.
-                                        <code>md</code>, <code>json</code>, <code>yaml</code>)</li>
+                                        <code>md</code>, <code>json</code>, <code>yaml</code>)
+                                    </li>
                                     <li>Ensure the task instance ID is in the name of the corresponding reasoning trace
                                         file.</li>
                                     <li>For an example, see <a
@@ -151,12 +151,12 @@
                         <li>Run
                             <code>python -m analysis.get_results evaluation/&lt;split&gt;/&lt;date + model&gt;</date></code>
                         </li>
-                        <li>Create a pull request to the SWE-bench/experiments repository with the new folder.</li>
+                        <li>Create a pull request to the AgentQuest/experiments repository with the new folder.</li>
                     </ol>
                     <p>
                         You can refer to this <a
                             href="https://github.com/princeton-nlp/SWE-bench/blob/main/tutorials/evaluation.md">tutorial</a>
-                        for a quick overview of how to evaluate your model on SWE-bench.
+                        for a quick overview of how to evaluate your model on AgentQuest.
                     </p>
                 </div>
             </div>
@@ -166,7 +166,7 @@
                         Submission Guidelines
                     </h3>
                     <p>
-                        Please note that we consider an eligible submission to the SWE-bench [Lite] leaderboard to
+                        Please note that we consider an eligible submission to the AgentQuest [Lite] leaderboard to
                         satisfy these criteria:
                     </p>
                     <ol>
@@ -184,7 +184,7 @@
                 <div class="content-box">
                     <h3>Verify Your Results</h3>
                     <p>
-                        The <i>Verified</i> check ✓ indicates that we (the SWE-bench team) received access to the model
+                        The <i>Verified</i> check ✓ indicates that we (the AgentQuest team) received access to the model
                         and were able to reproduce the patch generations.
                     </p>
                     <p style="margin-top:0.5em;">
@@ -193,8 +193,8 @@
                     </p>
                     <ol>
                         <li>Create an issue</li>
-                        <li>In the issue, provide us instructions on how to run your model on SWE-bench.</li>
-                        <li>We will run your model on a random subset of SWE-bench and verify the results.</li>
+                        <li>In the issue, provide us instructions on how to run your model on AgentQuest.</li>
+                        <li>We will run your model on a random subset of AgentQuest and verify the results.</li>
                     </ol>
                 </div>
             </div>
@@ -202,7 +202,7 @@
                 <div class="content-box" id="reasoning-traces">
                     <h3>Reasoning Traces</h3>
                     <p>
-                        (07/29/2024) We have updated the SWE-bench leaderboard submission criteria to require the
+                        (07/29/2024) We have updated the AgentQuest leaderboard submission criteria to require the
                         inclusion of <i>reasoning traces</i>.
                         The goal of this requirement is to provide the community with more insight into how cutting edge
                         methods work without requiring a code release (although the latter is still highly encouraged!).
@@ -249,16 +249,16 @@
                     </p>
                     <p>
                         As of this post (7/29/2024), we have received many submissions that have pushed the state of the
-                        art on SWE-bench, which is exciting to see!
+                        art on AgentQuest, which is exciting to see!
                     </p>
                     <p>
-                        However, we have also found that the top-performing submissions to SWE-bench typically have not
+                        However, we have also found that the top-performing submissions to AgentQuest typically have not
                         open sourced their code nor been verified.
-                        We recognize that some leaderboard participants (1) would like to add an entry to SWE-bench but
+                        We recognize that some leaderboard participants (1) would like to add an entry to AgentQuest but
                         (2) do not want to release their code or proprietary system, which is completely understandable.
-                        On the other hand, given that open source systems submitted to SWE-bench have propelled the
+                        On the other hand, given that open source systems submitted to AgentQuest have propelled the
                         development of closed-source participants, we would like to continuing promoting development on
-                        SWE-bench as a community-level collaborative process.
+                        AgentQuest as a community-level collaborative process.
                     </p>
                     <p>
                         Therefore, we believe that providing reasoning traces serves as a valuable compromise between
@@ -269,12 +269,12 @@
                         <li>Create a <code>trajs/</code> folder in your submission directory.</li>
                         <li>Within this folder, upload a reasoning trace per task instance that your system generated a
                             prediction for.</li>
-                        <li>Make sure the naming convention of the reasoning trace file reflects the SWE-bench task
+                        <li>Make sure the naming convention of the reasoning trace file reflects the AgentQuest task
                             instance it corresponds to. (e.g. <code>astropy__astropy-1234.md</code>)</li>
                     </ol>
                     <p>
                         We will review the reasoning traces you submit.
-                        We plan to only accept submissions with reasoning traces for the SWE-bench leaderboard.
+                        We plan to only accept submissions with reasoning traces for the AgentQuest leaderboard.
                     </p>
                 </div>
             </div>

@@ -1,0 +1,433 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,700;1,900&display=swap");
+
+:root {
+  --black: #000000;
+  --green: #699f56;
+  --forest: #032f14;
+  --blue: #34566f;
+  --grey: #40434b;
+  --grey2: #d8d8d8;
+  --red: #aa4926;
+  --orange: #ff7040;
+  --lightgreen: #C2D8B9;
+  --darkorange: #d54718;
+  --accent_color: #1697e2;
+  --dark_accent_color: #0ea7ff;
+  --odd_line_color: #ffffff;
+  --even_line_color: #f2f2f2; 
+  --slate_gray: #2F4F4F;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+td,
+tr,
+th,
+table,
+div,
+p {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+body {
+  font-family: "DIN", "DM-Sans", "Lato", sans-serif;
+  font-size: 16px;
+  color: var(--black);
+}
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 0 1em;
+}
+
+.content-box {
+  margin: 1em 0;
+  border: 1px solid var(--grey);
+  border-radius: 7px;
+  padding: 1em;
+  width: 100%;
+  &.content-box.column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+  }
+}
+
+.download {
+  height: 3em;
+  width: 80%;
+  min-width: 80%;
+  color: black;
+  background: transparent;
+  border: black 2px solid;
+  border-radius: 2em;
+  transition: all 0.1s linear;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.5em;
+}
+
+.download:hover {
+  color: var(--accent_color);
+  border-color: var(--accent_color);
+  transition: all 0.1s linear;
+}
+
+.light-blue-link, .light-blue-link:visited {
+  color: var(--accent_color); /* Light blue color */
+  text-decoration: none; /* Optional: Removes underline from links */
+}
+
+.logo-container.left {
+  display: flex;
+}
+
+.logo-container.right {
+  margin-left: auto;
+}
+
+h1.logo,
+.subtitle,
+.logo-button-text {
+  color: var(--accent_color);
+}
+
+h1.logo {
+  margin-top: 0.3em;
+  font-size: 1.66em;
+  font-weight: 700;
+}
+
+.title-wrapper {
+  align-items: center;
+  justify-content: center;
+  padding: 2em 5em;
+  color: white;
+}
+
+.main-container {
+  padding-top: 1em;
+}
+
+h2.text-title {
+  font-size: 1.33em;
+  font-weight: bold;
+  color: var(--black);
+  padding: 0.2em 0;
+  margin-bottom: 0.3em;
+}
+
+
+.text-content {
+  font-size: 0.95em;
+  line-height: 1.6667em;
+  font-weight: 500;
+  text-align: left;
+  padding: 1em 0;
+}
+
+.text-content a {
+  color: var(--blue);
+  text-decoration: underline;
+}
+
+.text-content.centralize-text {
+  text-align: center;
+}
+
+#citation {
+  background-color: var(--grey);
+  border: 2px solid var(--accent_color);
+  padding: 15px;
+  overflow-x: auto;
+  border-radius: 0.5em;
+  margin: 0;
+}
+
+code {
+  font-family: "Courier New", Courier, monospace; /* Monospace font */
+  font-size: 14px;           /* Font size */
+  font-weight: 800;
+  color: #ffffff;
+}
+
+button {
+  cursor: pointer;
+  outline: none;
+    &.outline {
+      font-size: 16pt;
+      height: 2em;
+      width: 7em;
+      position: relative;
+      background: transparent;
+      border: 0px;
+      border-radius: 0.5em;
+      padding: 0em 0em;
+      margin: 0.2em 0.5em;
+      transition: all 0.2s linear;
+      color: var(--accent_color);
+      background-color: white;
+
+      &.multimodal {
+        color: var(--slate_gray);
+      }
+      &.mmteaser {
+        border: 1px;
+        border-radius: 0.5em;
+        background-color: var(--slate_gray);
+        color: white;
+        transition: all 0.3s ease;
+        box-shadow: 0px 4px 10px rgba(0, 123, 255, 0.3);
+      }
+    }
+    &.outline:hover {
+      color: wheat;
+      border-color: wheat;
+      transition: all 0.2s linear;
+    }
+    &.outline.mmteaser:hover {
+      color: var(--slate_gray);
+      background: 
+      radial-gradient(circle at 10% 30%, rgba(255, 99, 71, 1), transparent 40%),
+      radial-gradient(circle at 30% 70%, rgba(0, 255, 127, 1), transparent 40%),
+      radial-gradient(circle at 50% 30%, rgba(70, 130, 180, 1), transparent 40%),
+      radial-gradient(circle at 70% 70%, rgba(255, 165, 0, 1), transparent 40%),
+      radial-gradient(circle at 80% 30%, rgba(138, 43, 226, 1), transparent 40%);
+      transform: scale(1.05);
+    }
+}
+
+/* MARK: Styling for tab-style table  */
+ul.tab {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 2px solid var(--accent_color);
+  border-bottom: 0;
+  background-color: #f1f1f1;
+}
+
+ul.tab li {float: left;}
+ul.tab li button {
+  border: none;
+  color: black;
+  display: inline-block;
+  font-size: 17px;
+  padding: 0.5em 1em;
+  text-align: center;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+ul.tab li a:hover {background-color: #ddd;}
+ul.tab li a:focus, .active {background-color: #ccc;}
+
+.tabcontent {
+  display: none;
+  border-top: none;
+}
+
+/* MARK: Table Styling Code  */
+table,
+td,
+th,
+tr {
+  margin: 0;
+  padding: 0;
+  border-collapse: collapse;
+}
+
+.label-date {
+  font-size: 0.8em;
+  padding: 0.2em 0.6em;
+  color: white;
+  background-color: var(--grey);
+  border-radius: 0.5em;
+  text-align: center;
+}
+
+.content-table tbody td .number {
+  font-weight: bold;
+}
+
+.footer-container {
+  background-color: var(--accent_color);
+  padding: 0.75em 0;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+.footer-text {
+  margin-left: auto;
+  & a {
+    color: white;
+  }
+}
+
+/* ------ RESPONSIVE STYLES ------ */
+
+/* Phone */
+@media (min-width: 450px) {
+  .subtitle {
+    position: relative;
+    top: 2.5em;
+    left: 0.6em;
+  }
+}
+
+/* Tablet */
+@media (min-width: 769px) {
+  .content-wrapper {
+    max-width: 700px;
+    flex-direction: row;
+  }
+  .grid-1-2 {
+    margin-right: 1em;
+    width: 49%;
+  }
+  .grid-1-2:nth-child(2) {
+    margin-left: 1em;
+    margin-right: 0;
+  }
+  .subtitle {
+    font-size: 0.85em;
+    top: 1.5em;
+  }
+
+  .image-content img {
+    width: 350px;
+  }
+}
+
+/* Laptop */
+@media (min-width: 960px) {
+}
+
+/* Desktop */
+
+@media (min-width: 1140px) {
+  .content-wrapper {
+    max-width: 1200px;
+    flex-direction: row;
+  }
+}
+
+.scrollable {
+  /* max-height: 300px; */
+  overflow-y: hidden;
+  overflow-x: auto;
+  display: block;
+  width: 100%;
+  border: 2px solid var(--accent_color);
+  box-sizing: border-box;
+}
+
+.table {
+  table-layout: fixed;
+}
+
+.table th, .table td {
+  padding: 5px 10px;
+}
+
+.table thead {
+  background-color: var(--even_line_color);
+}
+
+.table th {
+  text-align: left;
+  position: sticky;
+  top: 0;
+  background-color: var(--even_line_color);
+}
+
+.table th:first-child {
+  border-top-left-radius: 7px;
+}
+
+.table th:last-child {
+  border-top-right-radius: 7px;
+}
+
+.table tr:nth-child(odd) { 
+  background-color: var(--odd_line_color);
+}
+
+.table tr:nth-child(even) { 
+  background-color: var(--even_line_color);
+}
+
+.table th:not(:first-child), .table td:not(:first-child) {
+  min-width: fit-content;
+  white-space: nowrap;
+}
+
+.table th:first-child, .table td:first-child {
+  width: 100%;
+}
+
+.sticky-header-content {
+  position: sticky;
+  top: 0;
+  padding: 6px 0px; /* Adjusted padding */
+  /* box-sizing: border-box; */
+  background-color: var(--even_line_color);
+  border-bottom: 2px solid var(--accent_color);
+}
+
+.table th:first-child .sticky-header-content {
+  border-top-left-radius: 7px;
+}
+
+.table th:last-child .sticky-header-content {
+  border-top-right-radius: 7px;
+}
+
+/* For Webkit browsers (e.g., Chrome, Safari) */
+.scrollable::-webkit-scrollbar {
+  width: 10px;  /* width of the entire scrollbar */
+}
+
+.scrollable::-webkit-scrollbar-track {
+  background: var(--grey);  /* color of the tracking area */
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  background: var(--accent_color);  /* color of the scroll thumb */
+  border-radius: 3px;  /* roundness of the scroll thumb */
+  border: 2px solid var(--accent_color);  /* creates padding around scroll thumb */
+}
+
+/* For Firefox */
+.scrollable {
+  scrollbar-width: thin;  /* "auto" or "thin" */
+  scrollbar-color: #888 var(--accent_color); /* scroll thumb and track */
+}
+
+#reasoning-traces {
+  p {
+    margin-bottom: 1em;
+  }
+}
