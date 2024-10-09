@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>AgentQuest Leaderboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        /* Basic styles for the leaderboard */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .leaderboard-table th,
+        .leaderboard-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        .leaderboard-table th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+
+        .verified {
+            color: green;
+        }
+
+        .oss {
+            color: blue;
+        }
+
+        .buttons a {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>AgentQuest leaderboard</h1>
+
+    <div class="buttons" style="text-align: center; margin-bottom: 20px;">
+        <a href="index.html"><button>Home</button></a>
+        <a href="https://arxiv.org/abs/2310.06770"><button>Paper</button></a>
+        <a href="https://github.com/your-repo"><button>Code</button></a>
+        <a href="submit.html"><button>Submit</button></a>
+    </div>
+
+    <table class="leaderboard-table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Model Name</th>
+                <th>Split</th>
+                <th>Resolved</th>
+                <th>Total</th>
+                <th>% Resolved</th>
+                <th>Verified</th>
+                <th>Open Source</th>
+            </tr>
+        </thead>
+        <tbody id="leaderboard-body">
+            <!-- Entries will be populated here -->
+        </tbody>
+    </table>
+
+    <script>
+        // Fetch the leaderboard data
+        fetch('data/leaderboard.json')
+            .then(response => response.json())
+            .then(data => {
+                const tbody = document.getElementById('leaderboard-body');
+                data.forEach(entry => {
+                    const tr = document.createElement('tr');
+
+                    // Date
+                    const dateTd = document.createElement('td');
+                    dateTd.textContent = entry.date;
+                    tr.appendChild(dateTd);
+
+                    // Model Name with link to viewer.html
+                    const nameTd = document.createElement('td');
+                    const nameLink = document.createElement('a');
+                    nameLink.href = `viewer.html?model_id=${encodeURIComponent(entry.model_id)}`;
+                    nameLink.textContent = entry.name;
+                    nameTd.appendChild(nameLink);
+                    tr.appendChild(nameTd);
+
+                    // Split
+                    const splitTd = document.createElement('td');
+                    splitTd.textContent = entry.split;
+                    tr.appendChild(splitTd);
+
+                    // Resolved
+                    const resolvedTd = document.createElement('td');
+                    resolvedTd.textContent = entry.resolved;
+                    tr.appendChild(resolvedTd);
+
+                    // Total
+                    const totalTd = document.createElement('td');
+                    totalTd.textContent = entry.total;
+                    tr.appendChild(totalTd);
+
+                    // Percentage Resolved
+                    const percentageTd = document.createElement('td');
+                    percentageTd.textContent = entry.percentage.toFixed(2) + '%';
+                    tr.appendChild(percentageTd);
+
+                    // Verified
+                    const verifiedTd = document.createElement('td');
+                    verifiedTd.innerHTML = entry.verified ? '✓' : '✗';
+                    verifiedTd.className = entry.verified ? 'verified' : '';
+                    tr.appendChild(verifiedTd);
+
+                    // Open Source
+                    const ossTd = document.createElement('td');
+                    if (entry.oss) {
+                        const ossLink = document.createElement('a');
+                        ossLink.href = entry.site;
+                        ossLink.textContent = 'GitHub';
+                        ossLink.target = '_blank';
+                        ossLink.className = 'oss';
+                        ossTd.appendChild(ossLink);
+                    } else {
+                        ossTd.textContent = 'Closed';
+                    }
+                    tr.appendChild(ossTd);
+
+                    tbody.appendChild(tr);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching leaderboard data:', error);
+            });
+    </script>
+
+</body>
+
+</html>

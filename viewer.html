@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>AgentQuest</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        /* Basic styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .details {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .details h2 {
+            text-align: center;
+        }
+
+        .details p {
+            font-size: 1.1em;
+        }
+
+        .buttons a {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Model Details</h1>
+
+    <div class="buttons" style="text-align: center; margin-bottom: 20px;">
+        <a href="index.html"><button>Home</button></a>
+        <a href="https://arxiv.org/abs/2310.06770"><button>Paper</button></a>
+        <a href="https://github.com/your-repo"><button>Code</button></a>
+        <a href="submit.html"><button>Submit</button></a>
+    </div>
+
+    <div class="details" id="model-details">
+        <!-- Model details will be populated here -->
+    </div>
+
+    <script>
+        // Function to get query parameters
+        function getQueryParams() {
+            const params = {};
+            window.location.search.substring(1).split("&").forEach(pair => {
+                const [key, value] = pair.split("=");
+                params[decodeURIComponent(key)] = decodeURIComponent(value);
+            });
+            return params;
+        }
+
+        const params = getQueryParams();
+        const modelId = params['model_id'];
+
+        if (!modelId) {
+            document.getElementById('model-details').innerHTML = '<p>No model selected.</p>';
+        } else {
+            // Fetch the leaderboard data
+            fetch('data/leaderboard.json')
+                .then(response => response.json())
+                .then(data => {
+                    const model = data.find(entry => entry.model_id === modelId);
+                    if (!model) {
+                        document.getElementById('model-details').innerHTML = '<p>Model not found.</p>';
+                        return;
+                    }
+
+                    // Display model details
+                    const detailsDiv = document.getElementById('model-details');
+                    detailsDiv.innerHTML = `
+                    <h2>${model.name}</h2>
+                    <p><strong>Date:</strong> ${model.date}</p>
+                    <p><strong>Split:</strong> ${model.split}</p>
+                    <p><strong>Issues Resolved:</strong> ${model.resolved} / ${model.total} (${model.percentage.toFixed(2)}%)</p>
+                    <p><strong>Verified:</strong> ${model.verified ? 'Yes' : 'No'}</p>
+                    <p><strong>Open Source:</strong> ${model.oss ? `<a href="${model.site}" target="_blank">GitHub Link</a>` : 'Closed'}</p>
+                `;
+
+                    // Load README if available
+                    if (model.oss) {
+                        const readmeUrl = `${model.site.replace('github.com', 'raw.githubusercontent.com')}/main/README.md`;
+                        fetch(readmeUrl)
+                            .then(response => response.text())
+                            .then(readme => {
+                                const readmeDiv = document.createElement('div');
+                                readmeDiv.innerHTML = '<h3>README.md</h3><pre>' + readme + '</pre>';
+                                detailsDiv.appendChild(readmeDiv);
+                            })
+                            .catch(err => {
+                                console.log('README not found.');
+                            });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching leaderboard data:', error);
+                });
+        }
+    </script>
+
+</body>
+
+</html>
