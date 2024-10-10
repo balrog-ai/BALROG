@@ -76,26 +76,33 @@
                 <label for="split-select">Split:</label>
                 <select id="split-select">
                     
-                    <option value="test">Test</option>
-                    <option value="verified">Verified</option>
-                    <option value="lite">Lite</option>
+                    <option value="llm">LLM</option>
+                    <option value="vlm">VLM</option>
                 </select>
                 &nbsp;
                 <label for="model-select">Model:</label>
                 
-                <select id="model-select-test" hidden>
+                <select id="model-select-llm" hidden>
                     
-                    <option value="20240820_honeycomb">(2024-08-20) GPT-4o</option>
+                    <option value="">(2024-08-20) GPT-4o</option>
+                    <option value="">(2024-08-20) GPT-4o-mini</option>
+                    <option value="">(2024-08-20) Gemini-1.5-Pro</option>
+                    <option value="">(2024-08-20) Gemini-1.5-Flash</option>
+                    <option value="">(2024-08-20) Llama-3.1-70B-it</option>
+                    <option value="">(2024-08-20) Llama-3.2-11B-it</option>
+                    <option value="">(2024-08-20) Llama-3.2-90B-it</option>
                 </select>
                 
-                <select id="model-select-verified" hidden>
+                <select id="model-select-vlm" hidden>
                     
-                    <option value="20240824_gru">(2024-08-24) GPT-4o</option>
-                </select>
-                
-                <select id="model-select-lite" hidden>
-                    
-                    <option value="20240702_codestory_aide_mixed">(2024-07-02) CodeStory Aide + Mixed Models</option>
+                    <option value="">(2024-08-20) GPT-4o</option>
+                    <option value="">(2024-08-20) GPT-4o</option>
+                    <option value="">(2024-08-20) GPT-4o-mini</option>
+                    <option value="">(2024-08-20) Gemini-1.5-Pro</option>
+                    <option value="">(2024-08-20) Gemini-1.5-Flash</option>
+                    <option value="">(2024-08-20) Llama-3.1-70B-it</option>
+                    <option value="">(2024-08-20) Llama-3.2-11B-it</option>
+                    <option value="">(2024-08-20) Llama-3.2-90B-it</option>
                 </select>
                 
                 &nbsp;
@@ -105,7 +112,7 @@
                 <div id="displaySelections">
                     Viewing <span style="color:#0ca7ff" id="selectedModel"></span>'s performance
                     on the AgentQuest <span style="color:#0ca7ff" id="selectedSplit"></span> split,
-                    which resolved <span style="color:#0ca7ff" id="selectedResolved"></span>% of
+                    which resolved <span style="color:#0ca7ff" id="selectedProgress"></span>% of
                     <span style="color:#0ca7ff" id="selectedSplitNum"></span> tasks.
                     (<a href="" id="modelSplitURL">Logs</a>)
                 </div>
@@ -116,14 +123,14 @@
                 </div>
             </div>
             <div class="content-wrapper">
-                <h3 style="flex: 0 0 15%;margin: 0;">% Resolved by Task Type</h3>
+                <h3 style="flex: 0 0 15%;margin: 0;">% Progress by Task Type</h3>
                 <table id="table-by-repo" class="table-results">
                     <thead>
                         <tr>
                             <th width="40%">Task Type</th>
-                            <th>Resolved</th>
+                            <th>Progress</th>
                             <th>Total</th>
-                            <th>% Resolved</th>
+                            <th>% Progress</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -131,14 +138,14 @@
             </div>
             <br><br>
             <div class="content-wrapper">
-                <h3 style="flex: 0 0 15%;margin: 0;">% Resolved by Difficulty</h3>
+                <h3 style="flex: 0 0 15%;margin: 0;">% Progress by Difficulty</h3>
                 <table id="table-by-year" class="table-results">
                     <thead>
                         <tr>
                             <th style="width: 40%">Difficulty</th>
-                            <th>Resolved</th>
+                            <th>Progress</th>
                             <th>Total</th>
-                            <th>% Resolved</th>
+                            <th>% Progress</th>
                         </tr>
                     </thead>
                     <tbody></tbody>

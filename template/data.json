@@ -1,50 +1,544 @@
 {
   "leaderboards": [
     {
-      "name": "Test",
+      "name": "LLM",
       "results": [
         {
           "name": "GPT-4o",
-          "folder": "20240820_honeycomb",
-          "resolved": 22.06,
+          "folder": "",
+          "progress": [
+            31.62,
+            1.43
+          ],
+          "babyai": [
+            77.6,
+            3.73
+          ],
+          "crafter": [
+            0,
+            0
+          ],
+          "textworld": [
+            39.31,
+            5.24
+          ],
+          "babaisai": [
+            33.66,
+            3.3
+          ],
+          "minihack": [
+            0,
+            0
+          ],
+          "nle": [
+            0,
+            0
+          ],
           "date": "2024-08-20",
-          "logs": "https://github.com/swe-bench/experiments/tree/main/evaluation/test/20240820_honeycomb/logs",
-          "trajs": "https://github.com/swe-bench/experiments/tree/main/evaluation/test/20240820_honeycomb/trajs",
-          "site": "https://honeycomb.sh/",
-          "verified": false,
-          "oss": false
+          "logs": "",
+          "trajs": "",
+          "site": "",
+          "verified": true,
+          "oss": true
+        },
+        {
+          "name": "GPT-4o-mini",
+          "folder": "",
+          "progress": [
+            0,
+            0
+          ],
+          "babyai": [
+            0,
+            0
+          ],
+          "crafter": [
+            0,
+            0
+          ],
+          "textworld": [
+            0,
+            0
+          ],
+          "babaisai": [
+            0,
+            0
+          ],
+          "minihack": [
+            0,
+            0
+          ],
+          "nle": [
+            0,
+            0
+          ],
+          "date": "2024-08-20",
+          "logs": "",
+          "trajs": "",
+          "site": "",
+          "verified": true,
+          "oss": true
+        },
+        {
+          "name": "Gemini-1.5-Pro",
+          "folder": "",
+          "progress": [
+            0,
+            0
+          ],
+          "babyai": [
+            0,
+            0
+          ],
+          "crafter": [
+            0,
+            0
+          ],
+          "textworld": [
+            0,
+            0
+          ],
+          "babaisai": [
+            0,
+            0
+          ],
+          "minihack": [
+            0,
+            0
+          ],
+          "nle": [
+            0,
+            0
+          ],
+          "date": "2024-08-20",
+          "logs": "",
+          "trajs": "",
+          "site": "",
+          "verified": true,
+          "oss": true
+        },
+        {
+          "name": "Gemini-1.5-Flash",
+          "folder": "",
+          "progress": [
+            0,
+            0
+          ],
+          "babyai": [
+            0,
+            0
+          ],
+          "crafter": [
+            0,
+            0
+          ],
+          "textworld": [
+            0,
+            0
+          ],
+          "babaisai": [
+            0,
+            0
+          ],
+          "minihack": [
+            0,
+            0
+          ],
+          "nle": [
+            0,
+            0
+          ],
+          "date": "2024-08-20",
+          "logs": "",
+          "trajs": "",
+          "site": "",
+          "verified": true,
+          "oss": true
+        },
+        {
+          "name": "Llama-3.1-70B-it",
+          "folder": "",
+          "progress": [
+            0,
+            0
+          ],
+          "babyai": [
+            0,
+            0
+          ],
+          "crafter": [
+            0,
+            0
+          ],
+          "textworld": [
+            0,
+            0
+          ],
+          "babaisai": [
+            0,
+            0
+          ],
+          "minihack": [
+            0,
+            0
+          ],
+          "nle": [
+            0,
+            0
+          ],
+          "date": "2024-08-20",
+          "logs": "",
+          "trajs": "",
+          "site": "",
+          "verified": true,
+          "oss": true
+        },
+        {
+          "name": "Llama-3.2-11B-it",
+          "folder": "",
+          "progress": [
+            0,
+            0
+          ],
+          "babyai": [
+            0,
+            0
+          ],
+          "crafter": [
+            0,
+            0
+          ],
+          "textworld": [
+            0,
+            0
+          ],
+          "babaisai": [
+            0,
+            0
+          ],
+          "minihack": [
+            0,
+            0
+          ],
+          "nle": [
+            0,
+            0
+          ],
+          "date": "2024-08-20",
+          "logs": "",
+          "trajs": "",
+          "site": "",
+          "verified": true,
+          "oss": true
+        },
+        {
+          "name": "Llama-3.2-90B-it",
+          "folder": "",
+          "progress": [
+            0,
+            0
+          ],
+          "babyai": [
+            0,
+            0
+          ],
+          "crafter": [
+            0,
+            0
+          ],
+          "textworld": [
+            0,
+            0
+          ],
+          "babaisai": [
+            0,
+            0
+          ],
+          "minihack": [
+            0,
+            0
+          ],
+          "nle": [
+            0,
+            0
+          ],
+          "date": "2024-08-20",
+          "logs": "",
+          "trajs": "",
+          "site": "",
+          "verified": true,
+          "oss": true
         }
       ]
     },
     {
-      "name": "Verified",
+      "name": "VLM",
       "results": [
         {
           "name": "GPT-4o",
-          "folder": "20240824_gru",
-          "resolved": 45.2,
-          "date": "2024-08-24",
-          "logs": "https://github.com/swe-bench/experiments/tree/main/evaluation/verified/20240824_gru/logs",
-          "trajs": "https://github.com/swe-bench/experiments/tree/main/evaluation/verified/20240824_gru/trajs",
-          "site": "https://gru.ai",
-          "verified": false,
-          "oss": false
-        }
-      ]
-    },
-    {
-      "name": "Lite",
-      "results": [
+          "folder": "",
+          "progress": [
+            31.62,
+            1.43
+          ],
+          "babyai": [
+            77.6,
+            3.73
+          ],
+          "babaisai": [
+            33.66,
+            3.3
+          ],
+          "textworld": [
+            39.31,
+            5.24
+          ],
+          "crafter": [
+            0,
+            0
+          ],
+          "minihack": [
+            0,
+            0
+          ],
+          "nle": [
+            0,
+            0
+          ],
+          "date": "2024-08-20",
+          "logs": "",
+          "trajs": "",
+          "site": "",
+          "verified": true,
+          "oss": true
+        },
         {
-          "name": "CodeStory Aide + Mixed Models",
-          "folder": "20240702_codestory_aide_mixed",
-          "resolved": 43.0,
-          "date": "2024-07-02",
-          "logs": "https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240702_codestory_aide_mixed/logs",
-          "trajs": null,
-          "site": "https://aide.dev/",
-          "verified": false,
-          "oss": false
+          "name": "GPT-4o-mini",
+          "folder": "",
+          "progress": [
+            0,
+            0
+          ],
+          "babyai": [
+            0,
+            0
+          ],
+          "crafter": [
+            0,
+            0
+          ],
+          "textworld": [
+            0,
+            0
+          ],
+          "babaisai": [
+            0,
+            0
+          ],
+          "minihack": [
+            0,
+            0
+          ],
+          "nle": [
+            0,
+            0
+          ],
+          "date": "2024-08-20",
+          "logs": "",
+          "trajs": "",
+          "site": "",
+          "verified": true,
+          "oss": true
+        },
+        {
+          "name": "Gemini-1.5-Pro",
+          "folder": "",
+          "progress": [
+            0,
+            0
+          ],
+          "babyai": [
+            0,
+            0
+          ],
+          "crafter": [
+            0,
+            0
+          ],
+          "textworld": [
+            0,
+            0
+          ],
+          "babaisai": [
+            0,
+            0
+          ],
+          "minihack": [
+            0,
+            0
+          ],
+          "nle": [
+            0,
+            0
+          ],
+          "date": "2024-08-20",
+          "logs": "",
+          "trajs": "",
+          "site": "",
+          "verified": true,
+          "oss": true
+        },
+        {
+          "name": "Gemini-1.5-Flash",
+          "folder": "",
+          "progress": [
+            0,
+            0
+          ],
+          "babyai": [
+            0,
+            0
+          ],
+          "crafter": [
+            0,
+            0
+          ],
+          "textworld": [
+            0,
+            0
+          ],
+          "babaisai": [
+            0,
+            0
+          ],
+          "minihack": [
+            0,
+            0
+          ],
+          "nle": [
+            0,
+            0
+          ],
+          "date": "2024-08-20",
+          "logs": "",
+          "trajs": "",
+          "site": "",
+          "verified": true,
+          "oss": true
+        },
+        {
+          "name": "Llama-3.1-70B-it",
+          "folder": "",
+          "progress": [
+            0,
+            0
+          ],
+          "babyai": [
+            0,
+            0
+          ],
+          "crafter": [
+            0,
+            0
+          ],
+          "textworld": [
+            0,
+            0
+          ],
+          "babaisai": [
+            0,
+            0
+          ],
+          "minihack": [
+            0,
+            0
+          ],
+          "nle": [
+            0,
+            0
+          ],
+          "date": "2024-08-20",
+          "logs": "",
+          "trajs": "",
+          "site": "",
+          "verified": true,
+          "oss": true
+        },
+        {
+          "name": "Llama-3.2-11B-it",
+          "folder": "",
+          "progress": [
+            0,
+            0
+          ],
+          "babyai": [
+            0,
+            0
+          ],
+          "crafter": [
+            0,
+            0
+          ],
+          "textworld": [
+            0,
+            0
+          ],
+          "babaisai": [
+            0,
+            0
+          ],
+          "minihack": [
+            0,
+            0
+          ],
+          "nle": [
+            0,
+            0
+          ],
+          "date": "2024-08-20",
+          "logs": "",
+          "trajs": "",
+          "site": "",
+          "verified": true,
+          "oss": true
+        },
+        {
+          "name": "Llama-3.2-90B-it",
+          "folder": "",
+          "progress": [
+            0,
+            0
+          ],
+          "babyai": [
+            0,
+            0
+          ],
+          "crafter": [
+            0,
+            0
+          ],
+          "textworld": [
+            0,
+            0
+          ],
+          "babaisai": [
+            0,
+            0
+          ],
+          "minihack": [
+            0,
+            0
+          ],
+          "nle": [
+            0,
+            0
+          ],
+          "date": "2024-08-20",
+          "logs": "",
+          "trajs": "",
+          "site": "",
+          "verified": true,
+          "oss": true
         }
       ]
     }

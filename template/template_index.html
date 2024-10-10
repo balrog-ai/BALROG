@@ -15,6 +15,8 @@
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
     integrity="..." crossorigin="anonymous" />
+  <!-- Include sorttable.js for table sorting functionality -->
+  <script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-H9XFCMDPNS"></script>
   <script>
@@ -49,7 +51,7 @@
           Rob Fergus, Jakob Nicolaus Foerster, Jack Parker-Holder, Tim Rocktäschel
         </p>
         <div class="content-wrapper" style="margin-top: 2em">
-          <a href="https://arxiv.org/abs/2310.06770">
+          <a href="https://openreview.net/forum?id=fp6t3F669F">
             <button class="outline">
               <i class="fa fa-paperclip"></i> Paper&nbsp;
             </button>
@@ -90,20 +92,38 @@
         <div class="content-box">
           <h2 class="text-title">Leaderboard</h2>
           <ul class="tab">
-            <li><button id="tab-lite" class="tablinks" data-leaderboard="Lite">Lite</button></li>
-            <li><button id="tab-verified" class="tablinks" data-leaderboard="Verified">Verified</button></li>
-            <li><button id="tab-test" class="tablinks" data-leaderboard="Test">Full</button></li>
+            <li><button id="tab-llm" class="tablinks" data-leaderboard="LLM">LLM</button></li>
+            <li><button id="tab-vlm" class="tablinks" data-leaderboard="VLM">VLM</button></li>
           </ul>
           {% for leaderboard in leaderboards %}
           <div class="tabcontent" style="display: block" id="leaderboard-{{leaderboard.name}}">
-            <table class="table scrollable">
+            <!-- Add 'sortable' class to make the table sortable -->
+            <table class="table scrollable sortable">
               <thead>
                 <tr>
                   <th>
                     <div class="sticky-header-content">Model</div>
                   </th>
                   <th>
-                    <div class="sticky-header-content">% Resolved</div>
+                    <div class="sticky-header-content">% Progress</div>
+                  </th>
+                  <th>
+                    <div class="sticky-header-content">BabyAI</div>
+                  </th>
+                  <th>
+                    <div class="sticky-header-content">Crafter</div>
+                  </th>
+                  <th>
+                    <div class="sticky-header-content">TextWorld</div>
+                  </th>
+                  <th>
+                    <div class="sticky-header-content">BabyAISAI</div>
+                  </th>
+                  <th>
+                    <div class="sticky-header-content">MiniHack</div>
+                  </th>
+                  <th>
+                    <div class="sticky-header-content">NLE</div>
                   </th>
                   <th>
                     <div class="sticky-header-content">Date</div>
@@ -133,10 +153,77 @@
                       {{item.name}}
                     </p>
                   </td>
-                  <td>
-                    <p class="number">{{ "%.2f"|format(item.resolved|float) }}</p>
+                  <td
+                    sorttable_customkey="{% if item.progress is iterable and item.progress is not string %}{{ item.progress[0]|float }}{% else %}{{ item.progress|float }}{% endif %}">
+                    <p class="number">
+                      {% if item.progress is iterable and item.progress is not string %}
+                      {{ "%.2f"|format(item.progress[0]|float) }} ± {{ "%.2f"|format(item.progress[1]|float) }}
+                      {% else %}
+                      {{ "%.2f"|format(item.progress|float) }}
+                      {% endif %}
+                    </p>
                   </td>
-                  <td>
+                  <td
+                    sorttable_customkey="{% if item.babyai is iterable and item.babyai is not string %}{{ item.babyai[0]|float }}{% else %}{{ item.babyai|float }}{% endif %}">
+                    <p class="number">
+                      {% if item.babyai is iterable and item.babyai is not string %}
+                      {{ "%.2f"|format(item.babyai[0]|float) }} ± {{ "%.2f"|format(item.babyai[1]|float) }}
+                      {% else %}
+                      {{ "%.2f"|format(item.babyai|float) }}
+                      {% endif %}
+                    </p>
+                  </td>
+                  <td
+                    sorttable_customkey="{% if item.crafter is iterable and item.crafter is not string %}{{ item.crafter[0]|float }}{% else %}{{ item.crafter|float }}{% endif %}">
+                    <p class="number">
+                      {% if item.crafter is iterable and item.crafter is not string %}
+                      {{ "%.2f"|format(item.crafter[0]|float) }} ± {{ "%.2f"|format(item.crafter[1]|float) }}
+                      {% else %}
+                      {{ "%.2f"|format(item.crafter|float) }}
+                      {% endif %}
+                    </p>
+                  </td>
+                  <td
+                    sorttable_customkey="{% if item.textworld is iterable and item.textworld is not string %}{{ item.textworld[0]|float }}{% else %}{{ item.textworld|float }}{% endif %}">
+                    <p class="number">
+                      {% if item.textworld is iterable and item.textworld is not string %}
+                      {{ "%.2f"|format(item.textworld[0]|float) }} ± {{ "%.2f"|format(item.textworld[1]|float) }}
+                      {% else %}
+                      {{ "%.2f"|format(item.textworld|float) }}
+                      {% endif %}
+                    </p>
+                  </td>
+                  <td
+                    sorttable_customkey="{% if item.babaisai is iterable and item.babaisai is not string %}{{ item.babaisai[0]|float }}{% else %}{{ item.babaisai|float }}{% endif %}">
+                    <p class="number">
+                      {% if item.babaisai is iterable and item.babaisai is not string %}
+                      {{ "%.2f"|format(item.babaisai[0]|float) }} ± {{ "%.2f"|format(item.babaisai[1]|float) }}
+                      {% else %}
+                      {{ "%.2f"|format(item.babaisai|float) }}
+                      {% endif %}
+                    </p>
+                  </td>
+                  <td
+                    sorttable_customkey="{% if item.minihack is iterable and item.minihack is not string %}{{ item.minihack[0]|float }}{% else %}{{ item.minihack|float }}{% endif %}">
+                    <p class="number">
+                      {% if item.minihack is iterable and item.minihack is not string %}
+                      {{ "%.2f"|format(item.minihack[0]|float) }} ± {{ "%.2f"|format(item.minihack[1]|float) }}
+                      {% else %}
+                      {{ "%.2f"|format(item.minihack|float) }}
+                      {% endif %}
+                    </p>
+                  </td>
+                  <td
+                    sorttable_customkey="{% if item.nle is iterable and item.nle is not string %}{{ item.nle[0]|float }}{% else %}{{ item.nle|float }}{% endif %}">
+                    <p class="number">
+                      {% if item.nle is iterable and item.nle is not string %}
+                      {{ "%.2f"|format(item.nle[0]|float) }} ± {{ "%.2f"|format(item.nle[1]|float) }}
+                      {% else %}
+                      {{ "%.2f"|format(item.nle|float) }}
+                      {% endif %}
+                    </p>
+                  </td>
+                  <td sorttable_customkey="{{ item.date }}">
                     <p><span class="label-date">{{item.date}}</span></p>
                   </td>
                   <td>
@@ -167,16 +254,14 @@
           </div>
           {% endfor %}
           <p class="text-content">
-            AgentQuest <b>Lite</b> is a subset of AgentQuest that's been curated to make evaluation less costly and more
-            accessible
+            AgentQuest <b>LLM</b> is the leaderboard for language-only evaluation mode.
             [<a href="lite.html">Post</a>].
             <br>
-            AgentQuest <b>Verified</b> is a human annotator filtered subset that has been deemed to have a ceiling of
-            100% resolution rate
+            AgentQuest <b>VLM</b> is the leaderboard for vision-language evaluation mode.
             [<a href="#">Post</a>].
             <br><br>
-            - The <span style="color:#0ea7ff;"><b>% Resolved</b></span> metric refers to the percentage of AgentQuest
-            instances that were <i>resolved</i> by the model.
+            - The <span style="color:#0ea7ff;"><b>% Progress</b></span> metric refers to the percentage of AgentQuest
+            instances that were <i>progress</i> by the model.
             <br>
             - <span style="color:#0ea7ff;"><b>✅ Checked</b></span> indicates that we, the SWE-bench team, received
             access to the system and
@@ -190,10 +275,6 @@
             <br>
             - If you would like to submit your model to the leaderboard, please check the <a
               href="submit.html">submission</a> page.
-            <br>
-            - All submissions are Pass@1, do not use
-            <code style="color:black;background-color:#ddd;border-radius: 0.25em">hints_text</code>,
-            and are in the unassisted setting.
           </p>
         </div>
       </div>
@@ -220,28 +301,48 @@
           <p style="line-height: 1.6667em;">
             <b>Usage:</b> AgentQuest's website and leaderboard use the template made available by <a
               href="https://princeton-nlp.github.io/SWE-bench/">SWE-bench</a>.
-            If you would like to use this website template for your own leaderboard, please visit SWE-bench, and send
-            Carlos & John an email
-            requesting permission.
+            If you would like to use this template for your own leaderboard, please visit SWE-bench, and send
+            Carlos & John an email requesting permission.
           </p>
           <p class="text-content">
             Correspondence to: <a href="mailto:d.paglieri@cs.ucl.ac.uk">d.paglieri@cs.ucl.ac.uk</a>
           </p>
           <div class="content-wrapper" style="display: flex; flex-direction: row; margin-top: 0.5em;">
-            <a href="https://princeton-nlp.github.io/">
-              <img src="img/princeton_seal.svg" style="height: 3em;padding-top:0.5em;padding-right: 1em" />
+            <a href="https://www.ucl.ac.uk/">
+              <img src="img/UCL.jpg" style="height: 3em;padding-top:0.5em;padding-right: 1em" />
             </a>
-            <a href="https://pli.princeton.edu/">
-              <img src="img/pli_logo.svg" style="height: 3em;padding-top:0.5em;padding-right: 1em" />
+            <a href="https://ideas-ncbr.pl/en/">
+              <img src="img/IDEAS.png" style="height: 3em;padding-top:0.5em;padding-right: 1em" />
             </a>
-            <a href="https://cs.uchicago.edu/">
-              <img src="img/chicago_seal.svg" style="height: 3em;padding-top:0.5em;padding-right: 1em" />
+            <a href="https://www.ox.ac.uk/">
+              <img src="img/oxford.svg" style="height: 3em;padding-top:0.5em;padding-right: 1em" />
+            </a>
+            <a href="https://www.nyu.edu/">
+              <img src="img/NYU.png" style="height: 3em;padding-top:0.5em;padding-right: 1em" />
             </a>
           </div>
         </div>
       </div>
     </section>
   </div>
+  <!-- Include sorttable.js and custom sorting script -->
+  <script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+  <!-- Script to handle custom sorting for numerical columns with uncertainties -->
+  <script>
+    // Ensure sorttable is loaded
+    document.addEventListener('DOMContentLoaded', function () {
+      // Custom sort function for columns with '±' symbol
+      sorttable.DATE_RE = /^(\d{4}-\d{2}-\d{2})$/;
+
+      sorttable.sort_numeric = function (a, b) {
+        var aa = parseFloat(a[0].match(/[\d\.\-]+/));
+        if (isNaN(aa)) aa = 0;
+        var bb = parseFloat(b[0].match(/[\d\.\-]+/));
+        if (isNaN(bb)) bb = 0;
+        return aa - bb;
+      };
+    });
+  </script>
   <script>
     function openLeaderboard(leaderboard) {
       var tabcontent = document.getElementsByClassName("tabcontent");
@@ -266,8 +367,8 @@
         });
       });
 
-      // Open the 'lite' leaderboard by default
-      openLeaderboard('Lite');
+      // Open the 'LLM' leaderboard by default
+      openLeaderboard('LLM');
     });
   </script>
 </body>
