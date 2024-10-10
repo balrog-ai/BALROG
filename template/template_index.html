@@ -107,7 +107,7 @@
                     <div class="sticky-header-content">Model</div>
                   </th>
                   <th>
-                    <div class="sticky-header-content">% Progress</div>
+                    <div class="sticky-header-content">% Average</div>
                   </th>
                   <th>
                     <div class="sticky-header-content">BabyAI</div>
@@ -134,28 +134,33 @@
                   </th>
                 </tr>
               </thead>
+              {% set sorted_results = leaderboard.results|sort(attribute='average', reverse=True) %}
+              {% set ns = namespace(medal_map={}) %}
+              {% for item in sorted_results[:3] %}
+              {% set medal = ["🥇", "🥈", "🥉"][loop.index0] %}
+              {% set _ = ns.medal_map.update({item.name: medal}) %}
+              {% endfor %}
               <tbody>
                 {% for item in leaderboard.results %}
                 <tr>
                   <td>
                     <p class="model-type">
-                      {% if loop.index == 1 %}🥇
-                      {% elif loop.index == 2 %}🥈
-                      {% elif loop.index == 3 %}🥉
+                      {% if item.name in ns.medal_map %}
+                      {{ ns.medal_map[item.name] }}
                       {% endif %}
                       {% if item.oss %}🤠{% endif %}
                       {% if item.verified %}✅{% endif %}
-                      {{item.name}}
+                      {{ item.name }}
                     </p>
                   </td>
                   <!-- Use data-order for sorting -->
                   <td
-                    data-order="{% if item.progress is iterable and item.progress is not string %}{{ item.progress[0]|float }}{% else %}{{ item.progress|float }}{% endif %}">
+                    data-order="{% if item.average is iterable and item.average is not string %}{{ item.average[0]|float }}{% else %}{{ item.average|float }}{% endif %}">
                     <p class="number">
-                      {% if item.progress is iterable and item.progress is not string %}
-                      {{ "%.2f"|format(item.progress[0]|float) }} ± {{ "%.2f"|format(item.progress[1]|float) }}
+                      {% if item.average is iterable and item.average is not string %}
+                      {{ "%.2f"|format(item.average[0]|float) }} ± {{ "%.2f"|format(item.average[1]|float) }}
                       {% else %}
-                      {{ "%.2f"|format(item.progress|float) }}
+                      {{ "%.2f"|format(item.average|float) }}
                       {% endif %}
                     </p>
                   </td>
@@ -324,26 +329,26 @@
         "ordering": true,
         "info": false,
         "searching": false,
-        "order": [], // By default, no initial ordering
+        "order": [[1, "desc"]], // Set default ordering to the Average column in descending order
         "columnDefs": [
           {
             "orderSequence": ["desc", "asc"],
             "targets": [
-              1, // % Progress
+              1, // % Average
               2, // BabyAI
               3, // Crafter
               {% if leaderboard.name != 'VLM' %}
-            4, // TextWorld
-          5, // BabyAISAI
+              4, // TextWorld
+          5, // BabaIsAI
           6, // MiniHack
           7  // NLE
-            {% else %}
-            4, // BabyAISAI
+              {% else %}
+              4, // BabaIsAI
         5, // MiniHack
         6  // NLE
-            {% endif %}
-          ]
-        } // Columns you want to sort
+              {% endif %}
+            ]
+          }
         ]
       });
     {% endfor %}
