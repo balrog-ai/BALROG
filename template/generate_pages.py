@@ -17,8 +17,6 @@ template_viewer = env.get_template("template_viewer.html")
 # Load JSON data
 with open("data.json", "r") as f:
     data = json.load(f)
-with open("multimodal.json", "r") as f:
-    data_mm = json.load(f)
 
 # Render the template with the data
 output_html_index = template_index.render(data)
@@ -29,3 +27,5 @@ with open("../index.html", "w") as f:
     f.write(output_html_index)
 with open("../viewer.html", "w") as f:
     f.write(output_html_viewer)
+
+print("DONE")
