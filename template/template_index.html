@@ -15,8 +15,10 @@
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
     integrity="..." crossorigin="anonymous" />
-  <!-- Include sorttable.js for table sorting functionality -->
-  <script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-H9XFCMDPNS"></script>
   <script>
@@ -97,8 +99,8 @@
           </ul>
           {% for leaderboard in leaderboards %}
           <div class="tabcontent" style="display: block" id="leaderboard-{{leaderboard.name}}">
-            <!-- Add 'sortable' class to make the table sortable -->
-            <table class="table scrollable sortable">
+            <!-- Assign an ID to your table -->
+            <table id="leaderboard-table-{{leaderboard.name}}" class="table scrollable">
               <thead>
                 <tr>
                   <th>
@@ -113,11 +115,13 @@
                   <th>
                     <div class="sticky-header-content">Crafter</div>
                   </th>
+                  {% if leaderboard.name != 'VLM' %}
                   <th>
                     <div class="sticky-header-content">TextWorld</div>
                   </th>
+                  {% endif %}
                   <th>
-                    <div class="sticky-header-content">BabyAISAI</div>
+                    <div class="sticky-header-content">BabaIsAI</div>
                   </th>
                   <th>
                     <div class="sticky-header-content">MiniHack</div>
@@ -127,15 +131,6 @@
                   </th>
                   <th>
                     <div class="sticky-header-content">Date</div>
-                  </th>
-                  <th>
-                    <div class="sticky-header-content">Logs</div>
-                  </th>
-                  <th>
-                    <div class="sticky-header-content">Trajs</div>
-                  </th>
-                  <th>
-                    <div class="sticky-header-content">Site</div>
                   </th>
                 </tr>
               </thead>
@@ -153,8 +148,9 @@
                       {{item.name}}
                     </p>
                   </td>
+                  <!-- Use data-order for sorting -->
                   <td
-                    sorttable_customkey="{% if item.progress is iterable and item.progress is not string %}{{ item.progress[0]|float }}{% else %}{{ item.progress|float }}{% endif %}">
+                    data-order="{% if item.progress is iterable and item.progress is not string %}{{ item.progress[0]|float }}{% else %}{{ item.progress|float }}{% endif %}">
                     <p class="number">
                       {% if item.progress is iterable and item.progress is not string %}
                       {{ "%.2f"|format(item.progress[0]|float) }} ± {{ "%.2f"|format(item.progress[1]|float) }}
@@ -163,8 +159,9 @@
                       {% endif %}
                     </p>
                   </td>
+                  <!-- BabyAI Column -->
                   <td
-                    sorttable_customkey="{% if item.babyai is iterable and item.babyai is not string %}{{ item.babyai[0]|float }}{% else %}{{ item.babyai|float }}{% endif %}">
+                    data-order="{% if item.babyai is iterable and item.babyai is not string %}{{ item.babyai[0]|float }}{% else %}{{ item.babyai|float }}{% endif %}">
                     <p class="number">
                       {% if item.babyai is iterable and item.babyai is not string %}
                       {{ "%.2f"|format(item.babyai[0]|float) }} ± {{ "%.2f"|format(item.babyai[1]|float) }}
@@ -173,8 +170,9 @@
                       {% endif %}
                     </p>
                   </td>
+                  <!-- Crafter Column -->
                   <td
-                    sorttable_customkey="{% if item.crafter is iterable and item.crafter is not string %}{{ item.crafter[0]|float }}{% else %}{{ item.crafter|float }}{% endif %}">
+                    data-order="{% if item.crafter is iterable and item.crafter is not string %}{{ item.crafter[0]|float }}{% else %}{{ item.crafter|float }}{% endif %}">
                     <p class="number">
                       {% if item.crafter is iterable and item.crafter is not string %}
                       {{ "%.2f"|format(item.crafter[0]|float) }} ± {{ "%.2f"|format(item.crafter[1]|float) }}
@@ -183,8 +181,10 @@
                       {% endif %}
                     </p>
                   </td>
+                  <!-- TextWorld Column -->
+                  {% if leaderboard.name != 'VLM' %}
                   <td
-                    sorttable_customkey="{% if item.textworld is iterable and item.textworld is not string %}{{ item.textworld[0]|float }}{% else %}{{ item.textworld|float }}{% endif %}">
+                    data-order="{% if item.textworld is iterable and item.textworld is not string %}{{ item.textworld[0]|float }}{% else %}{{ item.textworld|float }}{% endif %}">
                     <p class="number">
                       {% if item.textworld is iterable and item.textworld is not string %}
                       {{ "%.2f"|format(item.textworld[0]|float) }} ± {{ "%.2f"|format(item.textworld[1]|float) }}
@@ -193,8 +193,10 @@
                       {% endif %}
                     </p>
                   </td>
+                  {% endif %}
+                  <!-- BabaIsAI Column -->
                   <td
-                    sorttable_customkey="{% if item.babaisai is iterable and item.babaisai is not string %}{{ item.babaisai[0]|float }}{% else %}{{ item.babaisai|float }}{% endif %}">
+                    data-order="{% if item.babaisai is iterable and item.babaisai is not string %}{{ item.babaisai[0]|float }}{% else %}{{ item.babaisai|float }}{% endif %}">
                     <p class="number">
                       {% if item.babaisai is iterable and item.babaisai is not string %}
                       {{ "%.2f"|format(item.babaisai[0]|float) }} ± {{ "%.2f"|format(item.babaisai[1]|float) }}
@@ -203,8 +205,9 @@
                       {% endif %}
                     </p>
                   </td>
+                  <!-- MiniHack Column -->
                   <td
-                    sorttable_customkey="{% if item.minihack is iterable and item.minihack is not string %}{{ item.minihack[0]|float }}{% else %}{{ item.minihack|float }}{% endif %}">
+                    data-order="{% if item.minihack is iterable and item.minihack is not string %}{{ item.minihack[0]|float }}{% else %}{{ item.minihack|float }}{% endif %}">
                     <p class="number">
                       {% if item.minihack is iterable and item.minihack is not string %}
                       {{ "%.2f"|format(item.minihack[0]|float) }} ± {{ "%.2f"|format(item.minihack[1]|float) }}
@@ -213,8 +216,9 @@
                       {% endif %}
                     </p>
                   </td>
+                  <!-- NLE Column -->
                   <td
-                    sorttable_customkey="{% if item.nle is iterable and item.nle is not string %}{{ item.nle[0]|float }}{% else %}{{ item.nle|float }}{% endif %}">
+                    data-order="{% if item.nle is iterable and item.nle is not string %}{{ item.nle[0]|float }}{% else %}{{ item.nle|float }}{% endif %}">
                     <p class="number">
                       {% if item.nle is iterable and item.nle is not string %}
                       {{ "%.2f"|format(item.nle[0]|float) }} ± {{ "%.2f"|format(item.nle[1]|float) }}
@@ -223,29 +227,9 @@
                       {% endif %}
                     </p>
                   </td>
-                  <td sorttable_customkey="{{ item.date }}">
+                  <!-- Date Column -->
+                  <td data-order="{{ item.date }}">
                     <p><span class="label-date">{{item.date}}</span></p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                      {% if item.logs %}
-                      <a href="{{item.logs}}">🔗</a>
-                      {% else %} - {% endif %}
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                      {% if item.trajs %}
-                      <a href="{{item.trajs}}">🔗</a>
-                      {% else %} - {% endif %}
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                      {% if item.site %}
-                      <a href="{{item.site}}">🔗</a>
-                      {% else %} - {% endif %}
-                    </p>
                   </td>
                 </tr>
                 {% endfor %}
@@ -301,8 +285,8 @@
           <p style="line-height: 1.6667em;">
             <b>Usage:</b> AgentQuest's website and leaderboard use the template made available by <a
               href="https://princeton-nlp.github.io/SWE-bench/">SWE-bench</a>.
-            If you would like to use this template for your own leaderboard, please visit SWE-bench, and send
-            Carlos & John an email requesting permission.
+            If you would like to use this template for your own leaderboard, please visit their website and request
+            permission
           </p>
           <p class="text-content">
             Correspondence to: <a href="mailto:d.paglieri@cs.ucl.ac.uk">d.paglieri@cs.ucl.ac.uk</a>
@@ -325,22 +309,44 @@
       </div>
     </section>
   </div>
-  <!-- Include sorttable.js and custom sorting script -->
-  <script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
-  <!-- Script to handle custom sorting for numerical columns with uncertainties -->
-  <script>
-    // Ensure sorttable is loaded
-    document.addEventListener('DOMContentLoaded', function () {
-      // Custom sort function for columns with '±' symbol
-      sorttable.DATE_RE = /^(\d{4}-\d{2}-\d{2})$/;
+  <!-- Remove the sorttable.js scripts -->
+  <!-- Include jQuery and DataTables JS -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
-      sorttable.sort_numeric = function (a, b) {
-        var aa = parseFloat(a[0].match(/[\d\.\-]+/));
-        if (isNaN(aa)) aa = 0;
-        var bb = parseFloat(b[0].match(/[\d\.\-]+/));
-        if (isNaN(bb)) bb = 0;
-        return aa - bb;
-      };
+  <!-- Initialize DataTables -->
+  <script>
+    $(document).ready(function () {
+      // Initialize DataTables for each leaderboard table
+      {% for leaderboard in leaderboards %}
+      $('#leaderboard-table-{{leaderboard.name}}').DataTable({
+        "paging": false,
+        "ordering": true,
+        "info": false,
+        "searching": false,
+        "order": [], // By default, no initial ordering
+        "columnDefs": [
+          {
+            "orderSequence": ["desc", "asc"],
+            "targets": [
+              1, // % Progress
+              2, // BabyAI
+              3, // Crafter
+              {% if leaderboard.name != 'VLM' %}
+            4, // TextWorld
+          5, // BabyAISAI
+          6, // MiniHack
+          7  // NLE
+            {% else %}
+            4, // BabyAISAI
+        5, // MiniHack
+        6  // NLE
+            {% endif %}
+          ]
+        } // Columns you want to sort
+        ]
+      });
+    {% endfor %}
     });
   </script>
   <script>

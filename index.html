@@ -15,8 +15,10 @@
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
     integrity="..." crossorigin="anonymous" />
-  <!-- Include sorttable.js for table sorting functionality -->
-  <script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-H9XFCMDPNS"></script>
   <script>
@@ -97,8 +99,8 @@
           </ul>
           
           <div class="tabcontent" style="display: block" id="leaderboard-LLM">
-            <!-- Add 'sortable' class to make the table sortable -->
-            <table class="table scrollable sortable">
+            <!-- Assign an ID to your table -->
+            <table id="leaderboard-table-LLM" class="table scrollable">
               <thead>
                 <tr>
                   <th>
@@ -113,11 +115,13 @@
                   <th>
                     <div class="sticky-header-content">Crafter</div>
                   </th>
+                  
                   <th>
                     <div class="sticky-header-content">TextWorld</div>
                   </th>
+                  
                   <th>
-                    <div class="sticky-header-content">BabyAISAI</div>
+                    <div class="sticky-header-content">BabaIsAI</div>
                   </th>
                   <th>
                     <div class="sticky-header-content">MiniHack</div>
@@ -127,15 +131,6 @@
                   </th>
                   <th>
                     <div class="sticky-header-content">Date</div>
-                  </th>
-                  <th>
-                    <div class="sticky-header-content">Logs</div>
-                  </th>
-                  <th>
-                    <div class="sticky-header-content">Trajs</div>
-                  </th>
-                  <th>
-                    <div class="sticky-header-content">Site</div>
                   </th>
                 </tr>
               </thead>
@@ -151,79 +146,74 @@
                       GPT-4o
                     </p>
                   </td>
+                  <!-- Use data-order for sorting -->
                   <td
-                    sorttable_customkey="31.62">
+                    data-order="31.62">
                     <p class="number">
                       
                       31.62 ± 1.43
                       
                     </p>
                   </td>
+                  <!-- BabyAI Column -->
                   <td
-                    sorttable_customkey="77.6">
+                    data-order="77.6">
                     <p class="number">
                       
                       77.60 ± 3.73
                       
                     </p>
                   </td>
+                  <!-- Crafter Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- TextWorld Column -->
+                  
                   <td
-                    sorttable_customkey="39.31">
+                    data-order="39.31">
                     <p class="number">
                       
                       39.31 ± 5.24
                       
                     </p>
                   </td>
+                  
+                  <!-- BabaIsAI Column -->
                   <td
-                    sorttable_customkey="33.66">
+                    data-order="33.66">
                     <p class="number">
                       
                       33.66 ± 3.30
                       
                     </p>
                   </td>
+                  <!-- MiniHack Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- NLE Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
-                  <td sorttable_customkey="2024-08-20">
+                  <!-- Date Column -->
+                  <td data-order="2024-08-20">
                     <p><span class="label-date">2024-08-20</span></p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
                   </td>
                 </tr>
                 
@@ -237,79 +227,74 @@
                       GPT-4o-mini
                     </p>
                   </td>
+                  <!-- Use data-order for sorting -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- BabyAI Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- Crafter Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- TextWorld Column -->
+                  
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  
+                  <!-- BabaIsAI Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- MiniHack Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- NLE Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
-                  <td sorttable_customkey="2024-08-20">
+                  <!-- Date Column -->
+                  <td data-order="2024-08-20">
                     <p><span class="label-date">2024-08-20</span></p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
                   </td>
                 </tr>
                 
@@ -323,79 +308,74 @@
                       Gemini-1.5-Pro
                     </p>
                   </td>
+                  <!-- Use data-order for sorting -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- BabyAI Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- Crafter Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- TextWorld Column -->
+                  
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  
+                  <!-- BabaIsAI Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- MiniHack Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- NLE Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
-                  <td sorttable_customkey="2024-08-20">
+                  <!-- Date Column -->
+                  <td data-order="2024-08-20">
                     <p><span class="label-date">2024-08-20</span></p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
                   </td>
                 </tr>
                 
@@ -408,79 +388,74 @@
                       Gemini-1.5-Flash
                     </p>
                   </td>
+                  <!-- Use data-order for sorting -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- BabyAI Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- Crafter Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- TextWorld Column -->
+                  
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  
+                  <!-- BabaIsAI Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- MiniHack Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- NLE Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
-                  <td sorttable_customkey="2024-08-20">
+                  <!-- Date Column -->
+                  <td data-order="2024-08-20">
                     <p><span class="label-date">2024-08-20</span></p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
                   </td>
                 </tr>
                 
@@ -493,79 +468,74 @@
                       Llama-3.1-70B-it
                     </p>
                   </td>
+                  <!-- Use data-order for sorting -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- BabyAI Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- Crafter Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- TextWorld Column -->
+                  
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  
+                  <!-- BabaIsAI Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- MiniHack Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- NLE Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
-                  <td sorttable_customkey="2024-08-20">
+                  <!-- Date Column -->
+                  <td data-order="2024-08-20">
                     <p><span class="label-date">2024-08-20</span></p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
                   </td>
                 </tr>
                 
@@ -578,79 +548,74 @@
                       Llama-3.2-11B-it
                     </p>
                   </td>
+                  <!-- Use data-order for sorting -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- BabyAI Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- Crafter Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- TextWorld Column -->
+                  
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  
+                  <!-- BabaIsAI Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- MiniHack Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- NLE Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
-                  <td sorttable_customkey="2024-08-20">
+                  <!-- Date Column -->
+                  <td data-order="2024-08-20">
                     <p><span class="label-date">2024-08-20</span></p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
                   </td>
                 </tr>
                 
@@ -663,79 +628,74 @@
                       Llama-3.2-90B-it
                     </p>
                   </td>
+                  <!-- Use data-order for sorting -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- BabyAI Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- Crafter Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- TextWorld Column -->
+                  
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  
+                  <!-- BabaIsAI Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- MiniHack Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- NLE Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
-                  <td sorttable_customkey="2024-08-20">
+                  <!-- Date Column -->
+                  <td data-order="2024-08-20">
                     <p><span class="label-date">2024-08-20</span></p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
                   </td>
                 </tr>
                 
@@ -744,8 +704,8 @@
           </div>
           
           <div class="tabcontent" style="display: block" id="leaderboard-VLM">
-            <!-- Add 'sortable' class to make the table sortable -->
-            <table class="table scrollable sortable">
+            <!-- Assign an ID to your table -->
+            <table id="leaderboard-table-VLM" class="table scrollable">
               <thead>
                 <tr>
                   <th>
@@ -760,11 +720,9 @@
                   <th>
                     <div class="sticky-header-content">Crafter</div>
                   </th>
+                  
                   <th>
-                    <div class="sticky-header-content">TextWorld</div>
-                  </th>
-                  <th>
-                    <div class="sticky-header-content">BabyAISAI</div>
+                    <div class="sticky-header-content">BabaIsAI</div>
                   </th>
                   <th>
                     <div class="sticky-header-content">MiniHack</div>
@@ -774,15 +732,6 @@
                   </th>
                   <th>
                     <div class="sticky-header-content">Date</div>
-                  </th>
-                  <th>
-                    <div class="sticky-header-content">Logs</div>
-                  </th>
-                  <th>
-                    <div class="sticky-header-content">Trajs</div>
-                  </th>
-                  <th>
-                    <div class="sticky-header-content">Site</div>
                   </th>
                 </tr>
               </thead>
@@ -798,79 +747,65 @@
                       GPT-4o
                     </p>
                   </td>
+                  <!-- Use data-order for sorting -->
                   <td
-                    sorttable_customkey="31.62">
+                    data-order="31.62">
                     <p class="number">
                       
-                      31.62
+                      31.62 ± 1.43
                       
                     </p>
                   </td>
+                  <!-- BabyAI Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="77.6">
                     <p class="number">
                       
-                      0.00
+                      77.60 ± 3.73
                       
                     </p>
                   </td>
+                  <!-- Crafter Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
-                      0.00
+                      0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- TextWorld Column -->
+                  
+                  <!-- BabaIsAI Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="33.66">
                     <p class="number">
                       
-                      0.00
+                      33.66 ± 3.30
                       
                     </p>
                   </td>
+                  <!-- MiniHack Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
-                      0.00
+                      0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- NLE Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
-                      0.00
+                      0.00 ± 0.00
                       
                     </p>
                   </td>
-                  <td
-                    sorttable_customkey="0.0">
-                    <p class="number">
-                      
-                      0.00
-                      
-                    </p>
-                  </td>
-                  <td sorttable_customkey="2024-08-20">
+                  <!-- Date Column -->
+                  <td data-order="2024-08-20">
                     <p><span class="label-date">2024-08-20</span></p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
                   </td>
                 </tr>
                 
@@ -881,82 +816,68 @@
                       
                       🤠
                       ✅
-                      GPT-4o
+                      GPT-4o-mini
                     </p>
                   </td>
+                  <!-- Use data-order for sorting -->
                   <td
-                    sorttable_customkey="31.62">
-                    <p class="number">
-                      
-                      31.62 ± 1.43
-                      
-                    </p>
-                  </td>
-                  <td
-                    sorttable_customkey="77.6">
-                    <p class="number">
-                      
-                      77.60 ± 3.73
-                      
-                    </p>
-                  </td>
-                  <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- BabyAI Column -->
                   <td
-                    sorttable_customkey="39.31">
-                    <p class="number">
-                      
-                      39.31 ± 5.24
-                      
-                    </p>
-                  </td>
-                  <td
-                    sorttable_customkey="33.66">
-                    <p class="number">
-                      
-                      33.66 ± 3.30
-                      
-                    </p>
-                  </td>
-                  <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- Crafter Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
-                  <td sorttable_customkey="2024-08-20">
+                  <!-- TextWorld Column -->
+                  
+                  <!-- BabaIsAI Column -->
+                  <td
+                    data-order="0.0">
+                    <p class="number">
+                      
+                      0.00 ± 0.00
+                      
+                    </p>
+                  </td>
+                  <!-- MiniHack Column -->
+                  <td
+                    data-order="0.0">
+                    <p class="number">
+                      
+                      0.00 ± 0.00
+                      
+                    </p>
+                  </td>
+                  <!-- NLE Column -->
+                  <td
+                    data-order="0.0">
+                    <p class="number">
+                      
+                      0.00 ± 0.00
+                      
+                    </p>
+                  </td>
+                  <!-- Date Column -->
+                  <td data-order="2024-08-20">
                     <p><span class="label-date">2024-08-20</span></p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
                   </td>
                 </tr>
                 
@@ -967,167 +888,68 @@
                       
                       🤠
                       ✅
-                      GPT-4o-mini
-                    </p>
-                  </td>
-                  <td
-                    sorttable_customkey="0.0">
-                    <p class="number">
-                      
-                      0.00 ± 0.00
-                      
-                    </p>
-                  </td>
-                  <td
-                    sorttable_customkey="0.0">
-                    <p class="number">
-                      
-                      0.00 ± 0.00
-                      
-                    </p>
-                  </td>
-                  <td
-                    sorttable_customkey="0.0">
-                    <p class="number">
-                      
-                      0.00 ± 0.00
-                      
-                    </p>
-                  </td>
-                  <td
-                    sorttable_customkey="0.0">
-                    <p class="number">
-                      
-                      0.00 ± 0.00
-                      
-                    </p>
-                  </td>
-                  <td
-                    sorttable_customkey="0.0">
-                    <p class="number">
-                      
-                      0.00 ± 0.00
-                      
-                    </p>
-                  </td>
-                  <td
-                    sorttable_customkey="0.0">
-                    <p class="number">
-                      
-                      0.00 ± 0.00
-                      
-                    </p>
-                  </td>
-                  <td
-                    sorttable_customkey="0.0">
-                    <p class="number">
-                      
-                      0.00 ± 0.00
-                      
-                    </p>
-                  </td>
-                  <td sorttable_customkey="2024-08-20">
-                    <p><span class="label-date">2024-08-20</span></p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                </tr>
-                
-                <tr>
-                  <td>
-                    <p class="model-type">
-                      
-                      🤠
-                      ✅
                       Gemini-1.5-Pro
                     </p>
                   </td>
+                  <!-- Use data-order for sorting -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- BabyAI Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- Crafter Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- TextWorld Column -->
+                  
+                  <!-- BabaIsAI Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- MiniHack Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- NLE Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
-                  <td
-                    sorttable_customkey="0.0">
-                    <p class="number">
-                      
-                      0.00 ± 0.00
-                      
-                    </p>
-                  </td>
-                  <td sorttable_customkey="2024-08-20">
+                  <!-- Date Column -->
+                  <td data-order="2024-08-20">
                     <p><span class="label-date">2024-08-20</span></p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
                   </td>
                 </tr>
                 
@@ -1140,79 +962,65 @@
                       Gemini-1.5-Flash
                     </p>
                   </td>
+                  <!-- Use data-order for sorting -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- BabyAI Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- Crafter Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- TextWorld Column -->
+                  
+                  <!-- BabaIsAI Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- MiniHack Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- NLE Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
-                  <td
-                    sorttable_customkey="0.0">
-                    <p class="number">
-                      
-                      0.00 ± 0.00
-                      
-                    </p>
-                  </td>
-                  <td sorttable_customkey="2024-08-20">
+                  <!-- Date Column -->
+                  <td data-order="2024-08-20">
                     <p><span class="label-date">2024-08-20</span></p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
                   </td>
                 </tr>
                 
@@ -1225,79 +1033,65 @@
                       Llama-3.1-70B-it
                     </p>
                   </td>
+                  <!-- Use data-order for sorting -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- BabyAI Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- Crafter Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- TextWorld Column -->
+                  
+                  <!-- BabaIsAI Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- MiniHack Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- NLE Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
-                  <td
-                    sorttable_customkey="0.0">
-                    <p class="number">
-                      
-                      0.00 ± 0.00
-                      
-                    </p>
-                  </td>
-                  <td sorttable_customkey="2024-08-20">
+                  <!-- Date Column -->
+                  <td data-order="2024-08-20">
                     <p><span class="label-date">2024-08-20</span></p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
                   </td>
                 </tr>
                 
@@ -1310,79 +1104,65 @@
                       Llama-3.2-11B-it
                     </p>
                   </td>
+                  <!-- Use data-order for sorting -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- BabyAI Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- Crafter Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- TextWorld Column -->
+                  
+                  <!-- BabaIsAI Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- MiniHack Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- NLE Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
-                  <td
-                    sorttable_customkey="0.0">
-                    <p class="number">
-                      
-                      0.00 ± 0.00
-                      
-                    </p>
-                  </td>
-                  <td sorttable_customkey="2024-08-20">
+                  <!-- Date Column -->
+                  <td data-order="2024-08-20">
                     <p><span class="label-date">2024-08-20</span></p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
                   </td>
                 </tr>
                 
@@ -1395,79 +1175,65 @@
                       Llama-3.2-90B-it
                     </p>
                   </td>
+                  <!-- Use data-order for sorting -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- BabyAI Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- Crafter Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- TextWorld Column -->
+                  
+                  <!-- BabaIsAI Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- MiniHack Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
+                  <!-- NLE Column -->
                   <td
-                    sorttable_customkey="0.0">
+                    data-order="0.0">
                     <p class="number">
                       
                       0.00 ± 0.00
                       
                     </p>
                   </td>
-                  <td
-                    sorttable_customkey="0.0">
-                    <p class="number">
-                      
-                      0.00 ± 0.00
-                      
-                    </p>
-                  </td>
-                  <td sorttable_customkey="2024-08-20">
+                  <!-- Date Column -->
+                  <td data-order="2024-08-20">
                     <p><span class="label-date">2024-08-20</span></p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
-                  </td>
-                  <td>
-                    <p style="text-align: center;">
-                       - 
-                    </p>
                   </td>
                 </tr>
                 
@@ -1523,8 +1289,8 @@
           <p style="line-height: 1.6667em;">
             <b>Usage:</b> AgentQuest's website and leaderboard use the template made available by <a
               href="https://princeton-nlp.github.io/SWE-bench/">SWE-bench</a>.
-            If you would like to use this template for your own leaderboard, please visit SWE-bench, and send
-            Carlos & John an email requesting permission.
+            If you would like to use this template for your own leaderboard, please visit their website and request
+            permission
           </p>
           <p class="text-content">
             Correspondence to: <a href="mailto:d.paglieri@cs.ucl.ac.uk">d.paglieri@cs.ucl.ac.uk</a>
@@ -1547,22 +1313,63 @@
       </div>
     </section>
   </div>
-  <!-- Include sorttable.js and custom sorting script -->
-  <script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
-  <!-- Script to handle custom sorting for numerical columns with uncertainties -->
-  <script>
-    // Ensure sorttable is loaded
-    document.addEventListener('DOMContentLoaded', function () {
-      // Custom sort function for columns with '±' symbol
-      sorttable.DATE_RE = /^(\d{4}-\d{2}-\d{2})$/;
+  <!-- Remove the sorttable.js scripts -->
+  <!-- Include jQuery and DataTables JS -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
-      sorttable.sort_numeric = function (a, b) {
-        var aa = parseFloat(a[0].match(/[\d\.\-]+/));
-        if (isNaN(aa)) aa = 0;
-        var bb = parseFloat(b[0].match(/[\d\.\-]+/));
-        if (isNaN(bb)) bb = 0;
-        return aa - bb;
-      };
+  <!-- Initialize DataTables -->
+  <script>
+    $(document).ready(function () {
+      // Initialize DataTables for each leaderboard table
+      
+      $('#leaderboard-table-LLM').DataTable({
+        "paging": false,
+        "ordering": true,
+        "info": false,
+        "searching": false,
+        "order": [], // By default, no initial ordering
+        "columnDefs": [
+          {
+            "orderSequence": ["desc", "asc"],
+            "targets": [
+              1, // % Progress
+              2, // BabyAI
+              3, // Crafter
+              
+            4, // TextWorld
+          5, // BabyAISAI
+          6, // MiniHack
+          7  // NLE
+            
+          ]
+        } // Columns you want to sort
+        ]
+      });
+    
+      $('#leaderboard-table-VLM').DataTable({
+        "paging": false,
+        "ordering": true,
+        "info": false,
+        "searching": false,
+        "order": [], // By default, no initial ordering
+        "columnDefs": [
+          {
+            "orderSequence": ["desc", "asc"],
+            "targets": [
+              1, // % Progress
+              2, // BabyAI
+              3, // Crafter
+              
+            4, // BabyAISAI
+        5, // MiniHack
+        6  // NLE
+            
+          ]
+        } // Columns you want to sort
+        ]
+      });
+    
     });
   </script>
   <script>
