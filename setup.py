@@ -13,12 +13,9 @@ with open("README.md", "r") as f:
 
 
 _docs_deps = [
-    "mkdocs-material",
-    "mkdocs-minify-plugin",
-    "mkdocs-redirects",
-    "mkdocs-git-revision-date-localized-plugin",
-    "mkdocs-git-committers-plugin-2",
-    "mkdocs-git-authors-plugin",
+    "sphinx",
+    "sphinx-rtd-theme",
+    "myst-parser",
 ]
 
 setup(
