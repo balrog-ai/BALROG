@@ -11,8 +11,8 @@
   --orange: #ff7040;
   --lightgreen: #C2D8B9;
   --darkorange: #d54718;
-  --accent_color: #B204F4;
-  --dark_accent_color: #8904F4;
+  --accent_color: #e91518;
+  --dark_accent_color: #0454f4;
   --odd_line_color: #ffffff;
   --even_line_color: #f2f2f2;
   --slate_gray: #2F4F4F;
@@ -58,7 +58,7 @@ body {
   /* margin: auto; */
   max-width: 1200px;
   border: 1px solid var(--grey);
-  border-radius: 7px;
+  border-radius: 0px;
   padding: 1em;
   width: 100%;
 
@@ -234,8 +234,8 @@ ul.tab {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  border: 2px solid var(--accent_color);
   border-bottom: 0;
+  border-radius: 3px;
   background-color: #f1f1f1;
 }
 
@@ -252,6 +252,7 @@ ul.tab li button {
   text-align: center;
   text-decoration: none;
   transition: 0.3s;
+  border-radius: 0 0 3px 3px;
 }
 
 ul.tab li a:hover {
@@ -275,6 +276,7 @@ th,
 tr {
   margin: 0;
   padding: 0;
+  border-radius: 0 0 3px 3px;
   border-collapse: collapse;
 }
 
@@ -282,7 +284,7 @@ tr {
   font-size: 0.8em;
   padding: 0.2em 0.6em;
   color: white;
-  background-color: var(--grey);
+  background-color: var(--dark_accent_color);
   border-radius: 0.5em;
   text-align: center;
 }
@@ -364,7 +366,6 @@ tr {
   overflow-x: auto;
   display: block;
   width: 100%;
-  border: 2px solid var(--accent_color);
   box-sizing: border-box;
 }
 
