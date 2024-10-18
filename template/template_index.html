@@ -3,8 +3,8 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>AgentQuest</title>
-  <meta name="description" content="AgentQuest: Benchmarking LLM and VLM Agents on Long-Horizon Interactive Tasks" />
+  <title>AgentOdyssey</title>
+  <meta name="description" content="AgentOdyssey: Benchmarking LLM and VLM Agents on Long-Horizon Interactive Tasks" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <meta property="og:image" content="img/logo.png" />
@@ -42,8 +42,8 @@
               align-items: center;
               padding-bottom: 15px;
             ">
-          <h1 style="font-size: 60px; padding-top: 0.4em">AgentQuest</h1>
-          <img src="img/logo.png" style="height: 100px; padding-top: 0em; padding-left: 0.5em" />
+          <h1 style="font-size: 60px; padding-top: 0.4em">AgentOdyssey</h1>
+          <img src="img/ship_2_logo.png" style="height: 100px; padding-top: 0em; padding-left: 0.5em" />
         </div>
         <h3>Benchmarking LLM and VLM Agents on Long-Horizon Interactive Tasks</h3>
         <!-- <h3 style="font-size: 20px; padding-top: 1.2em">ICLR 2024</h3> -->
@@ -58,7 +58,7 @@
               <i class="fa fa-paperclip"></i> Paper&nbsp;
             </button>
           </a>
-          <a href="https://github.com/DavidePaglieri/AgentQuest">
+          <a href="https://github.com/DavidePaglieri/AgentOdyssey">
             <button class="outline">
               <i class="fab fa-github"></i> Code&nbsp;
             </button>
@@ -84,8 +84,8 @@
         <div class="content-box">
           <h2 class="text-title">News</h2>
           <p style="margin-bottom: 0.5em">
-            📣 [11/2024] Introducing <b>AgentQuest</b>
-            [<a style="color:#0ca7ff" href="">TODO</a>]
+            📣 [11/2024] Introducing <b>AgentOdyssey</b>
+            [<a style="color:rgb(242, 182, 98)" href="">TODO</a>]
           </p>
           </p>
         </div>
@@ -148,8 +148,8 @@
                       {% if item.name in ns.medal_map %}
                       {{ ns.medal_map[item.name] }}
                       {% endif %}
-                      {% if item.oss %}🤠{% endif %}
-                      {% if item.verified %}✅{% endif %}
+                      {% if item.oss %}🕹️{% endif %}
+                      {% if item.verified %}✔️{% endif %}
                       {{ item.name }}
                     </p>
                   </td>
@@ -243,21 +243,24 @@
           </div>
           {% endfor %}
           <p class="text-content">
-            <!-- AgentQuest <b>LLM</b> is the leaderboard for language-only evaluation mode.
+            <!-- AgentOdyssey <b>LLM</b> is the leaderboard for language-only evaluation mode.
             [<a href="lite.html">Post</a>].
             <br> -->
-            <!-- AgentQuest <b>VLM</b> is the leaderboard for vision-language evaluation mode.
+            <!-- AgentOdyssey <b>VLM</b> is the leaderboard for vision-language evaluation mode.
             [<a href="#">Post</a>].
-            <br><br> -->
-            - The <span style="color:#0ea7ff;"><b>% Progress</b></span> metric refers to the average completion
-            percentage of AgentQuest
+            <✔️br><br> -->
+            - The <span style="color:rgb(242, 182, 98);"><b>% Progress</b></span> metric refers to the average
+            completion
+            percentage of AgentOdyssey
             environments of the model.
             <br>
-            - <span style="color:#0ea7ff;"><b>✅ Checked</b></span> indicates that we, the AgentQuest team, received
+            - <span style="color:rgb(242, 182, 98);"><b>✔️ Checked</b></span> indicates that we, the AgentOdyssey team,
+            received
             access to the system and
             were able to reproduce the patch generations.
             <br>
-            - <span style="color:#0ea7ff;"><b>🤠 Open</b></span> refers to submissions that have open-source code. This
+            - 🕹️ <span style="color:rgb(242, 182, 98);"><b> Open</b></span> refers to submissions that have open-source
+            code. This
             does <i>not</i>
             necessarily mean the underlying model is open-source.
             <br>
@@ -273,7 +276,7 @@
           <h2 class="text-title">About</h2>
           <img src="img/diagram_v14.png" style="width:80%;margin:auto;display:block;" />
           <p class="text-content">
-            AgentQuest is a benchmark designed to evaluate the agentic capabilities of large language and
+            AgentOdyssey is a benchmark designed to evaluate the agentic capabilities of large language and
             vision-language models (LLMs and VLMs) on long-horizon tasks, testing their ability to plan, reason
             spatially, and explore in dynamic environments. Our benchmark reveals that while current models show some
             success on simpler tasks, they struggle with more complex, procedurally generated environments like NetHack,
@@ -283,18 +286,18 @@
           </p class="text-content">
           <h3 class="text-title" style="margin-bottom:0.5em">Citation</h3>
           <pre id="citation"><code>@inproceedings{
-    author2024agentquest,
-    title={AgentQuest: Benchmarking LLM and VLM Agents on Long-Horizon Interactive Tasks},
+    author2024AgentOdyssey,
+    title={AgentOdyssey: Benchmarking LLM and VLM Agents on Long-Horizon Interactive Tasks},
     author={Davide Paglieri*, Bartłomiej Cupiał*, Samuel Coward, Ulyana Piterbarg, 
       Maciej Wolczyk, Akbir Khan, Eduardo Pignatelli, Łukasz Kuciński, Lerrel Pinto, 
       Rob Fergus, Jakob Nicolaus Foerster, Jack Parker-Holder, Tim Rocktäschel},
     booktitle={pre-print},
     year={2024},
-    url={https://example.com/agentquest}
+    url={https://example.com/AgentOdyssey}
 }</code></pre>
           <p class="text-content" style="margin-bottom: 0;">
           <p style="line-height: 1.6667em;">
-            <b>Usage:</b> AgentQuest's website and leaderboard use the template made available by <a
+            <b>Usage:</b> AgentOdyssey's website and leaderboard use the template made available by <a
               href="https://princeton-nlp.github.io/SWE-bench/">SWE-bench</a>.
             If you would like to use this template for your own leaderboard, please visit their website and request
             permission
