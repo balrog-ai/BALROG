@@ -13,7 +13,7 @@ class Message:
         return f"Message(role={self.role}, content={self.content}, attachment={self.attachment})"
 
 
-class ICLAgent(BaseAgent):
+class FewShotAgent(BaseAgent):
     def __init__(self, client_factory, prompt_builder):
         super().__init__(client_factory, prompt_builder)
         self.client = client_factory()

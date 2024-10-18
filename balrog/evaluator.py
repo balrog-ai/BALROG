@@ -13,7 +13,7 @@ import numpy as np
 from omegaconf import OmegaConf
 from tqdm import tqdm
 
-from balrog.agents.icl import ICLAgent
+from balrog.agents.few_shot import FewShotAgent
 from balrog.dataset import InContextDataset
 from balrog.environments import make_env
 from balrog.utils import get_seed_from_timestamp
@@ -230,8 +230,8 @@ class Evaluator:
             csv_writer = csv.writer(csv_file, escapechar="˘", quoting=csv.QUOTE_MINIMAL)
             csv_writer.writerow(["Step", "Observation", "Action", "Reasoning", "Reward", "Done"])
 
-            # If the agent is an ICLAgent, load the in-context learning episode
-            if isinstance(agent, ICLAgent):
+            # If the agent is an FewShotAgent, load the in-context learning episode
+            if isinstance(agent, FewShotAgent):
                 for icl_episode in range(self.config.eval.icl_episodes):
                     self.load_in_context_learning_episode(icl_episode, task, agent, episode_log)
 
