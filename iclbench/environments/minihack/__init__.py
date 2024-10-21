@@ -54,7 +54,7 @@ def get_instruction_prompt(env, task="MiniHack-ExploreMaze-Hard-Mapped-v0"):
     elif "quest" in task.lower():
         goal = "Your goal is to explore the level, fight monsters, and navigate rooms and mazes to ultimately reach the stairs down."
     elif "boxoban" in task.lower():
-        goal = "You are playing Boxoban, a box pushing game inspired by Sokoban. Your goal is to push the boulders to cover all the holes in the floor. You can push the boulders by walking into them if they have no obstacles behind them."
+        goal = "You are playing Boxoban, a box pushing game inspired by Sokoban. Your goal is to push the boulders onto the fountains in the map. You can push the boulders by walking into them if they have no obstacles behind them."
     else:
         goal = "Your goal is to get as far as possible in the game."
 
