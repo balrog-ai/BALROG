@@ -6,7 +6,7 @@ import gym
 import numpy as np
 from gym import spaces
 
-from balrog.environments.env_wrapper import EnvWrapper
+from balrog.environments.wrappers import EnvWrapper
 
 
 def make_env(env_name, task, config, render_mode=None):
