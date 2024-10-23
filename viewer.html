@@ -3,8 +3,8 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>AgentQuest</title>
-    <meta name="description" content="AgentQuest: Benchmarking LLM and VLM Agents on Long-Horizon Interactive Tasks" />
+    <title>BALROG</title>
+    <meta name="description" content="BALROG: Benchmarking Agentic LLM/VLM Reasoning On Games" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     <meta property="og:image" content="/logo.png" />
@@ -36,7 +36,7 @@
     <div style="padding-bottom: 50px">
         <section style="background-color: var(--dark_accent_color)">
             <div class="content-wrapper title-wrapper" style="flex-direction: column;text-align: center;">
-                <h1 style="font-size: 60px; padding-top: 0.4em">AgentQuest Analysis</h1>
+                <h1 style="font-size: 60px; padding-top: 0.4em">BALROG Analysis</h1>
                 <div class="content-wrapper" style="margin-top: 2em">
                     <a href="index.html">
                         <button class="outline"
@@ -50,7 +50,7 @@
                             <i class="fa fa-paperclip"></i> Paper&nbsp;
                         </button>
                     </a>
-                    <a href="https://github.com/DavidePaglieri/AgentQuest">
+                    <a href="https://github.com/DavidePaglieri/BALROG">
                         <button class="outline">
                             <i class="fab fa-github"></i> Code&nbsp;
                         </button>
@@ -68,7 +68,7 @@
                 <div
                     style="background-color: black; padding: 1.5em 1em; color: white; border-radius: 1em; text-align: center; width: 80%;">
                     Select the split & model below to get automated analyses of the model's performance on the
-                    AgentQuest split.
+                    BALROG split.
                 </div>
             </div>
             <div style="text-align: center; margin: 1em 0 1.5em 0;">
@@ -108,7 +108,7 @@
             <div class="content-wrapper">
                 <div id="displaySelections">
                     Viewing <span style="color:#0ca7ff" id="selectedModel"></span>'s performance
-                    on the AgentQuest <span style="color:#0ca7ff" id="selectedSplit"></span> split,
+                    on the BALROG <span style="color:#0ca7ff" id="selectedSplit"></span> split,
                     which resolved <span style="color:#0ca7ff" id="selectedProgress"></span>% of
                     <span style="color:#0ca7ff" id="selectedSplitNum"></span> tasks.
                     (<a href="" id="modelSplitURL">Logs</a>)
@@ -202,7 +202,7 @@
         // Display table for the default values
         document.addEventListener('DOMContentLoaded', () => {
             const defaultSplit = 'lite';
-            const defaultModel = '20240402_agentquest_gpt4';
+            const defaultModel = '20240402_BALROG_gpt4';
 
             // Unhide lite model select
             document.getElementById('model-select-lite').removeAttribute('hidden');
@@ -215,7 +215,7 @@
             document.getElementById('selectedSplit').textContent = defaultSplit;
             document.getElementById('selectedModel').textContent = defaultModel;
             document.getElementById('selectedSplitNum').textContent = 300;
-            document.getElementById('modelSplitURL').href = `https://github.com/DavidePaglieri/AgentQuest/tree/main/evaluation/${defaultSplit}/${defaultModel}`;
+            document.getElementById('modelSplitURL').href = `https://github.com/DavidePaglieri/BALROG/tree/main/evaluation/${defaultSplit}/${defaultModel}`;
 
             updateLogViewer("task_type_1", defaultSplit, defaultModel);
             updateMainResults(defaultSplit, defaultModel);

@@ -11,8 +11,17 @@
   --orange: #ff7040;
   --lightgreen: #C2D8B9;
   --darkorange: #d54718;
-  --accent_color: rgb(242, 182, 98);
-  --dark_accent_color: rgb(41, 49, 60);
+
+  /* BALROG */
+  --accent_color: rgb(200, 40, 40);
+  /* --accent_color: rgb(240, 200, 100); */
+  --dark_accent_color: rgb(40, 40, 35);
+
+  /* Dark grey and gold */
+  /* --accent_color: rgb(242, 182, 98);
+  --dark_accent_color: rgb(41, 49, 60); */
+
+  /* Blue and red */
   /* --accent_color: #e91518;
   --dark_accent_color: #0454f4; */
   --odd_line_color: #ffffff;

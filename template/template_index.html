@@ -3,8 +3,8 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>AgentOdyssey</title>
-  <meta name="description" content="AgentOdyssey: Benchmarking LLM and VLM Agents on Long-Horizon Interactive Tasks" />
+  <title>BALROG</title>
+  <meta name="description" content="BALROG: Benchmarking Agentic LLM/VLM Reasoning On Games" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <meta property="og:image" content="img/logo.png" />
@@ -42,8 +42,8 @@
               align-items: center;
               padding-bottom: 15px;
             ">
-          <h1 style="font-size: 60px; padding-top: 0.4em">AgentOdyssey</h1>
-          <img src="img/ship_2_logo.png" style="height: 100px; padding-top: 0em; padding-left: 0.5em" />
+          <h1 style="font-size: 60px; padding-top: 0.4em">BALROG</h1>
+          <img src="img/logo.png" style="height: 100px; padding-top: 0em; padding-left: 0.5em" />
         </div>
         <h3>Benchmarking LLM and VLM Agents on Long-Horizon Interactive Tasks</h3>
         <!-- <h3 style="font-size: 20px; padding-top: 1.2em">ICLR 2024</h3> -->
@@ -58,7 +58,7 @@
               <i class="fa fa-paperclip"></i> Paper&nbsp;
             </button>
           </a>
-          <a href="https://github.com/DavidePaglieri/AgentOdyssey">
+          <a href="https://github.com/DavidePaglieri/BALROG">
             <button class="outline">
               <i class="fab fa-github"></i> Code&nbsp;
             </button>
@@ -84,8 +84,8 @@
         <div class="content-box">
           <h2 class="text-title">News</h2>
           <p style="margin-bottom: 0.5em">
-            📣 [11/2024] Introducing <b>AgentOdyssey</b>
-            [<a style="color:rgb(242, 182, 98)" href="">TODO</a>]
+            📣 [11/2024] Introducing <b>BALROG</b>
+            [<a style="color:var(--accent_color)" href="">TODO</a>]
           </p>
           </p>
         </div>
@@ -158,9 +158,9 @@
                     data-order="{% if item.average is iterable and item.average is not string %}{{ item.average[0]|float }}{% else %}{{ item.average|float }}{% endif %}">
                     <p class="number">
                       {% if item.average is iterable and item.average is not string %}
-                      {{ "%.2f"|format(item.average[0]|float) }} ± {{ "%.2f"|format(item.average[1]|float) }}
+                      {{ "%.1f"|format(item.average[0]|float) }} ± {{ "%.1f"|format(item.average[1]|float) }}
                       {% else %}
-                      {{ "%.2f"|format(item.average|float) }}
+                      {{ "%.1f"|format(item.average|float) }}
                       {% endif %}
                     </p>
                   </td>
@@ -169,9 +169,9 @@
                     data-order="{% if item.babyai is iterable and item.babyai is not string %}{{ item.babyai[0]|float }}{% else %}{{ item.babyai|float }}{% endif %}">
                     <p class="number">
                       {% if item.babyai is iterable and item.babyai is not string %}
-                      {{ "%.2f"|format(item.babyai[0]|float) }} ± {{ "%.2f"|format(item.babyai[1]|float) }}
+                      {{ "%.1f"|format(item.babyai[0]|float) }} ± {{ "%.1f"|format(item.babyai[1]|float) }}
                       {% else %}
-                      {{ "%.2f"|format(item.babyai|float) }}
+                      {{ "%.1f"|format(item.babyai|float) }}
                       {% endif %}
                     </p>
                   </td>
@@ -180,9 +180,9 @@
                     data-order="{% if item.crafter is iterable and item.crafter is not string %}{{ item.crafter[0]|float }}{% else %}{{ item.crafter|float }}{% endif %}">
                     <p class="number">
                       {% if item.crafter is iterable and item.crafter is not string %}
-                      {{ "%.2f"|format(item.crafter[0]|float) }} ± {{ "%.2f"|format(item.crafter[1]|float) }}
+                      {{ "%.1f"|format(item.crafter[0]|float) }} ± {{ "%.1f"|format(item.crafter[1]|float) }}
                       {% else %}
-                      {{ "%.2f"|format(item.crafter|float) }}
+                      {{ "%.1f"|format(item.crafter|float) }}
                       {% endif %}
                     </p>
                   </td>
@@ -192,9 +192,9 @@
                     data-order="{% if item.textworld is iterable and item.textworld is not string %}{{ item.textworld[0]|float }}{% else %}{{ item.textworld|float }}{% endif %}">
                     <p class="number">
                       {% if item.textworld is iterable and item.textworld is not string %}
-                      {{ "%.2f"|format(item.textworld[0]|float) }} ± {{ "%.2f"|format(item.textworld[1]|float) }}
+                      {{ "%.1f"|format(item.textworld[0]|float) }} ± {{ "%.1f"|format(item.textworld[1]|float) }}
                       {% else %}
-                      {{ "%.2f"|format(item.textworld|float) }}
+                      {{ "%.1f"|format(item.textworld|float) }}
                       {% endif %}
                     </p>
                   </td>
@@ -204,9 +204,9 @@
                     data-order="{% if item.babaisai is iterable and item.babaisai is not string %}{{ item.babaisai[0]|float }}{% else %}{{ item.babaisai|float }}{% endif %}">
                     <p class="number">
                       {% if item.babaisai is iterable and item.babaisai is not string %}
-                      {{ "%.2f"|format(item.babaisai[0]|float) }} ± {{ "%.2f"|format(item.babaisai[1]|float) }}
+                      {{ "%.1f"|format(item.babaisai[0]|float) }} ± {{ "%.1f"|format(item.babaisai[1]|float) }}
                       {% else %}
-                      {{ "%.2f"|format(item.babaisai|float) }}
+                      {{ "%.1f"|format(item.babaisai|float) }}
                       {% endif %}
                     </p>
                   </td>
@@ -215,9 +215,9 @@
                     data-order="{% if item.minihack is iterable and item.minihack is not string %}{{ item.minihack[0]|float }}{% else %}{{ item.minihack|float }}{% endif %}">
                     <p class="number">
                       {% if item.minihack is iterable and item.minihack is not string %}
-                      {{ "%.2f"|format(item.minihack[0]|float) }} ± {{ "%.2f"|format(item.minihack[1]|float) }}
+                      {{ "%.1f"|format(item.minihack[0]|float) }} ± {{ "%.1f"|format(item.minihack[1]|float) }}
                       {% else %}
-                      {{ "%.2f"|format(item.minihack|float) }}
+                      {{ "%.1f"|format(item.minihack|float) }}
                       {% endif %}
                     </p>
                   </td>
@@ -226,9 +226,9 @@
                     data-order="{% if item.nle is iterable and item.nle is not string %}{{ item.nle[0]|float }}{% else %}{{ item.nle|float }}{% endif %}">
                     <p class="number">
                       {% if item.nle is iterable and item.nle is not string %}
-                      {{ "%.2f"|format(item.nle[0]|float) }} ± {{ "%.2f"|format(item.nle[1]|float) }}
+                      {{ "%.1f"|format(item.nle[0]|float) }} ± {{ "%.1f"|format(item.nle[1]|float) }}
                       {% else %}
-                      {{ "%.2f"|format(item.nle|float) }}
+                      {{ "%.1f"|format(item.nle|float) }}
                       {% endif %}
                     </p>
                   </td>
@@ -243,23 +243,24 @@
           </div>
           {% endfor %}
           <p class="text-content">
-            <!-- AgentOdyssey <b>LLM</b> is the leaderboard for language-only evaluation mode.
+            <!-- BALROG <b>LLM</b> is the leaderboard for language-only evaluation mode.
             [<a href="lite.html">Post</a>].
             <br> -->
-            <!-- AgentOdyssey <b>VLM</b> is the leaderboard for vision-language evaluation mode.
+            <!-- BALROG <b>VLM</b> is the leaderboard for vision-language evaluation mode.
             [<a href="#">Post</a>].
             <✔️br><br> -->
-            - The <span style="color:rgb(242, 182, 98);"><b>% Progress</b></span> metric refers to the average
+            - The <span style="color:var(--accent_color);"><b>% Progress</b></span> metric refers to the average
             completion
-            percentage of AgentOdyssey
+            percentage of BALROG
             environments of the model.
             <br>
-            - <span style="color:rgb(242, 182, 98);"><b>✔️ Checked</b></span> indicates that we, the AgentOdyssey team,
+            - <span style="color:var(--accent_color);"><b>✔️ Checked</b></span> indicates that we, the BALROG team,
             received
             access to the system and
             were able to reproduce the patch generations.
             <br>
-            - 🕹️ <span style="color:rgb(242, 182, 98);"><b> Open</b></span> refers to submissions that have open-source
+            - 🕹️ <span style="color:var(--accent_color);"><b> Open</b></span> refers to submissions that have
+            open-source
             code. This
             does <i>not</i>
             necessarily mean the underlying model is open-source.
@@ -276,7 +277,7 @@
           <h2 class="text-title">About</h2>
           <img src="img/diagram_v14.png" style="width:80%;margin:auto;display:block;" />
           <p class="text-content">
-            AgentOdyssey is a benchmark designed to evaluate the agentic capabilities of large language and
+            BALROG is a benchmark designed to evaluate the agentic capabilities of large language and
             vision-language models (LLMs and VLMs) on long-horizon tasks, testing their ability to plan, reason
             spatially, and explore in dynamic environments. Our benchmark reveals that while current models show some
             success on simpler tasks, they struggle with more complex, procedurally generated environments like NetHack,
@@ -286,18 +287,18 @@
           </p class="text-content">
           <h3 class="text-title" style="margin-bottom:0.5em">Citation</h3>
           <pre id="citation"><code>@inproceedings{
-    author2024AgentOdyssey,
-    title={AgentOdyssey: Benchmarking LLM and VLM Agents on Long-Horizon Interactive Tasks},
+    author2024BALROG,
+    title={BALROG: Benchmarking LLM and VLM Agents on Long-Horizon Interactive Tasks},
     author={Davide Paglieri*, Bartłomiej Cupiał*, Samuel Coward, Ulyana Piterbarg, 
       Maciej Wolczyk, Akbir Khan, Eduardo Pignatelli, Łukasz Kuciński, Lerrel Pinto, 
       Rob Fergus, Jakob Nicolaus Foerster, Jack Parker-Holder, Tim Rocktäschel},
     booktitle={pre-print},
     year={2024},
-    url={https://example.com/AgentOdyssey}
+    url={https://example.com/BALROG}
 }</code></pre>
           <p class="text-content" style="margin-bottom: 0;">
           <p style="line-height: 1.6667em;">
-            <b>Usage:</b> AgentOdyssey's website and leaderboard use the template made available by <a
+            <b>Usage:</b> BALROG's website and leaderboard use the template made available by <a
               href="https://princeton-nlp.github.io/SWE-bench/">SWE-bench</a>.
             If you would like to use this template for your own leaderboard, please visit their website and request
             permission
