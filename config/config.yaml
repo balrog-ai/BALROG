@@ -1,5 +1,5 @@
 agent: 
-  type: dummy
+  type: naive
   remember_cot: True
   max_history: 16
   max_image_history: 0
