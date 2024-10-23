@@ -197,11 +197,11 @@ class Evaluator:
         ctx = multiprocessing.get_context("fork")
 
         # Create a list of all tasks to be executed
-        all_tasks = [task for task in self.tasks for _ in range(self.num_episodes)]
+        all_tasks = [(task, episode_idx) for task in self.tasks for episode_idx in range(self.num_episodes)]
 
         # Initially fill the task queue with tasks up to the number of workers
-        for task in all_tasks[: self.num_workers]:
-            task_queue.put(task)
+        for item in all_tasks[: self.num_workers]:
+            task_queue.put(item)
 
         # Assign unique positions for progress bars
         positions = list(range(self.num_workers))
@@ -259,8 +259,8 @@ class Evaluator:
             item = task_queue.get()
             if item is None:
                 break
-            task, episode_idx = item
             try:
+                task, episode_idx = item
                 result = self.run_episode(
                     task, agent, process_num=process_num, position=position + 1, episode_idx=episode_idx
                 )
