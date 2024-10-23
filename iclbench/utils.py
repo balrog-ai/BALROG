@@ -34,6 +34,7 @@ def collect_and_summarize_results(output_dir, config):
     total_envs = 0
     overall_total_input_tokens = 0
     overall_total_output_tokens = 0
+    overall_env_summaries = {}
 
     for env_name, episodes in results_summaries.items():
         env_episode_progress = []
@@ -71,18 +72,18 @@ def collect_and_summarize_results(output_dir, config):
 
         env_task_summaries = {}
         for task_name, task_runs in env_tasks.items():
-            task_episode_returns = [run.get("episode_return", 0.0) for run in task_runs]
+            task_episode_progress = [run.get("progression", 0.0) for run in task_runs]
             task_count = len(task_runs)
-            avg_task_return = sum(task_episode_returns) / task_count if task_count else 0.0
+            avg_task_progress = sum(task_episode_progress) / task_count if task_count else 0.0
             task_std_dev = (
-                math.sqrt(sum((x - avg_task_return) ** 2 for x in task_episode_returns) / task_count)
+                math.sqrt(sum((x - avg_task_progress) ** 2 for x in task_episode_progress) / task_count)
                 if task_count > 1
                 else 0.0
             )
             task_std_error = task_std_dev / math.sqrt(task_count) if task_count > 1 else 0.0
 
             env_task_summaries[task_name] = {
-                "progression_percentage": 100 * avg_task_return,
+                "progression_percentage": 100 * avg_task_progress,
                 "standard_error": 100 * task_std_error,
                 "episodes_played": task_count,
             }
@@ -106,6 +107,13 @@ def collect_and_summarize_results(output_dir, config):
             json.dump(env_summary, f, indent=4)
         logging.info(f"Results saved for {env_name} in {env_summary_filename}")
 
+        # Collect environment summaries for overall summary
+        overall_env_summaries[env_name] = {
+            "progression_percentage": env_summary["progression_percentage"],
+            "standard_error": env_summary["standard_error"],
+            "episodes_played": env_summary["episodes_played"],
+        }
+
     # Calculate overall mean and standard error
     total_episodes = len(total_progressions)
     overall_avg_progression = sum(total_progressions) / total_episodes if total_episodes > 0 else 0.0
@@ -119,6 +127,7 @@ def collect_and_summarize_results(output_dir, config):
     overall_summary = {
         "Final score": 100 * overall_avg_progression,
         "standard_error": 100 * overall_std_error,
+        "environments": overall_env_summaries,
         "total_input_tokens": overall_total_input_tokens,
         "total_output_tokens": overall_total_output_tokens,
         "client": OmegaConf.to_container(config.client, resolve=True),
@@ -131,7 +140,19 @@ def collect_and_summarize_results(output_dir, config):
         json.dump(overall_summary, f, indent=4)
     logging.info(f"Overall results saved in {overall_summary_filename}")
 
-    return overall_avg_progression * 100  # Return percentage`
+    return overall_summary
+
+
+def print_summary_table(overall_summary):
+    print("\nSummary of Results:")
+    print(
+        f"Overall Average Progression: {overall_summary['Final score']:.2f}% ± {overall_summary['standard_error']:.2f}%"
+    )
+    print("Per-Environment Results:")
+    for env_name, env_data in overall_summary["environments"].items():
+        print(
+            f"  {env_name}: {env_data['progression_percentage']:.2f}% ± {env_data['standard_error']:.2f}%, Episodes: {env_data['episodes_played']}"
+        )
 
 
 def wandb_save_artifact(config):

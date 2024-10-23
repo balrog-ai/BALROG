@@ -4,7 +4,7 @@ from omegaconf import DictConfig
 
 from iclbench.agents import AgentFactory
 from iclbench.evaluator import EvaluatorManager
-from iclbench.utils import setup_environment, collect_and_summarize_results, wandb_save_artifact
+from iclbench.utils import setup_environment, collect_and_summarize_results, print_summary_table, wandb_save_artifact
 
 
 @hydra.main(config_path="config", config_name="config", version_base="1.1")
@@ -18,8 +18,8 @@ def main(config: DictConfig):
     evaluator_manager.run(agent_factory)
 
     print(evaluator_manager.output_dir)
-    overall_progression = collect_and_summarize_results(evaluator_manager.output_dir, config)
-    print(f"Average progression across all environments: {overall_progression}")
+    overall_summary = collect_and_summarize_results(evaluator_manager.output_dir, config)
+    print_summary_table(overall_summary)
 
     if config.eval.wandb_save:
         wandb_save_artifact(config)
