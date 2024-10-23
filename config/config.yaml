@@ -1,5 +1,5 @@
 agent: 
-  type: icl
+  type: naive
   remember_cot: True
   max_history: 16
   max_image_history: 0
@@ -12,7 +12,7 @@ eval:
     nle: 5
     minihack: 5
     babyai: 25
-    crafter: 5
+    crafter: 10
     babaisai: 5
     textworld: 20
   max_steps_per_episode: null
@@ -37,7 +37,7 @@ client:
 
 
 envs:
-  names: nle
+  names: babyai-babaisai-textworld-crafter-nle-minihack
   env_kwargs:
     seed: null
   nle_kwargs:

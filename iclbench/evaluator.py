@@ -17,6 +17,123 @@ from iclbench.dataset import InContextDataset
 from iclbench.environments import make_env
 
 
+class EvaluatorManager:
+    def __init__(self, config, original_cwd=""):
+        self.config = config
+        self.original_cwd = original_cwd
+        self.env_names = config.envs.names.split("-")
+        self.env_evaluators = {}
+        self.tasks = []
+        for env_name in self.env_names:
+            evaluator = Evaluator(env_name, config, original_cwd=original_cwd)
+            self.env_evaluators[env_name] = evaluator
+            for task in evaluator.tasks:
+                for episode_idx in range(evaluator.num_episodes):
+                    self.tasks.append((env_name, task, episode_idx))
+        self.num_workers = config.eval.num_workers
+
+    def run(self, agent_factory):
+        if self.num_workers > 1:
+            results = self._run_parallel(agent_factory)
+        else:
+            results = self._run_sequential(agent_factory)
+        return results
+
+    def _run_sequential(self, agent_factory):
+        results = defaultdict(list)
+        total_episodes = len(self.tasks)
+        with tqdm(total=total_episodes, desc="Evaluating Episodes") as pbar:
+            for env_name, task, episode_idx in self.tasks:
+                evaluator = self.env_evaluators[env_name]
+                agent = agent_factory.create_agent()
+                episode_log = evaluator.run_episode(task, agent, episode_idx=episode_idx)
+                results[env_name].append(episode_log)
+                pbar.update(1)
+        return results
+
+    def _run_parallel(self, agent_factory):
+        task_queue = multiprocessing.Queue()
+        results_queue = multiprocessing.Queue()
+
+        ctx = multiprocessing.get_context("fork")
+
+        # Initially fill the task queue with tasks up to the number of workers
+        for item in self.tasks[: self.num_workers]:
+            task_queue.put(item)
+
+        # Assign unique positions for progress bars
+        positions = list(range(self.num_workers))
+
+        processes = []
+        for idx in range(self.num_workers):
+            position = positions[idx]
+            p = ctx.Process(
+                target=self._worker,
+                args=(task_queue, results_queue, agent_factory, position),
+            )
+            processes.append(p)
+            p.start()
+
+        results = defaultdict(list)
+        tasks_completed = 0
+        tasks_queued = self.num_workers
+
+        total_tasks = len(self.tasks)
+
+        with tqdm(total=total_tasks, desc="Evaluating Episodes") as pbar:
+            while tasks_completed < total_tasks:
+                result = results_queue.get()
+                if "error" in result:
+                    logging.error(
+                        f"Error in task {result['task']} processed by {result['process_num']}: {result['error']}"
+                    )
+                    logging.error(f"Traceback:\n{result['traceback']}")
+                else:
+                    results[result["env_name"]].append(result)
+                tasks_completed += 1
+
+                # Update progress bar
+                pbar.update(1)
+                pbar.set_description(f"Last task: {result['task']}, Process: {result.get('process_num', 'N/A')}")
+
+                # Queue another task if there are any left
+                if tasks_queued < len(self.tasks):
+                    task_queue.put(self.tasks[tasks_queued])
+                    tasks_queued += 1
+
+        # Signal workers to stop
+        for _ in range(self.num_workers):
+            task_queue.put(None)
+
+        for p in processes:
+            p.join()
+
+        return results
+
+    def _worker(self, task_queue, results_queue, agent_factory, position):
+        agent = agent_factory.create_agent()
+        process_num = multiprocessing.current_process().name
+        while True:
+            item = task_queue.get()
+            if item is None:
+                break
+            try:
+                env_name, task, episode_idx = item
+                evaluator = self.env_evaluators[env_name]
+                result = evaluator.run_episode(
+                    task, agent, process_num=process_num, position=position + 1, episode_idx=episode_idx
+                )
+                result["process_num"] = process_num  # Include process number in result
+                result["env_name"] = env_name
+                results_queue.put(result)
+            except Exception as e:
+                tb = traceback.format_exc()
+                logging.error(f"Error in worker processing task {task}: {e}\n{tb}")
+                results_queue.put(
+                    {"env_name": env_name, "task": task, "error": str(e), "traceback": tb, "process_num": process_num}
+                )
+
+
 class Evaluator:
     def __init__(self, env_name, config, original_cwd=""):
         self.env_name = env_name.strip()  # Ensure no leading/trailing whitespace
@@ -167,109 +284,6 @@ class Evaluator:
                 csv_writer.writerow([key, value_str])
 
         return episode_log
-
-    def run(self, agent_factory):
-        if self.num_workers > 1:
-            results = self._run_parallel(agent_factory)
-        else:
-            results = self._run_sequential(agent_factory)
-
-        summary = self._save_results(results, self.env_name)
-        return summary
-
-    def _run_sequential(self, agent_factory):
-        results = defaultdict(list)
-        total_episodes = len(self.tasks) * self.num_episodes
-        with tqdm(total=total_episodes, desc="Evaluating Episodes") as pbar:
-            for task in self.tasks:
-                for episode_idx in range(self.num_episodes):
-                    agent = agent_factory.create_agent()
-                    episode_log = self.run_episode(task, agent, episode_idx=episode_idx)
-                    results[task].append(episode_log)
-                    pbar.update(1)
-        return results
-
-    def _run_parallel(self, agent_factory):
-        task_queue = multiprocessing.Queue()
-        results_queue = multiprocessing.Queue()
-
-        # Create a multiprocessing context with spawn
-        ctx = multiprocessing.get_context("fork")
-
-        # Create a list of all tasks to be executed
-        all_tasks = [(task, episode_idx) for task in self.tasks for episode_idx in range(self.num_episodes)]
-
-        # Initially fill the task queue with tasks up to the number of workers
-        for item in all_tasks[: self.num_workers]:
-            task_queue.put(item)
-
-        # Assign unique positions for progress bars
-        positions = list(range(self.num_workers))
-
-        processes = []
-        for idx in range(self.num_workers):
-            position = positions[idx]
-            p = ctx.Process(
-                target=self._worker,
-                args=(task_queue, results_queue, agent_factory, position),
-            )
-            processes.append(p)
-            p.start()
-
-        results = defaultdict(list)
-        tasks_completed = 0
-        tasks_queued = self.num_workers
-
-        total_tasks = len(all_tasks)
-
-        with tqdm(total=total_tasks, desc="Evaluating Episodes") as pbar:
-            while tasks_completed < total_tasks:
-                result = results_queue.get()
-                if "error" in result:
-                    logging.error(
-                        f"Error in task {result['task']} processed by {result['process_num']}: {result['error']}"
-                    )
-                    logging.error(f"Traceback:\n{result['traceback']}")
-                else:
-                    results[result["task"]].append(result)
-                tasks_completed += 1
-
-                # Update progress bar
-                pbar.update(1)
-                pbar.set_description(f"Last task: {result['task']}, Process: {result.get('process_num', 'N/A')}")
-
-                # Queue another task if there are any left
-                if tasks_queued < len(all_tasks):
-                    task_queue.put(all_tasks[tasks_queued])
-                    tasks_queued += 1
-
-        # Signal workers to stop
-        for _ in range(self.num_workers):
-            task_queue.put(None)
-
-        for p in processes:
-            p.join()
-
-        return results
-
-    def _worker(self, task_queue, results_queue, agent_factory, position):
-        agent = agent_factory.create_agent()
-        process_num = multiprocessing.current_process().name
-        while True:
-            item = task_queue.get()
-            if item is None:
-                break
-            try:
-                task, episode_idx = item
-                result = self.run_episode(
-                    task, agent, process_num=process_num, position=position + 1, episode_idx=episode_idx
-                )
-                result["process_num"] = process_num  # Include process number in result
-                results_queue.put(result)
-            except Exception as e:
-                tb = traceback.format_exc()
-                logging.error(f"Error in worker processing task {task}: {e}\n{tb}")
-                results_queue.put({"task": task, "error": str(e), "traceback": tb, "process_num": process_num})
 
     def _save_results(self, results, env_name):
         total_progression = 0.0

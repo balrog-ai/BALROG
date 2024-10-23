@@ -6,7 +6,7 @@ from hydra.utils import get_original_cwd
 from omegaconf import DictConfig
 
 from iclbench.agents import AgentFactory
-from iclbench.evaluator import Evaluator
+from iclbench.evaluator import EvaluatorManager
 from iclbench.utils import setup_environment, summarize_env_progressions, wandb_save_artifact
 
 
@@ -19,11 +19,9 @@ def main(config: DictConfig):
     # Instantiate agent factory
     agent_factory = AgentFactory(config)
 
-    results_summaries = defaultdict(list)
-    for env_name in config.envs.names.split(","):
-        evaluator = Evaluator(env_name, config, original_cwd=original_cwd)
-        env_result_summary = evaluator.run(agent_factory)
-        results_summaries[env_name] = env_result_summary
+    # Create an EvaluatorManager
+    evaluator_manager = EvaluatorManager(config, original_cwd=original_cwd)
+    results_summaries = evaluator_manager.run(agent_factory)
 
     average_progression = summarize_env_progressions(results_summaries, config)
     print(f"Average progression across all environments: {average_progression}")
