@@ -1,3 +1,4 @@
+import os
 import copy
 import json
 import csv
@@ -7,7 +8,9 @@ import os
 import random
 import traceback
 from collections import defaultdict
+from datetime import datetime
 from pathlib import Path
+
 
 import numpy as np
 from tqdm import tqdm
@@ -21,15 +24,43 @@ class EvaluatorManager:
     def __init__(self, config, original_cwd=""):
         self.config = config
         self.original_cwd = original_cwd
+
+        # Determine output directory
+        if config.eval.resume_from is not None:
+            output_dir = config.eval.resume_from
+        else:
+            now = datetime.now()
+            timestamp = now.strftime("%Y-%m-%d/%H-%M-%S")
+            run_name = f"{timestamp}_{config.agent.type}_{config.client.model_id}"
+            output_dir = os.path.join(config.eval.output_dir, run_name)
+
+            # Create the directory if it doesn't exist
+            Path(output_dir).mkdir(parents=True, exist_ok=True)
+        self.output_dir = output_dir
+
+        log_filename = os.path.join(output_dir, "eval.log")
+        logging.basicConfig(
+            level=logging.INFO,
+            format="%(asctime)s - %(levelname)s - %(message)s",
+            handlers=[logging.FileHandler(log_filename), logging.StreamHandler()],
+            force=True,
+        )
+
         self.env_names = config.envs.names.split("-")
         self.env_evaluators = {}
         self.tasks = []
         for env_name in self.env_names:
-            evaluator = Evaluator(env_name, config, original_cwd=original_cwd)
+            evaluator = Evaluator(env_name, config, original_cwd=original_cwd, output_dir=self.output_dir)
             self.env_evaluators[env_name] = evaluator
             for task in evaluator.tasks:
                 for episode_idx in range(evaluator.num_episodes):
-                    self.tasks.append((env_name, task, episode_idx))
+                    # Check if task has been completed
+                    json_filename = os.path.join(self.output_dir, env_name, task, f"{task}_run_{episode_idx:02d}.json")
+                    if os.path.exists(json_filename):
+                        logging.info(f"Skipping completed task: {env_name}, {task}, episode {episode_idx}")
+                    else:
+                        logging.info(f"Adding task to complete: {env_name}, {task}, episode {episode_idx}")
+                        self.tasks.append((env_name, task, episode_idx))
         self.num_workers = config.eval.num_workers
 
     def run(self, agent_factory):
@@ -135,9 +166,10 @@ class EvaluatorManager:
 
 
 class Evaluator:
-    def __init__(self, env_name, config, original_cwd=""):
-        self.env_name = env_name.strip()  # Ensure no leading/trailing whitespace
+    def __init__(self, env_name, config, original_cwd="", output_dir="."):
+        self.env_name = env_name.strip()
         self.config = config
+        self.output_dir = output_dir
         self.tasks = config.tasks[f"{self.env_name}_tasks"]
 
         self.num_episodes = config.eval.num_episodes[self.env_name]
@@ -209,7 +241,7 @@ class Evaluator:
         max_steps_per_episode = env.max_steps if self.max_steps_per_episode is None else self.max_steps_per_episode
 
         # Create a unique CSV filename for this episode
-        csv_filename = os.path.join(self.env_name, task, f"{task}_run_{episode_idx:02d}.csv")
+        csv_filename = os.path.join(self.output_dir, self.env_name, task, f"{task}_run_{episode_idx:02d}.csv")
         Path(csv_filename).parent.mkdir(exist_ok=True, parents=True)
 
         # Open the CSV file and write the header
@@ -270,54 +302,12 @@ class Evaluator:
             episode_log["num_steps"] = step + 1
             episode_log["failed_candidates"] = env.failed_candidates
             episode_log.update(env.get_stats())
-
             episode_log["process_num"] = process_num
 
-            # Write a separator row
-            csv_writer.writerow([])
-            csv_writer.writerow(["Episode Summary"])
-            for key, value in episode_log.items():
-                if isinstance(value, dict):
-                    value_str = json.dumps(value)
-                else:
-                    value_str = str(value)
-                csv_writer.writerow([key, value_str])
+            # Save the episode_log to a JSON file
+            json_filename = os.path.join(self.output_dir, self.env_name, task, f"{task}_run_{episode_idx:02d}.json")
+            Path(json_filename).parent.mkdir(exist_ok=True, parents=True)
+            with open(json_filename, "w") as f:
+                json.dump(episode_log, f, indent=4)
 
         return episode_log
-
-    def _save_results(self, results, env_name):
-        total_progression = 0.0
-        total_count = 0
-
-        env_summary = {}
-
-        for task, runs in results.items():
-            task_progression = sum(run.get("progression", 0.0) for run in runs)
-            task_count = len(runs)
-            avg_task_progression = task_progression / task_count if task_count else 0
-
-            env_summary[task] = {
-                "progression_percentage": 100 * avg_task_progression,
-                "episodes_played": task_count,
-            }
-
-            total_progression += task_progression
-            total_count += task_count
-
-        overall_avg_progression = total_progression / total_count if total_count else 0
-
-        data = {
-            "progression_percentage": 100 * overall_avg_progression,
-            "episodes_played": total_count,
-            "tasks": env_summary,
-            "input_tokens": sum(run["input_tokens"] for task_runs in results.values() for run in task_runs),
-            "output_tokens": sum(run["output_tokens"] for task_runs in results.values() for run in task_runs),
-        }
-
-        filename = os.path.join(env_name, f"{env_name}_summary.json")
-        Path(filename).parent.mkdir(exist_ok=True, parents=True)
-        with open(filename, "w") as file:
-            json.dump(data, file, indent=4)
-        logging.info(f"Results saved for {env_name} in {filename}")
-
-        return data
