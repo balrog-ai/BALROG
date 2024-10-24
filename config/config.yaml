@@ -36,6 +36,8 @@ client:
     temperature: 0.0
     max_tokens: 1024
   timeout: 60
+  max_retries: 5
+  delay: 2
 
 
 envs:
