@@ -36,7 +36,7 @@ setup(
     install_requires=[],
     extras_require={"dev": ["black", "isort>=5.12", "pytest<8.0", "flake8", "pre-commit", "twine"] + _docs_deps},
     package_dir={"": "./"},
-    packages=setuptools.find_packages(where="./", include=["iclbench*"]),
+    packages=setuptools.find_packages(where="./", include=["balrog*"]),
     include_package_data=True,
     python_requires=">=3.8",
 )
