@@ -3,8 +3,8 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>AgentOdyssey</title>
-    <meta name="description" content="AgentOdyssey: Evaluate Language Models on Open Source Software Tasks" />
+    <title>BALROG</title>
+    <meta name="description" content="BALROG: Benchmarking Agentic LLM/VLM Reasoning On Games" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     <meta property="og:image" content="/logo.png" />
@@ -46,12 +46,12 @@
     <div style="padding-bottom: 50px">
         <section style="background-color: var(--dark_accent_color)">
             <div class="content-wrapper title-wrapper" style="flex-direction: column;text-align: center;">
-                <h1 style="font-size: 55px; padding-top: 0.4em">Submit to AgentOdyssey</h1>
+                <h1 style="font-size: 55px; padding-top: 0.4em">Submit to BALROG</h1>
                 <div class="content-wrapper" style="margin-top: 2em">
                     <a href="index.html">
                         <button class="outline"
                             style="flex-direction: row; display: flex; justify-content: center; align-items: center;">
-                            <img src="img/logo2.png"
+                            <img src="img/logo.png"
                                 style="height: 1.3em; margin-left: -0.3em; margin-right: 0.3em; margin-bottom: 0em;" />
                             Home&nbsp;
                         </button>
@@ -61,7 +61,7 @@
                             <i class="fa fa-paperclip"></i> Paper&nbsp;
                         </button>
                     </a>
-                    <a href="https://github.com/DavidePaglieri/AgentOdyssey">
+                    <a href="https://github.com/DavidePaglieri/BALROG">
                         <button class="outline">
                             <i class="fab fa-github"></i> Code&nbsp;
                         </button>
@@ -74,87 +74,68 @@
             <div class="content-wrapper" style="display: flex; justify-content: center; align-items: center;">
                 <div
                     style="background-color: black; padding: 1.5em 1em; color: white; border-radius: 1em; text-align: center; width: 80%;">
-                    All official submissions to the AgentOdyssey leaderboard are maintained at
-                    <a href="https://github.com/AgentOdyssey/experiments/" class="light-blue-link" target="_blank"
+                    All official submissions to the BALROG leaderboard are maintained at
+                    <a href="https://github.com/BALROG/experiments/" class="light-blue-link" target="_blank"
                         rel="noopener noreferrer">
-                        <i class="fab fa-github"></i> AgentOdyssey/experiments
+                        <i class="fab fa-github"></i> BALROG/experiments
                     </a>
                 </div>
             </div>
             <div class="content-wrapper">
                 <div class="content-box">
                     <h3>
-                        Submit to AgentOdyssey Leaderboard
+                        Submit to BALROG Leaderboard
                     </h3>
                     <p>
-                        If you are interested in submitting your model to the <a
-                            href="https://www.swebench.com/" style="color:#e91518;">AgentOdyssey Leaderboard</a>, please do the following:
+                        If you are interested in submitting your agent to the <a
+                            href="https://davidepaglieri.github.io/BALROG" style="color:#e91518;">BALROG
+                            Leaderboard</a>, please do the following:
                     </p>
                     <ol>
-                        <li>Fork and clone the <a
-                                href="https://github.com/AgentOdyssey/experiments" style="color:#e91518;">AgentOdyssey/experiments</a>
+                        <li>Fork and clone the <a href="https://github.com/BALROG/experiments"
+                                style="color:#e91518;">BALROG/experiments</a>
                             repository.</li>
-                        <li>Create a new folder with the submission date and the model
-                            name (e.g. <code>20240415_sweagent_gpt4</code>).
+                        <li>Create a new folder with the submission date and the agent
+                            name (e.g. <code>2024-09-21_balrog_gpt4o</code>).
                         </li>
-                        <li>Within the folder, please include the following files:
+                        <li>Copy the log of the run of your agent, please include the following files from your agent's
+                            evaluation:
                             <ul>
-                                <li><code>all_preds.jsonl</code>: Model predictions</li>
-                                <li><code>logs/</code>: AgentOdyssey evaluation artifacts dump</li>
-                                <ul>
-                                    <li>Eval. artifacts means 300/2294 (Lite/Test) folders. Each folder (e.g.
-                                        <code>astropy__astropy-1234</code>) contains:
-                                    </li>
-                                    <ul>
-                                        <li><code>eval.sh</code>: The evaluation script</li>
-                                        <li><code>patch.diff</code>: The model's generated prediction</li>
-                                        <li><code>report.json</code>: Summary of evaluation outcomes for this instance
-                                        </li>
-                                        <li><code>run_instance.log</code>: A log of AgentOdyssey evaluation steps</li>
-                                        <li><code>test_output.txt</code>: An output of running <code>eval.sh</code> on
-                                            <code>patch.diff</code>
-                                        </li>
-                                    </ul>
-                                    <li><b>NOTE</b>: You shouldn't have to create any of these files. They should
-                                        automatically be generated by AgentOdyssey evaluation.</li>
-                                </ul>
-                                <li><code>metadata.yaml</code>: Metadata for how result is shown on website. Please
-                                    include the following fields:</li>
-                                <ul>
-                                    <li><code>name</code>: The name of your leaderboard entry</li>
-                                    <li><code>oss</code>: <code>true</code> if your system is open-source</li>
-                                    <li><code>site</code>: URL/link to more information about your system</li>
-                                    <li><code>verified</code>: <code>false</code> (See below for results verification)
-                                    </li>
-                                </ul>
-                                <li><code>trajs/</code>: Reasoning trace reflecting how your system solved the problem
+                                <li><code>babaisai</code>: babaisai folder, containing summary and trajectory logs</li>
+                                <li><code>babyai</code>: babyai folder, containing summary and trajectory logs</li>
+                                <li><code>crafter</code>: crafter folder, containing summary and trajectory logs</li>
+                                <li><code>minihack</code>: minihack folder, containing summary and trajectory logs</li>
+                                <li><code>nle</code>: nethack folder, containing summary and trajectory logs</li>
+                                <li><code>textworld/</code>: textworld folder, containing summary and trajectory logs
                                 </li>
-                                <ul>
-                                    <li>Submit one reasoning trace per task instance. The reasoning trace should show
-                                        all of the steps your system took while solving the task. If your system outputs
-                                        thoughts or comments during operation, they should be included as well.</li>
-                                    <li>The reasoning trace can be represented with any text based file format (e.g.
-                                        <code>md</code>, <code>json</code>, <code>yaml</code>)
-                                    </li>
-                                    <li>Ensure the task instance ID is in the name of the corresponding reasoning trace
-                                        file.</li>
-                                    <li>For an example, see <a
-                                            href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240402_sweagent_gpt4/logs" style="color:#e91518;">SWE-agent
-                                            + GPT 4 Turbo</a></li>
-                                </ul>
-                                <li><code>README.md</code>: Include anything you'd like to share about your model here!
-                                </li>
+                                <li><code>summary.json</code>: Summary of the evaluation outcomes for all
+                                    environments</li>
                             </ul>
+                        <li><b>NOTE</b>: You shouldn't have to create any of these files. They should
+                            automatically be generated by BALROG evaluation.</li>
+                        <li><code>metadata.yaml</code>: Metadata for how the result is shown on website. Please
+                            include the following fields:</li>
+                        <ul>
+                            <li><code>name</code>: The name of your leaderboard entry</li>
+                            <li><code>oss</code>: <code>true</code> if your system is open-source</li>
+                            <li><code>site</code>: URL/link to more information about your system</li>
+                            <li><code>verified</code>: <code>false</code> (See below for results verification)
+                            </li>
+                        </ul>
+                        <li><code>README.md</code>: Include anything you'd like to share about your agent here!
+                        </li>
+                        </ul>
                         </li>
                         <li>Run
-                            <code>python -m analysis.get_results evaluation/&lt;split&gt;/&lt;date + model&gt;</date></code>
+                            <code>python -m analysis.get_results evaluation/&lt;split&gt;/&lt;date + agentl&gt;</date></code>
                         </li>
-                        <li>Create a pull request to the AgentOdyssey/experiments repository with the new folder.</li>
+                        <li>Create a pull request to the BALROG/experiments repository with the new folder.</li>
                     </ol>
                     <p>
                         You can refer to this <a
-                            href="https://github.com/princeton-nlp/SWE-bench/blob/main/tutorials/evaluation.md" style="color:#e91518;">tutorial</a>
-                        for a quick overview of how to evaluate your model on AgentOdyssey.
+                            href="https://github.com/princeton-nlp/SWE-bench/blob/main/tutorials/evaluation.md"
+                            style="color:#e91518;">tutorial</a>
+                        for a quick overview of how to evaluate your agent on BALROG.
                     </p>
                 </div>
             </div>
@@ -164,12 +145,13 @@
                         Submission Guidelines
                     </h3>
                     <p>
-                        Please note that we consider an eligible submission to the AgentOdyssey [Lite] leaderboard to
+                        Please note that we consider an eligible submission to the BALROG [Lite] leaderboard to
                         satisfy these criteria:
                     </p>
                     <ol>
                         <li>The use of the <code>hints_text</code> field is <i>not</i> allowed. See our explanation <a
-                                href="https://github.com/princeton-nlp/SWE-bench/issues/133" style="color:#e91518;">here</a>.</li>
+                                href="https://github.com/princeton-nlp/SWE-bench/issues/133"
+                                style="color:#e91518;">here</a>.</li>
                         <li>The result should be pass@1. There should be one execution log per task instance for all
                             2294 task instances.</li>
                         <li>The result should <i>not</i> be in the "Oracle" retrieval setting. The agent cannot be told
@@ -182,8 +164,8 @@
                 <div class="content-box">
                     <h3>Verify Your Results</h3>
                     <p>
-                        The <i>Verified</i> check ✓ indicates that we (the AgentOdyssey team) received access to the model
-                        and were able to reproduce the patch generations.
+                        The <i>Verified</i> check ✓ indicates that we (the BALROG team) received access to your agent
+                        and were able to reproduce a selection of the results.
                     </p>
                     <p style="margin-top:0.5em;">
                         If you are interested in receiving the "verified" checkmark ✓ on your submission, please do the
@@ -191,8 +173,8 @@
                     </p>
                     <ol>
                         <li>Create an issue</li>
-                        <li>In the issue, provide us instructions on how to run your model on AgentOdyssey.</li>
-                        <li>We will run your model on a random subset of AgentOdyssey and verify the results.</li>
+                        <li>In the issue, provide us instructions on how to run your agent on BALROG.</li>
+                        <li>We will run your agent on a random subset of BALROG and verify the results.</li>
                     </ol>
                 </div>
             </div>
@@ -200,7 +182,7 @@
                 <div class="content-box" id="reasoning-traces">
                     <h3>Reasoning Traces</h3>
                     <p>
-                        (07/29/2024) We have updated the AgentOdyssey leaderboard submission criteria to require the
+                        (07/29/2024) We have updated the BALROG leaderboard submission criteria to require the
                         inclusion of <i>reasoning traces</i>.
                         The goal of this requirement is to provide the community with more insight into how cutting edge
                         methods work without requiring a code release (although the latter is still highly encouraged!).
@@ -234,7 +216,8 @@
                         A simple solution to this? When running inference, simply log the intermediate output generated
                         by your system.
                         For an example, see <a
-                            href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240402_sweagent_gpt4/logs" style="color:#e91518;">SWE-agent
+                            href="https://github.com/swe-bench/experiments/tree/main/evaluation/lite/20240402_sweagent_gpt4/logs"
+                            style="color:#e91518;">SWE-agent
                             + GPT-4 Turbo Trajectories</a>.
                         In short, our requirements for what a reasoning trace should specific look like are
                         non-specific.
@@ -247,16 +230,16 @@
                     </p>
                     <p>
                         As of this post (7/29/2024), we have received many submissions that have pushed the state of the
-                        art on AgentOdyssey, which is exciting to see!
+                        art on BALROG, which is exciting to see!
                     </p>
                     <p>
-                        However, we have also found that the top-performing submissions to AgentOdyssey typically have not
+                        However, we have also found that the top-performing submissions to BALROG typically have not
                         open sourced their code nor been verified.
-                        We recognize that some leaderboard participants (1) would like to add an entry to AgentOdyssey but
+                        We recognize that some leaderboard participants (1) would like to add an entry to BALROG but
                         (2) do not want to release their code or proprietary system, which is completely understandable.
-                        On the other hand, given that open source systems submitted to AgentOdyssey have propelled the
+                        On the other hand, given that open source systems submitted to BALROG have propelled the
                         development of closed-source participants, we would like to continuing promoting development on
-                        AgentOdyssey as a community-level collaborative process.
+                        BALROG as a community-level collaborative process.
                     </p>
                     <p>
                         Therefore, we believe that providing reasoning traces serves as a valuable compromise between
@@ -267,12 +250,12 @@
                         <li>Create a <code>trajs/</code> folder in your submission directory.</li>
                         <li>Within this folder, upload a reasoning trace per task instance that your system generated a
                             prediction for.</li>
-                        <li>Make sure the naming convention of the reasoning trace file reflects the AgentOdyssey task
+                        <li>Make sure the naming convention of the reasoning trace file reflects the BALROG task
                             instance it corresponds to. (e.g. <code>astropy__astropy-1234.md</code>)</li>
                     </ol>
                     <p>
                         We will review the reasoning traces you submit.
-                        We plan to only accept submissions with reasoning traces for the AgentOdyssey leaderboard.
+                        We plan to only accept submissions with reasoning traces for the BALROG leaderboard.
                     </p>
                 </div>
             </div>
