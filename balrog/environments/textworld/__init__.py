@@ -1,4 +1,4 @@
-from iclbench.environments.textworld.base import TextWorldFactory
+from balrog.environments.textworld.base import TextWorldFactory
 
 TEXTWORLD_FACTORY = None
 

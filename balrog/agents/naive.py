@@ -1,4 +1,4 @@
-from iclbench.agents.base import BaseAgent
+from balrog.agents.base import BaseAgent
 
 
 class NaiveAgent(BaseAgent):

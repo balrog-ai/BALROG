@@ -1,4 +1,4 @@
-from iclbench.environments.baba_is_ai.base import BabaIsAIWrapper
+from balrog.environments.baba_is_ai.base import BabaIsAIWrapper
 
 __all__ = [BabaIsAIWrapper]
 

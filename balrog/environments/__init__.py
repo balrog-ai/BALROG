@@ -6,12 +6,12 @@ import gym
 import numpy as np
 from gym import spaces
 
-from iclbench.environments.env_wrapper import EnvWrapper
+from balrog.environments.env_wrapper import EnvWrapper
 
 
 def make_env(env_name, task, config):
     if env_name == "nle":
-        from iclbench.environments.nle import NLELanguageWrapper
+        from balrog.environments.nle import NLELanguageWrapper
 
         nle_kwargs = dict(config.envs.nle_kwargs)
         skip_more = nle_kwargs.pop("skip_more", False)
@@ -21,7 +21,7 @@ def make_env(env_name, task, config):
     elif env_name == "minihack":
         import minihack
 
-        from iclbench.environments.nle import NLELanguageWrapper
+        from balrog.environments.nle import NLELanguageWrapper
 
         minihack_kwargs = dict(config.envs.minihack_kwargs)
         skip_more = minihack_kwargs.pop("skip_more", False)
@@ -43,7 +43,7 @@ def make_env(env_name, task, config):
     elif env_name == "babyai":
         import babyai_text
 
-        from iclbench.environments.babyai_text import BabyAITextCleanLangWrapper
+        from balrog.environments.babyai_text import BabyAITextCleanLangWrapper
 
         base_task, goal = task.split("/")
         while 1:
@@ -55,7 +55,7 @@ def make_env(env_name, task, config):
     elif env_name == "crafter":
         import crafter
 
-        from iclbench.environments.crafter import CrafterLanguageWrapper
+        from balrog.environments.crafter import CrafterLanguageWrapper
 
         crafter_kwargs = dict(config.envs.crafter_kwargs)
         max_episode_steps = crafter_kwargs.pop("max_episode_steps", 2)
@@ -67,18 +67,18 @@ def make_env(env_name, task, config):
         env = crafter.Env(**crafter_kwargs)
         base_env = CrafterLanguageWrapper(env, task, max_episode_steps=max_episode_steps)
     elif env_name == "craftax":
-        from iclbench.environments.craftax import CraftaxLanguageWrapper
+        from balrog.environments.craftax import CraftaxLanguageWrapper
 
         base_env = CraftaxLanguageWrapper(task, **config.envs.craftax_kwargs)
     elif env_name == "textworld":
-        from iclbench.environments.textworld import global_textworld_context
+        from balrog.environments.textworld import global_textworld_context
 
         textworld_context = global_textworld_context(tasks=config.tasks.textworld_tasks, **config.envs.textworld_kwargs)
         base_env = textworld_context(task, **config.envs.env_kwargs)
     elif env_name == "babaisai":
         from baba import make
 
-        from iclbench.environments.baba_is_ai import BabaIsAIWrapper
+        from balrog.environments.baba_is_ai import BabaIsAIWrapper
 
         base_env = BabaIsAIWrapper(make(task, **config.envs.babaisai_kwargs))
     else:

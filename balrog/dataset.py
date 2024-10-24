@@ -40,7 +40,7 @@ class InContextDataset:
 
         # use the same role
         if self.env_name == "nle":
-            from iclbench.environments.nle import Role
+            from balrog.environments.nle import Role
 
             character = demo_config.envs.nle_kwargs.character
             if character != "@":
@@ -54,7 +54,7 @@ class InContextDataset:
 
         # use different seed - avoid the case where we put the solution into the context
         if self.env_name == "textworld":
-            from iclbench.environments.textworld import global_textworld_context
+            from balrog.environments.textworld import global_textworld_context
 
             textworld_context = global_textworld_context(
                 tasks=self.config.tasks.textworld_tasks, **self.config.envs.textworld_kwargs

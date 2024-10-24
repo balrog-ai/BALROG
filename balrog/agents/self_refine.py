@@ -1,8 +1,8 @@
 import copy
 import re
 
-from iclbench.agents.base import BaseAgent
-from iclbench.client import LLMClientWrapper
+from balrog.agents.base import BaseAgent
+from balrog.client import LLMClientWrapper
 
 
 class SelfRefineAgent(BaseAgent):

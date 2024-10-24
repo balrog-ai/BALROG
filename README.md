@@ -1,4 +1,4 @@
-# In-Context-Learning benchmark for LLM agents
+# BALROG: Benchmarking Agenting LLM/VLM Reasoning On Games
 
 ![Alt text](assets/figures/balrog.jpg)
 
@@ -19,11 +19,11 @@ High-quality, easy to enter benchmark for LLM agents, testing their in-context-l
 # Structure:
 
 ```
-ICL-bench
+Balrog
 ├── README.md               # Documentation of the repository
 ├── config/                 # Config folder
 │   ├── eval.yaml           # Base evaluation config file
-├── iclbench/               # Main code of the 
+├── balrog/               # Main code of the 
 │   ├── agents/             # Agent implementations with LangChain (naive agent for now)
 │   ├── environments/       # Environments folder with a unified env loader
 │   └── prompt_builder/     # History, Zero-shot, and VLM prompt builders
@@ -36,23 +36,14 @@ ICL-bench
 The idea is to that people will interact through the eval.py, whose structure should more or less be:
 
 ```
-# Load configuration
-config = OmegaConf.load("config/eval.yaml")
+evaluator_manager = EvaluatorManager(config, original_cwd=original_cwd)
+agent_factory = AgentFactory(config)
 
-# Instantiate LLM client
-client = OpenAI(api_key="EMPTY", base_url=config.base_url)
+# Run experiments
+evaluator_manager.run(agent_factory)
 
-# Instantiate environment
-env = make_envs(**config.env_kwargs)
-
-agent = create_agent_class(client, config)
-
-# Instantiate evaluator and run the evaluation
-evaluator = Evaluator(env, agent, config)
-results = evaluator.run()
-
-# Save results
-evaluator.save_results(results, config.get("savedir", "eval.json"))
+overall_summary = collect_and_summarize_results(evaluator_manager.output_dir, config)
+print_summary_table(overall_summary)
 ```
 
 Ideally we should in the future also support interaction with the benchmark purely from command line with an evaluation harness similar to SWEbench or llm-eval-harness
@@ -65,8 +56,8 @@ Ideally we should in the future also support interaction with the benchmark pure
 
 # Installation
 ```
-conda create --y --name iclbench python=3.10
-conda activate iclbench
+conda create --y --name balrog python=3.10
+conda activate balrog
 pip install -e external/Grounding_LLMs_with_online_RL/babyai-text
 pip install -e external/Grounding_LLMs_with_online_RL/babyai-text/babyai
 pip install -e external/Grounding_LLMs_with_online_RL/babyai-text/gym-minigrid

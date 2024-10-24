@@ -2,9 +2,9 @@ import pytest
 from hydra import compose, initialize
 from hydra.core.global_hydra import GlobalHydra
 
-from iclbench.agents import AgentFactory
-from iclbench.evaluator import Evaluator
-from iclbench.utils import setup_environment
+from balrog.agents import AgentFactory
+from balrog.evaluator import EvaluatorManager
+from balrog.utils import setup_environment
 
 agents = [
     "naive",
@@ -57,9 +57,9 @@ def test_evaluation(agent, environment, client, model_id, max_image_history):
         assert cfg.client.client_name == client
 
         # Run evaluation
-        env_name = cfg.envs.names.split(",")[0]
+        env_name = cfg.envs.names.split("-")[0]
         # we could pass task name as an argument, for now just use the first task
         cfg.tasks[f"{env_name}_tasks"] = cfg.tasks[f"{env_name}_tasks"][:1]
-        evaluator = Evaluator(env_name, cfg, original_cwd=cfg.hydra.runtime.cwd)
+        evaluator = EvaluatorManager(cfg, original_cwd=cfg.hydra.runtime.cwd)
         agent_factory = AgentFactory(cfg)
         evaluator.run(agent_factory)
