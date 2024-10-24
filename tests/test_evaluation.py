@@ -2,9 +2,9 @@ import pytest
 from hydra import compose, initialize
 from hydra.core.global_hydra import GlobalHydra
 
-from iclbench.agents import AgentFactory
-from iclbench.evaluator import EvaluatorManager
-from iclbench.utils import setup_environment
+from balrog.agents import AgentFactory
+from balrog.evaluator import EvaluatorManager
+from balrog.utils import setup_environment
 
 agents = [
     "naive",
