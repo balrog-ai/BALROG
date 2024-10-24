@@ -38,7 +38,7 @@ def main(config: DictConfig):
     )
 
     # Create an EvaluatorManager and run evaluation
-    evaluator_manager = EvaluatorManager(config, original_cwd=original_cwd)
+    evaluator_manager = EvaluatorManager(config, original_cwd=original_cwd, output_dir=output_dir)
     agent_factory = AgentFactory(config)
 
     # Run evaluation
