@@ -27,9 +27,23 @@ class LLMClientWrapper:
         self.timeout = client_config.timeout
         self.is_chat_model = client_config.is_chat_model
         self.client_kwargs = {**client_config.generate_kwargs}
+        self.max_retries = client_config.max_retries
+        self.delay = client_config.delay
 
     def generate(self, messages):
         raise NotImplementedError("This method should be overridden by subclasses")
+
+    def execute_with_retries(self, func, *args, **kwargs):
+        retries = 0
+        while retries < self.max_retries:
+            try:
+                return func(*args, **kwargs)
+            except Exception as e:
+                retries += 1
+                logger.error(f"Retryable error during {func.__name__}: {e}. Retry {retries}/{self.max_retries}")
+                sleep_time = self.delay * (2 ** (retries - 1))  # Exponential backoff
+                time.sleep(sleep_time)
+        raise Exception(f"Failed to execute {func.__name__} after {self.max_retries} retries.")
 
 
 def process_image_openai(image):
@@ -77,11 +91,14 @@ class OpenAIWrapper(LLMClientWrapper):
         self._initialize_client()
         converted_messages = self.convert_messages(messages)
 
-        response = self.client.chat.completions.create(
-            messages=converted_messages,
-            model=self.model_id,
-            max_tokens=self.client_kwargs.get("max_tokens", 1024),
-        )
+        def api_call():
+            return self.client.chat.completions.create(
+                messages=converted_messages,
+                model=self.model_id,
+                max_tokens=self.client_kwargs.get("max_tokens", 1024),
+            )
+
+        response = self.execute_with_retries(api_call)
 
         return LLMResponse(
             model_id=self.model_id,
@@ -152,7 +169,6 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
             )
         return converted_messages
 
-
     def get_completion(self, converted_messages, max_retries=5, delay=5):
         retries = 0
         while retries < max_retries:
@@ -177,49 +193,54 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
             logger.error("Response is None, cannot extract completion.")
             return ""
 
-        candidates = getattr(response, 'candidates', [])
+        candidates = getattr(response, "candidates", [])
         if not candidates:
             logger.error("No candidates found in the response.")
             return ""
-        
+
         candidate = candidates[0]
-        content = getattr(candidate, 'content', None)
-        content_parts = getattr(content, 'parts', [])
+        content = getattr(candidate, "content", None)
+        content_parts = getattr(content, "parts", [])
         if not content_parts:
             logger.error("No content parts found in the candidate.")
             return ""
-        
-        text = getattr(content_parts[0], 'text', "")
+
+        text = getattr(content_parts[0], "text", "")
         return text.strip()
 
     def generate(self, messages):
         self._initialize_client()
-        
-        try:
-            converted_messages = self.convert_messages(messages)
-            response = self.get_completion(converted_messages)
-        except Exception as e:
-            logger.error(f"Error during get_completion: {e}")
-            raise Exception(f"Failed to get a valid completion after multiple retries: {e}")
 
-        try:
-            completion = self.extract_completion(response)
-        except Exception as e:
-            logger.error(f"Error during extract_completion: {e}")
-            completion = ""
-        
+        converted_messages = self.convert_messages(messages)
+
+        def api_call():
+            return self.model.generate_content(
+                converted_messages,
+                generation_config=self.generation_config,
+            )
+
+        response = self.execute_with_retries(api_call)
+
+        completion = self.extract_completion(response)
+
         return LLMResponse(
             model_id=self.model_id,
             completion=completion,
-            stop_reason=getattr(
-                response.candidates[0], 'finish_reason', 'unknown'
-            ) if response and getattr(response, 'candidates', []) else 'unknown',
-            input_tokens=getattr(
-                response.usage_metadata, 'prompt_token_count', 0
-            ) if response and getattr(response, 'usage_metadata', None) else 0,
-            output_tokens=getattr(
-                response.usage_metadata, 'candidates_token_count', 0
-            ) if response and getattr(response, 'usage_metadata', None) else 0,
+            stop_reason=(
+                getattr(response.candidates[0], "finish_reason", "unknown")
+                if response and getattr(response, "candidates", [])
+                else "unknown"
+            ),
+            input_tokens=(
+                getattr(response.usage_metadata, "prompt_token_count", 0)
+                if response and getattr(response, "usage_metadata", None)
+                else 0
+            ),
+            output_tokens=(
+                getattr(response.usage_metadata, "candidates_token_count", 0)
+                if response and getattr(response, "usage_metadata", None)
+                else 0
+            ),
             reasoning=None,
         )
 
@@ -251,11 +272,14 @@ class ClaudeWrapper(LLMClientWrapper):
         self._initialize_client()
         converted_messages = self.convert_messages(messages)
 
-        response = self.client.messages.create(
-            messages=converted_messages,
-            model=self.model_id,
-            max_tokens=self.client_kwargs.get("max_tokens", 1024),
-        )
+        def api_call():
+            return self.client.messages.create(
+                messages=converted_messages,
+                model=self.model_id,
+                max_tokens=self.client_kwargs.get("max_tokens", 1024),
+            )
+
+        response = self.execute_with_retries(api_call)
 
         return LLMResponse(
             model_id=self.model_id,
@@ -275,7 +299,11 @@ class ReplicateWrapper(LLMClientWrapper):
     def generate(self, messages):
         # Replicate models might not support multi-turn conversations; we concatenate messages
         prompt = "\n".join([f"{msg.role.capitalize()}: {msg.content}" for msg in messages])
-        output = self.client.run(self.model_id, input={"prompt": prompt}, **self.client_kwargs)
+
+        def api_call():
+            return self.client.run(self.model_id, input={"prompt": prompt}, **self.client_kwargs)
+
+        output = self.execute_with_retries(api_call)
 
         # Handle different output types
         if isinstance(output, list):

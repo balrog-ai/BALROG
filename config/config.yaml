@@ -1,5 +1,5 @@
 agent: 
-  type: icl
+  type: naive
   remember_cot: True
   max_history: 16
   max_image_history: 0
@@ -7,12 +7,14 @@ agent:
   cache_icl: False
 
 eval:
+  output_dir: "results"
+  resume_from: null # Config file to resume run from pre-existing non-completed run
   num_workers: 1
   num_episodes:
     nle: 5
     minihack: 5
     babyai: 25
-    crafter: 5
+    crafter: 10
     babaisai: 5
     textworld: 20
   max_steps_per_episode: null
@@ -34,10 +36,12 @@ client:
     temperature: 0.0
     max_tokens: 1024
   timeout: 60
+  max_retries: 5
+  delay: 2
 
 
 envs:
-  names: nle
+  names: babyai-babaisai-textworld-crafter-nle-minihack
   env_kwargs:
     seed: null
   nle_kwargs:
@@ -66,7 +70,6 @@ envs:
     length: 10000
     seed: null
     max_episode_steps: 2000
-  craftax_kwargs: {}
   textworld_kwargs:
     objective: True
     description: True
@@ -93,9 +96,6 @@ tasks:
 
   crafter_tasks:
     - "default"
-
-  craftax_tasks:
-    - "Craftax-Symbolic-v1"
 
   babyai_tasks:
     - "BabyAI-MixedTrainLocal-v0/goto"
@@ -153,4 +153,5 @@ tasks:
 
 hydra:
   run:
-    dir: ./results/${now:%Y-%m-%d}/${now:%H-%M-%S}
+    dir: .
+  output_subdir: null
