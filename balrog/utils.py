@@ -124,7 +124,7 @@ def collect_and_summarize_results(output_dir, config):
     )
     overall_std_error = overall_std_dev / math.sqrt(total_episodes) if total_episodes > 1 else 0.0
 
-    overall_summary = {
+    summary = {
         "Final score": 100 * overall_avg_progression,
         "standard_error": 100 * overall_std_error,
         "environments": overall_env_summaries,
@@ -135,21 +135,19 @@ def collect_and_summarize_results(output_dir, config):
     }
 
     # Save overall summary
-    overall_summary_filename = os.path.join(output_dir, "overall_summary.json")
-    with open(overall_summary_filename, "w") as f:
-        json.dump(overall_summary, f, indent=4)
-    logging.info(f"Overall results saved in {overall_summary_filename}")
+    summary_filename = os.path.join(output_dir, "summary.json")
+    with open(summary_filename, "w") as f:
+        json.dump(summary, f, indent=4)
+    logging.info(f"Overall results saved in {summary_filename}")
 
-    return overall_summary
+    return summary
 
 
-def print_summary_table(overall_summary):
+def print_summary_table(summary):
     print("\nSummary of Results:")
-    print(
-        f"Overall Average Progression: {overall_summary['Final score']:.2f}% ± {overall_summary['standard_error']:.2f}%"
-    )
+    print(f"Overall Average Progression: {summary['Final score']:.2f}% ± {summary['standard_error']:.2f}%")
     print("Per-Environment Results:")
-    for env_name, env_data in overall_summary["environments"].items():
+    for env_name, env_data in summary["environments"].items():
         print(
             f"  {env_name}: {env_data['progression_percentage']:.2f}% ± {env_data['standard_error']:.2f}%, Episodes: {env_data['episodes_played']}"
         )

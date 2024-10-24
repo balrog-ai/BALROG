@@ -46,8 +46,8 @@ def main(config: DictConfig):
     evaluator_manager.run(agent_factory)
 
     # Collect and summarize results
-    overall_summary = collect_and_summarize_results(evaluator_manager.output_dir, config)
-    print_summary_table(overall_summary)
+    summary = collect_and_summarize_results(evaluator_manager.output_dir, config)
+    print_summary_table(summary)
 
     if config.eval.wandb_save:
         wandb_save_artifact(config)
