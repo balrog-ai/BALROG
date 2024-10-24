@@ -25,7 +25,7 @@ eval:
   wandb_save: False
   wandb:
     project_name: benchmark
-    entity_name: ICLbench
+    entity_name: BALROG
 
 client:
   client_name: openai

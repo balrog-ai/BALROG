@@ -8,7 +8,7 @@ import gym
 import textworld
 import textworld.gym
 
-workspace_dir = os.path.dirname(importlib.resources.files("iclbench").__str__())
+workspace_dir = os.path.dirname(importlib.resources.files("balrog").__str__())
 
 
 class TextWorldFactory:
