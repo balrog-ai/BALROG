@@ -6,9 +6,9 @@ import pytest
 from hydra import compose, initialize
 from hydra.core.global_hydra import GlobalHydra
 
-from iclbench.dataset import InContextDataset
-from iclbench.environments import make_env
-from iclbench.utils import setup_environment
+from balrog.dataset import InContextDataset
+from balrog.environments import make_env
+from balrog.utils import setup_environment
 
 environments = [
     "nle",

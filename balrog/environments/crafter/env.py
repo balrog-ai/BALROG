@@ -5,7 +5,7 @@ import gym
 import numpy as np
 from PIL import Image
 
-from iclbench.environments import Strings
+from balrog.environments import Strings
 
 ACTIONS = [
     "Noop",

@@ -1,4 +1,4 @@
-from iclbench.agents.base import BaseAgent
+from balrog.agents.base import BaseAgent
 from typing import List, Optional
 
 
@@ -36,7 +36,7 @@ class ICLAgent(BaseAgent):
                 "action": action,
             }
         )
-        
+
     def cache_icl(self):
         self.client.cache_icl_demo(self.get_icl_prompt())
         self.cached_icl = True
@@ -93,7 +93,7 @@ class ICLAgent(BaseAgent):
             messages = self.get_icl_prompt()
         else:
             messages = []
-            
+
         messages.extend(self.prompt_builder.get_prompt(icl_episodes=True))
 
         # Add naive instructions to the last user message

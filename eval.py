@@ -2,9 +2,9 @@ import hydra
 from hydra.utils import get_original_cwd
 from omegaconf import DictConfig
 
-from iclbench.agents import AgentFactory
-from iclbench.evaluator import EvaluatorManager
-from iclbench.utils import setup_environment, collect_and_summarize_results, print_summary_table, wandb_save_artifact
+from balrog.agents import AgentFactory
+from balrog.evaluator import EvaluatorManager
+from balrog.utils import setup_environment, collect_and_summarize_results, print_summary_table, wandb_save_artifact
 
 
 @hydra.main(config_path="config", config_name="config", version_base="1.1")

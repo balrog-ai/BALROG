@@ -5,7 +5,7 @@ from nle.nethack import USEFUL_ACTIONS
 from nle_language_wrapper.nle_language_obsv import NLELanguageObsv
 from PIL import Image
 
-from iclbench.environments import Strings
+from balrog.environments import Strings
 
 from ..minihack import ACTIONS as MINIHACK_ACTIONS
 from .progress import get_progress_system

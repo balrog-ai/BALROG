@@ -1,7 +1,7 @@
 import logging
 from collections import defaultdict, namedtuple
 
-from iclbench.agents.base import BaseAgent
+from balrog.agents.base import BaseAgent
 
 
 LLMResponse = namedtuple(

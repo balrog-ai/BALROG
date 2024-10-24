@@ -15,9 +15,9 @@ from pathlib import Path
 import numpy as np
 from tqdm import tqdm
 
-from iclbench.agents.icl import ICLAgent
-from iclbench.dataset import InContextDataset
-from iclbench.environments import make_env
+from balrog.agents.icl import ICLAgent
+from balrog.dataset import InContextDataset
+from balrog.environments import make_env
 
 
 class EvaluatorManager:

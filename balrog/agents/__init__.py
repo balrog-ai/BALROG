@@ -1,4 +1,4 @@
-from iclbench.client import create_llm_client
+from balrog.client import create_llm_client
 
 from ..prompt_builder import create_prompt_builder
 from .chain_of_thought import ChainOfThoughtAgent
