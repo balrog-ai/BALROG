@@ -17,6 +17,7 @@ LLMResponse = namedtuple(
 
 httpx_logger = logging.getLogger("httpx")
 httpx_logger.setLevel(logging.WARNING)
+logger = logging.getLogger(__name__)
 
 
 class LLMClientWrapper:

@@ -8,7 +8,6 @@ import os
 import random
 import traceback
 from collections import defaultdict
-from datetime import datetime
 from pathlib import Path
 
 
@@ -19,32 +18,14 @@ from balrog.agents.icl import ICLAgent
 from balrog.dataset import InContextDataset
 from balrog.environments import make_env
 
+logger = logging.getLogger(__name__)
+
 
 class EvaluatorManager:
-    def __init__(self, config, original_cwd=""):
+    def __init__(self, config, original_cwd="", output_dir="."):
         self.config = config
         self.original_cwd = original_cwd
-
-        # Determine output directory
-        if config.eval.resume_from is not None:
-            output_dir = config.eval.resume_from
-        else:
-            now = datetime.now()
-            timestamp = now.strftime("%Y-%m-%d/%H-%M-%S")
-            run_name = f"{timestamp}_{config.agent.type}_{config.client.model_id}"
-            output_dir = os.path.join(config.eval.output_dir, run_name)
-
-            # Create the directory if it doesn't exist
-            Path(output_dir).mkdir(parents=True, exist_ok=True)
         self.output_dir = output_dir
-
-        log_filename = os.path.join(output_dir, "eval.log")
-        logging.basicConfig(
-            level=logging.INFO,
-            format="%(asctime)s - %(levelname)s - %(message)s",
-            handlers=[logging.FileHandler(log_filename), logging.StreamHandler()],
-            force=True,
-        )
 
         self.env_names = config.envs.names.split("-")
         self.env_evaluators = {}
