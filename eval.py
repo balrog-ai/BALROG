@@ -42,9 +42,6 @@ def main(config: DictConfig):
     agent_factory = AgentFactory(config)
     evaluator_manager.run(agent_factory)
 
-    # Run evaluation
-    evaluator_manager.run(agent_factory)
-
     # Collect and summarize results
     summary = collect_and_summarize_results(evaluator_manager.output_dir, config)
     print_summary_table(summary)
