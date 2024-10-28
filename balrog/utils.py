@@ -1,6 +1,8 @@
 import json
 import logging
 import os
+import time
+import hashlib
 import math
 from collections import defaultdict
 from omegaconf import OmegaConf
@@ -163,6 +165,13 @@ def wandb_save_artifact(config):
     wandb.log(json_data)
 
     wandb.finish()
+
+
+def get_seed_from_timestamp():
+    timestamp = int(time.time())
+    hashed_timestamp = hashlib.sha256(str(timestamp).encode()).hexdigest()
+    seed = int(hashed_timestamp[:8], 16)
+    return seed
 
 
 def load_secrets(file_path):
