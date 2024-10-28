@@ -8,6 +8,7 @@ import os
 import random
 import traceback
 from collections import defaultdict
+from omegaconf import OmegaConf
 from pathlib import Path
 
 
@@ -284,6 +285,8 @@ class Evaluator:
             episode_log["failed_candidates"] = env.failed_candidates
             episode_log.update(env.get_stats())
             episode_log["process_num"] = process_num
+            episode_log["agent"] = OmegaConf.to_container(self.config.agent, resolve=True)
+            episode_log["client"] = OmegaConf.to_container(self.config.client, resolve=True)
 
             # Save the episode_log to a JSON file
             json_filename = os.path.join(self.output_dir, self.env_name, task, f"{task}_run_{episode_idx:02d}.json")
