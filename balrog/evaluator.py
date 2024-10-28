@@ -18,6 +18,7 @@ from tqdm import tqdm
 from balrog.agents.icl import ICLAgent
 from balrog.dataset import InContextDataset
 from balrog.environments import make_env
+from balrog.utils import get_seed_from_timestamp
 
 logger = logging.getLogger(__name__)
 
@@ -199,7 +200,7 @@ class Evaluator:
         env = make_env(self.env_name, task, self.config)
         agent.reset()
 
-        seed = self.config.envs.env_kwargs.seed
+        seed = get_seed_from_timestamp() if self.config.envs.env_kwargs.seed is None else seed
         if seed is not None:
             random.seed(seed)
             np.random.seed(seed)
@@ -285,6 +286,7 @@ class Evaluator:
             episode_log["failed_candidates"] = env.failed_candidates
             episode_log.update(env.get_stats())
             episode_log["process_num"] = process_num
+            episode_log["seed"] = seed
             episode_log["agent"] = OmegaConf.to_container(self.config.agent, resolve=True)
             episode_log["client"] = OmegaConf.to_container(self.config.client, resolve=True)
 
