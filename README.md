@@ -71,7 +71,6 @@ pip install git+https://github.com/nacloos/baba-is-ai.git
 pip install openai
 pip install anthropic
 pip install google-generativeai
-pip install replicate
 pip install wandb
 pip install pytest
 ```
@@ -89,7 +88,6 @@ pre-commit run --all-files
 OPENAI_API_KEY=<KEY>
 GEMINI_API_KEY=<KEY>
 ANTHROPIC_API_KEY=<KEY>
-REPLICATE_API_TOKEN=<KEY>
 DEFAULT_ORG=
 ```
 

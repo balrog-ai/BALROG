@@ -20,7 +20,7 @@ However, you can modify or create any new files you want, as long as they don't 
 The following is an example for a custom planning agent, that stores a plan, and at each timestep can either propose a new plan, or follow the current plan. We use here the default history prompt builder.  
 
 `custom.py`
-```
+```python
 from balrog.agents.base import BaseAgent
 import re
 
@@ -90,7 +90,25 @@ Or you can modify the `SECRETS` file, adding your api keys.
 
 Then run the evaluation with:
 
+```
+python eval.py \
+  agent.type=custom \
+  agent.max_image_history=0 \
+  eval.num_workers=16 \
+  client.client_name=openai \
+  client.model_id=gpt-4o-mini-2024-07-18 \
+```
 
+You can activate the VLM mode by increasing the `max_image_history` argument, for example
+
+```
+python eval.py \
+  agent.type=custom \
+  agent.max_image_history=1 \
+  eval.num_workers=16 \
+  client.client_name=openai \
+  client.model_id=gpt-4o-mini-2024-07-18 \
+```
 
 ## Evaluate using vLLM locally
 We support the use of vLLM for evaluating LLM/VLM locally.
@@ -98,3 +116,9 @@ We support the use of vLLM for evaluating LLM/VLM locally.
 
 
 ### Evaluate using vLLM running on another machine
+
+
+
+
+### Resume an evaluation
+If for for whatever reason your evaluation was stopped midway through, you can resume running at any point by using the config flag `eval.resume_from`, and it will finish running the remaining tasks on its own. For example,
