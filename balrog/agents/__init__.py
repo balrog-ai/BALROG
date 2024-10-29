@@ -30,7 +30,7 @@ class AgentFactory:
         elif self.config.agent.type == "dummy":
             return DummyAgent(client_factory, prompt_builder)
         elif self.config.agent.type == "custom":
-            return CustomAgent(client_factory, prompt_builder, self.config.agent.custom)
+            return CustomAgent(client_factory, prompt_builder)
 
         else:
             raise ValueError(f"Unknown agent type: {self.config.agent}")

@@ -4,7 +4,7 @@ import copy
 
 
 class CustomAgent(BaseAgent):
-    def __init__(self, client_factory, prompt_builder, config):
+    def __init__(self, client_factory, prompt_builder):
         super().__init__(client_factory, prompt_builder)
         self.client = client_factory()
         self.plan = None
@@ -25,7 +25,7 @@ If you make changes, provide the updated plan.
 Then, provide the next action to take.
 You must output an action at every step.
 Format your answer in the following way:
-PLAN: <your updated plan if changed, or "No changes to the plan.">
+PLAN: <your updated plan if changed, or "No changes to the plan." if the current plan is good>
 ACTION: <your next action>
         """.strip()
 
