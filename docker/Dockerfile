@@ -32,7 +32,7 @@ USER user
 RUN pip install --upgrade pip
 
 RUN pip install wandb pytest hydra-core
-RUN pip install openai anthropic google-generativeai replicate
+RUN pip install openai anthropic google-generativeai
 
 # Where we put all the disgusting shit
 RUN mkdir /home/user/external

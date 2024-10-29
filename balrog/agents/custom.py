@@ -1,6 +1,5 @@
 from balrog.agents.base import BaseAgent
 import re
-import copy
 
 
 class CustomAgent(BaseAgent):
@@ -14,15 +13,11 @@ class CustomAgent(BaseAgent):
             self.prompt_builder.update_action(prev_action)
         self.prompt_builder.update_observation(obs)
 
-        if self.plan:
-            plan_text = f"Current Plan:\n{self.plan}\n"
-        else:
-            plan_text = "You have no plan yet.\n"
+        plan_text = f"Current Plan:\n{self.plan}\n" if self.plan else "You have no plan yet.\n"
 
         planning_instructions = """
 Review the current plan above if present. Decide whether to continue with it or make changes.
-If you make changes, provide the updated plan.
-Then, provide the next action to take.
+If you make changes, provide the updated plan. Then, provide the next action to take. 
 You must output an action at every step.
 Format your answer in the following way:
 PLAN: <your updated plan if changed, or "No changes to the plan." if the current plan is good>
@@ -43,27 +38,14 @@ ACTION: <your next action>
             self.plan = plan
 
         # Save the plan in the response.reasoning field and the action in response.completion
-        modified_response = copy.deepcopy(response)
-        modified_response = modified_response._replace(reasoning=plan)
-        modified_response = modified_response._replace(completion=action)
-
-        return modified_response
+        response = response._replace(reasoning=plan, completion=action)
+        return response
 
     def _extract_plan_and_action(self, response_text):
-        # Initialize plan and action
-        plan = "No changes to the plan."
-        action = None
-
-        # Extract PLAN and ACTION from the response
         plan_match = re.search(r"PLAN:\s*(.*?)(?=\nACTION:|\Z)", response_text, re.IGNORECASE | re.DOTALL)
         action_match = re.search(r"ACTION:\s*(.*)", response_text, re.IGNORECASE | re.DOTALL)
 
-        if plan_match:
-            plan_content = plan_match.group(1).strip()
-            if plan_content:
-                plan = plan_content
-
-        if action_match:
-            action = action_match.group(1).strip()
+        plan = plan_match.group(1).strip() if plan_match else "No changes to the plan."
+        action = action_match.group(1).strip() if action_match else None
 
         return plan, action

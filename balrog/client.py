@@ -7,7 +7,6 @@ import time
 
 from google.generativeai import caching
 import google.generativeai as genai
-import replicate
 from anthropic import Anthropic
 from openai import OpenAI
 
@@ -292,38 +291,6 @@ class ClaudeWrapper(LLMClientWrapper):
         )
 
 
-class ReplicateWrapper(LLMClientWrapper):
-    def __init__(self, client_config):
-        super().__init__(client_config)
-        self.client = replicate.Client(timeout=self.timeout)
-
-    def generate(self, messages):
-        # Replicate models might not support multi-turn conversations; we concatenate messages
-        prompt = "\n".join([f"{msg.role.capitalize()}: {msg.content}" for msg in messages])
-
-        def api_call():
-            return self.client.run(self.model_id, input={"prompt": prompt}, **self.client_kwargs)
-
-        output = self.execute_with_retries(api_call)
-
-        # Handle different output types
-        if isinstance(output, list):
-            content = "".join(output)
-        elif isinstance(output, str):
-            content = output
-        else:
-            content = str(output)
-
-        return LLMResponse(
-            model_id=self.model_id,
-            completion=content.strip(),
-            stop_reason=None,
-            input_tokens=None,
-            output_tokens=None,
-            reasoning=None,
-        )
-
-
 def create_llm_client(client_config):
     """
     Factory function to create the appropriate LLM client based on the client name.
@@ -336,8 +303,6 @@ def create_llm_client(client_config):
             return GoogleGenerativeAIWrapper(client_config)
         elif "claude" in client_config.client_name.lower():
             return ClaudeWrapper(client_config)
-        elif "replicate" in client_config.client_name.lower():
-            return ReplicateWrapper(client_config)
         else:
             raise ValueError(f"Unsupported client name: {client_config.client_name}")
 
