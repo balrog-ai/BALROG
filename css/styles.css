@@ -13,8 +13,9 @@
   --darkorange: #d54718;
 
   /* BALROG */
-  --accent_color: rgb(200, 40, 40);
-  /* --accent_color: rgb(240, 200, 100); */
+  /* --accent_color: rgb(200, 40, 40); */
+  --accent_color: rgb(240, 180, 95);
+  --lighted_accent_color: rgb(90, 80, 255);
   --dark_accent_color: rgb(40, 40, 35);
 
   /* Dark grey and gold */
