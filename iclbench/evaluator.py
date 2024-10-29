@@ -18,7 +18,33 @@ from iclbench.environments import make_env
 
 
 class Evaluator:
+    """
+    Class to evaluate an agent on a set of tasks in a given environment.
+
+    The `Evaluator` class is responsible for orchestrating the evaluation of agents
+    across multiple tasks within a specified environment. It manages the setup of
+    the environment, runs episodes, logs results, and can execute evaluations in
+    parallel or sequentially.
+
+    Attributes:
+        env_name (str): Name of the environment in which the agent operates.
+        config (Config): Configuration object containing evaluation parameters.
+        tasks (list): List of tasks for the specified environment.
+        num_episodes (int): Number of episodes to run for each task.
+        num_workers (int): Number of parallel worker processes to use.
+        max_steps_per_episode (int): Maximum number of steps per episode.
+        dataset (InContextDataset): Dataset object for managing in-context learning tasks.
+    """
+    
     def __init__(self, env_name, config, original_cwd=""):
+        """
+        Initializes the Evaluator with environment name and configuration.
+
+        Args:
+            env_name (str): Name of the environment.
+            config (Config): Configuration object with evaluation parameters.
+            original_cwd (str, optional): Original current working directory. Defaults to "".
+        """
         self.env_name = env_name.strip()  # Ensure no leading/trailing whitespace
         self.config = config
         self.tasks = config.tasks[f"{self.env_name}_tasks"]
@@ -30,6 +56,15 @@ class Evaluator:
         self.dataset = InContextDataset(self.config, self.env_name, original_cwd=original_cwd)
 
     def load_in_context_learning_episode(self, i, task, agent, episode_log):
+        """
+        Loads and executes an in-context learning episode for the specified task.
+
+        Args:
+            i (int): Index of the in-context learning episode.
+            task (str): Name of the task to be evaluated.
+            agent (BaseAgent): The agent being evaluated.
+            episode_log (dict): Log to record episode results.
+        """
         demo_config = copy.deepcopy(self.config)
         demo_task = self.dataset.demo_task(task)
         demo_path = self.dataset.demo_path(i, demo_task, demo_config)
@@ -65,6 +100,20 @@ class Evaluator:
         agent.wrap_episode()
 
     def run_episode(self, task, agent, process_num=None, position=0):
+        """
+        Executes a single evaluation episode for the specified task.
+
+        Args:
+            task (str): Name of the task to be evaluated.
+            agent (BaseAgent): The agent being evaluated.
+            process_num (int, optional): Process number for logging purposes. Defaults to None.
+            position (int, optional): Position for progress bar. Defaults to 0.
+
+        Returns:
+            dict: Log of the episode results including trajectory, action frequency,
+                  and performance metrics.
+        """
+        
         env = make_env(self.env_name, task, self.config)
         agent.reset()
 
@@ -148,6 +197,15 @@ class Evaluator:
         return episode_log
 
     def run(self, agent_factory):
+        """
+        Executes the evaluation process either sequentially or in parallel.
+
+        Args:
+            agent_factory (AgentFactory): Factory to create instances of the agent.
+
+        Returns:
+            dict: Summary of the results for all tasks.
+        """
         if self.num_workers > 1:
             results = self._run_parallel(agent_factory)
         else:

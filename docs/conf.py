@@ -15,9 +15,9 @@ sys.path.insert(0, os.path.abspath("../"))
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'AgentQuest'
-copyright = '2024, AgentQuest Team'
-author = 'AgentQuest Team'
+project = 'BALROG'
+copyright = '2024, BALROG Team'
+author = 'BALROG Team'
 release = '1'
 
 # -- General configuration ---------------------------------------------------
@@ -25,6 +25,10 @@ release = '1'
 # Make __init__ members documented
 autodoc_default_options = {
     "special-members": "__init__",
+    'members': True,
+    'undoc-members': True,
+    'show-inheritance': True,
+    "inherited-members": True,
 }
 
 # Add any Sphinx extension module names here, as strings. They can be

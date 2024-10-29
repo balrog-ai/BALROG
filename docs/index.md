@@ -2,18 +2,85 @@
 
 ![Alt text](docs/imgs/balrog.jpg)
 
-### Collaboration guide:
-When implementing majour features:
-1. Branch out from develop
-2. Open PR from your feature branch to develop, describing what you are working on
-3. Implement feature on feature branch
-4. Once feature is ready, solve conflicts and ask for review
-5. Merge when approved (replying with LGTM is fine fow now)
+Welcome to BALROG, a high-quality, easy to enter benchmark for LLM agents, testing their in-context-learning capabilities on a variety of interactive environments.
 
-Let's try to keep it fast paces but also organized.
+LINK TO LEADERBOARD HERE
 
-# North Star
-High-quality, easy to enter benchmark for LLM agents, testing their in-context-learning capabilities on a variety of interactive environments.
+# Overview
+
+AgentQuest is a benchmark and framework that aims to improve our understanding of
+whether existing long-context LLMs are agentic, i.e., whether they can
+be used to automate complex activities that require sequential
+decision-making. It supports model evaluation on challenging
+reinforcement learning environments that test skills such as long-term
+planning, spatial reasoning, and the ability to deduce the mechanics of
+the environment.
+
+By design, the framework explicitly decouples inference-time prompting
+strategies from underlying models. The goal of this design choice is
+two-fold: (1) to facilitate rapid prototyping of inference-time methods
+for improving model performance on long-context decision-making beyond
+zero-shot prompting and (2) to ensure that model evaluations are
+consistent and rigorous.
+
+In the remainder of this section, we introduce the game environments
+evaluated in the benchmark and we discuss our protocols for model
+submission to the Benchmark Leaderboard.
+
+## Environments
+
+**BabyAI.** A simple,
+two-dimensional grid-world in which the agent has to solve tasks of
+varying complexity described in natural language (e.g., "go to the blue
+ball, then pick up the grey key"). Agents are tested across five
+different types of navigation tasks.
+
+**Crafter.** A Minecraft-inspired grid
+environment where the player has to explore, gather resources and craft
+items to ensure their survival. Agents are evaluated based on the number
+of achieved milestones, such as discovering new resources and crafting
+tools.
+
+**TextWorld.** An entirely text-based game with no
+visual component, where the agent has to explore mazes and interact with
+everyday objects through natural language (e.g., "cook potato with
+oven"). Unlike the other environments in AgentBench, TextWorld is not a
+grid-world. Models are evaluated on three different tasks.
+
+**Baba Is AI.** An environment based on the popular
+puzzle video game *Baba Is You*. The player manipulates the rules of the
+game world by pushing word blocks, altering how objects interact. Agents
+are tested on 40 puzzles.
+
+**MiniHack.** MiniHack is a multi-task
+framework built on top of the NetHack Learning
+Environment. We select four different tasks,
+Corridor, CorridorBattle, Boxoban, and Quest. Collectively, they assess
+a wide range of skills, including exploration, navigation, long-term
+planning, and resource management.
+
+**NetHack Learning Environment (NLE)** is based on
+the classic roguelike game NetHack, known for its extreme difficulty and
+complexity. Success in NetHack demands both long-term strategic
+planning, since a winning game can involve hundreds of thousands of
+steps, as well as short-term tactics to fight hordes of monsters.
+Accurate credit assignment is also crucial to understanding which
+actions contributed to success or failure. It takes human players years
+to master NetHack without accessing external guides.
+
+
+
+| **Skills**                    | **BabyAI** | **TextWorld** | **Crafter** | **Baba Is AI** | **MiniHack** | **NLE**   |
+|-------------------------------|------------|---------------|-------------|----------------|--------------|-----------|
+| Navigation                    | ✅         | ✅            | ✅          | ✅             | ✅           | ✅        |
+| Exploration                   | ✅         | ✅            | ✅          | ✅             | ✅           | ✅        |
+| Resource Management           | ❌         | ✅            | ✅          | ❌             | ✅           | ✅        |
+| Complex Credit Assignment     | ❌         | ❌            | ✅          | ✅             | ✅           | ✅        |
+| Deducing Env. Dynamics        | ❌         | ❌            | ❌          | ✅             | ✅           | ✅        |
+| Long-term Planning            | ❌         | ❌            | ❌          | ✅             | ✅           | ✅        |
+| **Turns to Complete**         | 10¹        | 10²           | 10²         | 10²            | 10³          | 10⁴--10⁵  |
+| **Time to Master for Humans** | Seconds    | Minutes       | Hours       | Hours          | Hours        | Years     |
+
 
 
 # Structure:
@@ -33,104 +100,23 @@ ICL-bench
 └── eval.py                 # Entry point of the benchmark
 ```
 
-The idea is to that people will interact through the eval.py, whose structure should more or less be:
+```{toctree}
+:hidden: true
+:maxdepth: 1
+:caption: Getting Started
+:name: sec-gs
 
-```
-# Load configuration
-config = OmegaConf.load("config/eval.yaml")
-
-# Instantiate LLM client
-client = OpenAI(api_key="EMPTY", base_url=config.base_url)
-
-# Instantiate environment
-env = make_envs(**config.env_kwargs)
-
-agent = create_agent_class(client, config)
-
-# Instantiate evaluator and run the evaluation
-evaluator = Evaluator(env, agent, config)
-results = evaluator.run()
-
-# Save results
-evaluator.save_results(results, config.get("savedir", "eval.json"))
+installation
+quick_start
+contributions
 ```
 
-Ideally we should in the future also support interaction with the benchmark purely from command line with an evaluation harness similar to SWEbench or llm-eval-harness
-
-# Environments:
-1. NetHack
-2. Craftax -> TODO
-3. MiniHack -> TODO
-4. BabyAI -> TODO
-
-# Installation
-```
-conda create --y --name iclbench python=3.10
-conda activate iclbench
-pip install -e external/Grounding_LLMs_with_online_RL/babyai-text
-pip install -e external/Grounding_LLMs_with_online_RL/babyai-text/babyai
-pip install -e external/Grounding_LLMs_with_online_RL/babyai-text/gym-minigrid
-pip install -e external/nle-language-wrapper
-pip install -e external/nle
-pip install textworld
-pip install craftax
-pip install git+https://github.com/facebookresearch/minihack
-pip install git+https://github.com/nacloos/baba-is-ai.git
-
-pip install openai
-pip install anthropic
-pip install google-generativeai
-pip install replicate
-pip install wandb
-pip install pytest
-```
-
-### pre-commit installation and setup 
-```
-pip install black isort flake8 pre-commit
-pre-commit install
-pre-commit run --all-files
-``` 
-
-# Create a SECRETS file
-
-```txt
-OPENAI_API_KEY=<KEY>
-GEMINI_API_KEY=<KEY>
-ANTHROPIC_API_KEY=<KEY>
-REPLICATE_API_TOKEN=<KEY>
-DEFAULT_ORG=
-```
-
-# Run
-
-Spin up a vllm server (if on another GPU, consider tunneling) :
-```
-vllm serve meta-llama/Meta-Llama-3.1-8B-Instruct
-```
-The run eval.py. If you are on the same machine as the vllm server, simply run:
-```
-python eval.py
-```
-
-If you are on a different machine, and are doing tunneling:
-```
-python eval.py base_url=/your/vllm/server/baseurl
-```
-
-### In Context Learning
-We use expert demonstrations for ICL
-Download and unzip them
-
-    curl -L -o demos.zip 'https://drive.google.com/uc?export=download&id=11vYFclIY4RoJ6Ha7I5rWhuA5lQnhDtPL'
-    unzip demos.zip
 ```{toctree}
 :hidden: true
 :maxdepth: 1
 :caption: Environments
 :name: sec-envs
 
-envs/overview
 envs/babyai
 envs/crafter
 envs/textworld

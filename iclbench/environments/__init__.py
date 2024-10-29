@@ -10,6 +10,40 @@ from iclbench.environments.env_wrapper import EnvWrapper
 
 
 def make_env(env_name, task, config):
+    """
+    Creates and initializes an environment based on the specified environment name and task.
+
+    This function supports multiple environment types, each with its own configuration
+    requirements. The function will return a wrapped environment suitable for use with 
+    agents in the context of the ICLBench framework.
+
+    Args:
+        env_name (str): The name of the environment to create. Supported values include:
+            - "nle"
+            - "minihack"
+            - "babyai"
+            - "crafter"
+            - "craftax"
+            - "textworld"
+            - "babaisai"
+        task (str): The specific task to be performed within the environment.
+        config (Config): An object containing configuration settings, which must include
+            environment-specific keys such as:
+            - envs.nle_kwargs (dict): Arguments specific to the NLE environment.
+            - envs.minihack_kwargs (dict): Arguments specific to the MiniHack environment.
+            - envs.babyai_kwargs (dict): Arguments specific to the BabyAI environment.
+            - envs.crafter_kwargs (dict): Arguments specific to the Crafter environment.
+            - envs.craftax_kwargs (dict): Arguments specific to the Craftax environment.
+            - envs.textworld_kwargs (dict): Arguments specific to the TextWorld environment.
+            - envs.babaisai_kwargs (dict): Arguments specific to the Baba Is AI environment.
+
+    Returns:
+        EnvWrapper: A wrapped environment instance that includes language processing capabilities 
+            and task-specific functionality.
+
+    Raises:
+        ValueError: If the provided environment name is not recognized.
+    """
     if env_name == "nle":
         from iclbench.environments.nle import NLELanguageWrapper
 
