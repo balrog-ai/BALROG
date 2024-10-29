@@ -11,6 +11,23 @@ import sys
 sys.path.insert(0, os.path.abspath("."))
 sys.path.insert(0, os.path.abspath("../"))
 
+# mock the LLM inferface modules
+from unittest.mock import MagicMock
+MOCK_MODULES = [
+    'google.generativeai',
+    'replicate',
+    'anthropic',
+    'openai',
+    'baba',
+    'baba.world_object',
+    'crafter',
+    'nle_language_wrapper',
+    'nle_language_wrapper.nle_language_obsv',
+    'textworld',
+    'textworld.gym',
+]
+for mod_name in MOCK_MODULES:
+    sys.modules[mod_name] = MagicMock()
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
@@ -26,9 +43,9 @@ release = '1'
 autodoc_default_options = {
     "special-members": "__init__",
     'members': True,
-    'undoc-members': True,
-    'show-inheritance': True,
-    "inherited-members": True,
+    # 'undoc-members': True,
+    # 'show-inheritance': True,
+    "inherited-members": False,
 }
 
 # Add any Sphinx extension module names here, as strings. They can be

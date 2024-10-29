@@ -131,5 +131,5 @@ envs/nle
 :caption: API
 :name: sec-api
 
-api/iclbench
+api/modules
 ```

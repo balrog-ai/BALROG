@@ -30,14 +30,19 @@ ACTIONS = [
 id_to_item = [0] * 19
 
 
-dummyenv = crafter.Env()
-for name, ind in itertools.chain(dummyenv._world._mat_ids.items(), dummyenv._sem_view._obj_ids.items()):
-    name = (
-        str(name)[str(name).find("objects.") + len("objects.") : -2].lower() if "objects." in str(name) else str(name)
-    )
-    id_to_item[ind] = name
-player_idx = id_to_item.index("player")
-del dummyenv
+# wrap in singleton to avoid import errors for doc building
+PLAYER_IDX = None
+def get_player_idx():
+    global PLAYER_IDX
+    if PLAYER_IDX is None:
+        dummyenv = crafter.Env()
+        for name, ind in itertools.chain(dummyenv._world._mat_ids.items(), dummyenv._sem_view._obj_ids.items()):
+            name = (
+                str(name)[str(name).find("objects.") + len("objects.") : -2].lower() if "objects." in str(name) else str(name)
+            )
+            id_to_item[ind] = name
+        PLAYER_IDX = id_to_item.index("player")
+    return PLAYER_IDX
 
 vitals = [
     "health",
@@ -92,7 +97,7 @@ def describe_loc(ref, P):
 
 
 def describe_env(info):
-    assert info["semantic"][info["player_pos"][0], info["player_pos"][1]] == player_idx
+    assert info["semantic"][info["player_pos"][0], info["player_pos"][1]] == get_player_idx()
     semantic = info["semantic"][
         info["player_pos"][0] - info["view"][0] // 2 : info["player_pos"][0] + info["view"][0] // 2 + 1,
         info["player_pos"][1] - info["view"][1] // 2 + 1 : info["player_pos"][1] + info["view"][1] // 2,
@@ -120,7 +125,7 @@ def describe_env(info):
         obs = "You face nothing at your front."
 
     for idx in np.unique(semantic):
-        if idx == player_idx:
+        if idx == get_player_idx():
             continue
 
         smallest = np.unravel_index(np.argmin(np.where(semantic == idx, dist, np.inf)), semantic.shape)
