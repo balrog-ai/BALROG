@@ -1,4 +1,4 @@
-from .builders.history import HistoryPromptBuilder
+from .history import HistoryPromptBuilder
 
 
 def create_prompt_builder(config):

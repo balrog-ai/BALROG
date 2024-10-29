@@ -2,6 +2,7 @@ from balrog.client import create_llm_client
 
 from ..prompt_builder import create_prompt_builder
 from .chain_of_thought import ChainOfThoughtAgent
+from .custom import CustomAgent
 from .naive import NaiveAgent
 from .icl import ICLAgent
 from .self_refine import SelfRefineAgent
@@ -28,5 +29,8 @@ class AgentFactory:
             )
         elif self.config.agent.type == "dummy":
             return DummyAgent(client_factory, prompt_builder)
+        elif self.config.agent.type == "custom":
+            return CustomAgent(client_factory, prompt_builder, self.config.agent.custom)
+
         else:
             raise ValueError(f"Unknown agent type: {self.config.agent}")
