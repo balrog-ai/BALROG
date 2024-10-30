@@ -1,7 +1,7 @@
 import os
 
 import numpy as np
-from nle_language_wrapper import NLELanguageWrapper
+from nle.language_wrapper.wrappers.nle_language_wrapper import NLELanguageWrapper
 from PIL import Image, ImageDraw, ImageFont
 
 MAX_ACTION_LENGTH = max(
