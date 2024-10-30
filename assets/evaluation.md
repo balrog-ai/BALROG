@@ -1,4 +1,4 @@
-# Submission Tutorial
+# Evaluation Tutorial
 
 Davide Paglieri • October 30, 2024
 
