@@ -13,10 +13,10 @@ eval:
   num_episodes:
     nle: 5
     minihack: 5
-    babyai: 25
+    babyai: 10
     crafter: 10
-    babaisai: 5
-    textworld: 20
+    babaisai: 3
+    textworld: 10
   max_steps_per_episode: null
   save_trajectories: True
   icl_episodes: 1
