@@ -443,7 +443,7 @@ def create_llm_client(client_config):
 
     def client_factory():
         client_name_lower = client_config.client_name.lower()
-        if "openai" in client_name_lower or ("vllm" and client_config.base_url) in client_name_lower:
+        if "openai" in client_name_lower or ("vllm" in client_name_lower and client_config.base_url):
             return OpenAIWrapper(client_config)
         elif "gemini" in client_name_lower:
             return GoogleGenerativeAIWrapper(client_config)
