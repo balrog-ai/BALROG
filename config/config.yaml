@@ -53,6 +53,7 @@ envs:
     skip_more: False
   minihack_kwargs: 
     character: "@"
+    max_episode_steps: 100
     penalty_step: 0.0
     penalty_time: 0.001
     penalty_mode: constant
@@ -88,11 +89,12 @@ tasks:
   minihack_tasks:
     - "MiniHack-Boxoban-Hard-v0"
     - "MiniHack-Boxoban-Medium-v0"
+    - "MiniHack-MazeWalk-9x9-v0"
+    - "MiniHack-MazeWalk-15x15-v0"
     - "MiniHack-Corridor-R3-v0"
     - "MiniHack-CorridorBattle-Dark-v0"
     - "MiniHack-Quest-Easy-v0"
     - "MiniHack-Quest-Medium-v0"
-    - "MiniHack-Quest-Hard-v0"
 
   crafter_tasks:
     - "default"
