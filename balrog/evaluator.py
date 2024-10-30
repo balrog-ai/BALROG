@@ -42,7 +42,6 @@ class EvaluatorManager:
                     if os.path.exists(json_filename):
                         logging.info(f"Skipping completed task: {env_name}, {task}, episode {episode_idx}")
                     else:
-                        logging.info(f"Adding task to complete: {env_name}, {task}, episode {episode_idx}")
                         self.tasks.append((env_name, task, episode_idx))
         self.num_workers = config.eval.num_workers
 
