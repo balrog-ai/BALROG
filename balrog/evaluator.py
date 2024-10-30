@@ -228,7 +228,7 @@ class Evaluator:
 
         # Open the CSV file and write the header
         with open(csv_filename, mode="w", newline="", encoding="utf-8") as csv_file:
-            csv_writer = csv.writer(csv_file, escapechar="\\", quoting=csv.QUOTE_NONE)
+            csv_writer = csv.writer(csv_file, quoting=csv.QUOTE_MINIMAL)
             csv_writer.writerow(["Step", "Observation", "Action", "Reasoning", "Reward", "Done"])
 
             # If the agent is an ICLAgent, load the in-context learning episode
