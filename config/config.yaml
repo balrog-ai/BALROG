@@ -30,8 +30,7 @@ eval:
 client:
   client_name: openai
   model_id: gpt-4o
-  base_url: null # Example of base_urls are "http://localhost:8000/v1" or "https://hungry-rabbits-shave.loca.lt/v1"
-  is_chat_model: True
+  base_url: http://localhost:8000/v1
   generate_kwargs:
     temperature: 0.0
     max_tokens: 1024
