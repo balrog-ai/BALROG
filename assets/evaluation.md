@@ -5,7 +5,7 @@ Davide Paglieri • October 30, 2024
 In this tutorial we show how to create custom agents and evaluate them using BALROG.
 
 
-## Creating custom agents
+## 🤖 Creating custom agents
 
 The simple naive zero-shot agent is tasked to only output a single action, and no other text. However, this is suboptimal, as we may want to to allow the the agent to first think about its situation, create plans, refine them, observe and describe the image observations before acting on them, or deal with history in more sophisticated ways.
 
@@ -77,7 +77,7 @@ ACTION: <your next action>
 Feel free to create more complex examples, and experiment with repositories like LangGraph and more. Users are encouraged to propose new reasoning templates by opening a PR with their implementations.
 
 
-## Evaluate using API
+## 🛜 Evaluate using API
 You can either export the API key, with one of the following:
 
 ```
@@ -110,7 +110,7 @@ python eval.py \
   client.model_id=gpt-4o-mini-2024-07-18
 ```
 
-## Evaluate using vLLM locally
+## ⚡️ Evaluate using vLLM locally
 We support the use of vLLM for evaluating LLM/VLM locally.
 
 ```
@@ -127,7 +127,7 @@ python eval.py \
 ```
 
 
-## Resume an evaluation
+## ⚙️ Resume an evaluation
 If for for whatever reason your evaluation was stopped midway through, you can resume running at any point by using the config flag `eval.resume_from`, and it will finish running the remaining tasks on its own. For example, if a previous evaluation in the folder `results/2024-10-30/16-20-30_custom_gpt-4o-mini-2024-07-18` has not properly finished all of its environments, we can resume from it by running:
 
 python eval.py \
