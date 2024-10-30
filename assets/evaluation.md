@@ -1,6 +1,6 @@
 # Submission Tutorial
 
-Davide Paglieri • October 29, 2024
+Davide Paglieri • October 30, 2024
 
 In this tutorial we show how to create custom agents and evaluate them using BALROG.
 
@@ -96,7 +96,7 @@ python eval.py \
   agent.max_image_history=0 \
   eval.num_workers=16 \
   client.client_name=openai \
-  client.model_id=gpt-4o-mini-2024-07-18 \
+  client.model_id=gpt-4o-mini-2024-07-18
 ```
 
 You can activate the VLM mode by increasing the `max_image_history` argument, for example
@@ -107,18 +107,33 @@ python eval.py \
   agent.max_image_history=1 \
   eval.num_workers=16 \
   client.client_name=openai \
-  client.model_id=gpt-4o-mini-2024-07-18 \
+  client.model_id=gpt-4o-mini-2024-07-18
 ```
 
 ## Evaluate using vLLM locally
 We support the use of vLLM for evaluating LLM/VLM locally.
 
+```
+pip install vllm
+vllm serve meta-llama/Meta-Llama-3.1-8B-Instruct --port 8080
+
+python eval.py \
+  agent.type=naive \
+  agent.max_image_history=0 \
+  eval.num_workers=16 \
+  client.client_name=vllm \
+  client.model_id=meta-llama/Meta-Llama-3.1-8B-Instruct \
+  client.base_url=http://0.0.0.0:8080/v1
+```
 
 
-### Evaluate using vLLM running on another machine
+## Resume an evaluation
+If for for whatever reason your evaluation was stopped midway through, you can resume running at any point by using the config flag `eval.resume_from`, and it will finish running the remaining tasks on its own. For example, if a previous evaluation in the folder `results/2024-10-30/16-20-30_custom_gpt-4o-mini-2024-07-18` has not properly finished all of its environments, we can resume from it by running:
 
-
-
-
-### Resume an evaluation
-If for for whatever reason your evaluation was stopped midway through, you can resume running at any point by using the config flag `eval.resume_from`, and it will finish running the remaining tasks on its own. For example,
+python eval.py \
+  agent.type=custom \
+  agent.max_image_history=0 \
+  eval.num_workers=16 \
+  client.client_name=openai \
+  client.model_id=gpt-4o-mini-2024-07-18 \
+  eval.resume_from=results/2024-10-30/16-20-30_custom_gpt-4o-mini-2024-07-18
