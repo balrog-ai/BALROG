@@ -25,7 +25,6 @@ class LLMClientWrapper:
         self.model_id = client_config.model_id
         self.base_url = client_config.base_url
         self.timeout = client_config.timeout
-        self.is_chat_model = client_config.is_chat_model
         self.client_kwargs = {**client_config.generate_kwargs}
         self.max_retries = client_config.max_retries
         self.delay = client_config.delay
