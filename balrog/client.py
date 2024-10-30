@@ -280,6 +280,7 @@ class ClaudeWrapper(LLMClientWrapper):
             return self.client.messages.create(
                 messages=converted_messages,
                 model=self.model_id,
+                temperature=self.client_kwargs.get("temperature", 0.5),
                 max_tokens=self.client_kwargs.get("max_tokens", 1024),
             )
 
