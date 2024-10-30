@@ -11,7 +11,7 @@ The simple zero-shot agent in `naive.py` outputs only a single action with no ex
 
 To build a custom agent, you’ll mainly work with:
 1. `balrog/agents/custom.py` -> your custom agent file.
-2. `balrog/prompt_builder/history.py` -> containing the history prompt builder, an helper class to deal with with observation/action history in prompts.
+2. `balrog/prompt_builder/history.py` -> containing the history prompt builder, a helper class to deal with with observation/action history in prompts.
 
 You’re free to modify or create additional files, as long as they don’t interfere with evaluation, logging, or environment processes.
 
@@ -74,7 +74,7 @@ ACTION: <your next action>
         return plan, action
 ```
 
-Experiment with this example or explore additional templates from repositories like LangGraph. Feel free to contribute by opening a PR with your own reasoning templates.
+Experiment with this example or explore additional templates from repositories like [LangGraph](https://github.com/langchain-ai/langgraph). Feel free to contribute by opening a PR with your own reasoning templates.
 
 
 ## 🛜 Evaluate using API
