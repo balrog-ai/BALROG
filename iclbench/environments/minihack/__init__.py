@@ -1,4 +1,4 @@
-from nle_language_wrapper import NLELanguageWrapper
+from nle.language_wrapper.wrappers.nle_language_wrapper import NLELanguageWrapper
 
 ACTIONS = {
     "north": "move north",
