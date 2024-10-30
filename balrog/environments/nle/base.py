@@ -1,8 +1,8 @@
 import random
 
-import nle_language_wrapper
+from nle import nle_language_obsv
+from nle.language_wrapper.wrappers import nle_language_wrapper as language_wrapper
 from nle.nethack import USEFUL_ACTIONS
-from nle_language_wrapper.nle_language_obsv import NLELanguageObsv
 from PIL import Image
 
 from balrog.environments import Strings
@@ -13,10 +13,10 @@ from .render import tty_render_image
 from .render_rgb import rgb_render_image
 
 
-class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
+class NLELanguageWrapper(language_wrapper.NLELanguageWrapper):
     def __init__(self, env, vlm=False, skip_more=False):
         super().__init__(env, use_language_action=True)
-        self.nle_language = NLELanguageObsv()
+        self.nle_language = nle_language_obsv.NLELanguageObsv()
         self.language_action_space = self.create_action_space()
         self.env = env
         self.vlm = vlm
