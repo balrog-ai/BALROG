@@ -302,10 +302,10 @@ class TransformersWrapper(LLMClientWrapper):
 
     def _initialize_client(self):
         if not self._initialized:
-            self.model_id = self.client_kwargs.get("model_id", self.model_id)
+            self.model_id = self.model_id
             self.device = self.client_kwargs.get("device", "cuda" if torch.cuda.is_available() else "cpu")
             self.load_in_8bit = self.client_kwargs.get("load_in_8bit", False)
-            self.is_chat_model = self.client_kwargs.get("is_chat_model", False)
+            self.is_chat_model = self.is_chat_model
 
             # Load the model and tokenizer
             self.tokenizer = AutoTokenizer.from_pretrained(self.model_id)
@@ -337,12 +337,10 @@ class TransformersWrapper(LLMClientWrapper):
         prompt = self.convert_messages(messages)
         input_ids = self.tokenizer.encode(prompt, return_tensors="pt").to(self.device)
 
-        max_tokens = self.client_kwargs.get("max_tokens", 1024)
+        # Get generation parameters from client_kwargs
         generation_kwargs = {
-            "max_new_tokens": max_tokens,
-            "temperature": self.client_kwargs.get("temperature", 0.7),
-            "do_sample": self.client_kwargs.get("do_sample", True),
-            "top_p": self.client_kwargs.get("top_p", 0.9),
+            "max_new_tokens": self.client_kwargs.get("max_tokens", 1024),
+            "temperature": self.client_kwargs.get("temperature", 0.5),
             "num_return_sequences": 1,
             "eos_token_id": self.tokenizer.eos_token_id,
             "pad_token_id": self.tokenizer.eos_token_id,
@@ -380,8 +378,7 @@ class VLLMWrapper(LLMClientWrapper):
 
     def _initialize_client(self):
         if not self._initialized:
-            self.model_id = self.client_kwargs.get("model_id", self.model_id)
-            self.device = self.client_kwargs.get("device", "cuda" if torch.cuda.is_available() else "cpu")
+            self.model_id = self.model_id
             self.llm = LLM(model=self.model_id)
             self._initialized = True
 
@@ -404,13 +401,12 @@ class VLLMWrapper(LLMClientWrapper):
         self._initialize_client()
         prompt = self.convert_messages(messages)
 
-        max_tokens = self.client_kwargs.get("max_tokens", 1024)
+        # Get sampling parameters from client_kwargs
         sampling_params = SamplingParams(
             n=1,
             best_of=1,
-            temperature=self.client_kwargs.get("temperature", 0.7),
-            top_p=self.client_kwargs.get("top_p", 0.9),
-            max_tokens=max_tokens,
+            temperature=self.client_kwargs.get("temperature", 0.5),
+            max_tokens=self.client_kwargs.get("max_tokens", 1024),
         )
 
         def api_call():
