@@ -130,6 +130,7 @@ python eval.py \
 ## ⚙️ Resume an evaluation
 If for for whatever reason your evaluation was stopped midway through, you can resume running at any point by using the config flag `eval.resume_from`, and it will finish running the remaining tasks on its own. For example, if a previous evaluation in the folder `results/2024-10-30/16-20-30_custom_gpt-4o-mini-2024-07-18` has not properly finished all of its environments, we can resume from it by running:
 
+```
 python eval.py \
   agent.type=custom \
   agent.max_image_history=0 \
@@ -137,3 +138,4 @@ python eval.py \
   client.client_name=openai \
   client.model_id=gpt-4o-mini-2024-07-18 \
   eval.resume_from=results/2024-10-30/16-20-30_custom_gpt-4o-mini-2024-07-18
+```
