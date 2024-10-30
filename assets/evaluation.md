@@ -118,7 +118,7 @@ pip install vllm
 vllm serve meta-llama/Meta-Llama-3.1-8B-Instruct --port 8080
 
 python eval.py \
-  agent.type=naive \
+  agent.type=custom \
   agent.max_image_history=0 \
   eval.num_workers=16 \
   client.client_name=vllm \
