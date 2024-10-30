@@ -162,7 +162,7 @@ class BaseProgress:
             float: The progression of the player.
         """
         self.episode_return += reward
-        if reward == 1.0:
+        if reward >= 1.0:
             self.progression = 1.0
         else:
             self.progression = 0.0
