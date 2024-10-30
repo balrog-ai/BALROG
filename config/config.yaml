@@ -91,7 +91,7 @@ tasks:
     - "MiniHack-Boxoban-Medium-v0"
     - "MiniHack-MazeWalk-9x9-v0"
     - "MiniHack-MazeWalk-15x15-v0"
-    - "MiniHack-Corridor-R3-v0"
+    - "MiniHack-Corridor-R2-v0"
     - "MiniHack-CorridorBattle-Dark-v0"
     - "MiniHack-Quest-Easy-v0"
     - "MiniHack-Quest-Medium-v0"
