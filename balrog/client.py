@@ -10,6 +10,10 @@ import google.generativeai as genai
 from anthropic import Anthropic
 from openai import OpenAI
 
+from transformers import AutoModelForCausalLM, AutoTokenizer, GenerationConfig
+import torch
+from vllm import LLM, SamplingParams
+
 LLMResponse = namedtuple(
     "LLMResponse", ["model_id", "completion", "stop_reason", "input_tokens", "output_tokens", "reasoning"]
 )
@@ -291,18 +295,167 @@ class ClaudeWrapper(LLMClientWrapper):
         )
 
 
+class TransformersWrapper(LLMClientWrapper):
+    def __init__(self, client_config):
+        super().__init__(client_config)
+        self._initialized = False
+
+    def _initialize_client(self):
+        if not self._initialized:
+            self.model_id = self.client_kwargs.get("model_id", self.model_id)
+            self.device = self.client_kwargs.get("device", "cuda" if torch.cuda.is_available() else "cpu")
+            self.load_in_8bit = self.client_kwargs.get("load_in_8bit", False)
+            self.is_chat_model = self.client_kwargs.get("is_chat_model", False)
+
+            # Load the model and tokenizer
+            self.tokenizer = AutoTokenizer.from_pretrained(self.model_id)
+            self.model = AutoModelForCausalLM.from_pretrained(
+                self.model_id,
+                load_in_8bit=self.load_in_8bit,
+                device_map="auto",
+            )
+            self.model.to(self.device)
+            self._initialized = True
+
+    def convert_messages(self, messages):
+        # Simple prompt format: concatenate messages
+        prompt = ""
+        for msg in messages:
+            if msg.role == "system":
+                prompt += f"{msg.content}\n"
+            elif msg.role == "user":
+                prompt += f"User: {msg.content}\n"
+            elif msg.role == "assistant":
+                prompt += f"Assistant: {msg.content}\n"
+            else:
+                prompt += f"{msg.role.capitalize()}: {msg.content}\n"
+        prompt += "Assistant: "
+        return prompt
+
+    def generate(self, messages):
+        self._initialize_client()
+        prompt = self.convert_messages(messages)
+        input_ids = self.tokenizer.encode(prompt, return_tensors="pt").to(self.device)
+
+        max_tokens = self.client_kwargs.get("max_tokens", 1024)
+        generation_kwargs = {
+            "max_new_tokens": max_tokens,
+            "temperature": self.client_kwargs.get("temperature", 0.7),
+            "do_sample": self.client_kwargs.get("do_sample", True),
+            "top_p": self.client_kwargs.get("top_p", 0.9),
+            "num_return_sequences": 1,
+            "eos_token_id": self.tokenizer.eos_token_id,
+            "pad_token_id": self.tokenizer.eos_token_id,
+        }
+
+        def api_call():
+            output_ids = self.model.generate(
+                input_ids,
+                **generation_kwargs,
+            )
+            return output_ids
+
+        output_ids = self.execute_with_retries(api_call)
+        generated_text = self.tokenizer.decode(output_ids[0], skip_special_tokens=True)
+        completion = generated_text[len(prompt) :].strip()
+
+        input_tokens = input_ids.size(1)
+        output_tokens = output_ids.size(1) - input_tokens
+
+        return LLMResponse(
+            model_id=self.model_id,
+            completion=completion,
+            stop_reason="length",  # Or other logic to determine stop_reason
+            input_tokens=input_tokens,
+            output_tokens=output_tokens,
+            reasoning=None,
+        )
+
+
+# Updated class for vLLM
+class VLLMWrapper(LLMClientWrapper):
+    def __init__(self, client_config):
+        super().__init__(client_config)
+        self._initialized = False
+
+    def _initialize_client(self):
+        if not self._initialized:
+            self.model_id = self.client_kwargs.get("model_id", self.model_id)
+            self.device = self.client_kwargs.get("device", "cuda" if torch.cuda.is_available() else "cpu")
+            self.llm = LLM(model=self.model_id)
+            self._initialized = True
+
+    def convert_messages(self, messages):
+        # Similar to TransformersWrapper
+        prompt = ""
+        for msg in messages:
+            if msg.role == "system":
+                prompt += f"{msg.content}\n"
+            elif msg.role == "user":
+                prompt += f"User: {msg.content}\n"
+            elif msg.role == "assistant":
+                prompt += f"Assistant: {msg.content}\n"
+            else:
+                prompt += f"{msg.role.capitalize()}: {msg.content}\n"
+        prompt += "Assistant: "
+        return prompt
+
+    def generate(self, messages):
+        self._initialize_client()
+        prompt = self.convert_messages(messages)
+
+        max_tokens = self.client_kwargs.get("max_tokens", 1024)
+        sampling_params = SamplingParams(
+            n=1,
+            best_of=1,
+            temperature=self.client_kwargs.get("temperature", 0.7),
+            top_p=self.client_kwargs.get("top_p", 0.9),
+            max_tokens=max_tokens,
+        )
+
+        def api_call():
+            return self.llm.generate([prompt], sampling_params)
+
+        outputs = self.execute_with_retries(api_call)
+
+        completion = outputs[0].outputs[0].text.strip()
+
+        input_token_ids = outputs[0].prompt_token_ids
+        generated_token_ids = outputs[0].outputs[0].token_ids
+        output_token_ids = generated_token_ids[len(input_token_ids) :]
+
+        input_tokens = len(input_token_ids)
+        output_tokens = len(output_token_ids)
+
+        stop_reason = outputs[0].outputs[0].finish_reason
+
+        return LLMResponse(
+            model_id=self.model_id,
+            completion=completion,
+            stop_reason=stop_reason,
+            input_tokens=input_tokens,
+            output_tokens=output_tokens,
+            reasoning=None,
+        )
+
+
 def create_llm_client(client_config):
     """
     Factory function to create the appropriate LLM client based on the client name.
     """
 
     def client_factory():
-        if "openai" in client_config.client_name.lower() or "vllm" in client_config.client_name.lower():
+        client_name_lower = client_config.client_name.lower()
+        if "openai" in client_name_lower or ("vllm" and client_config.base_url) in client_name_lower:
             return OpenAIWrapper(client_config)
-        elif "gemini" in client_config.client_name.lower():
+        elif "gemini" in client_name_lower:
             return GoogleGenerativeAIWrapper(client_config)
-        elif "claude" in client_config.client_name.lower():
+        elif "claude" in client_name_lower:
             return ClaudeWrapper(client_config)
+        elif "vllm" in client_name_lower:
+            return VLLMWrapper(client_config)
+        elif "transformers" in client_name_lower or "hf" in client_name_lower:
+            return TransformersWrapper(client_config)
         else:
             raise ValueError(f"Unsupported client name: {client_config.client_name}")
 
