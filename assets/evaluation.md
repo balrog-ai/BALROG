@@ -1,4 +1,4 @@
-# Submission Tutorial
+# Evaluation Tutorial
 
 Davide Paglieri • October 30, 2024
 
@@ -7,17 +7,17 @@ In this tutorial we show how to create custom agents and evaluate them using BAL
 
 ## 🤖 Creating custom agents
 
-The simple naive zero-shot agent is tasked to only output a single action, and no other text. However, this is suboptimal, as we may want to to allow the the agent to first think about its situation, create plans, refine them, observe and describe the image observations before acting on them, or deal with history in more sophisticated ways.
+The simple zero-shot agent in `naive.py` outputs only a single action with no extra reasoning, but this is often suboptimal. We may want the agent to analyze its situation, form and refine plans, interpret image observations, or handle history more effectively.
 
-The main two files you may want to modify to create a custom agent, are:
-1. `balrog/agents/custom.py` -> Your custom agent
-2. `balrog/prompt_builder/history.py` -> The prompt builder managing the history of observations/actions to the user (optional)
+To build a custom agent, you’ll mainly work with:
+1. `balrog/agents/custom.py` -> your custom agent file.
+2. `balrog/prompt_builder/history.py` -> containing the history prompt builder, a helper class to deal with with observation/action history in prompts.
 
-However, you can modify or create any new files you want, as long as they don't interfere with the evaluation, logging, and environments.
+You’re free to modify or create additional files, as long as they don’t interfere with evaluation, logging, or environment processes.
 
 
 ### Simple Planning Agent
-The following is an example for a custom planning agent, that stores a plan, and at each timestep can either propose a new plan, or follow the current plan. We use here the default history prompt builder.  
+The following code demonstrates a custom planning agent that stores and follows a plan, updating it as needed. This agent uses the default history prompt builder.
 
 `custom.py`
 ```python
@@ -74,11 +74,13 @@ ACTION: <your next action>
         return plan, action
 ```
 
-Feel free to create more complex examples, and experiment with repositories like LangGraph and more. Users are encouraged to propose new reasoning templates by opening a PR with their implementations.
+Experiment with this example or explore additional templates from repositories like [LangGraph](https://github.com/langchain-ai/langgraph). Feel free to contribute by opening a PR with your own reasoning templates.
 
 
 ## 🛜 Evaluate using API
-You can either export the API key, with one of the following:
+If you want to evaluate an agent on BALROG using an API, you can first set up your API key in one of two ways:
+
+You can either directly export it:
 
 ```
 export OPENAI_API_KEY=<KEY>
@@ -88,7 +90,7 @@ export GEMINI_API_KEY=<KEY>
 
 Or you can modify the `SECRETS` file, adding your api keys.
 
-Then run the evaluation with:
+You can then run the evaluation with:
 
 ```
 python eval.py \
@@ -110,15 +112,17 @@ python eval.py \
   client.model_id=gpt-4o-mini-2024-07-18
 ```
 
+Have a look at `config/config.yaml` for additional arguments you can change.
+
 ## ⚡️ Evaluate using vLLM locally
-We support the use of vLLM for evaluating LLM/VLM locally.
+You can evaluate LLMs/VLMs locally using [vLLM](https://github.com/vllm-project/vllm) in the following way:
 
 ```
 pip install vllm
 vllm serve meta-llama/Meta-Llama-3.1-8B-Instruct --port 8080
 
 python eval.py \
-  agent.type=custom \
+  agent.type=naive \
   agent.max_image_history=0 \
   eval.num_workers=16 \
   client.client_name=vllm \
@@ -126,9 +130,11 @@ python eval.py \
   client.base_url=http://0.0.0.0:8080/v1
 ```
 
+Check out [vLLM](https://github.com/vllm-project/vllm) for more options on how to serve your models fast and efficiently.
+
 
 ## ⚙️ Resume an evaluation
-If for for whatever reason your evaluation was stopped midway through, you can resume running at any point by using the config flag `eval.resume_from`, and it will finish running the remaining tasks on its own. For example, if a previous evaluation in the folder `results/2024-10-30/16-20-30_custom_gpt-4o-mini-2024-07-18` has not properly finished all of its environments, we can resume from it by running:
+To resume an incomplete evaluation, use eval.resume_from. For example, if an evaluation in the folder results/2024-10-30/16-20-30_custom_gpt-4o-mini-2024-07-18 is unfinished, resume it with:
 
 ```
 python eval.py \
