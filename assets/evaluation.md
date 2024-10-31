@@ -1,4 +1,4 @@
-# Evaluation Tutorial
+# Submission Tutorial
 
 Davide Paglieri • October 30, 2024
 
@@ -11,7 +11,7 @@ The simple zero-shot agent in `naive.py` outputs only a single action with no ex
 
 To build a custom agent, you’ll mainly work with:
 1. `balrog/agents/custom.py` -> your custom agent file.
-2. `balrog/prompt_builder/history.py` -> containing the history prompt builder, a helper class to deal with with observation/action history in prompts.
+2. `balrog/prompt_builder/history.py` -> containing the history prompt builder, an helper class to deal with with observation/action history in prompts.
 
 You’re free to modify or create additional files, as long as they don’t interfere with evaluation, logging, or environment processes.
 
@@ -76,9 +76,28 @@ ACTION: <your next action>
 
 Experiment with this example or explore additional templates from repositories like [LangGraph](https://github.com/langchain-ai/langgraph). Feel free to contribute by opening a PR with your own reasoning templates.
 
+## ⚡️ Evaluate using vLLM locally
+You can evaluate LLMs/VLMs locally using [vLLM](https://github.com/vllm-project/vllm) in the following way:
+
+```
+pip install vllm
+vllm serve meta-llama/Meta-Llama-3.1-8B-Instruct --port 8080
+
+python eval.py \
+  agent.type=naive \
+  agent.max_image_history=0 \
+  agent.max_history=16 \
+  eval.num_workers=16 \
+  client.client_name=vllm \
+  client.model_id=meta-llama/Meta-Llama-3.1-8B-Instruct \
+  client.base_url=http://0.0.0.0:8080/v1
+```
+
+Check out [vLLM](https://github.com/vllm-project/vllm) for more options on how to serve your models fast and efficiently.
+
 
 ## 🛜 Evaluate using API
-If you want to evaluate an agent on BALROG using an API, you can first set up your API key in one of two ways:
+We support how of the box clients for OpenAI, Anthropic and Google Gemini APIs. If you want to evaluate an agent using one of these APIs, you first have to set up your API key in one of two ways:
 
 You can either directly export it:
 
@@ -96,41 +115,27 @@ You can then run the evaluation with:
 python eval.py \
   agent.type=custom \
   agent.max_image_history=0 \
+  agent.max_history=16 \
   eval.num_workers=16 \
   client.client_name=openai \
   client.model_id=gpt-4o-mini-2024-07-18
 ```
+
+## VLM mode and more configurations
 
 You can activate the VLM mode by increasing the `max_image_history` argument, for example
 
 ```
 python eval.py \
   agent.type=custom \
+  agent.max_history=16 \
   agent.max_image_history=1 \
   eval.num_workers=16 \
   client.client_name=openai \
   client.model_id=gpt-4o-mini-2024-07-18
 ```
 
-Have a look at `config/config.yaml` for additional arguments you can change.
-
-## ⚡️ Evaluate using vLLM locally
-You can evaluate LLMs/VLMs locally using [vLLM](https://github.com/vllm-project/vllm) in the following way:
-
-```
-pip install vllm
-vllm serve meta-llama/Meta-Llama-3.1-8B-Instruct --port 8080
-
-python eval.py \
-  agent.type=naive \
-  agent.max_image_history=0 \
-  eval.num_workers=16 \
-  client.client_name=vllm \
-  client.model_id=meta-llama/Meta-Llama-3.1-8B-Instruct \
-  client.base_url=http://0.0.0.0:8080/v1
-```
-
-Check out [vLLM](https://github.com/vllm-project/vllm) for more options on how to serve your models fast and efficiently.
+Have a look at more options on the config file `config/config.yaml` for additional arguments you can change.
 
 
 ## ⚙️ Resume an evaluation
@@ -140,8 +145,9 @@ To resume an incomplete evaluation, use eval.resume_from. For example, if an eva
 python eval.py \
   agent.type=custom \
   agent.max_image_history=0 \
+  agent.max_history=16 \
   eval.num_workers=16 \
   client.client_name=openai \
   client.model_id=gpt-4o-mini-2024-07-18 \
-  eval.resume_from=results/2024-10-30/16-20-30_custom_gpt-4o-mini-2024-07-18
+  eval.resume_from=results/2024-10-30_16-20-30_custom_gpt-4o-mini-2024-07-18
 ```
