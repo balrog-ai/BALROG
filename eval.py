@@ -21,8 +21,8 @@ def main(config: DictConfig):
         output_dir = config.eval.resume_from
     else:
         now = datetime.now()
-        timestamp = now.strftime("%Y-%m-%d/%H-%M-%S")
-        run_name = f"{timestamp}_{config.agent.type}_{config.client.model_id}"
+        timestamp = now.strftime("%Y-%m-%d_%H-%M-%S")
+        run_name = f"{timestamp}_{config.agent.type}_{config.client.model_id.replace('/', '_')}"
         output_dir = os.path.join(config.eval.output_dir, run_name)
 
         # Create the directory if it doesn't exist
@@ -43,7 +43,7 @@ def main(config: DictConfig):
     evaluator_manager.run(agent_factory)
 
     # Collect and summarize results
-    summary = collect_and_summarize_results(evaluator_manager.output_dir, config)
+    summary = collect_and_summarize_results(output_dir, config)
     print_summary_table(summary)
 
     if config.eval.wandb_save:
