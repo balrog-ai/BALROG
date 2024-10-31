@@ -115,7 +115,7 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
                     continue
                 available_actions[action_key] = MINIHACK_ACTIONS[action_key]
 
-            available_actions = [action for action, _ in available_actions.items()]
+            all_actions = [action for action, _ in available_actions.items()]
 
         else:
             available_actions = [
@@ -123,11 +123,13 @@ class NLELanguageWrapper(nle_language_wrapper.NLELanguageWrapper):
                 for action, action_strs in NLELanguageWrapper.all_nle_action_map.items()
                 if action in USEFUL_ACTIONS
             ]
-        single_chars = [chr(i) for i in range(ord("a"), ord("z") + 1)] + [chr(i) for i in range(ord("A"), ord("Z") + 1)]
-        single_digits = [str(i) for i in range(10)]
-        double_digits = [f"{i:02d}" for i in range(100)]
+            single_chars = [chr(i) for i in range(ord("a"), ord("z") + 1)] + [
+                chr(i) for i in range(ord("A"), ord("Z") + 1)
+            ]
+            single_digits = [str(i) for i in range(10)]
+            double_digits = [f"{i:02d}" for i in range(100)]
+            all_actions = available_actions + single_chars + single_digits + double_digits
 
-        all_actions = available_actions + single_chars + single_digits + double_digits
         return Strings(all_actions)
 
     def ascii_render(self, chars):
