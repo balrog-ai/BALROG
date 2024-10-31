@@ -119,8 +119,12 @@ class BabaIsAIWrapper(gym.Wrapper):
             if named_property == "you":
                 you = rule["object"]
 
-        # TODO: we need to handle multilpe me
-        my_position = find_objects([you])[0]
+        # TODO: we need to handle multilpe me)
+        my_position = find_objects([you])
+        if len(my_position) == 0:
+            # We should reset the environment, as baba cannot legally move anymore
+            return self.reset(), True
+        my_position = my_position[0]
         other_positions = find_objects(
             [
                 "fball",
@@ -136,13 +140,12 @@ class BabaIsAIWrapper(gym.Wrapper):
         relative_positions = [(tuple(offset), pos[1]) for offset, pos in zip(offsets, other_positions)]
         text_observation = form_description(relative_positions)
 
-        return text_observation
+        return text_observation, False
 
     def textworld_process_obsv(self, textworld_obsv):
         ruleset = self.get_ruleset()
-        text_observation = self.get_text_observation(textworld_obsv)
-
-        prompt = ""
+        text_observation, reset = self.get_text_observation(textworld_obsv)
+        prompt = "" if not reset else "[...] IS YOU rule was broken, environment reset"
         if self.add_ruleset:
             prompt += f"Active rules:\n{ruleset}\n\n"
         prompt += f"Objects on the map:\n{text_observation}"
