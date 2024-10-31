@@ -244,7 +244,7 @@ class Evaluator:
                 total=max_steps_per_episode,
                 desc=pbar_desc,
                 position=position,
-                leave=True,  # Keep the progress bar after completion
+                leave=False,  # Keep the progress bar after completion
                 dynamic_ncols=True,
             )
 

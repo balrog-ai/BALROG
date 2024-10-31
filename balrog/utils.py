@@ -4,6 +4,7 @@ import os
 import time
 import hashlib
 import math
+import random
 from collections import defaultdict
 from omegaconf import OmegaConf
 from pathlib import Path
@@ -169,6 +170,8 @@ def wandb_save_artifact(config):
 
 def get_seed_from_timestamp():
     timestamp = int(time.time())
+    offset = random.SystemRandom().randint(0, 1000000)
+    timestamp += offset
     hashed_timestamp = hashlib.sha256(str(timestamp).encode()).hexdigest()
     seed = int(hashed_timestamp[:8], 16)
     return seed
