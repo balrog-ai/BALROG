@@ -77,19 +77,18 @@ ACTION: <your next action>
 Experiment with this example or explore additional templates from repositories like [LangGraph](https://github.com/langchain-ai/langgraph). Feel free to contribute by opening a PR with your own reasoning templates.
 
 ## ⚡️ Evaluate using vLLM locally
-You can evaluate LLMs/VLMs locally using [vLLM](https://github.com/vllm-project/vllm) in the following way:
+We support running LLMs/VLMs out of the box using [vLLM](https://github.com/vllm-project/vllm). You can spin up a vLLM client and evaluate your agent on BALROG in the following way:
 
 ```
-pip install vllm
-vllm serve meta-llama/Meta-Llama-3.1-8B-Instruct --port 8080
+vllm serve meta-llama/Llama-3.2-1B-Instruct --port 8080
 
 python eval.py \
-  agent.type=naive \
+  agent.type=custom \
   agent.max_image_history=0 \
   agent.max_history=16 \
   eval.num_workers=16 \
   client.client_name=vllm \
-  client.model_id=meta-llama/Meta-Llama-3.1-8B-Instruct \
+  client.model_id=meta-llama/Llama-3.2-1B-Instruct \
   client.base_url=http://0.0.0.0:8080/v1
 ```
 
