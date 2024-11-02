@@ -91,6 +91,8 @@ class TextWorldWrapper(gym.Wrapper):
         self.language_action_space = AlwaysTrue()
         self.progression = 0.0
         self.max_steps = max_steps
+        self.action_space = gym.spaces.Space()
+        self.observation_space = gym.spaces.Space()
 
     @property
     def default_action(self):

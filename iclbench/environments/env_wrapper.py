@@ -12,14 +12,14 @@ class EnvWrapper(gym.Wrapper):
     def max_steps(self):
         return self.env.max_steps
 
-    def reset(self):
-        obs = self.env.reset()
-        return self._process_observation(obs)
+    def reset(self, **kwargs):
+        obs, info = self.env.reset(**kwargs)
+        return self._process_observation(obs), info
 
     def step(self, action):
-        obs, reward, done, info = self.env.step(action)
+        obs, reward, terminated, truncated, info = self.env.step(action)
         processed_obs = self._process_observation(obs)
-        return processed_obs, reward, done, info
+        return processed_obs, reward, terminated, truncated, info
 
     def _process_observation(self, obs):
         if self.env_name in ["nle", "minihack"]:
@@ -65,7 +65,7 @@ class EnvWrapper(gym.Wrapper):
 
             return get_instruction_prompt(self.env, self.task_name)
         elif self.env_name == "babaisai":
-            from iclbench.environments.baba_is_ai import get_instruction_prompt
+            from iclbench.environments.babaisai import get_instruction_prompt
 
             return get_instruction_prompt(self.env, self.task_name)
         elif self.env_name == "crafter":

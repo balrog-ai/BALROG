@@ -41,9 +41,8 @@ class Evaluator:
         if seed is not None:
             random.seed(seed)
             np.random.seed(seed)
-        env.seed(seed=seed)
 
-        obs = env.reset()
+        obs = env.reset(seed=seed)
         for action in recorded_actions:
             text_action = env.get_text_action(action)
 
@@ -54,7 +53,8 @@ class Evaluator:
                 episode_log["trajectory"].append((obs["text"]["long_term_context"], text_action))
             episode_log["action_frequency"][text_action] += 1
 
-            obs, reward, done, info = env.step(text_action)
+            obs, reward, terminated, truncated, info = env.step(text_action)
+            done = terminated or truncated
 
             if done:
                 break
@@ -72,9 +72,8 @@ class Evaluator:
         if seed is not None:
             random.seed(seed)
             np.random.seed(seed)
-        env.seed(seed=seed)
 
-        obs = env.reset()
+        obs, info = env.reset(seed=seed)
         episode_log = {
             "task": task,
             "trajectory": [],
@@ -120,7 +119,8 @@ class Evaluator:
             episode_log["input_tokens"] += response.input_tokens
             episode_log["output_tokens"] += response.output_tokens
 
-            obs, reward, done, info = env.step(action)
+            obs, reward, terminated, truncated, info = env.step(action)
+            done = terminated or truncated
 
             episode_return += reward
 
