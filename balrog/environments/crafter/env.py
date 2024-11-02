@@ -107,7 +107,6 @@ def describe_env(info):
     obj_info_list = []
 
     facing = info["player_facing"]
-    target = (center[0] + facing[0], center[1] + facing[1])
     max_y, max_x = semantic.shape
     target_x = center[0] + facing[0]
     target_y = center[1] + facing[1]
@@ -172,7 +171,7 @@ def describe_frame(info):
         result += "\n\n"
 
         return result.strip(), describe_inventory(info)
-    except Exception as e:
+    except Exception:
         breakpoint()
         return "Error, you are out of the map."
 

@@ -61,7 +61,6 @@ class ICLAgent(BaseAgent):
         self.icl_episodes.append(icl_episode)
 
     def get_icl_prompt(self) -> List[Message]:
-
         icl_instruction = Message(
             role="user",
             content=self.prompt_builder.system_prompt.replace(
