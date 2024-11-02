@@ -58,21 +58,12 @@ Ideally we should in the future also support interaction with the benchmark pure
 ```
 conda create --y --name balrog python=3.10
 conda activate balrog
-pip install -e external/Grounding_LLMs_with_online_RL/babyai-text
-pip install -e external/Grounding_LLMs_with_online_RL/babyai-text/babyai
-pip install -e external/Grounding_LLMs_with_online_RL/babyai-text/gym-minigrid
-pip install -e external/nle-language-wrapper
-pip install -e external/nle
-pip install textworld
-pip install craftax
+export MINOR=$(python3 -c "import sys; print(sys.version_info.minor)")
+pip install https://github.com/BartekCupial/nle/releases/download/balrog/nle-0.9.0-cp3${MINOR}-cp3${MINOR}-manylinux_2_17_$(uname -m).manylinux2014_$(uname -m).whl
 pip install git+https://github.com/facebookresearch/minihack
+pip install git+https://github.com/BartekCupial/Minigrid.git
 pip install git+https://github.com/nacloos/baba-is-ai.git
-
-pip install openai
-pip install anthropic
-pip install google-generativeai
-pip install wandb
-pip install pytest
+pip install -e .[dev]
 ```
 
 ### pre-commit installation and setup 
