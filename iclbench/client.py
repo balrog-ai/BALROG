@@ -1,14 +1,14 @@
 import base64
-from collections import namedtuple
-from io import BytesIO
 import datetime
 import logging
 import time
+from collections import namedtuple
+from io import BytesIO
 
-from google.generativeai import caching
 import google.generativeai as genai
 import replicate
 from anthropic import Anthropic
+from google.generativeai import caching
 from openai import OpenAI
 
 LLMResponse = namedtuple(
@@ -152,7 +152,6 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
             )
         return converted_messages
 
-
     def get_completion(self, converted_messages, max_retries=5, delay=5):
         retries = 0
         while retries < max_retries:
@@ -164,7 +163,7 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
                 return response
             except Exception as e:
                 retries += 1
-                logger.error(f"Retryable error during generate_content: {e}. Retry {retries}/{max_retries}")
+                httpx_logger.error(f"Retryable error during generate_content: {e}. Retry {retries}/{max_retries}")
                 sleep_time = delay * (2 ** (retries - 1))  # Exponential backoff
                 time.sleep(sleep_time)
 
@@ -174,52 +173,52 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
     def extract_completion(self, response):
         """Extracts and returns the completion from the response safely."""
         if not response:
-            logger.error("Response is None, cannot extract completion.")
+            httpx_logger.error("Response is None, cannot extract completion.")
             return ""
 
-        candidates = getattr(response, 'candidates', [])
+        candidates = getattr(response, "candidates", [])
         if not candidates:
-            logger.error("No candidates found in the response.")
+            httpx_logger.error("No candidates found in the response.")
             return ""
-        
+
         candidate = candidates[0]
-        content = getattr(candidate, 'content', None)
-        content_parts = getattr(content, 'parts', [])
+        content = getattr(candidate, "content", None)
+        content_parts = getattr(content, "parts", [])
         if not content_parts:
-            logger.error("No content parts found in the candidate.")
+            httpx_logger.error("No content parts found in the candidate.")
             return ""
-        
-        text = getattr(content_parts[0], 'text', "")
+
+        text = getattr(content_parts[0], "text", "")
         return text.strip()
 
     def generate(self, messages):
         self._initialize_client()
-        
+
         try:
             converted_messages = self.convert_messages(messages)
             response = self.get_completion(converted_messages)
         except Exception as e:
-            logger.error(f"Error during get_completion: {e}")
+            httpx_logger.error(f"Error during get_completion: {e}")
             raise Exception(f"Failed to get a valid completion after multiple retries: {e}")
 
         try:
             completion = self.extract_completion(response)
         except Exception as e:
-            logger.error(f"Error during extract_completion: {e}")
+            httpx_logger.error(f"Error during extract_completion: {e}")
             completion = ""
-        
+
         return LLMResponse(
             model_id=self.model_id,
             completion=completion,
-            stop_reason=getattr(
-                response.candidates[0], 'finish_reason', 'unknown'
-            ) if response and getattr(response, 'candidates', []) else 'unknown',
-            input_tokens=getattr(
-                response.usage_metadata, 'prompt_token_count', 0
-            ) if response and getattr(response, 'usage_metadata', None) else 0,
-            output_tokens=getattr(
-                response.usage_metadata, 'candidates_token_count', 0
-            ) if response and getattr(response, 'usage_metadata', None) else 0,
+            stop_reason=getattr(response.candidates[0], "finish_reason", "unknown")
+            if response and getattr(response, "candidates", [])
+            else "unknown",
+            input_tokens=getattr(response.usage_metadata, "prompt_token_count", 0)
+            if response and getattr(response, "usage_metadata", None)
+            else 0,
+            output_tokens=getattr(response.usage_metadata, "candidates_token_count", 0)
+            if response and getattr(response, "usage_metadata", None)
+            else 0,
             reasoning=None,
         )
 

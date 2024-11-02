@@ -48,7 +48,6 @@ def get_available_actions(env):
 
 
 def get_instruction_prompt(env, task="MiniHack-ExploreMaze-Hard-Mapped-v0"):
-
     if "corridor" in task.lower():
         goal = "Your goal is to explore the level and reach the stairs down"
     elif "quest" in task.lower():

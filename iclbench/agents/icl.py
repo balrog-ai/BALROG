@@ -1,5 +1,6 @@
-from iclbench.agents.base import BaseAgent
 from typing import List, Optional
+
+from iclbench.agents.base import BaseAgent
 
 
 class Message:
@@ -36,7 +37,7 @@ class ICLAgent(BaseAgent):
                 "action": action,
             }
         )
-        
+
     def cache_icl(self):
         self.client.cache_icl_demo(self.get_icl_prompt())
         self.cached_icl = True
@@ -61,7 +62,6 @@ class ICLAgent(BaseAgent):
         self.icl_episodes.append(icl_episode)
 
     def get_icl_prompt(self) -> List[Message]:
-
         icl_instruction = Message(
             role="user",
             content=self.prompt_builder.system_prompt.replace(
@@ -93,7 +93,7 @@ class ICLAgent(BaseAgent):
             messages = self.get_icl_prompt()
         else:
             messages = []
-            
+
         messages.extend(self.prompt_builder.get_prompt(icl_episodes=True))
 
         # Add naive instructions to the last user message

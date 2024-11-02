@@ -1,5 +1,4 @@
-from .env import CrafterLanguageWrapper, ACTIONS
-
+from .env import ACTIONS, CrafterLanguageWrapper
 
 ACTION_DICT = {
     "Noop": "do nothing",

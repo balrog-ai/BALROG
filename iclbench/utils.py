@@ -2,11 +2,11 @@ import json
 import logging
 import os
 from collections import defaultdict
-from omegaconf import OmegaConf
 
 import google.generativeai as genai
 import openai
 import wandb
+from omegaconf import OmegaConf
 
 
 def summarize_env_progressions(results_summaries: defaultdict, config) -> float:

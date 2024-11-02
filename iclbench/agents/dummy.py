@@ -3,7 +3,6 @@ from collections import defaultdict, namedtuple
 
 from iclbench.agents.base import BaseAgent
 
-
 LLMResponse = namedtuple(
     "LLMResponse", ["model_id", "completion", "stop_reason", "input_tokens", "output_tokens", "reasoning"]
 )
