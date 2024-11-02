@@ -8,9 +8,9 @@ with open(os.path.join(os.path.dirname(__file__), "achievements.json"), "r") as 
 
 
 def get_progress_system(env):
-    if "NetHackChallenge" in type(env).__name__:
+    if "NetHackChallenge" in env.spec.id:
         return Progress()
-    elif "MiniHack" in type(env).__name__:
+    elif "MiniHack" in env.spec.id:
         return BaseProgress()
     else:
         raise ValueError(f"Unsupported environment type: {type(env)}")

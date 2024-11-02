@@ -47,20 +47,20 @@ def test_dataset(environment):
 
                 episode_seed = demo_config.envs.env_kwargs.seed
 
-                env = make_env(environment, demo_task, demo_config)
+                env = make_env(environment, demo_task, demo_config, render_mode="human")
 
                 if episode_seed is not None:
                     np.random.seed(episode_seed)
                     random.seed(episode_seed)
                 env.seed(seed=episode_seed)
-                obs = env.reset()
+                obs, info = env.reset()
 
                 for i, action in enumerate(recorded_actions):
                     if action is None:
                         break
 
-                    # env.render()
-                    obs, reward, done, info = env.step(env.get_text_action(action))
+                    obs, reward, terminated, truncated, info = env.step(env.get_text_action(action))
+                    done = terminated or truncated
 
                     if done:
                         break
