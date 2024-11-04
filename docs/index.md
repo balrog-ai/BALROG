@@ -1,12 +1,40 @@
 # In-Context-Learning benchmark for LLM agents
 
-![Alt text](docs/imgs/balrog.jpg)
+![Alt text](imgs/balrog.jpg)
 
 Welcome to BALROG, a high-quality, easy to enter benchmark for LLM agents, testing their in-context-learning capabilities on a variety of interactive environments.
 
-LINK TO LEADERBOARD HERE
+[See the leaderboard!](https://balrogai.com)
 
 # Overview
+
+<!-- digraph G {
+    rankdir=TB;
+    ranksep=1.0; // Increase vertical space between ranks
+    nodesep=1.0; // Increase horizontal space between nodes
+
+    // Define nodes
+    Environment [label="Environment" shape=box];
+    LLM [label="LLM Server" shape=box];
+    Client [label="LLM Client" shape=box style=dashed];
+
+    // Group Client within Agent
+    subgraph cluster_agent {
+        label="Agent";
+        Agent[shape="none"][style="invis"][label=""];
+        Client;
+    }
+
+    // Define edges
+    Client -> LLM [label="prompt"];
+    LLM -> Client [label="response"];
+
+    // Define interactions between Agent (cluster) and Environment
+    Environment -> Agent [label="observation" ltail="cluster_agent"];
+    Agent -> Environment [label="action" ltail="cluster_agent"];
+} -->
+
+![Alt text](imgs/overview.png)
 
 AgentQuest is a benchmark and framework that aims to improve our understanding of
 whether existing long-context LLMs are agentic, i.e., whether they can
@@ -107,7 +135,8 @@ ICL-bench
 :name: sec-gs
 
 installation
-quick_start
+evaluation
+agents
 contributions
 ```
 
