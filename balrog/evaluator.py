@@ -261,6 +261,14 @@ class Evaluator:
                 obs, reward, done, info = env.step(action)
                 episode_return += reward
 
+                # Give feedback on the action (if not valid)
+                obs["text"]["long_term_context"] = (
+                    f"\n\nYour previous output action: '{response.completion}' is not a valid action. Defaulted to action: {action}\n"
+                    + obs["text"]["long_term_context"]
+                    if action != response.completion
+                    else obs["text"]["long_term_context"]
+                )
+                action = response.completion
                 # Write the step data to the CSV file
                 csv_writer.writerow([step, obs["text"]["long_term_context"], action, reasoning, reward, done])
 
