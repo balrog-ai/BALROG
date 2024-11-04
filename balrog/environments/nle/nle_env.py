@@ -3,9 +3,8 @@ from typing import Optional
 import gym
 import nle  # NOQA: F401
 
-from balrog.environments.wrappers import NLETimeLimit
 from balrog.environments.nle import NLELanguageWrapper
-from balrog.environments.wrappers import GymV21CompatibilityV0
+from balrog.environments.wrappers import GymV21CompatibilityV0, NLETimeLimit
 
 NETHACK_ENVS = []
 for env_spec in gym.envs.registry.all():

@@ -3,8 +3,8 @@ from typing import Optional
 
 from baba import make
 
-from balrog.environments.wrappers import GymV21CompatibilityV0
 from balrog.environments.babaisai import BabaIsAIWrapper
+from balrog.environments.wrappers import GymV21CompatibilityV0
 
 
 def make_babaisai_env(env_name, task, config, render_mode: Optional[str] = None):

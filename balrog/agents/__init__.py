@@ -3,10 +3,10 @@ from balrog.client import create_llm_client
 from ..prompt_builder import create_prompt_builder
 from .chain_of_thought import ChainOfThoughtAgent
 from .custom import CustomAgent
-from .naive import NaiveAgent
-from .icl import ICLAgent
-from .self_refine import SelfRefineAgent
 from .dummy import DummyAgent
+from .icl import ICLAgent
+from .naive import NaiveAgent
+from .self_refine import SelfRefineAgent
 
 
 class AgentFactory:

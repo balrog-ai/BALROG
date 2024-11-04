@@ -11,7 +11,7 @@ from gymnasium import error
 from gymnasium.core import ActType, ObsType
 from gymnasium.error import MissingArgument
 from gymnasium.logger import warn
-from gymnasium.spaces import Box, Dict, Discrete, MultiBinary, MultiDiscrete, Tuple, Space
+from gymnasium.spaces import Box, Dict, Discrete, MultiBinary, MultiDiscrete, Space, Tuple
 from gymnasium.utils.step_api_compatibility import convert_to_terminated_truncated_step_api
 
 if sys.version_info >= (3, 8):
