@@ -1,5 +1,6 @@
-from balrog.agents.base import BaseAgent
 from typing import List, Optional
+
+from balrog.agents.base import BaseAgent
 
 
 class Message:

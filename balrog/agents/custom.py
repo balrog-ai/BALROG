@@ -1,5 +1,6 @@
-from balrog.agents.base import BaseAgent
 import re
+
+from balrog.agents.base import BaseAgent
 
 
 class CustomAgent(BaseAgent):

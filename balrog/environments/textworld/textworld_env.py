@@ -1,7 +1,7 @@
 from typing import Optional
 
-from balrog.environments.wrappers import GymV21CompatibilityV0
 from balrog.environments.textworld import global_textworld_context
+from balrog.environments.wrappers import GymV21CompatibilityV0
 
 
 def make_textworld_env(env_name, task, config, render_mode: Optional[str] = None):

@@ -1,18 +1,16 @@
-import os
 import copy
-import json
 import csv
+import json
 import logging
 import multiprocessing
 import os
 import random
 import traceback
 from collections import defaultdict
-from omegaconf import OmegaConf
 from pathlib import Path
 
-
 import numpy as np
+from omegaconf import OmegaConf
 from tqdm import tqdm
 
 from balrog.agents.icl import ICLAgent
