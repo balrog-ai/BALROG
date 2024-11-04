@@ -1,0 +1,10 @@
+iclbench.prompt\_builder package
+================================
+
+Module contents
+---------------
+
+.. automodule:: iclbench.prompt_builder
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,606 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>iclbench.client &mdash; BALROG 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            BALROG
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../evaluation.html">Evaluation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../evaluation.html#quickstart">⚡ Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../evaluation.html#evaluate-using-local-vllm-server">Evaluate using local vLLM server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../evaluation.html#evaluate-using-api">Evaluate using API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../evaluation.html#vlm-mode">🖼️ VLM mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../evaluation.html#resume-an-evaluation">▶️ Resume an evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../evaluation.html#configuring-eval">⚙️ Configuring Eval</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html">Agents</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../agents.html#pre-built-agents">Pre-built agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../agents.html#creating-custom-agents">🤖 Creating Custom Agents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../agents.html#simple-planning-agent">Simple Planning Agent</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributions.html">Contributions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Environments</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../envs/babyai.html">Baby AI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../envs/babyai.html#babyai-text">BabyAI-Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../envs/babyai.html#babyai-results">BabyAI Results</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../envs/babyai.html#llm-results">LLM results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../envs/babyai.html#vlm-results">VLM results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../envs/babyai.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../envs/crafter.html">Crafter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../envs/crafter.html#crafter-results">Crafter Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../envs/crafter.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../envs/crafter.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../envs/crafter.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../envs/textworld.html">TextWorld</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../envs/textworld.html#tasks">Tasks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../envs/textworld.html#treasure-hunter">Treasure Hunter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../envs/textworld.html#the-cooking-game">The Cooking Game</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../envs/textworld.html#coin-collector">Coin Collector</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../envs/textworld.html#textworld-results">TextWorld Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../envs/textworld.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../envs/babaisai.html">Baba Is AI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../envs/babaisai.html#baba-is-ai-language-wrapper">Baba Is AI Language Wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../envs/babaisai.html#baba-is-ai-results">Baba Is AI Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../envs/babaisai.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../envs/babaisai.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../envs/babaisai.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../envs/minihack.html">MiniHack</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../envs/minihack.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../envs/minihack.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../envs/minihack.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../envs/nle.html">NetHack Learning Environment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../envs/nle.html#nethack-language-wrapper">NetHack Language Wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../envs/nle.html#new-nethack-progression-system">New NetHack Progression System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../envs/nle.html#nethack-results">NetHack Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../envs/nle.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../envs/nle.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../envs/nle.html#observation">Observation</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/modules.html">iclbench</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/iclbench.html">iclbench package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/iclbench.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/iclbench.agents.html">iclbench.agents package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/iclbench.environments.html">iclbench.environments package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/iclbench.prompt_builder.html">iclbench.prompt_builder package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/iclbench.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/iclbench.html#module-iclbench.client">iclbench.client module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/iclbench.html#iclbench.client.ClaudeWrapper"><code class="docutils literal notranslate"><span class="pre">ClaudeWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/iclbench.html#iclbench.client.GoogleGenerativeAIWrapper"><code class="docutils literal notranslate"><span class="pre">GoogleGenerativeAIWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/iclbench.html#iclbench.client.LLMClientWrapper"><code class="docutils literal notranslate"><span class="pre">LLMClientWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/iclbench.html#iclbench.client.LLMResponse"><code class="docutils literal notranslate"><span class="pre">LLMResponse</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/iclbench.html#iclbench.client.OpenAIWrapper"><code class="docutils literal notranslate"><span class="pre">OpenAIWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/iclbench.html#iclbench.client.ReplicateWrapper"><code class="docutils literal notranslate"><span class="pre">ReplicateWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/iclbench.html#iclbench.client.create_llm_client"><code class="docutils literal notranslate"><span class="pre">create_llm_client()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/iclbench.html#iclbench.client.process_image_claude"><code class="docutils literal notranslate"><span class="pre">process_image_claude()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/iclbench.html#iclbench.client.process_image_openai"><code class="docutils literal notranslate"><span class="pre">process_image_openai()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/iclbench.html#module-iclbench.dataset">iclbench.dataset module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/iclbench.html#iclbench.dataset.InContextDataset"><code class="docutils literal notranslate"><span class="pre">InContextDataset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/iclbench.html#iclbench.dataset.choice_excluding"><code class="docutils literal notranslate"><span class="pre">choice_excluding()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/iclbench.html#iclbench.dataset.natural_sort_key"><code class="docutils literal notranslate"><span class="pre">natural_sort_key()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/iclbench.html#module-iclbench.evaluator">iclbench.evaluator module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/iclbench.html#iclbench.evaluator.Evaluator"><code class="docutils literal notranslate"><span class="pre">Evaluator</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/iclbench.html#module-iclbench.utils">iclbench.utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/iclbench.html#iclbench.utils.load_secrets"><code class="docutils literal notranslate"><span class="pre">load_secrets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/iclbench.html#iclbench.utils.setup_environment"><code class="docutils literal notranslate"><span class="pre">setup_environment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/iclbench.html#iclbench.utils.summarize_env_progressions"><code class="docutils literal notranslate"><span class="pre">summarize_env_progressions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/iclbench.html#iclbench.utils.wandb_save_artifact"><code class="docutils literal notranslate"><span class="pre">wandb_save_artifact()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/iclbench.html#module-iclbench">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">BALROG</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">iclbench.client</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for iclbench.client</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">from</span> <span class="nn">google.generativeai</span> <span class="kn">import</span> <span class="n">caching</span>
+<span class="kn">import</span> <span class="nn">google.generativeai</span> <span class="k">as</span> <span class="nn">genai</span>
+<span class="kn">import</span> <span class="nn">replicate</span>
+<span class="kn">from</span> <span class="nn">anthropic</span> <span class="kn">import</span> <span class="n">Anthropic</span>
+<span class="kn">from</span> <span class="nn">openai</span> <span class="kn">import</span> <span class="n">OpenAI</span>
+
+<span class="n">LLMResponse</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span>
+    <span class="s2">&quot;LLMResponse&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;model_id&quot;</span><span class="p">,</span> <span class="s2">&quot;completion&quot;</span><span class="p">,</span> <span class="s2">&quot;stop_reason&quot;</span><span class="p">,</span> <span class="s2">&quot;input_tokens&quot;</span><span class="p">,</span> <span class="s2">&quot;output_tokens&quot;</span><span class="p">,</span> <span class="s2">&quot;reasoning&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">httpx_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;httpx&quot;</span><span class="p">)</span>
+<span class="n">httpx_logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="LLMClientWrapper">
+<a class="viewcode-back" href="../../api/iclbench.html#iclbench.client.LLMClientWrapper">[docs]</a>
+<span class="k">class</span> <span class="nc">LLMClientWrapper</span><span class="p">:</span>
+<div class="viewcode-block" id="LLMClientWrapper.__init__">
+<a class="viewcode-back" href="../../api/iclbench.html#iclbench.client.LLMClientWrapper.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_config</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client_name</span> <span class="o">=</span> <span class="n">client_config</span><span class="o">.</span><span class="n">client_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_id</span> <span class="o">=</span> <span class="n">client_config</span><span class="o">.</span><span class="n">model_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="o">=</span> <span class="n">client_config</span><span class="o">.</span><span class="n">base_url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="n">client_config</span><span class="o">.</span><span class="n">timeout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_chat_model</span> <span class="o">=</span> <span class="n">client_config</span><span class="o">.</span><span class="n">is_chat_model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">client_config</span><span class="o">.</span><span class="n">generate_kwargs</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="LLMClientWrapper.generate">
+<a class="viewcode-back" href="../../api/iclbench.html#iclbench.client.LLMClientWrapper.generate">[docs]</a>
+    <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">messages</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;This method should be overridden by subclasses&quot;</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="process_image_openai">
+<a class="viewcode-back" href="../../api/iclbench.html#iclbench.client.process_image_openai">[docs]</a>
+<span class="k">def</span> <span class="nf">process_image_openai</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+    <span class="n">buffered</span> <span class="o">=</span> <span class="n">BytesIO</span><span class="p">()</span>
+    <span class="n">image</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">buffered</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;PNG&quot;</span><span class="p">)</span>
+    <span class="n">base64_image</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">buffered</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+    <span class="c1"># Return the image content for OpenAI</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;image_url&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;image_url&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;data:image/png;base64,</span><span class="si">{</span><span class="n">base64_image</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">},</span>
+    <span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="process_image_claude">
+<a class="viewcode-back" href="../../api/iclbench.html#iclbench.client.process_image_claude">[docs]</a>
+<span class="k">def</span> <span class="nf">process_image_claude</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+    <span class="n">buffered</span> <span class="o">=</span> <span class="n">BytesIO</span><span class="p">()</span>
+    <span class="n">image</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">buffered</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;PNG&quot;</span><span class="p">)</span>
+    <span class="n">base64_image</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">buffered</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+    <span class="c1"># Return the image content for Anthropic</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;image&quot;</span><span class="p">,</span> <span class="s2">&quot;source&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;base64&quot;</span><span class="p">,</span> <span class="s2">&quot;media_type&quot;</span><span class="p">:</span> <span class="s2">&quot;image/png&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">base64_image</span><span class="p">}}</span></div>
+
+
+
+<div class="viewcode-block" id="OpenAIWrapper">
+<a class="viewcode-back" href="../../api/iclbench.html#iclbench.client.OpenAIWrapper">[docs]</a>
+<span class="k">class</span> <span class="nc">OpenAIWrapper</span><span class="p">(</span><span class="n">LLMClientWrapper</span><span class="p">):</span>
+<div class="viewcode-block" id="OpenAIWrapper.__init__">
+<a class="viewcode-back" href="../../api/iclbench.html#iclbench.client.OpenAIWrapper.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_config</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">client_config</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_initialize_client</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;vllm&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;EMPTY&quot;</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;openai&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span> <span class="o">=</span> <span class="kc">True</span>
+
+<div class="viewcode-block" id="OpenAIWrapper.convert_messages">
+<a class="viewcode-back" href="../../api/iclbench.html#iclbench.client.OpenAIWrapper.convert_messages">[docs]</a>
+    <span class="k">def</span> <span class="nf">convert_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">messages</span><span class="p">):</span>
+        <span class="n">converted_messages</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">messages</span><span class="p">:</span>
+            <span class="n">converted_messages</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="n">msg</span><span class="o">.</span><span class="n">role</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">msg</span><span class="o">.</span><span class="n">content</span><span class="p">}]})</span>
+            <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">attachment</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">converted_messages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;content&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">process_image_openai</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">attachment</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">converted_messages</span></div>
+
+
+<div class="viewcode-block" id="OpenAIWrapper.generate">
+<a class="viewcode-back" href="../../api/iclbench.html#iclbench.client.OpenAIWrapper.generate">[docs]</a>
+    <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">messages</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_client</span><span class="p">()</span>
+        <span class="n">converted_messages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_messages</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">messages</span><span class="o">=</span><span class="n">converted_messages</span><span class="p">,</span>
+            <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model_id</span><span class="p">,</span>
+            <span class="n">max_tokens</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;max_tokens&quot;</span><span class="p">,</span> <span class="mi">1024</span><span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">LLMResponse</span><span class="p">(</span>
+            <span class="n">model_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model_id</span><span class="p">,</span>
+            <span class="n">completion</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span>
+            <span class="n">stop_reason</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">finish_reason</span><span class="p">,</span>
+            <span class="n">input_tokens</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">usage</span><span class="o">.</span><span class="n">prompt_tokens</span><span class="p">,</span>
+            <span class="n">output_tokens</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">usage</span><span class="o">.</span><span class="n">completion_tokens</span><span class="p">,</span>
+            <span class="n">reasoning</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="GoogleGenerativeAIWrapper">
+<a class="viewcode-back" href="../../api/iclbench.html#iclbench.client.GoogleGenerativeAIWrapper">[docs]</a>
+<span class="k">class</span> <span class="nc">GoogleGenerativeAIWrapper</span><span class="p">(</span><span class="n">LLMClientWrapper</span><span class="p">):</span>
+<div class="viewcode-block" id="GoogleGenerativeAIWrapper.__init__">
+<a class="viewcode-back" href="../../api/iclbench.html#iclbench.client.GoogleGenerativeAIWrapper.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_config</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">client_config</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_initialize_client</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">genai</span><span class="o">.</span><span class="n">GenerativeModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_id</span><span class="p">)</span>
+
+            <span class="n">client_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;temperature&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;temperature&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+                <span class="s2">&quot;max_output_tokens&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;max_tokens&quot;</span><span class="p">,</span> <span class="mi">1024</span><span class="p">),</span>
+            <span class="p">}</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">generation_config</span> <span class="o">=</span> <span class="n">genai</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">GenerationConfig</span><span class="p">(</span><span class="o">**</span><span class="n">client_kwargs</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span> <span class="o">=</span> <span class="kc">True</span>
+
+<div class="viewcode-block" id="GoogleGenerativeAIWrapper.cache_icl_demo">
+<a class="viewcode-back" href="../../api/iclbench.html#iclbench.client.GoogleGenerativeAIWrapper.cache_icl_demo">[docs]</a>
+    <span class="k">def</span> <span class="nf">cache_icl_demo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">icl_demo</span><span class="p">):</span>
+        <span class="c1"># Cache needs to be at least 32768 tokens long</span>
+        <span class="n">demo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_messages</span><span class="p">(</span><span class="n">icl_demo</span><span class="p">)</span>
+        <span class="n">cache</span> <span class="o">=</span> <span class="n">caching</span><span class="o">.</span><span class="n">CachedContent</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model_id</span><span class="p">,</span>
+            <span class="n">display_name</span><span class="o">=</span><span class="s2">&quot;ICL Demo&quot;</span><span class="p">,</span>
+            <span class="n">system_instruction</span><span class="o">=</span><span class="p">(</span>
+                <span class="s2">&quot;You are an agent playing a game. Use the provided demonstration to learn how to play the game.&quot;</span>
+            <span class="p">),</span>
+            <span class="n">contents</span><span class="o">=</span><span class="n">demo</span><span class="p">,</span>
+            <span class="n">ttl</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">300</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">client_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;temperature&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;temperature&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="s2">&quot;max_output_tokens&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;max_tokens&quot;</span><span class="p">,</span> <span class="mi">1024</span><span class="p">),</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generation_config</span> <span class="o">=</span> <span class="n">genai</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">GenerationConfig</span><span class="p">(</span><span class="o">**</span><span class="n">client_kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">genai</span><span class="o">.</span><span class="n">GenerativeModel</span><span class="o">.</span><span class="n">from_cached_content</span><span class="p">(</span><span class="n">cached_content</span><span class="o">=</span><span class="n">cache</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="GoogleGenerativeAIWrapper.convert_messages">
+<a class="viewcode-back" href="../../api/iclbench.html#iclbench.client.GoogleGenerativeAIWrapper.convert_messages">[docs]</a>
+    <span class="k">def</span> <span class="nf">convert_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">messages</span><span class="p">):</span>
+        <span class="c1"># Convert standard Message objects to Gemini&#39;s format</span>
+        <span class="n">converted_messages</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">messages</span><span class="p">:</span>
+            <span class="n">parts</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">role</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">role</span>
+            <span class="k">if</span> <span class="n">role</span> <span class="o">==</span> <span class="s2">&quot;assistant&quot;</span><span class="p">:</span>
+                <span class="n">role</span> <span class="o">=</span> <span class="s2">&quot;model&quot;</span>
+            <span class="k">elif</span> <span class="n">role</span> <span class="o">==</span> <span class="s2">&quot;system&quot;</span><span class="p">:</span>
+                <span class="n">role</span> <span class="o">=</span> <span class="s2">&quot;user&quot;</span>
+            <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">content</span><span class="p">:</span>
+                <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">attachment</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">attachment</span><span class="p">)</span>
+            <span class="n">converted_messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="n">role</span><span class="p">,</span>
+                    <span class="s2">&quot;parts&quot;</span><span class="p">:</span> <span class="n">parts</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">converted_messages</span></div>
+
+
+
+<div class="viewcode-block" id="GoogleGenerativeAIWrapper.get_completion">
+<a class="viewcode-back" href="../../api/iclbench.html#iclbench.client.GoogleGenerativeAIWrapper.get_completion">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_completion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">converted_messages</span><span class="p">,</span> <span class="n">max_retries</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+        <span class="n">retries</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">retries</span> <span class="o">&lt;</span> <span class="n">max_retries</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">generate_content</span><span class="p">(</span>
+                    <span class="n">converted_messages</span><span class="p">,</span>
+                    <span class="n">generation_config</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">generation_config</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">return</span> <span class="n">response</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">retries</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retryable error during generate_content: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">. Retry </span><span class="si">{</span><span class="n">retries</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">max_retries</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">sleep_time</span> <span class="o">=</span> <span class="n">delay</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="n">retries</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>  <span class="c1"># Exponential backoff</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">sleep_time</span><span class="p">)</span>
+
+        <span class="c1"># If maximum retries are reached and still no valid response</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to get a valid completion after </span><span class="si">{</span><span class="n">max_retries</span><span class="si">}</span><span class="s2"> retries.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GoogleGenerativeAIWrapper.extract_completion">
+<a class="viewcode-back" href="../../api/iclbench.html#iclbench.client.GoogleGenerativeAIWrapper.extract_completion">[docs]</a>
+    <span class="k">def</span> <span class="nf">extract_completion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extracts and returns the completion from the response safely.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Response is None, cannot extract completion.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="n">candidates</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="s1">&#39;candidates&#39;</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">candidates</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;No candidates found in the response.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+        
+        <span class="n">candidate</span> <span class="o">=</span> <span class="n">candidates</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">candidate</span><span class="p">,</span> <span class="s1">&#39;content&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">content_parts</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="s1">&#39;parts&#39;</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">content_parts</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;No content parts found in the candidate.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+        
+        <span class="n">text</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">content_parts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="GoogleGenerativeAIWrapper.generate">
+<a class="viewcode-back" href="../../api/iclbench.html#iclbench.client.GoogleGenerativeAIWrapper.generate">[docs]</a>
+    <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">messages</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_client</span><span class="p">()</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">converted_messages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_messages</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_completion</span><span class="p">(</span><span class="n">converted_messages</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error during get_completion: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to get a valid completion after multiple retries: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">completion</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extract_completion</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error during extract_completion: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">completion</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        
+        <span class="k">return</span> <span class="n">LLMResponse</span><span class="p">(</span>
+            <span class="n">model_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model_id</span><span class="p">,</span>
+            <span class="n">completion</span><span class="o">=</span><span class="n">completion</span><span class="p">,</span>
+            <span class="n">stop_reason</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span>
+                <span class="n">response</span><span class="o">.</span><span class="n">candidates</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;finish_reason&#39;</span><span class="p">,</span> <span class="s1">&#39;unknown&#39;</span>
+            <span class="p">)</span> <span class="k">if</span> <span class="n">response</span> <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="s1">&#39;candidates&#39;</span><span class="p">,</span> <span class="p">[])</span> <span class="k">else</span> <span class="s1">&#39;unknown&#39;</span><span class="p">,</span>
+            <span class="n">input_tokens</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span>
+                <span class="n">response</span><span class="o">.</span><span class="n">usage_metadata</span><span class="p">,</span> <span class="s1">&#39;prompt_token_count&#39;</span><span class="p">,</span> <span class="mi">0</span>
+            <span class="p">)</span> <span class="k">if</span> <span class="n">response</span> <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="s1">&#39;usage_metadata&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="n">output_tokens</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span>
+                <span class="n">response</span><span class="o">.</span><span class="n">usage_metadata</span><span class="p">,</span> <span class="s1">&#39;candidates_token_count&#39;</span><span class="p">,</span> <span class="mi">0</span>
+            <span class="p">)</span> <span class="k">if</span> <span class="n">response</span> <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="s1">&#39;usage_metadata&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="n">reasoning</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ClaudeWrapper">
+<a class="viewcode-back" href="../../api/iclbench.html#iclbench.client.ClaudeWrapper">[docs]</a>
+<span class="k">class</span> <span class="nc">ClaudeWrapper</span><span class="p">(</span><span class="n">LLMClientWrapper</span><span class="p">):</span>
+<div class="viewcode-block" id="ClaudeWrapper.__init__">
+<a class="viewcode-back" href="../../api/iclbench.html#iclbench.client.ClaudeWrapper.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_config</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">client_config</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_initialize_client</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">Anthropic</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span> <span class="o">=</span> <span class="kc">True</span>
+
+<div class="viewcode-block" id="ClaudeWrapper.convert_messages">
+<a class="viewcode-back" href="../../api/iclbench.html#iclbench.client.ClaudeWrapper.convert_messages">[docs]</a>
+    <span class="k">def</span> <span class="nf">convert_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">messages</span><span class="p">):</span>
+        <span class="n">converted_messages</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">messages</span><span class="p">:</span>
+            <span class="n">converted_messages</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="n">msg</span><span class="o">.</span><span class="n">role</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">msg</span><span class="o">.</span><span class="n">content</span><span class="p">}]})</span>
+            <span class="k">if</span> <span class="n">converted_messages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;role&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;system&quot;</span><span class="p">:</span>
+                <span class="c1"># Claude doesn&#39;t support system prompt and requires alternating roles</span>
+                <span class="n">converted_messages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;role&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;user&quot;</span>
+                <span class="n">converted_messages</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;assistant&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;I&#39;m ready!&quot;</span><span class="p">})</span>
+            <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">attachment</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">converted_messages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;content&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">process_image_claude</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">attachment</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">converted_messages</span></div>
+
+
+<div class="viewcode-block" id="ClaudeWrapper.generate">
+<a class="viewcode-back" href="../../api/iclbench.html#iclbench.client.ClaudeWrapper.generate">[docs]</a>
+    <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">messages</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_client</span><span class="p">()</span>
+        <span class="n">converted_messages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_messages</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">messages</span><span class="o">=</span><span class="n">converted_messages</span><span class="p">,</span>
+            <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model_id</span><span class="p">,</span>
+            <span class="n">max_tokens</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">client_kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;max_tokens&quot;</span><span class="p">,</span> <span class="mi">1024</span><span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">LLMResponse</span><span class="p">(</span>
+            <span class="n">model_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model_id</span><span class="p">,</span>
+            <span class="n">completion</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span>
+            <span class="n">stop_reason</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">stop_reason</span><span class="p">,</span>
+            <span class="n">input_tokens</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">usage</span><span class="o">.</span><span class="n">input_tokens</span><span class="p">,</span>
+            <span class="n">output_tokens</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">usage</span><span class="o">.</span><span class="n">output_tokens</span><span class="p">,</span>
+            <span class="n">reasoning</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ReplicateWrapper">
+<a class="viewcode-back" href="../../api/iclbench.html#iclbench.client.ReplicateWrapper">[docs]</a>
+<span class="k">class</span> <span class="nc">ReplicateWrapper</span><span class="p">(</span><span class="n">LLMClientWrapper</span><span class="p">):</span>
+<div class="viewcode-block" id="ReplicateWrapper.__init__">
+<a class="viewcode-back" href="../../api/iclbench.html#iclbench.client.ReplicateWrapper.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_config</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">client_config</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">replicate</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ReplicateWrapper.generate">
+<a class="viewcode-back" href="../../api/iclbench.html#iclbench.client.ReplicateWrapper.generate">[docs]</a>
+    <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">messages</span><span class="p">):</span>
+        <span class="c1"># Replicate models might not support multi-turn conversations; we concatenate messages</span>
+        <span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">msg</span><span class="o">.</span><span class="n">role</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">msg</span><span class="o">.</span><span class="n">content</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">messages</span><span class="p">])</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_id</span><span class="p">,</span> <span class="nb">input</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;prompt&quot;</span><span class="p">:</span> <span class="n">prompt</span><span class="p">},</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">client_kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Handle different output types</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="n">output</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">LLMResponse</span><span class="p">(</span>
+            <span class="n">model_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model_id</span><span class="p">,</span>
+            <span class="n">completion</span><span class="o">=</span><span class="n">content</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span>
+            <span class="n">stop_reason</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">input_tokens</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">output_tokens</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">reasoning</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="create_llm_client">
+<a class="viewcode-back" href="../../api/iclbench.html#iclbench.client.create_llm_client">[docs]</a>
+<span class="k">def</span> <span class="nf">create_llm_client</span><span class="p">(</span><span class="n">client_config</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Factory function to create the appropriate LLM client based on the client name.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">client_factory</span><span class="p">():</span>
+        <span class="k">if</span> <span class="s2">&quot;openai&quot;</span> <span class="ow">in</span> <span class="n">client_config</span><span class="o">.</span><span class="n">client_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">or</span> <span class="s2">&quot;vllm&quot;</span> <span class="ow">in</span> <span class="n">client_config</span><span class="o">.</span><span class="n">client_name</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">OpenAIWrapper</span><span class="p">(</span><span class="n">client_config</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="s2">&quot;gemini&quot;</span> <span class="ow">in</span> <span class="n">client_config</span><span class="o">.</span><span class="n">client_name</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">GoogleGenerativeAIWrapper</span><span class="p">(</span><span class="n">client_config</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="s2">&quot;claude&quot;</span> <span class="ow">in</span> <span class="n">client_config</span><span class="o">.</span><span class="n">client_name</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">ClaudeWrapper</span><span class="p">(</span><span class="n">client_config</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="s2">&quot;replicate&quot;</span> <span class="ow">in</span> <span class="n">client_config</span><span class="o">.</span><span class="n">client_name</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">ReplicateWrapper</span><span class="p">(</span><span class="n">client_config</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported client name: </span><span class="si">{</span><span class="n">client_config</span><span class="o">.</span><span class="n">client_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">client_factory</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, BALROG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

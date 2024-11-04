@@ -1,0 +1,423 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>iclbench.environments.baba_is_ai.base &mdash; BALROG 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            BALROG
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../evaluation.html">Evaluation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../evaluation.html#quickstart">⚡ Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../evaluation.html#evaluate-using-local-vllm-server">Evaluate using local vLLM server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../evaluation.html#evaluate-using-api">Evaluate using API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../evaluation.html#vlm-mode">🖼️ VLM mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../evaluation.html#resume-an-evaluation">▶️ Resume an evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../evaluation.html#configuring-eval">⚙️ Configuring Eval</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../agents.html">Agents</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../agents.html#pre-built-agents">Pre-built agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../agents.html#creating-custom-agents">🤖 Creating Custom Agents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../agents.html#simple-planning-agent">Simple Planning Agent</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributions.html">Contributions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Environments</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../envs/babyai.html">Baby AI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/babyai.html#babyai-text">BabyAI-Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/babyai.html#babyai-results">BabyAI Results</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../envs/babyai.html#llm-results">LLM results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../envs/babyai.html#vlm-results">VLM results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/babyai.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../envs/crafter.html">Crafter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/crafter.html#crafter-results">Crafter Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/crafter.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/crafter.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/crafter.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../envs/textworld.html">TextWorld</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/textworld.html#tasks">Tasks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../envs/textworld.html#treasure-hunter">Treasure Hunter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../envs/textworld.html#the-cooking-game">The Cooking Game</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../envs/textworld.html#coin-collector">Coin Collector</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/textworld.html#textworld-results">TextWorld Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/textworld.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../envs/babaisai.html">Baba Is AI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/babaisai.html#baba-is-ai-language-wrapper">Baba Is AI Language Wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/babaisai.html#baba-is-ai-results">Baba Is AI Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/babaisai.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/babaisai.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/babaisai.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../envs/minihack.html">MiniHack</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/minihack.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/minihack.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/minihack.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../envs/nle.html">NetHack Learning Environment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/nle.html#nethack-language-wrapper">NetHack Language Wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/nle.html#new-nethack-progression-system">New NetHack Progression System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/nle.html#nethack-results">NetHack Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/nle.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/nle.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/nle.html#observation">Observation</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/modules.html">iclbench</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/iclbench.html">iclbench package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/iclbench.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.agents.html">iclbench.agents package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.environments.html">iclbench.environments package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.prompt_builder.html">iclbench.prompt_builder package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/iclbench.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/iclbench.html#module-iclbench.client">iclbench.client module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.client.ClaudeWrapper"><code class="docutils literal notranslate"><span class="pre">ClaudeWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.client.GoogleGenerativeAIWrapper"><code class="docutils literal notranslate"><span class="pre">GoogleGenerativeAIWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.client.LLMClientWrapper"><code class="docutils literal notranslate"><span class="pre">LLMClientWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.client.LLMResponse"><code class="docutils literal notranslate"><span class="pre">LLMResponse</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.client.OpenAIWrapper"><code class="docutils literal notranslate"><span class="pre">OpenAIWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.client.ReplicateWrapper"><code class="docutils literal notranslate"><span class="pre">ReplicateWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.client.create_llm_client"><code class="docutils literal notranslate"><span class="pre">create_llm_client()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.client.process_image_claude"><code class="docutils literal notranslate"><span class="pre">process_image_claude()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.client.process_image_openai"><code class="docutils literal notranslate"><span class="pre">process_image_openai()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/iclbench.html#module-iclbench.dataset">iclbench.dataset module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.dataset.InContextDataset"><code class="docutils literal notranslate"><span class="pre">InContextDataset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.dataset.choice_excluding"><code class="docutils literal notranslate"><span class="pre">choice_excluding()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.dataset.natural_sort_key"><code class="docutils literal notranslate"><span class="pre">natural_sort_key()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/iclbench.html#module-iclbench.evaluator">iclbench.evaluator module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.evaluator.Evaluator"><code class="docutils literal notranslate"><span class="pre">Evaluator</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/iclbench.html#module-iclbench.utils">iclbench.utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.utils.load_secrets"><code class="docutils literal notranslate"><span class="pre">load_secrets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.utils.setup_environment"><code class="docutils literal notranslate"><span class="pre">setup_environment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.utils.summarize_env_progressions"><code class="docutils literal notranslate"><span class="pre">summarize_env_progressions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.utils.wandb_save_artifact"><code class="docutils literal notranslate"><span class="pre">wandb_save_artifact()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/iclbench.html#module-iclbench">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">BALROG</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../environments.html">iclbench.environments</a></li>
+          <li class="breadcrumb-item"><a href="../baba_is_ai.html">iclbench.environments.baba_is_ai</a></li>
+      <li class="breadcrumb-item active">iclbench.environments.baba_is_ai.base</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for iclbench.environments.baba_is_ai.base</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+
+<span class="kn">import</span> <span class="nn">baba</span>
+<span class="kn">import</span> <span class="nn">gym</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">baba.world_object</span> <span class="kn">import</span> <span class="n">name_mapping</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+
+<span class="n">BABAISAI_ACTION_SPACE</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">baba</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">BabaIsYouEnv</span><span class="o">.</span><span class="n">Actions</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="BabaIsAIWrapper">
+<a class="viewcode-back" href="../../../../api/iclbench.environments.baba_is_ai.html#iclbench.environments.baba_is_ai.base.BabaIsAIWrapper">[docs]</a>
+<span class="k">class</span> <span class="nc">BabaIsAIWrapper</span><span class="p">(</span><span class="n">gym</span><span class="o">.</span><span class="n">Wrapper</span><span class="p">):</span>
+<div class="viewcode-block" id="BabaIsAIWrapper.__init__">
+<a class="viewcode-back" href="../../../../api/iclbench.environments.baba_is_ai.html#iclbench.environments.baba_is_ai.base.BabaIsAIWrapper.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">gym</span><span class="o">.</span><span class="n">Env</span><span class="p">,</span> <span class="n">add_ruleset</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">vlm</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_ruleset</span> <span class="o">=</span> <span class="n">add_ruleset</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">language_action_space</span> <span class="o">=</span> <span class="n">BABAISAI_ACTION_SPACE</span><span class="p">[:]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">progression</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_plan</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">default_action</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">BABAISAI_ACTION_SPACE</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<div class="viewcode-block" id="BabaIsAIWrapper.get_text_action">
+<a class="viewcode-back" href="../../../../api/iclbench.environments.baba_is_ai.html#iclbench.environments.baba_is_ai.base.BabaIsAIWrapper.get_text_action">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_text_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">language_action_space</span><span class="p">[</span><span class="n">action</span><span class="o">.</span><span class="n">value</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="BabaIsAIWrapper.get_ruleset">
+<a class="viewcode-back" href="../../../../api/iclbench.environments.baba_is_ai.html#iclbench.environments.baba_is_ai.base.BabaIsAIWrapper.get_ruleset">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_ruleset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve and format the ruleset for the current environment.</span>
+
+<span class="sd">        This method extracts rules from the environment&#39;s grid ruleset,</span>
+<span class="sd">        formats them into human-readable strings, and returns them as a</span>
+<span class="sd">        single string with each rule on a new line.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rules</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">_ruleset</span><span class="p">[</span><span class="s2">&quot;_rule_&quot;</span><span class="p">]:</span>
+            <span class="c1"># all objects start with f, eg `fwall`, `fkey`...</span>
+            <span class="c1"># are objects that can be manipulated, `wall` is used to indicate end of map</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">rule</span><span class="p">[</span><span class="s2">&quot;object&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">removeprefix</span><span class="p">(</span><span class="s2">&quot;f&quot;</span><span class="p">)</span>
+            <span class="n">named_property</span> <span class="o">=</span> <span class="n">name_mapping</span><span class="p">[</span><span class="n">rule</span><span class="p">[</span><span class="s2">&quot;property&quot;</span><span class="p">]]</span>
+            <span class="n">rules</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">named_property</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rules</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BabaIsAIWrapper.get_text_observation">
+<a class="viewcode-back" href="../../../../api/iclbench.environments.baba_is_ai.html#iclbench.environments.baba_is_ai.base.BabaIsAIWrapper.get_text_observation">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_text_observation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate a text-based observation of the environment.</span>
+
+<span class="sd">        This method creates a textual description of the environment,</span>
+<span class="sd">        including the relative positions of various objects with respect</span>
+<span class="sd">        to the player&#39;s position (represented by &#39;baba&#39;).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">find_objects</span><span class="p">(</span><span class="n">objects</span><span class="p">):</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">height</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">width</span><span class="p">):</span>
+                    <span class="n">cell</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">cell</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">cell</span><span class="o">.</span><span class="n">type</span> <span class="ow">in</span> <span class="n">objects</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">cell</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;rule_object&quot;</span><span class="p">:</span>
+                            <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;rule `</span><span class="si">{</span><span class="n">cell</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">`&quot;</span>
+                        <span class="k">elif</span> <span class="n">cell</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;rule_is&quot;</span><span class="p">:</span>
+                            <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;rule `</span><span class="si">{</span><span class="n">name_mapping</span><span class="p">[</span><span class="n">cell</span><span class="o">.</span><span class="n">name</span><span class="p">]</span><span class="si">}</span><span class="s2">`&quot;</span>
+                        <span class="k">elif</span> <span class="n">cell</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;rule_property&quot;</span><span class="p">:</span>
+                            <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;rule `</span><span class="si">{</span><span class="n">name_mapping</span><span class="p">[</span><span class="n">cell</span><span class="o">.</span><span class="n">property</span><span class="p">]</span><span class="si">}</span><span class="s2">`&quot;</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">name</span> <span class="o">=</span> <span class="n">cell</span><span class="o">.</span><span class="n">type</span>
+                        <span class="n">obj</span><span class="o">.</span><span class="n">append</span><span class="p">(((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="n">name</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">obj</span>
+
+        <span class="k">def</span> <span class="nf">calculate_offsets</span><span class="p">(</span><span class="n">reference_position</span><span class="p">,</span> <span class="n">positions</span><span class="p">):</span>
+            <span class="n">reference_position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">reference_position</span><span class="p">)</span>
+            <span class="n">positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">positions</span><span class="p">)</span>
+
+            <span class="n">relative_positions</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="n">positions</span><span class="p">:</span>
+                <span class="n">relative_positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pos</span> <span class="o">-</span> <span class="n">reference_position</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">relative_positions</span>
+
+        <span class="k">def</span> <span class="nf">form_description</span><span class="p">(</span><span class="n">relative_positions</span><span class="p">):</span>
+            <span class="k">def</span> <span class="nf">steps</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+                <span class="k">return</span> <span class="s2">&quot;steps&quot;</span> <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">&quot;step&quot;</span>
+
+            <span class="n">descriptions</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="n">relative_positions</span><span class="p">:</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">name</span> <span class="o">=</span> <span class="n">pos</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">removeprefix</span><span class="p">(</span><span class="s2">&quot;f&quot;</span><span class="p">)</span>
+
+                <span class="n">x_direction</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+                <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">x_direction</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">steps</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">}</span><span class="s2"> to the right&quot;</span>
+                <span class="k">elif</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">x_direction</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="o">-</span><span class="n">x</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">steps</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">}</span><span class="s2"> to the left&quot;</span>
+
+                <span class="n">y_direction</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+                <span class="k">if</span> <span class="n">y</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">y_direction</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">steps</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="si">}</span><span class="s2"> down&quot;</span>
+                <span class="k">elif</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">y_direction</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="o">-</span><span class="n">y</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">steps</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="si">}</span><span class="s2"> up&quot;</span>
+
+                <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+                <span class="k">if</span> <span class="n">x_direction</span><span class="p">:</span>
+                    <span class="n">description</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">x_direction</span><span class="si">}</span><span class="s2">&quot;</span>
+
+                <span class="k">if</span> <span class="n">y_direction</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">x_direction</span><span class="p">:</span>
+                        <span class="n">description</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; and </span><span class="si">{</span><span class="n">y_direction</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">description</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">y_direction</span><span class="si">}</span><span class="s2">&quot;</span>
+
+                <span class="n">descriptions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">description</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">descriptions</span><span class="p">)</span>
+
+        <span class="n">you</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">_ruleset</span><span class="p">[</span><span class="s2">&quot;_rule_&quot;</span><span class="p">]:</span>
+            <span class="n">named_property</span> <span class="o">=</span> <span class="n">name_mapping</span><span class="p">[</span><span class="n">rule</span><span class="p">[</span><span class="s2">&quot;property&quot;</span><span class="p">]]</span>
+            <span class="k">if</span> <span class="n">named_property</span> <span class="o">==</span> <span class="s2">&quot;you&quot;</span><span class="p">:</span>
+                <span class="n">you</span> <span class="o">=</span> <span class="n">rule</span><span class="p">[</span><span class="s2">&quot;object&quot;</span><span class="p">]</span>
+
+        <span class="c1"># TODO: we need to handle multilpe me</span>
+        <span class="n">my_position</span> <span class="o">=</span> <span class="n">find_objects</span><span class="p">([</span><span class="n">you</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">other_positions</span> <span class="o">=</span> <span class="n">find_objects</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="s2">&quot;fball&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;fwall&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;fdoor&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;fkey&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;rule_object&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;rule_is&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;rule_property&quot;</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">offsets</span> <span class="o">=</span> <span class="n">calculate_offsets</span><span class="p">(</span><span class="n">my_position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">other_positions</span><span class="p">])</span>
+        <span class="n">relative_positions</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">offset</span><span class="p">),</span> <span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">offset</span><span class="p">,</span> <span class="n">pos</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">offsets</span><span class="p">,</span> <span class="n">other_positions</span><span class="p">)]</span>
+        <span class="n">text_observation</span> <span class="o">=</span> <span class="n">form_description</span><span class="p">(</span><span class="n">relative_positions</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">text_observation</span></div>
+
+
+<div class="viewcode-block" id="BabaIsAIWrapper.textworld_process_obsv">
+<a class="viewcode-back" href="../../../../api/iclbench.environments.baba_is_ai.html#iclbench.environments.baba_is_ai.base.BabaIsAIWrapper.textworld_process_obsv">[docs]</a>
+    <span class="k">def</span> <span class="nf">textworld_process_obsv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">textworld_obsv</span><span class="p">):</span>
+        <span class="n">ruleset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ruleset</span><span class="p">()</span>
+        <span class="n">text_observation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_text_observation</span><span class="p">(</span><span class="n">textworld_obsv</span><span class="p">)</span>
+
+        <span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_ruleset</span><span class="p">:</span>
+            <span class="n">prompt</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;Active rules:</span><span class="se">\n</span><span class="si">{</span><span class="n">ruleset</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+        <span class="n">prompt</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;Objects on the map:</span><span class="se">\n</span><span class="si">{</span><span class="n">text_observation</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="n">obs</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="n">obs</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;long_term_context&quot;</span><span class="p">:</span> <span class="n">prompt</span><span class="p">,</span> <span class="s2">&quot;short_term_context&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">}</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rgb_array&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s2">&quot;RGB&quot;</span><span class="p">)</span>
+        <span class="n">obs</span><span class="p">[</span><span class="s2">&quot;image&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">image</span>
+
+        <span class="k">return</span> <span class="n">obs</span></div>
+
+
+<div class="viewcode-block" id="BabaIsAIWrapper.reset">
+<a class="viewcode-back" href="../../../../api/iclbench.environments.baba_is_ai.html#iclbench.environments.baba_is_ai.base.BabaIsAIWrapper.reset">[docs]</a>
+    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">obs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_plan</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">target_plan</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">progression</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">textworld_process_obsv</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BabaIsAIWrapper.step">
+<a class="viewcode-back" href="../../../../api/iclbench.environments.baba_is_ai.html#iclbench.environments.baba_is_ai.base.BabaIsAIWrapper.step">[docs]</a>
+    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
+        <span class="n">action_int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">language_action_space</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+        <span class="n">obs</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action_int</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">done</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">is_win</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">progression</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">textworld_process_obsv</span><span class="p">(</span><span class="n">obs</span><span class="p">),</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="n">info</span></div>
+
+
+<div class="viewcode-block" id="BabaIsAIWrapper.get_stats">
+<a class="viewcode-back" href="../../../../api/iclbench.environments.baba_is_ai.html#iclbench.environments.baba_is_ai.base.BabaIsAIWrapper.get_stats">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;target_plan&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_plan</span><span class="p">,</span> <span class="s2">&quot;progression&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">progression</span><span class="p">}</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, BALROG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

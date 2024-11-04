@@ -1,0 +1,21 @@
+iclbench.environments.crafter package
+=====================================
+
+Submodules
+----------
+
+iclbench.environments.crafter.env module
+----------------------------------------
+
+.. automodule:: iclbench.environments.crafter.env
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: iclbench.environments.crafter
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,360 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>iclbench.agents.icl &mdash; BALROG 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BALROG
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../evaluation.html">Evaluation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../evaluation.html#quickstart">⚡ Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../evaluation.html#evaluate-using-local-vllm-server">Evaluate using local vLLM server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../evaluation.html#evaluate-using-api">Evaluate using API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../evaluation.html#vlm-mode">🖼️ VLM mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../evaluation.html#resume-an-evaluation">▶️ Resume an evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../evaluation.html#configuring-eval">⚙️ Configuring Eval</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../agents.html">Agents</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../agents.html#pre-built-agents">Pre-built agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../agents.html#creating-custom-agents">🤖 Creating Custom Agents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents.html#simple-planning-agent">Simple Planning Agent</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributions.html">Contributions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Environments</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../envs/babyai.html">Baby AI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/babyai.html#babyai-text">BabyAI-Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/babyai.html#babyai-results">BabyAI Results</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../envs/babyai.html#llm-results">LLM results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../envs/babyai.html#vlm-results">VLM results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/babyai.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../envs/crafter.html">Crafter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/crafter.html#crafter-results">Crafter Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/crafter.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/crafter.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/crafter.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../envs/textworld.html">TextWorld</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/textworld.html#tasks">Tasks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../envs/textworld.html#treasure-hunter">Treasure Hunter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../envs/textworld.html#the-cooking-game">The Cooking Game</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../envs/textworld.html#coin-collector">Coin Collector</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/textworld.html#textworld-results">TextWorld Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/textworld.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../envs/babaisai.html">Baba Is AI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/babaisai.html#baba-is-ai-language-wrapper">Baba Is AI Language Wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/babaisai.html#baba-is-ai-results">Baba Is AI Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/babaisai.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/babaisai.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/babaisai.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../envs/minihack.html">MiniHack</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/minihack.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/minihack.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/minihack.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../envs/nle.html">NetHack Learning Environment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/nle.html#nethack-language-wrapper">NetHack Language Wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/nle.html#new-nethack-progression-system">New NetHack Progression System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/nle.html#nethack-results">NetHack Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/nle.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/nle.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/nle.html#observation">Observation</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/modules.html">iclbench</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/iclbench.html">iclbench package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/iclbench.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.agents.html">iclbench.agents package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.environments.html">iclbench.environments package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.prompt_builder.html">iclbench.prompt_builder package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/iclbench.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/iclbench.html#module-iclbench.client">iclbench.client module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.client.ClaudeWrapper"><code class="docutils literal notranslate"><span class="pre">ClaudeWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.client.GoogleGenerativeAIWrapper"><code class="docutils literal notranslate"><span class="pre">GoogleGenerativeAIWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.client.LLMClientWrapper"><code class="docutils literal notranslate"><span class="pre">LLMClientWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.client.LLMResponse"><code class="docutils literal notranslate"><span class="pre">LLMResponse</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.client.OpenAIWrapper"><code class="docutils literal notranslate"><span class="pre">OpenAIWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.client.ReplicateWrapper"><code class="docutils literal notranslate"><span class="pre">ReplicateWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.client.create_llm_client"><code class="docutils literal notranslate"><span class="pre">create_llm_client()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.client.process_image_claude"><code class="docutils literal notranslate"><span class="pre">process_image_claude()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.client.process_image_openai"><code class="docutils literal notranslate"><span class="pre">process_image_openai()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/iclbench.html#module-iclbench.dataset">iclbench.dataset module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.dataset.InContextDataset"><code class="docutils literal notranslate"><span class="pre">InContextDataset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.dataset.choice_excluding"><code class="docutils literal notranslate"><span class="pre">choice_excluding()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.dataset.natural_sort_key"><code class="docutils literal notranslate"><span class="pre">natural_sort_key()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/iclbench.html#module-iclbench.evaluator">iclbench.evaluator module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.evaluator.Evaluator"><code class="docutils literal notranslate"><span class="pre">Evaluator</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/iclbench.html#module-iclbench.utils">iclbench.utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.utils.load_secrets"><code class="docutils literal notranslate"><span class="pre">load_secrets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.utils.setup_environment"><code class="docutils literal notranslate"><span class="pre">setup_environment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.utils.summarize_env_progressions"><code class="docutils literal notranslate"><span class="pre">summarize_env_progressions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.utils.wandb_save_artifact"><code class="docutils literal notranslate"><span class="pre">wandb_save_artifact()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/iclbench.html#module-iclbench">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BALROG</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../agents.html">iclbench.agents</a></li>
+      <li class="breadcrumb-item active">iclbench.agents.icl</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for iclbench.agents.icl</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">iclbench.agents.base</span> <span class="kn">import</span> <span class="n">BaseAgent</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
+
+<div class="viewcode-block" id="Message">
+<a class="viewcode-back" href="../../../api/iclbench.agents.html#iclbench.agents.icl.Message">[docs]</a>
+<span class="k">class</span> <span class="nc">Message</span><span class="p">:</span>
+<div class="viewcode-block" id="Message.__init__">
+<a class="viewcode-back" href="../../../api/iclbench.agents.html#iclbench.agents.icl.Message.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">role</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">attachment</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">object</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">role</span> <span class="o">=</span> <span class="n">role</span>  <span class="c1"># &#39;system&#39;, &#39;user&#39;, &#39;assistant&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">content</span>  <span class="c1"># String content of the message</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attachment</span> <span class="o">=</span> <span class="n">attachment</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Message(role=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">role</span><span class="si">}</span><span class="s2">, content=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="si">}</span><span class="s2">, attachment=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">attachment</span><span class="si">}</span><span class="s2">)&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="ICLAgent">
+<a class="viewcode-back" href="../../../api/iclbench.agents.html#iclbench.agents.icl.ICLAgent">[docs]</a>
+<span class="k">class</span> <span class="nc">ICLAgent</span><span class="p">(</span><span class="n">BaseAgent</span><span class="p">):</span>
+<div class="viewcode-block" id="ICLAgent.__init__">
+<a class="viewcode-back" href="../../../api/iclbench.agents.html#iclbench.agents.icl.ICLAgent.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_factory</span><span class="p">,</span> <span class="n">prompt_builder</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">client_factory</span><span class="p">,</span> <span class="n">prompt_builder</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">client_factory</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">icl_episodes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">icl_events</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cached_icl</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="ICLAgent.update_icl_observation">
+<a class="viewcode-back" href="../../../api/iclbench.agents.html#iclbench.agents.icl.ICLAgent.update_icl_observation">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_icl_observation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">long_term_context</span> <span class="o">=</span> <span class="n">obs</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;long_term_context&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">icl_events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;icl_observation&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">long_term_context</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ICLAgent.update_icl_action">
+<a class="viewcode-back" href="../../../api/iclbench.agents.html#iclbench.agents.icl.ICLAgent.update_icl_action">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_icl_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">icl_events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;icl_action&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;action&quot;</span><span class="p">:</span> <span class="n">action</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">)</span></div>
+
+        
+<div class="viewcode-block" id="ICLAgent.cache_icl">
+<a class="viewcode-back" href="../../../api/iclbench.agents.html#iclbench.agents.icl.ICLAgent.cache_icl">[docs]</a>
+    <span class="k">def</span> <span class="nf">cache_icl</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">cache_icl_demo</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_icl_prompt</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cached_icl</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="ICLAgent.wrap_episode">
+<a class="viewcode-back" href="../../../api/iclbench.agents.html#iclbench.agents.icl.ICLAgent.wrap_episode">[docs]</a>
+    <span class="k">def</span> <span class="nf">wrap_episode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">icl_episode</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">icl_episode</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">Message</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;****** START OF DEMONSTRATION EPISODE </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">icl_episodes</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2"> ******&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">icl_events</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">event</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;icl_observation&quot;</span><span class="p">:</span>
+                <span class="n">content</span> <span class="o">=</span> <span class="s2">&quot;Obesrvation:</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">event</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span>
+                <span class="n">message</span> <span class="o">=</span> <span class="n">Message</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="n">content</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">event</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;icl_action&quot;</span><span class="p">:</span>
+                <span class="n">content</span> <span class="o">=</span> <span class="n">event</span><span class="p">[</span><span class="s2">&quot;action&quot;</span><span class="p">]</span>
+                <span class="n">message</span> <span class="o">=</span> <span class="n">Message</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="s2">&quot;assistant&quot;</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="n">content</span><span class="p">)</span>
+            <span class="n">icl_episode</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="n">icl_episode</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">Message</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;****** END OF DEMONSTRATION EPISODE </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">icl_episodes</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2"> ******&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">icl_episodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">icl_episode</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ICLAgent.get_icl_prompt">
+<a class="viewcode-back" href="../../../api/iclbench.agents.html#iclbench.agents.icl.ICLAgent.get_icl_prompt">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_icl_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Message</span><span class="p">]:</span>
+
+        <span class="n">icl_instruction</span> <span class="o">=</span> <span class="n">Message</span><span class="p">(</span>
+            <span class="n">role</span><span class="o">=</span><span class="s2">&quot;user&quot;</span><span class="p">,</span>
+            <span class="n">content</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">prompt_builder</span><span class="o">.</span><span class="n">system_prompt</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                <span class="s2">&quot;PLAY&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;First, observe the demonstrations provided and learn from them!&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="c1"># unroll the wrapped icl episodes messages</span>
+        <span class="n">icl_messages</span> <span class="o">=</span> <span class="p">[</span><span class="n">icl_instruction</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">icl_episode</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">icl_episodes</span><span class="p">:</span>
+            <span class="n">icl_messages</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">icl_episode</span><span class="p">)</span>
+
+        <span class="n">end_demo_message</span> <span class="o">=</span> <span class="n">Message</span><span class="p">(</span>
+            <span class="n">role</span><span class="o">=</span><span class="s2">&quot;user&quot;</span><span class="p">,</span>
+            <span class="n">content</span><span class="o">=</span><span class="s2">&quot;****** Now it&#39;s your turn to play the game! ******&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">icl_messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">end_demo_message</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">icl_messages</span></div>
+
+
+<div class="viewcode-block" id="ICLAgent.act">
+<a class="viewcode-back" href="../../../api/iclbench.agents.html#iclbench.agents.icl.ICLAgent.act">[docs]</a>
+    <span class="k">def</span> <span class="nf">act</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obs</span><span class="p">,</span> <span class="n">prev_action</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">prev_action</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prompt_builder</span><span class="o">.</span><span class="n">update_action</span><span class="p">(</span><span class="n">prev_action</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">prompt_builder</span><span class="o">.</span><span class="n">update_observation</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">cached_icl</span><span class="p">:</span>
+            <span class="n">messages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_icl_prompt</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">messages</span> <span class="o">=</span> <span class="p">[]</span>
+            
+        <span class="n">messages</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prompt_builder</span><span class="o">.</span><span class="n">get_prompt</span><span class="p">(</span><span class="n">icl_episodes</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+
+        <span class="c1"># Add naive instructions to the last user message</span>
+        <span class="n">naive_instruction</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">You can only output one of the above actions at a time, and always have to output an action until the episode terminates.</span>
+<span class="s2">Action:</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">messages</span> <span class="ow">and</span> <span class="n">messages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">role</span> <span class="o">==</span> <span class="s2">&quot;user&quot;</span><span class="p">:</span>
+            <span class="n">messages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">content</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">naive_instruction</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">response</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, BALROG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

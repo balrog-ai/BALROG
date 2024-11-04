@@ -1,0 +1,398 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>iclbench.environments.nle.render &mdash; BALROG 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            BALROG
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../evaluation.html">Evaluation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../evaluation.html#quickstart">⚡ Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../evaluation.html#evaluate-using-local-vllm-server">Evaluate using local vLLM server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../evaluation.html#evaluate-using-api">Evaluate using API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../evaluation.html#vlm-mode">🖼️ VLM mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../evaluation.html#resume-an-evaluation">▶️ Resume an evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../evaluation.html#configuring-eval">⚙️ Configuring Eval</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../agents.html">Agents</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../agents.html#pre-built-agents">Pre-built agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../agents.html#creating-custom-agents">🤖 Creating Custom Agents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../agents.html#simple-planning-agent">Simple Planning Agent</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributions.html">Contributions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Environments</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../envs/babyai.html">Baby AI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/babyai.html#babyai-text">BabyAI-Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/babyai.html#babyai-results">BabyAI Results</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../envs/babyai.html#llm-results">LLM results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../envs/babyai.html#vlm-results">VLM results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/babyai.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../envs/crafter.html">Crafter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/crafter.html#crafter-results">Crafter Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/crafter.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/crafter.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/crafter.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../envs/textworld.html">TextWorld</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/textworld.html#tasks">Tasks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../envs/textworld.html#treasure-hunter">Treasure Hunter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../envs/textworld.html#the-cooking-game">The Cooking Game</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../envs/textworld.html#coin-collector">Coin Collector</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/textworld.html#textworld-results">TextWorld Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/textworld.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../envs/babaisai.html">Baba Is AI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/babaisai.html#baba-is-ai-language-wrapper">Baba Is AI Language Wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/babaisai.html#baba-is-ai-results">Baba Is AI Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/babaisai.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/babaisai.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/babaisai.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../envs/minihack.html">MiniHack</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/minihack.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/minihack.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/minihack.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../envs/nle.html">NetHack Learning Environment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/nle.html#nethack-language-wrapper">NetHack Language Wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/nle.html#new-nethack-progression-system">New NetHack Progression System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/nle.html#nethack-results">NetHack Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/nle.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/nle.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../envs/nle.html#observation">Observation</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/modules.html">iclbench</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/iclbench.html">iclbench package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/iclbench.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.agents.html">iclbench.agents package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.environments.html">iclbench.environments package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.prompt_builder.html">iclbench.prompt_builder package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/iclbench.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/iclbench.html#module-iclbench.client">iclbench.client module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.client.ClaudeWrapper"><code class="docutils literal notranslate"><span class="pre">ClaudeWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.client.GoogleGenerativeAIWrapper"><code class="docutils literal notranslate"><span class="pre">GoogleGenerativeAIWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.client.LLMClientWrapper"><code class="docutils literal notranslate"><span class="pre">LLMClientWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.client.LLMResponse"><code class="docutils literal notranslate"><span class="pre">LLMResponse</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.client.OpenAIWrapper"><code class="docutils literal notranslate"><span class="pre">OpenAIWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.client.ReplicateWrapper"><code class="docutils literal notranslate"><span class="pre">ReplicateWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.client.create_llm_client"><code class="docutils literal notranslate"><span class="pre">create_llm_client()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.client.process_image_claude"><code class="docutils literal notranslate"><span class="pre">process_image_claude()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.client.process_image_openai"><code class="docutils literal notranslate"><span class="pre">process_image_openai()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/iclbench.html#module-iclbench.dataset">iclbench.dataset module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.dataset.InContextDataset"><code class="docutils literal notranslate"><span class="pre">InContextDataset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.dataset.choice_excluding"><code class="docutils literal notranslate"><span class="pre">choice_excluding()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.dataset.natural_sort_key"><code class="docutils literal notranslate"><span class="pre">natural_sort_key()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/iclbench.html#module-iclbench.evaluator">iclbench.evaluator module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.evaluator.Evaluator"><code class="docutils literal notranslate"><span class="pre">Evaluator</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/iclbench.html#module-iclbench.utils">iclbench.utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.utils.load_secrets"><code class="docutils literal notranslate"><span class="pre">load_secrets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.utils.setup_environment"><code class="docutils literal notranslate"><span class="pre">setup_environment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.utils.summarize_env_progressions"><code class="docutils literal notranslate"><span class="pre">summarize_env_progressions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/iclbench.html#iclbench.utils.wandb_save_artifact"><code class="docutils literal notranslate"><span class="pre">wandb_save_artifact()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/iclbench.html#module-iclbench">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">BALROG</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../environments.html">iclbench.environments</a></li>
+          <li class="breadcrumb-item"><a href="../nle.html">iclbench.environments.nle</a></li>
+      <li class="breadcrumb-item active">iclbench.environments.nle.render</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for iclbench.environments.nle.render</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">nle_language_wrapper</span> <span class="kn">import</span> <span class="n">NLELanguageWrapper</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">ImageDraw</span><span class="p">,</span> <span class="n">ImageFont</span>
+
+<span class="n">MAX_ACTION_LENGTH</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+    <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">action_strs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">action</span><span class="p">,</span> <span class="n">action_strs</span> <span class="ow">in</span> <span class="n">NLELanguageWrapper</span><span class="o">.</span><span class="n">all_nle_action_map</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+    <span class="o">+</span> <span class="p">[</span>
+        <span class="nb">len</span><span class="p">(</span><span class="s2">&quot;ACTION HISTORY&quot;</span><span class="p">),</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="create_texture_map">
+<a class="viewcode-back" href="../../../../api/iclbench.environments.nle.html#iclbench.environments.nle.render.create_texture_map">[docs]</a>
+<span class="k">def</span> <span class="nf">create_texture_map</span><span class="p">():</span>
+    <span class="n">COLORS</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;#000000&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;#800000&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;#008000&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;#808000&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;#000080&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;#800080&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;#008080&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;#808080&quot;</span><span class="p">,</span>  <span class="c1"># - flipped these ones around</span>
+        <span class="s2">&quot;#C0C0C0&quot;</span><span class="p">,</span>  <span class="c1"># | the gray-out dull stuff</span>
+        <span class="s2">&quot;#FF0000&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;#00FF00&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;#FFFF00&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;#0000FF&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;#FF00FF&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;#00FFFF&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;#FFFFFF&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="c1"># Load a font (using default font here)</span>
+    <span class="n">dummy_draw</span> <span class="o">=</span> <span class="n">ImageDraw</span><span class="o">.</span><span class="n">Draw</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;RGB&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s2">&quot;Hack-Regular.ttf&quot;</span><span class="p">)</span>
+    <span class="n">font</span> <span class="o">=</span> <span class="n">ImageFont</span><span class="o">.</span><span class="n">truetype</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+    <span class="n">cell_width</span><span class="p">,</span> <span class="n">cell_height</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span>
+        <span class="nb">max</span><span class="p">,</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">dummy_draw</span><span class="o">.</span><span class="n">textbbox</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">text</span><span class="o">=</span><span class="nb">chr</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">font</span><span class="o">=</span><span class="n">font</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">)])</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Create an image</span>
+    <span class="n">img_width</span> <span class="o">=</span> <span class="n">cell_width</span> <span class="o">*</span> <span class="mi">64</span>
+    <span class="n">img_height</span> <span class="o">=</span> <span class="n">cell_height</span> <span class="o">*</span> <span class="mi">64</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;RGB&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">img_width</span><span class="p">,</span> <span class="n">img_height</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="n">draw</span> <span class="o">=</span> <span class="n">ImageDraw</span><span class="o">.</span><span class="n">Draw</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">color_idx</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">COLORS</span><span class="p">):</span>
+        <span class="n">x_offset</span> <span class="o">=</span> <span class="p">(</span><span class="n">color_idx</span> <span class="o">%</span> <span class="mi">4</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">cell_width</span> <span class="o">*</span> <span class="mi">16</span><span class="p">)</span>
+        <span class="n">y_offset</span> <span class="o">=</span> <span class="p">(</span><span class="n">color_idx</span> <span class="o">//</span> <span class="mi">4</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">cell_height</span> <span class="o">*</span> <span class="mi">16</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">16</span><span class="p">)</span> <span class="o">*</span> <span class="n">cell_width</span> <span class="o">+</span> <span class="n">x_offset</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">//</span> <span class="mi">16</span><span class="p">)</span> <span class="o">*</span> <span class="n">cell_height</span> <span class="o">+</span> <span class="n">y_offset</span>
+            <span class="n">character</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">text_width</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">draw</span><span class="o">.</span><span class="n">textbbox</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">text</span><span class="o">=</span><span class="n">character</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="n">font</span><span class="p">)</span>
+            <span class="n">draw</span><span class="o">.</span><span class="n">text</span><span class="p">((</span><span class="n">x</span> <span class="o">+</span> <span class="p">(</span><span class="n">cell_width</span> <span class="o">-</span> <span class="n">text_width</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">character</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="n">font</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">COLORS</span><span class="p">[</span><span class="n">color_idx</span><span class="p">])</span>
+
+    <span class="c1"># # DEBUG: Draw grid lines for columns and rows</span>
+    <span class="c1"># for col in range(65):  # +1 to close the grid on the right side</span>
+    <span class="c1">#     draw.line([(col * cell_width, 0), (col * cell_width, img_height)], fill=(255, 0, 0))</span>
+    <span class="c1"># for row in range(65):  # +1 to close the grid on the bottom side</span>
+    <span class="c1">#     draw.line([(0, row * cell_height), (img_width, row * cell_height)], fill=(255, 0, 0))</span>
+
+    <span class="k">return</span> <span class="n">img</span></div>
+
+
+
+<div class="viewcode-block" id="make_atlas">
+<a class="viewcode-back" href="../../../../api/iclbench.environments.nle.html#iclbench.environments.nle.render.make_atlas">[docs]</a>
+<span class="k">def</span> <span class="nf">make_atlas</span><span class="p">():</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">create_texture_map</span><span class="p">())</span>
+    <span class="n">cell_height</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">64</span>
+    <span class="n">cell_width</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">64</span>
+    <span class="n">texture_atlas</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">image</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="n">cell_height</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="n">cell_width</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">4096</span><span class="p">,</span> <span class="n">cell_height</span><span class="p">,</span> <span class="n">cell_width</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">texture_atlas</span></div>
+
+    <span class="c1"># new_image = np.zeros((cell_height, 4096*cell_width, 3), dtype=np.uint8)</span>
+    <span class="c1"># for j in range(16):</span>
+    <span class="c1">#     for i, ch in enumerate(image[j]):</span>
+    <span class="c1">#         new_image[:, (i+j*256)*cell_width:((i+j*256)+1)*cell_width] = ch</span>
+    <span class="c1"># import matplotlib.pyplot as plt</span>
+    <span class="c1"># plt.imsave(&quot;new_image.png&quot;, new_image)</span>
+
+
+<span class="n">DEFAULT_TEXTURE_ATLAS</span> <span class="o">=</span> <span class="n">make_atlas</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="tty_render_image">
+<a class="viewcode-back" href="../../../../api/iclbench.environments.nle.html#iclbench.environments.nle.render.tty_render_image">[docs]</a>
+<span class="k">def</span> <span class="nf">tty_render_image</span><span class="p">(</span><span class="n">tty_chars</span><span class="p">,</span> <span class="n">tty_colors</span><span class="p">,</span> <span class="n">tty_cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">texture_atlas</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">texture_atlas</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">texture_atlas</span> <span class="o">=</span> <span class="n">DEFAULT_TEXTURE_ATLAS</span>
+    <span class="n">tty_colors_masked</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">tty_colors</span> <span class="o">&amp;</span> <span class="mi">15</span>
+    <span class="p">)</span>  <span class="c1"># I don&#39;t know why sometimes color &gt; 15 but this is effectively what the ASCII renderers do</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">texture_atlas</span><span class="p">[</span><span class="n">tty_colors_masked</span> <span class="o">*</span> <span class="mi">256</span> <span class="o">+</span> <span class="n">tty_chars</span><span class="p">]</span>
+        <span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">tty_chars</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">texture_atlas</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">tty_chars</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">texture_atlas</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="tty_render_image_action_history">
+<a class="viewcode-back" href="../../../../api/iclbench.environments.nle.html#iclbench.environments.nle.render.tty_render_image_action_history">[docs]</a>
+<span class="k">def</span> <span class="nf">tty_render_image_action_history</span><span class="p">(</span><span class="n">tty_chars</span><span class="p">,</span> <span class="n">tty_colors</span><span class="p">,</span> <span class="n">action_history</span><span class="p">,</span> <span class="n">tty_cursor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">texture_atlas</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">tty_chars_extended</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span>
+        <span class="n">tty_chars</span><span class="p">,</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">MAX_ACTION_LENGTH</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;constant&quot;</span><span class="p">,</span> <span class="n">constant_values</span><span class="o">=</span><span class="nb">ord</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">tty_chars_extended</span><span class="p">[:,</span> <span class="n">tty_chars</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="s2">&quot;|&quot;</span><span class="p">)</span>
+    <span class="n">tty_colors_extended</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">tty_colors</span><span class="p">,</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">MAX_ACTION_LENGTH</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;constant&quot;</span><span class="p">,</span> <span class="n">constant_values</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">tty_colors_extended</span><span class="p">[:,</span> <span class="n">tty_colors</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">7</span>
+
+    <span class="k">def</span> <span class="nf">to_array</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+        <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">string</span><span class="p">])</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">MAX_ACTION_LENGTH</span><span class="p">:</span>
+            <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">MAX_ACTION_LENGTH</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;constant&quot;</span><span class="p">,</span> <span class="n">constant_values</span><span class="o">=</span><span class="nb">ord</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">arr</span>
+
+    <span class="n">tty_chars_extended</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">tty_chars</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">to_array</span><span class="p">(</span><span class="s2">&quot;ACTION HISTORY&quot;</span><span class="p">)</span>
+    <span class="n">tty_colors_extended</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">tty_colors</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:]</span> <span class="o">=</span> <span class="mi">7</span>
+
+    <span class="n">tty_chars_extended</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">tty_chars</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">to_array</span><span class="p">(</span><span class="s2">&quot;==============&quot;</span><span class="p">)</span>
+    <span class="n">tty_colors_extended</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">tty_colors</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:]</span> <span class="o">=</span> <span class="mi">7</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">action</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">action_history</span><span class="p">[</span><span class="o">-</span><span class="p">(</span><span class="n">tty_chars</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="p">:][::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="n">tty_chars_extended</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">tty_chars</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">to_array</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">tty_colors_extended</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">tty_colors</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:]</span> <span class="o">=</span> <span class="mi">15</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tty_colors_extended</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">tty_colors</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:]</span> <span class="o">=</span> <span class="mi">7</span>
+    <span class="k">return</span> <span class="n">tty_render_image</span><span class="p">(</span><span class="n">tty_chars_extended</span><span class="p">,</span> <span class="n">tty_colors_extended</span><span class="p">,</span> <span class="n">tty_cursor</span><span class="p">,</span> <span class="n">texture_atlas</span><span class="o">=</span><span class="n">texture_atlas</span><span class="p">)</span></div>
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">nle.env</span> <span class="kn">import</span> <span class="n">tasks</span>
+    <span class="kn">from</span> <span class="nn">nle.nethack</span> <span class="kn">import</span> <span class="n">tty_render</span>
+
+    <span class="n">create_texture_map</span><span class="p">()</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;texture_map.png&quot;</span><span class="p">)</span>
+
+    <span class="n">env</span> <span class="o">=</span> <span class="n">tasks</span><span class="o">.</span><span class="n">NetHackChallenge</span><span class="p">(</span>
+        <span class="o">**</span><span class="nb">dict</span><span class="p">(</span>
+            <span class="c1"># savedir=&quot;./experiment_outputs/dummy_ttyrec&quot;,</span>
+            <span class="n">character</span><span class="o">=</span><span class="s2">&quot;@&quot;</span><span class="p">,</span>
+            <span class="n">max_episode_steps</span><span class="o">=</span><span class="mi">100000000</span><span class="p">,</span>
+            <span class="n">penalty_step</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+            <span class="n">penalty_time</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+            <span class="n">penalty_mode</span><span class="o">=</span><span class="s2">&quot;constant&quot;</span><span class="p">,</span>
+            <span class="n">no_progress_timeout</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+            <span class="c1"># save_ttyrec_every=1,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">obs</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+    <span class="n">chars</span> <span class="o">=</span> <span class="n">obs</span><span class="p">[</span><span class="s2">&quot;tty_chars&quot;</span><span class="p">]</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="n">obs</span><span class="p">[</span><span class="s2">&quot;tty_colors&quot;</span><span class="p">]</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">tty_render</span><span class="p">(</span><span class="n">chars</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">obs</span><span class="p">[</span><span class="s2">&quot;tty_cursor&quot;</span><span class="p">]))</span>
+    <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span>
+        <span class="n">tty_render_image_action_history</span><span class="p">(</span>
+            <span class="n">chars</span><span class="p">,</span>
+            <span class="n">colors</span><span class="p">,</span>
+            <span class="p">[</span>
+                <span class="s2">&quot;esc&quot;</span><span class="p">,</span>
+            <span class="p">]</span>
+            <span class="o">*</span> <span class="mi">200</span>
+            <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;north&quot;</span><span class="p">,</span> <span class="s2">&quot;south&quot;</span><span class="p">,</span> <span class="s2">&quot;east&quot;</span><span class="p">,</span> <span class="s2">&quot;west&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;test.png&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, BALROG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

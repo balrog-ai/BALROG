@@ -1,0 +1,649 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>iclbench.agents package &mdash; BALROG 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="iclbench.environments package" href="iclbench.environments.html" />
+    <link rel="prev" title="iclbench package" href="iclbench.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            BALROG
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../evaluation.html">Evaluation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../evaluation.html#quickstart">⚡ Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../evaluation.html#evaluate-using-local-vllm-server">Evaluate using local vLLM server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../evaluation.html#evaluate-using-api">Evaluate using API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../evaluation.html#vlm-mode">🖼️ VLM mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../evaluation.html#resume-an-evaluation">▶️ Resume an evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../evaluation.html#configuring-eval">⚙️ Configuring Eval</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../agents.html">Agents</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../agents.html#pre-built-agents">Pre-built agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../agents.html#creating-custom-agents">🤖 Creating Custom Agents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../agents.html#simple-planning-agent">Simple Planning Agent</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributions.html">Contributions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Environments</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../envs/babyai.html">Baby AI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../envs/babyai.html#babyai-text">BabyAI-Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/babyai.html#babyai-results">BabyAI Results</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../envs/babyai.html#llm-results">LLM results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../envs/babyai.html#vlm-results">VLM results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/babyai.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../envs/crafter.html">Crafter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../envs/crafter.html#crafter-results">Crafter Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/crafter.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/crafter.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/crafter.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../envs/textworld.html">TextWorld</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../envs/textworld.html#tasks">Tasks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../envs/textworld.html#treasure-hunter">Treasure Hunter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../envs/textworld.html#the-cooking-game">The Cooking Game</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../envs/textworld.html#coin-collector">Coin Collector</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/textworld.html#textworld-results">TextWorld Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/textworld.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../envs/babaisai.html">Baba Is AI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../envs/babaisai.html#baba-is-ai-language-wrapper">Baba Is AI Language Wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/babaisai.html#baba-is-ai-results">Baba Is AI Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/babaisai.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/babaisai.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/babaisai.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../envs/minihack.html">MiniHack</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../envs/minihack.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/minihack.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/minihack.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../envs/nle.html">NetHack Learning Environment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../envs/nle.html#nethack-language-wrapper">NetHack Language Wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/nle.html#new-nethack-progression-system">New NetHack Progression System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/nle.html#nethack-results">NetHack Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/nle.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/nle.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/nle.html#observation">Observation</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">iclbench</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="iclbench.html">iclbench package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="iclbench.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">iclbench.agents package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.html">iclbench.environments package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.prompt_builder.html">iclbench.prompt_builder package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="iclbench.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iclbench.html#module-iclbench.client">iclbench.client module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.html#iclbench.client.ClaudeWrapper"><code class="docutils literal notranslate"><span class="pre">ClaudeWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.html#iclbench.client.GoogleGenerativeAIWrapper"><code class="docutils literal notranslate"><span class="pre">GoogleGenerativeAIWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.html#iclbench.client.LLMClientWrapper"><code class="docutils literal notranslate"><span class="pre">LLMClientWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.html#iclbench.client.LLMResponse"><code class="docutils literal notranslate"><span class="pre">LLMResponse</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.html#iclbench.client.OpenAIWrapper"><code class="docutils literal notranslate"><span class="pre">OpenAIWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.html#iclbench.client.ReplicateWrapper"><code class="docutils literal notranslate"><span class="pre">ReplicateWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.html#iclbench.client.create_llm_client"><code class="docutils literal notranslate"><span class="pre">create_llm_client()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.html#iclbench.client.process_image_claude"><code class="docutils literal notranslate"><span class="pre">process_image_claude()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.html#iclbench.client.process_image_openai"><code class="docutils literal notranslate"><span class="pre">process_image_openai()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="iclbench.html#module-iclbench.dataset">iclbench.dataset module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.html#iclbench.dataset.InContextDataset"><code class="docutils literal notranslate"><span class="pre">InContextDataset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.html#iclbench.dataset.choice_excluding"><code class="docutils literal notranslate"><span class="pre">choice_excluding()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.html#iclbench.dataset.natural_sort_key"><code class="docutils literal notranslate"><span class="pre">natural_sort_key()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="iclbench.html#module-iclbench.evaluator">iclbench.evaluator module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.html#iclbench.evaluator.Evaluator"><code class="docutils literal notranslate"><span class="pre">Evaluator</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="iclbench.html#module-iclbench.utils">iclbench.utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.html#iclbench.utils.load_secrets"><code class="docutils literal notranslate"><span class="pre">load_secrets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.html#iclbench.utils.setup_environment"><code class="docutils literal notranslate"><span class="pre">setup_environment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.html#iclbench.utils.summarize_env_progressions"><code class="docutils literal notranslate"><span class="pre">summarize_env_progressions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.html#iclbench.utils.wandb_save_artifact"><code class="docutils literal notranslate"><span class="pre">wandb_save_artifact()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="iclbench.html#module-iclbench">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">BALROG</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">iclbench</a></li>
+          <li class="breadcrumb-item"><a href="iclbench.html">iclbench package</a></li>
+      <li class="breadcrumb-item active">iclbench.agents package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/iclbench.agents.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="iclbench-agents-package">
+<h1>iclbench.agents package<a class="headerlink" href="#iclbench-agents-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-iclbench.agents.base">
+<span id="iclbench-agents-base-module"></span><h2>iclbench.agents.base module<a class="headerlink" href="#module-iclbench.agents.base" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="iclbench.agents.base.BaseAgent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iclbench.agents.base.</span></span><span class="sig-name descname"><span class="pre">BaseAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_factory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt_builder</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents/base.html#BaseAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.base.BaseAgent" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Base class for all agents in the ICLBench framework.</p>
+<p>The <cite>BaseAgent</cite> class serves as a foundational class for creating agents that interact
+with environments using a client for language model interactions and a prompt builder
+to manage context. It provides methods for performing actions based on observations,
+updating the prompt with observations and actions, and resetting the prompt builder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> (<em>Client</em>) – An instance of the client created by the client factory.</p></li>
+<li><p><strong>prompt_builder</strong> (<em>PromptBuilder</em>) – An instance of the prompt builder for managing
+prompt context and history.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.agents.base.BaseAgent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_factory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt_builder</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents/base.html#BaseAgent.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.base.BaseAgent.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes the BaseAgent with a client factory and a prompt builder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client_factory</strong> (<em>Callable</em>) – A factory function to create a client instance.</p></li>
+<li><p><strong>prompt_builder</strong> (<em>PromptBuilder</em>) – An instance of the prompt builder.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.agents.base.BaseAgent.act">
+<span class="sig-name descname"><span class="pre">act</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents/base.html#BaseAgent.act"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.base.BaseAgent.act" title="Link to this definition"></a></dt>
+<dd><p>Abstract method for performing an action based on the given observation.</p>
+<p>This method must be implemented by subclasses, as the action logic will depend
+on the specific agent type. For instance, derived agents may store action-observation
+histories when acting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>obs</strong> (<em>Observation</em>) – The current observation from the environment.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.agents.base.BaseAgent.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents/base.html#BaseAgent.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.base.BaseAgent.reset" title="Link to this definition"></a></dt>
+<dd><p>Resets the prompt builder to its initial state.</p>
+<p>This method clears the prompt history and any other stored information in the
+prompt builder, allowing for a fresh start in a new episode or task.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.agents.base.BaseAgent.update_prompt">
+<span class="sig-name descname"><span class="pre">update_prompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents/base.html#BaseAgent.update_prompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.base.BaseAgent.update_prompt" title="Link to this definition"></a></dt>
+<dd><p>Updates the prompt builder with the latest observation and action.</p>
+<p>This method incorporates the current observation and the action taken into
+the prompt history, allowing for context to be maintained across interactions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observation</strong> (<em>Observation</em>) – The current observation from the environment.</p></li>
+<li><p><strong>action</strong> (<em>Action</em>) – The action taken by the agent.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-iclbench.agents.chain_of_thought">
+<span id="iclbench-agents-chain-of-thought-module"></span><h2>iclbench.agents.chain_of_thought module<a class="headerlink" href="#module-iclbench.agents.chain_of_thought" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="iclbench.agents.chain_of_thought.ChainOfThoughtAgent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iclbench.agents.chain_of_thought.</span></span><span class="sig-name descname"><span class="pre">ChainOfThoughtAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_factory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iclbench.html#iclbench.client.LLMClientWrapper" title="iclbench.client.LLMClientWrapper"><span class="pre">LLMClientWrapper</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt_builder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents/chain_of_thought.html#ChainOfThoughtAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.chain_of_thought.ChainOfThoughtAgent" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#iclbench.agents.base.BaseAgent" title="iclbench.agents.base.BaseAgent"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAgent</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.agents.chain_of_thought.ChainOfThoughtAgent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_factory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iclbench.html#iclbench.client.LLMClientWrapper" title="iclbench.client.LLMClientWrapper"><span class="pre">LLMClientWrapper</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt_builder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents/chain_of_thought.html#ChainOfThoughtAgent.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.chain_of_thought.ChainOfThoughtAgent.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes the BaseAgent with a client factory and a prompt builder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client_factory</strong> (<em>Callable</em>) – A factory function to create a client instance.</p></li>
+<li><p><strong>prompt_builder</strong> (<em>PromptBuilder</em>) – An instance of the prompt builder.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.agents.chain_of_thought.ChainOfThoughtAgent.act">
+<span class="sig-name descname"><span class="pre">act</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prev_action</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents/chain_of_thought.html#ChainOfThoughtAgent.act"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.chain_of_thought.ChainOfThoughtAgent.act" title="Link to this definition"></a></dt>
+<dd><p>Abstract method for performing an action based on the given observation.</p>
+<p>This method must be implemented by subclasses, as the action logic will depend
+on the specific agent type. For instance, derived agents may store action-observation
+histories when acting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>obs</strong> (<em>Observation</em>) – The current observation from the environment.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-iclbench.agents.dummy">
+<span id="iclbench-agents-dummy-module"></span><h2>iclbench.agents.dummy module<a class="headerlink" href="#module-iclbench.agents.dummy" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="iclbench.agents.dummy.DummyAgent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iclbench.agents.dummy.</span></span><span class="sig-name descname"><span class="pre">DummyAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_factory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt_builder</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents/dummy.html#DummyAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.dummy.DummyAgent" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#iclbench.agents.base.BaseAgent" title="iclbench.agents.base.BaseAgent"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAgent</span></code></a></p>
+<p>For debugging.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.agents.dummy.DummyAgent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_factory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt_builder</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents/dummy.html#DummyAgent.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.dummy.DummyAgent.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes the BaseAgent with a client factory and a prompt builder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client_factory</strong> (<em>Callable</em>) – A factory function to create a client instance.</p></li>
+<li><p><strong>prompt_builder</strong> (<em>PromptBuilder</em>) – An instance of the prompt builder.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.agents.dummy.DummyAgent.act">
+<span class="sig-name descname"><span class="pre">act</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prev_action</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents/dummy.html#DummyAgent.act"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.dummy.DummyAgent.act" title="Link to this definition"></a></dt>
+<dd><p>Abstract method for performing an action based on the given observation.</p>
+<p>This method must be implemented by subclasses, as the action logic will depend
+on the specific agent type. For instance, derived agents may store action-observation
+histories when acting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>obs</strong> (<em>Observation</em>) – The current observation from the environment.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="iclbench.agents.dummy.LLMResponse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iclbench.agents.dummy.</span></span><span class="sig-name descname"><span class="pre">LLMResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">completion</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop_reason</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_tokens</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_tokens</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reasoning</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iclbench.agents.dummy.LLMResponse" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iclbench.agents.dummy.LLMResponse.completion">
+<span class="sig-name descname"><span class="pre">completion</span></span><a class="headerlink" href="#iclbench.agents.dummy.LLMResponse.completion" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iclbench.agents.dummy.LLMResponse.input_tokens">
+<span class="sig-name descname"><span class="pre">input_tokens</span></span><a class="headerlink" href="#iclbench.agents.dummy.LLMResponse.input_tokens" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iclbench.agents.dummy.LLMResponse.model_id">
+<span class="sig-name descname"><span class="pre">model_id</span></span><a class="headerlink" href="#iclbench.agents.dummy.LLMResponse.model_id" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iclbench.agents.dummy.LLMResponse.output_tokens">
+<span class="sig-name descname"><span class="pre">output_tokens</span></span><a class="headerlink" href="#iclbench.agents.dummy.LLMResponse.output_tokens" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 4</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iclbench.agents.dummy.LLMResponse.reasoning">
+<span class="sig-name descname"><span class="pre">reasoning</span></span><a class="headerlink" href="#iclbench.agents.dummy.LLMResponse.reasoning" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 5</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iclbench.agents.dummy.LLMResponse.stop_reason">
+<span class="sig-name descname"><span class="pre">stop_reason</span></span><a class="headerlink" href="#iclbench.agents.dummy.LLMResponse.stop_reason" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="iclbench.agents.dummy.make_dummy_action">
+<span class="sig-prename descclassname"><span class="pre">iclbench.agents.dummy.</span></span><span class="sig-name descname"><span class="pre">make_dummy_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents/dummy.html#make_dummy_action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.dummy.make_dummy_action" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-iclbench.agents.icl">
+<span id="iclbench-agents-icl-module"></span><h2>iclbench.agents.icl module<a class="headerlink" href="#module-iclbench.agents.icl" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="iclbench.agents.icl.ICLAgent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iclbench.agents.icl.</span></span><span class="sig-name descname"><span class="pre">ICLAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_factory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt_builder</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents/icl.html#ICLAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.icl.ICLAgent" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#iclbench.agents.base.BaseAgent" title="iclbench.agents.base.BaseAgent"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAgent</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.agents.icl.ICLAgent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_factory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt_builder</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents/icl.html#ICLAgent.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.icl.ICLAgent.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes the BaseAgent with a client factory and a prompt builder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client_factory</strong> (<em>Callable</em>) – A factory function to create a client instance.</p></li>
+<li><p><strong>prompt_builder</strong> (<em>PromptBuilder</em>) – An instance of the prompt builder.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.agents.icl.ICLAgent.act">
+<span class="sig-name descname"><span class="pre">act</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prev_action</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents/icl.html#ICLAgent.act"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.icl.ICLAgent.act" title="Link to this definition"></a></dt>
+<dd><p>Abstract method for performing an action based on the given observation.</p>
+<p>This method must be implemented by subclasses, as the action logic will depend
+on the specific agent type. For instance, derived agents may store action-observation
+histories when acting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>obs</strong> (<em>Observation</em>) – The current observation from the environment.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.agents.icl.ICLAgent.cache_icl">
+<span class="sig-name descname"><span class="pre">cache_icl</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents/icl.html#ICLAgent.cache_icl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.icl.ICLAgent.cache_icl" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.agents.icl.ICLAgent.get_icl_prompt">
+<span class="sig-name descname"><span class="pre">get_icl_prompt</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#iclbench.agents.icl.Message" title="iclbench.agents.icl.Message"><span class="pre">Message</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/iclbench/agents/icl.html#ICLAgent.get_icl_prompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.icl.ICLAgent.get_icl_prompt" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.agents.icl.ICLAgent.update_icl_action">
+<span class="sig-name descname"><span class="pre">update_icl_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents/icl.html#ICLAgent.update_icl_action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.icl.ICLAgent.update_icl_action" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.agents.icl.ICLAgent.update_icl_observation">
+<span class="sig-name descname"><span class="pre">update_icl_observation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents/icl.html#ICLAgent.update_icl_observation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.icl.ICLAgent.update_icl_observation" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.agents.icl.ICLAgent.wrap_episode">
+<span class="sig-name descname"><span class="pre">wrap_episode</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents/icl.html#ICLAgent.wrap_episode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.icl.ICLAgent.wrap_episode" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="iclbench.agents.icl.Message">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iclbench.agents.icl.</span></span><span class="sig-name descname"><span class="pre">Message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">role</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attachment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents/icl.html#Message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.icl.Message" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.agents.icl.Message.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">role</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attachment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents/icl.html#Message.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.icl.Message.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-iclbench.agents.naive">
+<span id="iclbench-agents-naive-module"></span><h2>iclbench.agents.naive module<a class="headerlink" href="#module-iclbench.agents.naive" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="iclbench.agents.naive.NaiveAgent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iclbench.agents.naive.</span></span><span class="sig-name descname"><span class="pre">NaiveAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_factory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt_builder</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents/naive.html#NaiveAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.naive.NaiveAgent" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#iclbench.agents.base.BaseAgent" title="iclbench.agents.base.BaseAgent"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAgent</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.agents.naive.NaiveAgent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_factory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt_builder</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents/naive.html#NaiveAgent.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.naive.NaiveAgent.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes the BaseAgent with a client factory and a prompt builder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client_factory</strong> (<em>Callable</em>) – A factory function to create a client instance.</p></li>
+<li><p><strong>prompt_builder</strong> (<em>PromptBuilder</em>) – An instance of the prompt builder.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.agents.naive.NaiveAgent.act">
+<span class="sig-name descname"><span class="pre">act</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prev_action</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents/naive.html#NaiveAgent.act"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.naive.NaiveAgent.act" title="Link to this definition"></a></dt>
+<dd><p>Abstract method for performing an action based on the given observation.</p>
+<p>This method must be implemented by subclasses, as the action logic will depend
+on the specific agent type. For instance, derived agents may store action-observation
+histories when acting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>obs</strong> (<em>Observation</em>) – The current observation from the environment.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-iclbench.agents.self_refine">
+<span id="iclbench-agents-self-refine-module"></span><h2>iclbench.agents.self_refine module<a class="headerlink" href="#module-iclbench.agents.self_refine" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="iclbench.agents.self_refine.SelfRefineAgent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iclbench.agents.self_refine.</span></span><span class="sig-name descname"><span class="pre">SelfRefineAgent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_factory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iclbench.html#iclbench.client.LLMClientWrapper" title="iclbench.client.LLMClientWrapper"><span class="pre">LLMClientWrapper</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt_builder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents/self_refine.html#SelfRefineAgent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.self_refine.SelfRefineAgent" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#iclbench.agents.base.BaseAgent" title="iclbench.agents.base.BaseAgent"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAgent</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.agents.self_refine.SelfRefineAgent.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_factory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iclbench.html#iclbench.client.LLMClientWrapper" title="iclbench.client.LLMClientWrapper"><span class="pre">LLMClientWrapper</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt_builder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents/self_refine.html#SelfRefineAgent.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.self_refine.SelfRefineAgent.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes the BaseAgent with a client factory and a prompt builder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client_factory</strong> (<em>Callable</em>) – A factory function to create a client instance.</p></li>
+<li><p><strong>prompt_builder</strong> (<em>PromptBuilder</em>) – An instance of the prompt builder.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.agents.self_refine.SelfRefineAgent.act">
+<span class="sig-name descname"><span class="pre">act</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prev_action</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents/self_refine.html#SelfRefineAgent.act"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.self_refine.SelfRefineAgent.act" title="Link to this definition"></a></dt>
+<dd><p>Abstract method for performing an action based on the given observation.</p>
+<p>This method must be implemented by subclasses, as the action logic will depend
+on the specific agent type. For instance, derived agents may store action-observation
+histories when acting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>obs</strong> (<em>Observation</em>) – The current observation from the environment.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-iclbench.agents">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-iclbench.agents" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="iclbench.agents.AgentFactory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iclbench.agents.</span></span><span class="sig-name descname"><span class="pre">AgentFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents.html#AgentFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.AgentFactory" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A factory class for creating various types of agents based on the provided configuration.</p>
+<p>The <cite>AgentFactory</cite> class encapsulates the logic for creating agents used in the ICLBench framework.
+It generates agents of different types, each tailored for specific tasks and functionality.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config</strong> (<em>Config</em>) – The configuration object containing settings for agent creation,
+including agent type and client configuration.</p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>config</strong> (<em>Config</em>) – <p>The configuration settings for the agent, which must include:
+- agent.type (str): The type of agent to create. Supported types include:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>”naive”</p></li>
+<li><p>”icl”</p></li>
+<li><p>”cot”</p></li>
+<li><p>”self_refine”</p></li>
+<li><p>”dummy”</p></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><p>client (dict): The client configuration for the agent.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.agents.AgentFactory.create_agent">
+<span class="sig-name descname"><span class="pre">create_agent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents.html#AgentFactory.create_agent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.AgentFactory.create_agent" title="Link to this definition"></a></dt>
+<dd><p>Creates and returns an instance of the specified agent type.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.agents.AgentFactory.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents.html#AgentFactory.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.agents.AgentFactory.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">create_agent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/agents.html#AgentFactory.create_agent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd><p>Creates an instance of the agent based on the configuration settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>An instance of the specified agent type, which could be:</dt><dd><ul class="simple">
+<li><p>NaiveAgent</p></li>
+<li><p>ICLAgent</p></li>
+<li><p>ChainOfThoughtAgent</p></li>
+<li><p>SelfRefineAgent</p></li>
+<li><p>DummyAgent</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Agent</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If the specified agent type in the configuration is not recognized.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="iclbench.html" class="btn btn-neutral float-left" title="iclbench package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="iclbench.environments.html" class="btn btn-neutral float-right" title="iclbench.environments package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, BALROG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

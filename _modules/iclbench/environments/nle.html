@@ -1,0 +1,356 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>iclbench.environments.nle &mdash; BALROG 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BALROG
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../evaluation.html">Evaluation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../evaluation.html#quickstart">⚡ Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../evaluation.html#evaluate-using-local-vllm-server">Evaluate using local vLLM server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../evaluation.html#evaluate-using-api">Evaluate using API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../evaluation.html#vlm-mode">🖼️ VLM mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../evaluation.html#resume-an-evaluation">▶️ Resume an evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../evaluation.html#configuring-eval">⚙️ Configuring Eval</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../agents.html">Agents</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../agents.html#pre-built-agents">Pre-built agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../agents.html#creating-custom-agents">🤖 Creating Custom Agents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents.html#simple-planning-agent">Simple Planning Agent</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributions.html">Contributions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Environments</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../envs/babyai.html">Baby AI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/babyai.html#babyai-text">BabyAI-Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/babyai.html#babyai-results">BabyAI Results</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../envs/babyai.html#llm-results">LLM results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../envs/babyai.html#vlm-results">VLM results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/babyai.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../envs/crafter.html">Crafter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/crafter.html#crafter-results">Crafter Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/crafter.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/crafter.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/crafter.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../envs/textworld.html">TextWorld</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/textworld.html#tasks">Tasks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../envs/textworld.html#treasure-hunter">Treasure Hunter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../envs/textworld.html#the-cooking-game">The Cooking Game</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../envs/textworld.html#coin-collector">Coin Collector</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/textworld.html#textworld-results">TextWorld Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/textworld.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../envs/babaisai.html">Baba Is AI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/babaisai.html#baba-is-ai-language-wrapper">Baba Is AI Language Wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/babaisai.html#baba-is-ai-results">Baba Is AI Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/babaisai.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/babaisai.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/babaisai.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../envs/minihack.html">MiniHack</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/minihack.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/minihack.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/minihack.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../envs/nle.html">NetHack Learning Environment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/nle.html#nethack-language-wrapper">NetHack Language Wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/nle.html#new-nethack-progression-system">New NetHack Progression System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/nle.html#nethack-results">NetHack Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/nle.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/nle.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/nle.html#observation">Observation</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/modules.html">iclbench</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/iclbench.html">iclbench package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/iclbench.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.agents.html">iclbench.agents package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.environments.html">iclbench.environments package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.prompt_builder.html">iclbench.prompt_builder package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/iclbench.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/iclbench.html#module-iclbench.client">iclbench.client module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.client.ClaudeWrapper"><code class="docutils literal notranslate"><span class="pre">ClaudeWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.client.GoogleGenerativeAIWrapper"><code class="docutils literal notranslate"><span class="pre">GoogleGenerativeAIWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.client.LLMClientWrapper"><code class="docutils literal notranslate"><span class="pre">LLMClientWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.client.LLMResponse"><code class="docutils literal notranslate"><span class="pre">LLMResponse</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.client.OpenAIWrapper"><code class="docutils literal notranslate"><span class="pre">OpenAIWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.client.ReplicateWrapper"><code class="docutils literal notranslate"><span class="pre">ReplicateWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.client.create_llm_client"><code class="docutils literal notranslate"><span class="pre">create_llm_client()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.client.process_image_claude"><code class="docutils literal notranslate"><span class="pre">process_image_claude()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.client.process_image_openai"><code class="docutils literal notranslate"><span class="pre">process_image_openai()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/iclbench.html#module-iclbench.dataset">iclbench.dataset module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.dataset.InContextDataset"><code class="docutils literal notranslate"><span class="pre">InContextDataset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.dataset.choice_excluding"><code class="docutils literal notranslate"><span class="pre">choice_excluding()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.dataset.natural_sort_key"><code class="docutils literal notranslate"><span class="pre">natural_sort_key()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/iclbench.html#module-iclbench.evaluator">iclbench.evaluator module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.evaluator.Evaluator"><code class="docutils literal notranslate"><span class="pre">Evaluator</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/iclbench.html#module-iclbench.utils">iclbench.utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.utils.load_secrets"><code class="docutils literal notranslate"><span class="pre">load_secrets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.utils.setup_environment"><code class="docutils literal notranslate"><span class="pre">setup_environment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.utils.summarize_env_progressions"><code class="docutils literal notranslate"><span class="pre">summarize_env_progressions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.utils.wandb_save_artifact"><code class="docutils literal notranslate"><span class="pre">wandb_save_artifact()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/iclbench.html#module-iclbench">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BALROG</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../environments.html">iclbench.environments</a></li>
+      <li class="breadcrumb-item active">iclbench.environments.nle</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for iclbench.environments.nle</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">enum</span>
+
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">NLELanguageWrapper</span>
+
+
+<div class="viewcode-block" id="Role">
+<a class="viewcode-back" href="../../../api/iclbench.environments.nle.html#iclbench.environments.nle.Role">[docs]</a>
+<span class="k">class</span> <span class="nc">Role</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">ARCHEOLOGIST</span> <span class="o">=</span> <span class="s2">&quot;arc&quot;</span>
+    <span class="n">BARBARIAN</span> <span class="o">=</span> <span class="s2">&quot;bar&quot;</span>
+    <span class="n">CAVEMAN</span> <span class="o">=</span> <span class="s2">&quot;cav&quot;</span>
+    <span class="n">HEALER</span> <span class="o">=</span> <span class="s2">&quot;hea&quot;</span>
+    <span class="n">KNIGHT</span> <span class="o">=</span> <span class="s2">&quot;kni&quot;</span>
+    <span class="n">MONK</span> <span class="o">=</span> <span class="s2">&quot;mon&quot;</span>
+    <span class="n">PRIEST</span> <span class="o">=</span> <span class="s2">&quot;pri&quot;</span>
+    <span class="n">RANGER</span> <span class="o">=</span> <span class="s2">&quot;ran&quot;</span>
+    <span class="n">ROGUE</span> <span class="o">=</span> <span class="s2">&quot;rog&quot;</span>
+    <span class="n">SAMURAI</span> <span class="o">=</span> <span class="s2">&quot;sam&quot;</span>
+    <span class="n">TOURIST</span> <span class="o">=</span> <span class="s2">&quot;tou&quot;</span>
+    <span class="n">VALKYRIE</span> <span class="o">=</span> <span class="s2">&quot;val&quot;</span>
+    <span class="n">WIZARD</span> <span class="o">=</span> <span class="s2">&quot;wiz&quot;</span></div>
+
+
+
+<span class="n">ACTIONS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;north&quot;</span><span class="p">:</span> <span class="s2">&quot;move north&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;east&quot;</span><span class="p">:</span> <span class="s2">&quot;move east&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;south&quot;</span><span class="p">:</span> <span class="s2">&quot;move south&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;west&quot;</span><span class="p">:</span> <span class="s2">&quot;move west&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;northeast&quot;</span><span class="p">:</span> <span class="s2">&quot;move northeast&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;southeast&quot;</span><span class="p">:</span> <span class="s2">&quot;move southeast&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;southwest&quot;</span><span class="p">:</span> <span class="s2">&quot;move southwest&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;northwest&quot;</span><span class="p">:</span> <span class="s2">&quot;move northwest&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;far north&quot;</span><span class="p">:</span> <span class="s2">&quot;move far north&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;far east&quot;</span><span class="p">:</span> <span class="s2">&quot;move far east&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;far south&quot;</span><span class="p">:</span> <span class="s2">&quot;move far south&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;far west&quot;</span><span class="p">:</span> <span class="s2">&quot;move far west&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;far northeast&quot;</span><span class="p">:</span> <span class="s2">&quot;move far northeast&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;far southeast&quot;</span><span class="p">:</span> <span class="s2">&quot;move far southeast&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;far southwest&quot;</span><span class="p">:</span> <span class="s2">&quot;move far southwest&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;far northwest&quot;</span><span class="p">:</span> <span class="s2">&quot;move far northwest&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;up&quot;</span><span class="p">:</span> <span class="s2">&quot;go up a staircase&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;down&quot;</span><span class="p">:</span> <span class="s2">&quot;go down a staircase (tip: you can only go down if you are standing on the stairs)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;wait&quot;</span><span class="p">:</span> <span class="s2">&quot;rest one move while doing nothing&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;more&quot;</span><span class="p">:</span> <span class="s2">&quot;display more of the message (tip: ONLY ever use when current message ends with --More--)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;annotate&quot;</span><span class="p">:</span> <span class="s2">&quot;leave a note about the level&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;apply&quot;</span><span class="p">:</span> <span class="s2">&quot;apply (use) a tool&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;call&quot;</span><span class="p">:</span> <span class="s2">&quot;name a monster or object, or add an annotation&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cast&quot;</span><span class="p">:</span> <span class="s2">&quot;cast a spell&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;close&quot;</span><span class="p">:</span> <span class="s2">&quot;close an adjacent door&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;open&quot;</span><span class="p">:</span> <span class="s2">&quot;open an adjacent door&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;dip&quot;</span><span class="p">:</span> <span class="s2">&quot;dip an object into something&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;drop&quot;</span><span class="p">:</span> <span class="s2">&quot;drop an item&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;droptype&quot;</span><span class="p">:</span> <span class="s2">&quot;drop specific item types (specify in the next prompt)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;eat&quot;</span><span class="p">:</span> <span class="s2">&quot;eat something (tip: replenish food when hungry)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;esc&quot;</span><span class="p">:</span> <span class="s2">&quot;exit menu or message&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;engrave&quot;</span><span class="p">:</span> <span class="s2">&quot;engrave writing on the floor (tip: Elbereth)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;enhance&quot;</span><span class="p">:</span> <span class="s2">&quot;advance or check weapons skills&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;fire&quot;</span><span class="p">:</span> <span class="s2">&quot;fire ammunition from quiver&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;fight&quot;</span><span class="p">:</span> <span class="s2">&quot;fight a monster (even if you only guess one is there)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;force&quot;</span><span class="p">:</span> <span class="s2">&quot;force a lock&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;inventory&quot;</span><span class="p">:</span> <span class="s2">&quot;show your inventory&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;invoke&quot;</span><span class="p">:</span> <span class="s2">&quot;invoke &quot;</span><span class="p">,</span>
+    <span class="s2">&quot;jump&quot;</span><span class="p">:</span> <span class="s2">&quot;jump to a location&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;kick&quot;</span><span class="p">:</span> <span class="s2">&quot;kick an enemy or a locked door or chest&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;look&quot;</span><span class="p">:</span> <span class="s2">&quot;look at what is under you&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;loot&quot;</span><span class="p">:</span> <span class="s2">&quot;loot a box on the floor&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;monster&quot;</span><span class="p">:</span> <span class="s2">&quot;use a monster&#39;s special ability (when polymorphed)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;offer&quot;</span><span class="p">:</span> <span class="s2">&quot;offer a sacrifice to the gods (tip: on an aligned altar)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;overview&quot;</span><span class="p">:</span> <span class="s2">&quot;display an overview of the dungeon&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pay&quot;</span><span class="p">:</span> <span class="s2">&quot;pay your shopping bill&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pickup&quot;</span><span class="p">:</span> <span class="s2">&quot;pick up things at the current location&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pray&quot;</span><span class="p">:</span> <span class="s2">&quot;pray to the gods for help&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;puton&quot;</span><span class="p">:</span> <span class="s2">&quot;put on an accessory&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;quaff&quot;</span><span class="p">:</span> <span class="s2">&quot;quaff (drink) something&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;quiver&quot;</span><span class="p">:</span> <span class="s2">&quot;select ammunition for quiver&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;read&quot;</span><span class="p">:</span> <span class="s2">&quot;read a scroll or spellbook&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;remove&quot;</span><span class="p">:</span> <span class="s2">&quot;remove an accessory&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;rub&quot;</span><span class="p">:</span> <span class="s2">&quot;rub a lamp or a stone&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;search&quot;</span><span class="p">:</span> <span class="s2">&quot;search for hidden doors and passages&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;swap&quot;</span><span class="p">:</span> <span class="s2">&quot;swap wielded and secondary weapons&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;takeoff&quot;</span><span class="p">:</span> <span class="s2">&quot;take off one piece of armor&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;takeoffall&quot;</span><span class="p">:</span> <span class="s2">&quot;take off all armor&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;teleport&quot;</span><span class="p">:</span> <span class="s2">&quot;teleport to another level (if you have the ability)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;throw&quot;</span><span class="p">:</span> <span class="s2">&quot;throw something (e.g. a dagger or dart)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;travel&quot;</span><span class="p">:</span> <span class="s2">&quot;travel to a specific location on the map (tip: in the next action, specify &gt; or &lt; for stairs, { for fountain, and _ for altar)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;twoweapon&quot;</span><span class="p">:</span> <span class="s2">&quot;toggle two-weapon combat&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;untrap&quot;</span><span class="p">:</span> <span class="s2">&quot;untrap something&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;wear&quot;</span><span class="p">:</span> <span class="s2">&quot;wear a piece of armor&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;wield&quot;</span><span class="p">:</span> <span class="s2">&quot;wield a weapon&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;wipe&quot;</span><span class="p">:</span> <span class="s2">&quot;wipe off your face&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;zap&quot;</span><span class="p">:</span> <span class="s2">&quot;zap a wand&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;minus&quot;</span><span class="p">:</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;space&quot;</span><span class="p">:</span> <span class="s2">&quot; &quot;</span><span class="p">,</span>
+    <span class="s2">&quot;apos&quot;</span><span class="p">:</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;0&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;1&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2&quot;</span><span class="p">:</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;3&quot;</span><span class="p">:</span> <span class="s2">&quot;3&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;4&quot;</span><span class="p">:</span> <span class="s2">&quot;4&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;5&quot;</span><span class="p">:</span> <span class="s2">&quot;5&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;6&quot;</span><span class="p">:</span> <span class="s2">&quot;6&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;7&quot;</span><span class="p">:</span> <span class="s2">&quot;7&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;8&quot;</span><span class="p">:</span> <span class="s2">&quot;8&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;9&quot;</span><span class="p">:</span> <span class="s2">&quot;9&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="get_instruction_prompt">
+<a class="viewcode-back" href="../../../api/iclbench.environments.nle.html#iclbench.environments.nle.get_instruction_prompt">[docs]</a>
+<span class="k">def</span> <span class="nf">get_instruction_prompt</span><span class="p">(</span><span class="n">task</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">action_strings</span> <span class="o">=</span> <span class="s2">&quot;,</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">action</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">description</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">action</span><span class="p">,</span> <span class="n">description</span> <span class="ow">in</span> <span class="n">ACTIONS</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+    <span class="n">instruction_prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">You are an agent playing NetHack. The following are the possible actions you can take in the game, followed by a short description of each action:</span>
+
+<span class="si">{</span><span class="n">action_strings</span><span class="si">}</span><span class="s2">.</span>
+
+<span class="s2">Tips:</span>
+<span class="s2">- When the message asks for a completion, such as: &quot;What do you want to eat? [d or ?*]&quot;, you should respond with a single character corresponding to the item you want to eat/use.</span>
+<span class="s2">    - For example, &quot;What do you want to eat? [dgh or ?*]&quot; -&gt; Possible answers are &quot;d&quot;, &quot;g&quot;, or &quot;h&quot; to eat the associated food.</span>
+<span class="s2">- When the message asks for a direction, such as: &quot;In what direction?&quot; you should respond with a direction.</span>
+<span class="s2">- When the message has --More-- at the end, your next action should be &quot;more&quot; to see the rest of the message.</span>
+<span class="s2">- Explore the environment to find the stairs down to the next level.</span>
+<span class="s2">- Always carefully read the last message to understand the current state of the game and decide your next action accordingly.</span>
+<span class="s2">- If you keep moving in the same direction, you will eventually hit a wall and stop moving. Your message might be: &quot;It&#39;s solid stone&quot;, or &quot;It&#39;s a wall&quot;. Change your action to move in another direction to continue exploring the environment.</span>
+<span class="s2">- Read the language observation carefully and look at ascii map or image observation provided to decide the next action to take and where to move next.</span>
+<span class="s2">- You can attack monsters by moving into them.</span>
+
+<span class="s2">In a moment I will present a history of actions and observations from the game.</span>
+<span class="s2">Your goal is to get as far as possible in the game.</span>
+
+<span class="s2">PLAY!</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">instruction_prompt</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, BALROG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

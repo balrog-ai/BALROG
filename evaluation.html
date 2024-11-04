@@ -1,0 +1,370 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evaluation &mdash; BALROG 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Agents" href="agents.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            BALROG
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Evaluation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#quickstart">⚡ Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#evaluate-using-local-vllm-server">Evaluate using local vLLM server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#evaluate-using-api">Evaluate using API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vlm-mode">🖼️ VLM mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#resume-an-evaluation">▶️ Resume an evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuring-eval">⚙️ Configuring Eval</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="agents.html">Agents</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#pre-built-agents">Pre-built agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="agents.html#creating-custom-agents">🤖 Creating Custom Agents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="agents.html#simple-planning-agent">Simple Planning Agent</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributions.html">Contributions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Environments</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="envs/babyai.html">Baby AI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envs/babyai.html#babyai-text">BabyAI-Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="envs/babyai.html#babyai-results">BabyAI Results</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envs/babyai.html#llm-results">LLM results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="envs/babyai.html#vlm-results">VLM results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="envs/babyai.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envs/crafter.html">Crafter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envs/crafter.html#crafter-results">Crafter Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="envs/crafter.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="envs/crafter.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="envs/crafter.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envs/textworld.html">TextWorld</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envs/textworld.html#tasks">Tasks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envs/textworld.html#treasure-hunter">Treasure Hunter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="envs/textworld.html#the-cooking-game">The Cooking Game</a></li>
+<li class="toctree-l3"><a class="reference internal" href="envs/textworld.html#coin-collector">Coin Collector</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="envs/textworld.html#textworld-results">TextWorld Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="envs/textworld.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envs/babaisai.html">Baba Is AI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envs/babaisai.html#baba-is-ai-language-wrapper">Baba Is AI Language Wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="envs/babaisai.html#baba-is-ai-results">Baba Is AI Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="envs/babaisai.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="envs/babaisai.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="envs/babaisai.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envs/minihack.html">MiniHack</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envs/minihack.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="envs/minihack.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="envs/minihack.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="envs/nle.html">NetHack Learning Environment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="envs/nle.html#nethack-language-wrapper">NetHack Language Wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="envs/nle.html#new-nethack-progression-system">New NetHack Progression System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="envs/nle.html#nethack-results">NetHack Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="envs/nle.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="envs/nle.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="envs/nle.html#observation">Observation</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">iclbench</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/iclbench.html">iclbench package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/iclbench.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iclbench.agents.html">iclbench.agents package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iclbench.environments.html">iclbench.environments package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iclbench.prompt_builder.html">iclbench.prompt_builder package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/iclbench.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/iclbench.html#module-iclbench.client">iclbench.client module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iclbench.html#iclbench.client.ClaudeWrapper"><code class="docutils literal notranslate"><span class="pre">ClaudeWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iclbench.html#iclbench.client.GoogleGenerativeAIWrapper"><code class="docutils literal notranslate"><span class="pre">GoogleGenerativeAIWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iclbench.html#iclbench.client.LLMClientWrapper"><code class="docutils literal notranslate"><span class="pre">LLMClientWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iclbench.html#iclbench.client.LLMResponse"><code class="docutils literal notranslate"><span class="pre">LLMResponse</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iclbench.html#iclbench.client.OpenAIWrapper"><code class="docutils literal notranslate"><span class="pre">OpenAIWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iclbench.html#iclbench.client.ReplicateWrapper"><code class="docutils literal notranslate"><span class="pre">ReplicateWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iclbench.html#iclbench.client.create_llm_client"><code class="docutils literal notranslate"><span class="pre">create_llm_client()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iclbench.html#iclbench.client.process_image_claude"><code class="docutils literal notranslate"><span class="pre">process_image_claude()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iclbench.html#iclbench.client.process_image_openai"><code class="docutils literal notranslate"><span class="pre">process_image_openai()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/iclbench.html#module-iclbench.dataset">iclbench.dataset module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iclbench.html#iclbench.dataset.InContextDataset"><code class="docutils literal notranslate"><span class="pre">InContextDataset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iclbench.html#iclbench.dataset.choice_excluding"><code class="docutils literal notranslate"><span class="pre">choice_excluding()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iclbench.html#iclbench.dataset.natural_sort_key"><code class="docutils literal notranslate"><span class="pre">natural_sort_key()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/iclbench.html#module-iclbench.evaluator">iclbench.evaluator module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iclbench.html#iclbench.evaluator.Evaluator"><code class="docutils literal notranslate"><span class="pre">Evaluator</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/iclbench.html#module-iclbench.utils">iclbench.utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iclbench.html#iclbench.utils.load_secrets"><code class="docutils literal notranslate"><span class="pre">load_secrets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iclbench.html#iclbench.utils.setup_environment"><code class="docutils literal notranslate"><span class="pre">setup_environment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iclbench.html#iclbench.utils.summarize_env_progressions"><code class="docutils literal notranslate"><span class="pre">summarize_env_progressions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iclbench.html#iclbench.utils.wandb_save_artifact"><code class="docutils literal notranslate"><span class="pre">wandb_save_artifact()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/iclbench.html#module-iclbench">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BALROG</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Evaluation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/evaluation.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="evaluation">
+<h1>Evaluation<a class="headerlink" href="#evaluation" title="Link to this heading"></a></h1>
+<section id="quickstart">
+<h2>⚡ Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h2>
+<p>Experiments are run using the <code class="docutils literal notranslate"><span class="pre">eval.py</span></code> script found at the root of the BALROG repo. Simply run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>eval.py<span class="w"> </span><span class="nv">envs</span><span class="o">=</span><span class="s2">&quot;babyai,nle&quot;</span><span class="w"> </span><span class="nv">base_url</span><span class="o">=</span>&lt;your_vllm_server_base_url&gt;
+</pre></div>
+</div>
+<p>Where evaluation environments are specified in a comma separated list. By default, experiment results are saved to the <code class="docutils literal notranslate"><span class="pre">./results</span></code> directory.</p>
+</section>
+<section id="evaluate-using-local-vllm-server">
+<h2>Evaluate using local vLLM server<a class="headerlink" href="#evaluate-using-local-vllm-server" title="Link to this heading"></a></h2>
+<p>We support running LLMs/VLMs out of the box using <a class="reference external" href="https://github.com/vllm-project/vllm">vLLM</a>. You can spin up a vLLM client and evaluate your agent on BALROG in the following way:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vllm</span> <span class="n">serve</span> <span class="n">meta</span><span class="o">-</span><span class="n">llama</span><span class="o">/</span><span class="n">Llama</span><span class="o">-</span><span class="mf">3.2</span><span class="o">-</span><span class="mi">1</span><span class="n">B</span><span class="o">-</span><span class="n">Instruct</span> <span class="o">--</span><span class="n">port</span> <span class="mi">8080</span>
+
+<span class="n">python</span> <span class="nb">eval</span><span class="o">.</span><span class="n">py</span> \
+  <span class="n">agent</span><span class="o">.</span><span class="n">type</span><span class="o">=</span><span class="n">custom</span> \
+  <span class="n">agent</span><span class="o">.</span><span class="n">max_image_history</span><span class="o">=</span><span class="mi">0</span> \
+  <span class="n">agent</span><span class="o">.</span><span class="n">max_history</span><span class="o">=</span><span class="mi">16</span> \
+  <span class="nb">eval</span><span class="o">.</span><span class="n">num_workers</span><span class="o">=</span><span class="mi">16</span> \
+  <span class="n">client</span><span class="o">.</span><span class="n">client_name</span><span class="o">=</span><span class="n">vllm</span> \
+  <span class="n">client</span><span class="o">.</span><span class="n">model_id</span><span class="o">=</span><span class="n">meta</span><span class="o">-</span><span class="n">llama</span><span class="o">/</span><span class="n">Llama</span><span class="o">-</span><span class="mf">3.2</span><span class="o">-</span><span class="mi">1</span><span class="n">B</span><span class="o">-</span><span class="n">Instruct</span> \
+  <span class="n">client</span><span class="o">.</span><span class="n">base_url</span><span class="o">=</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="mf">0.0.0.0</span><span class="p">:</span><span class="mi">8080</span><span class="o">/</span><span class="n">v1</span>
+</pre></div>
+</div>
+<p>Check out <a class="reference external" href="https://github.com/vllm-project/vllm">vLLM</a> for more options on how to serve your models fast and efficiently.</p>
+</section>
+<section id="evaluate-using-api">
+<h2>Evaluate using API<a class="headerlink" href="#evaluate-using-api" title="Link to this heading"></a></h2>
+<p>We support how of the box clients for OpenAI, Anthropic and Google Gemini APIs. If you want to evaluate an agent using one of these APIs, you first have to set up your API key in one of two ways:</p>
+<p>You can either directly export it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">OPENAI_API_KEY</span><span class="o">=&lt;</span><span class="n">KEY</span><span class="o">&gt;</span>
+<span class="n">export</span> <span class="n">ANTHROPIC_API_KEY</span><span class="o">=&lt;</span><span class="n">KEY</span><span class="o">&gt;</span>
+<span class="n">export</span> <span class="n">GEMINI_API_KEY</span><span class="o">=&lt;</span><span class="n">KEY</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Or you can modify the <code class="docutils literal notranslate"><span class="pre">SECRETS</span></code> file, adding your api keys.</p>
+<p>You can then run the evaluation with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="nb">eval</span><span class="o">.</span><span class="n">py</span> \
+  <span class="n">agent</span><span class="o">.</span><span class="n">type</span><span class="o">=</span><span class="n">custom</span> \
+  <span class="n">agent</span><span class="o">.</span><span class="n">max_image_history</span><span class="o">=</span><span class="mi">0</span> \
+  <span class="n">agent</span><span class="o">.</span><span class="n">max_history</span><span class="o">=</span><span class="mi">16</span> \
+  <span class="nb">eval</span><span class="o">.</span><span class="n">num_workers</span><span class="o">=</span><span class="mi">16</span> \
+  <span class="n">client</span><span class="o">.</span><span class="n">client_name</span><span class="o">=</span><span class="n">openai</span> \
+  <span class="n">client</span><span class="o">.</span><span class="n">model_id</span><span class="o">=</span><span class="n">gpt</span><span class="o">-</span><span class="mi">4</span><span class="n">o</span><span class="o">-</span><span class="n">mini</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">18</span>
+</pre></div>
+</div>
+</section>
+<section id="vlm-mode">
+<h2>🖼️ VLM mode<a class="headerlink" href="#vlm-mode" title="Link to this heading"></a></h2>
+<p>You can activate the VLM mode by increasing the <code class="docutils literal notranslate"><span class="pre">max_image_history</span></code> argument, for example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="nb">eval</span><span class="o">.</span><span class="n">py</span> \
+  <span class="n">agent</span><span class="o">.</span><span class="n">type</span><span class="o">=</span><span class="n">custom</span> \
+  <span class="n">agent</span><span class="o">.</span><span class="n">max_history</span><span class="o">=</span><span class="mi">16</span> \
+  <span class="n">agent</span><span class="o">.</span><span class="n">max_image_history</span><span class="o">=</span><span class="mi">1</span> \
+  <span class="nb">eval</span><span class="o">.</span><span class="n">num_workers</span><span class="o">=</span><span class="mi">16</span> \
+  <span class="n">client</span><span class="o">.</span><span class="n">client_name</span><span class="o">=</span><span class="n">openai</span> \
+  <span class="n">client</span><span class="o">.</span><span class="n">model_id</span><span class="o">=</span><span class="n">gpt</span><span class="o">-</span><span class="mi">4</span><span class="n">o</span><span class="o">-</span><span class="n">mini</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">18</span>
+</pre></div>
+</div>
+</section>
+<section id="resume-an-evaluation">
+<h2>▶️ Resume an evaluation<a class="headerlink" href="#resume-an-evaluation" title="Link to this heading"></a></h2>
+<p>To resume an incomplete evaluation, use eval.resume_from. For example, if an evaluation in the folder results/2024-10-30/16-20-30_custom_gpt-4o-mini-2024-07-18 is unfinished, resume it with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="nb">eval</span><span class="o">.</span><span class="n">py</span> \
+  <span class="n">agent</span><span class="o">.</span><span class="n">type</span><span class="o">=</span><span class="n">custom</span> \
+  <span class="n">agent</span><span class="o">.</span><span class="n">max_image_history</span><span class="o">=</span><span class="mi">0</span> \
+  <span class="n">agent</span><span class="o">.</span><span class="n">max_history</span><span class="o">=</span><span class="mi">16</span> \
+  <span class="nb">eval</span><span class="o">.</span><span class="n">num_workers</span><span class="o">=</span><span class="mi">16</span> \
+  <span class="n">client</span><span class="o">.</span><span class="n">client_name</span><span class="o">=</span><span class="n">openai</span> \
+  <span class="n">client</span><span class="o">.</span><span class="n">model_id</span><span class="o">=</span><span class="n">gpt</span><span class="o">-</span><span class="mi">4</span><span class="n">o</span><span class="o">-</span><span class="n">mini</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">18</span> \
+  <span class="nb">eval</span><span class="o">.</span><span class="n">resume_from</span><span class="o">=</span><span class="n">results</span><span class="o">/</span><span class="mi">2024</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">30_16</span><span class="o">-</span><span class="mi">20</span><span class="o">-</span><span class="mi">30</span><span class="n">_custom_gpt</span><span class="o">-</span><span class="mi">4</span><span class="n">o</span><span class="o">-</span><span class="n">mini</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">18</span>
+</pre></div>
+</div>
+</section>
+<section id="configuring-eval">
+<h2>⚙️ Configuring Eval<a class="headerlink" href="#configuring-eval" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">eval.py</span></code> is configured using Hydra. We list some options below. For more details, refer to the <a class="reference external" href="https://github.com/DavidePaglieri/BALROG/blob/main/config/config.yaml">eval config</a>.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Default Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>agent.type</strong></p></td>
+<td><p>Type of agent used</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">icl</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>agent.remember_cot</strong></p></td>
+<td><p>Whether the agent should remember chain-of-thought (CoT) during episodes.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>agent.max_history</strong></p></td>
+<td><p>Maximum number of dialogue history entries to retain.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">16</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>eval.num_workers</strong></p></td>
+<td><p>Number of parallel environment workers for parallel evaluation.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>eval.num_episodes</strong></p></td>
+<td><p>Number of episodes per environment for evaluation.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{nle:</span> <span class="pre">5,</span> <span class="pre">minihack:</span> <span class="pre">5,</span> <span class="pre">babyai:</span> <span class="pre">25,</span> <span class="pre">...}</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>eval.save_trajectories</strong></p></td>
+<td><p>Whether to save agent trajectories during evaluation.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>eval.icl_episodes</strong></p></td>
+<td><p>Number of in-context learning episodes.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>eval.icl_dataset</strong></p></td>
+<td><p>Dataset used for in-context learning, generally a path to the demonstrations.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">demos</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>client.client_name</strong></p></td>
+<td><p>Type of the client used, e.g. for vLLM servers you would use <code class="docutils literal notranslate"><span class="pre">openai</span></code>.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">openai</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>client.model_id</strong></p></td>
+<td><p>Identifier for the model used.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">gpt-4o</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>client.base_url</strong></p></td>
+<td><p>Base URL of the model server for API requests.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">http://localhost:8080/v1</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>client.is_chat_model</strong></p></td>
+<td><p>Indicates if the model follows a chat-based interface.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>client.generate_kwargs.temperature</strong></p></td>
+<td><p>Temperature for model response randomness.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0.0</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>envs.names</strong></p></td>
+<td><p>Comma-separated list of environments to evaluate, e.g., <code class="docutils literal notranslate"><span class="pre">nle,</span> <span class="pre">minihack</span></code>.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">nle</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="agents.html" class="btn btn-neutral float-right" title="Agents" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, BALROG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

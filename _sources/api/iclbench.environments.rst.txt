@@ -1,0 +1,35 @@
+iclbench.environments package
+=============================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   iclbench.environments.baba_is_ai
+   iclbench.environments.babyai_text
+   iclbench.environments.craftax
+   iclbench.environments.crafter
+   iclbench.environments.minihack
+   iclbench.environments.nle
+   iclbench.environments.textworld
+
+Submodules
+----------
+
+iclbench.environments.env\_wrapper module
+-----------------------------------------
+
+.. automodule:: iclbench.environments.env_wrapper
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: iclbench.environments
+   :members:
+   :undoc-members:
+   :show-inheritance:

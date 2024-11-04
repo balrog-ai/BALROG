@@ -1,0 +1,10 @@
+iclbench.environments.minihack package
+======================================
+
+Module contents
+---------------
+
+.. automodule:: iclbench.environments.minihack
+   :members:
+   :undoc-members:
+   :show-inheritance:

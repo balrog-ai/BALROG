@@ -1,0 +1,339 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MiniHack &mdash; BALROG 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="NetHack Learning Environment" href="nle.html" />
+    <link rel="prev" title="Baba Is AI" href="babaisai.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            BALROG
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../evaluation.html">Evaluation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../evaluation.html#quickstart">⚡ Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../evaluation.html#evaluate-using-local-vllm-server">Evaluate using local vLLM server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../evaluation.html#evaluate-using-api">Evaluate using API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../evaluation.html#vlm-mode">🖼️ VLM mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../evaluation.html#resume-an-evaluation">▶️ Resume an evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../evaluation.html#configuring-eval">⚙️ Configuring Eval</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../agents.html">Agents</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../agents.html#pre-built-agents">Pre-built agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../agents.html#creating-custom-agents">🤖 Creating Custom Agents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../agents.html#simple-planning-agent">Simple Planning Agent</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributions.html">Contributions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Environments</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="babyai.html">Baby AI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="babyai.html#babyai-text">BabyAI-Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="babyai.html#babyai-results">BabyAI Results</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="babyai.html#llm-results">LLM results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="babyai.html#vlm-results">VLM results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="babyai.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="crafter.html">Crafter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="crafter.html#crafter-results">Crafter Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crafter.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crafter.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="crafter.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="textworld.html">TextWorld</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="textworld.html#tasks">Tasks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="textworld.html#treasure-hunter">Treasure Hunter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="textworld.html#the-cooking-game">The Cooking Game</a></li>
+<li class="toctree-l3"><a class="reference internal" href="textworld.html#coin-collector">Coin Collector</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="textworld.html#textworld-results">TextWorld Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="textworld.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="babaisai.html">Baba Is AI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="babaisai.html#baba-is-ai-language-wrapper">Baba Is AI Language Wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="babaisai.html#baba-is-ai-results">Baba Is AI Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="babaisai.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="babaisai.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="babaisai.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">MiniHack</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nle.html">NetHack Learning Environment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nle.html#nethack-language-wrapper">NetHack Language Wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nle.html#new-nethack-progression-system">New NetHack Progression System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nle.html#nethack-results">NetHack Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nle.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nle.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nle.html#observation">Observation</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">iclbench</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/iclbench.html">iclbench package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/iclbench.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iclbench.agents.html">iclbench.agents package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iclbench.environments.html">iclbench.environments package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iclbench.prompt_builder.html">iclbench.prompt_builder package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/iclbench.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/iclbench.html#module-iclbench.client">iclbench.client module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iclbench.html#iclbench.client.ClaudeWrapper"><code class="docutils literal notranslate"><span class="pre">ClaudeWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iclbench.html#iclbench.client.GoogleGenerativeAIWrapper"><code class="docutils literal notranslate"><span class="pre">GoogleGenerativeAIWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iclbench.html#iclbench.client.LLMClientWrapper"><code class="docutils literal notranslate"><span class="pre">LLMClientWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iclbench.html#iclbench.client.LLMResponse"><code class="docutils literal notranslate"><span class="pre">LLMResponse</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iclbench.html#iclbench.client.OpenAIWrapper"><code class="docutils literal notranslate"><span class="pre">OpenAIWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iclbench.html#iclbench.client.ReplicateWrapper"><code class="docutils literal notranslate"><span class="pre">ReplicateWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iclbench.html#iclbench.client.create_llm_client"><code class="docutils literal notranslate"><span class="pre">create_llm_client()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iclbench.html#iclbench.client.process_image_claude"><code class="docutils literal notranslate"><span class="pre">process_image_claude()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iclbench.html#iclbench.client.process_image_openai"><code class="docutils literal notranslate"><span class="pre">process_image_openai()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/iclbench.html#module-iclbench.dataset">iclbench.dataset module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iclbench.html#iclbench.dataset.InContextDataset"><code class="docutils literal notranslate"><span class="pre">InContextDataset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iclbench.html#iclbench.dataset.choice_excluding"><code class="docutils literal notranslate"><span class="pre">choice_excluding()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iclbench.html#iclbench.dataset.natural_sort_key"><code class="docutils literal notranslate"><span class="pre">natural_sort_key()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/iclbench.html#module-iclbench.evaluator">iclbench.evaluator module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iclbench.html#iclbench.evaluator.Evaluator"><code class="docutils literal notranslate"><span class="pre">Evaluator</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/iclbench.html#module-iclbench.utils">iclbench.utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iclbench.html#iclbench.utils.load_secrets"><code class="docutils literal notranslate"><span class="pre">load_secrets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iclbench.html#iclbench.utils.setup_environment"><code class="docutils literal notranslate"><span class="pre">setup_environment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iclbench.html#iclbench.utils.summarize_env_progressions"><code class="docutils literal notranslate"><span class="pre">summarize_env_progressions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iclbench.html#iclbench.utils.wandb_save_artifact"><code class="docutils literal notranslate"><span class="pre">wandb_save_artifact()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/iclbench.html#module-iclbench">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">BALROG</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">MiniHack</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/envs/minihack.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="minihack">
+<h1>MiniHack<a class="headerlink" href="#minihack" title="Link to this heading"></a></h1>
+<p>MiniHack is a powerful sandbox framework built
+on top of the NLE that enables researchers to
+easily design rich and diverse environments for RL. It provides a
+flexible platform for creating custom RL tasks ranging from simple
+grid-world navigation to complex, procedurally generated worlds with
+intricate game mechanics. The framework allows users to define
+environments using a human-readable description language or a simple
+Python interface, giving fine-grained control over environment elements
+such as terrain, objects, monsters, and traps. MiniHack offers a diverse
+array of tasks, which can be broadly categorized into three main groups:
+Navigation Tasks, Skill Acquisition Tasks, and Ported Tasks. To enable
+interaction with language models, we use the NetHack Language Wrapper.</p>
+<p>From the MiniHack Navigation Tasks, we picked Corridor and
+CorridorBattle, which challenge the agent to reach the goal position by
+overcoming various difficulties on their way, such as fighting monsters
+in corridors and navigating through complex or procedurally generated
+mazes. These tasks feature a relatively small action space, i.e.,
+movement towards 8 compass directions, and based on the environment,
+search, kick, open, and eat actions.</p>
+<p><img alt="Examples of MiniHack Corridortask." src="../_images/minihack_corridor.png" /></p>
+<p><img alt="Example of MiniHack CorridorBattletask." src="../_images/minihack_corridor_battle.png" /></p>
+<p>From the MiniHack Skill Acquisition Tasks, we picked Quest (with three
+different difficulty levels, Easy, Medium, and Hard), which challenges
+the agent to use objects found in the environment to cross a lava river
+(these objects can provide levitation or freezing abilities), fight
+monsters, navigate through rooms or mazes and towards the end of the
+quest use a wand of death to defeat a powerful monster guarding the goal
+location.</p>
+<p><img alt="Example of MiniHack Quest Hardtask." src="../_images/minihack_quest_hard.png" /></p>
+<p>We additionally test the agents on MiniHack Boxoban. This family of
+environments is an adaptation of the Boxoban puzzle game, which itself
+is inspired by the classic Sokoban. These environments present a
+challenging puzzle-solving task within the MiniHack framework,
+leveraging the NetHack game mechanics. The primary goal in MiniHack
+Boxoban is to push four boulders (MiniHack’s equivalent of boxes) onto
+four designated goal locations, which are represented by fountains. This
+task requires strategic thinking and planning, as the agent must
+carefully maneuver the boulders through the environment without getting
+them stuck in corners or against walls.</p>
+<p><img alt="Example of MiniHack Boxoban Hardtask." src="../_images/minihack_boxoban.png" /></p>
+<p>Standard errors were computed
+using 5 seeds for each task. Here, GPT-4o and a Gemini-1.5-Pro equal
+each other both in language-only and vision-language mode, with both
+models only managing to complete some of the corridor and corridor
+battle tasks. None of the other models solved any task.</p>
+<section id="llm-results">
+<h2>LLM results<a class="headerlink" href="#llm-results" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Model</p></th>
+<th class="head"><p>Average Progress (%)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>gpt-4o</p></td>
+<td><p>5.71 ± 3.92</p></td>
+</tr>
+<tr class="row-odd"><td><p>gemini-1.5-pro</p></td>
+<td><p>5.71 ± 3.92</p></td>
+</tr>
+<tr class="row-even"><td><p>gpt-4o-mini</p></td>
+<td><p>0.00 ± 0.00</p></td>
+</tr>
+<tr class="row-odd"><td><p>gemini-1.5-flash</p></td>
+<td><p>0.00 ± 0.00</p></td>
+</tr>
+<tr class="row-even"><td><p>llama-3.1-70B-it</p></td>
+<td><p>0.00 ± 0.00</p></td>
+</tr>
+<tr class="row-odd"><td><p>llama-3.2-11B-it</p></td>
+<td><p>0.00 ± 0.00</p></td>
+</tr>
+<tr class="row-even"><td><p>llama-3.2-90B-it</p></td>
+<td><p>0.00 ± 0.00</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="vlm-results">
+<h2>VLM results<a class="headerlink" href="#vlm-results" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Model</p></th>
+<th class="head"><p>Average Progress (%)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>gpt-4o</p></td>
+<td><p>5.71 ± 3.92</p></td>
+</tr>
+<tr class="row-odd"><td><p>gemini-1.5-pro</p></td>
+<td><p>5.71 ± 3.92</p></td>
+</tr>
+<tr class="row-even"><td><p>gpt-4o-mini</p></td>
+<td><p>0.00 ± 0.00</p></td>
+</tr>
+<tr class="row-odd"><td><p>gemini-1.5-flash</p></td>
+<td><p>0.00 ± 0.00</p></td>
+</tr>
+<tr class="row-even"><td><p>llama-3.2-11B-it</p></td>
+<td><p>0.00 ± 0.00</p></td>
+</tr>
+<tr class="row-odd"><td><p>llama-3.2-90B-it</p></td>
+<td><p>0.00 ± 0.00</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="observations">
+<h2>Observations<a class="headerlink" href="#observations" title="Link to this heading"></a></h2>
+<p>TODO</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="babaisai.html" class="btn btn-neutral float-left" title="Baba Is AI" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="nle.html" class="btn btn-neutral float-right" title="NetHack Learning Environment" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, BALROG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

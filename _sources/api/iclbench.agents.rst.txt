@@ -1,0 +1,61 @@
+iclbench.agents package
+=======================
+
+Submodules
+----------
+
+iclbench.agents.base module
+---------------------------
+
+.. automodule:: iclbench.agents.base
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+iclbench.agents.chain\_of\_thought module
+-----------------------------------------
+
+.. automodule:: iclbench.agents.chain_of_thought
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+iclbench.agents.dummy module
+----------------------------
+
+.. automodule:: iclbench.agents.dummy
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+iclbench.agents.icl module
+--------------------------
+
+.. automodule:: iclbench.agents.icl
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+iclbench.agents.naive module
+----------------------------
+
+.. automodule:: iclbench.agents.naive
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+iclbench.agents.self\_refine module
+-----------------------------------
+
+.. automodule:: iclbench.agents.self_refine
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: iclbench.agents
+   :members:
+   :undoc-members:
+   :show-inheritance:

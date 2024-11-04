@@ -1,0 +1,21 @@
+iclbench.environments.craftax package
+=====================================
+
+Submodules
+----------
+
+iclbench.environments.craftax.env module
+----------------------------------------
+
+.. automodule:: iclbench.environments.craftax.env
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: iclbench.environments.craftax
+   :members:
+   :undoc-members:
+   :show-inheritance:

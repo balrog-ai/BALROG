@@ -1,0 +1,21 @@
+iclbench.environments.textworld package
+=======================================
+
+Submodules
+----------
+
+iclbench.environments.textworld.base module
+-------------------------------------------
+
+.. automodule:: iclbench.environments.textworld.base
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: iclbench.environments.textworld
+   :members:
+   :undoc-members:
+   :show-inheritance:

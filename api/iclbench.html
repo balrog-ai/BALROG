@@ -1,0 +1,756 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>iclbench package &mdash; BALROG 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="iclbench.agents package" href="iclbench.agents.html" />
+    <link rel="prev" title="iclbench" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            BALROG
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../evaluation.html">Evaluation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../evaluation.html#quickstart">⚡ Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../evaluation.html#evaluate-using-local-vllm-server">Evaluate using local vLLM server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../evaluation.html#evaluate-using-api">Evaluate using API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../evaluation.html#vlm-mode">🖼️ VLM mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../evaluation.html#resume-an-evaluation">▶️ Resume an evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../evaluation.html#configuring-eval">⚙️ Configuring Eval</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../agents.html">Agents</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../agents.html#pre-built-agents">Pre-built agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../agents.html#creating-custom-agents">🤖 Creating Custom Agents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../agents.html#simple-planning-agent">Simple Planning Agent</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributions.html">Contributions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Environments</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../envs/babyai.html">Baby AI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../envs/babyai.html#babyai-text">BabyAI-Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/babyai.html#babyai-results">BabyAI Results</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../envs/babyai.html#llm-results">LLM results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../envs/babyai.html#vlm-results">VLM results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/babyai.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../envs/crafter.html">Crafter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../envs/crafter.html#crafter-results">Crafter Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/crafter.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/crafter.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/crafter.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../envs/textworld.html">TextWorld</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../envs/textworld.html#tasks">Tasks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../envs/textworld.html#treasure-hunter">Treasure Hunter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../envs/textworld.html#the-cooking-game">The Cooking Game</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../envs/textworld.html#coin-collector">Coin Collector</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/textworld.html#textworld-results">TextWorld Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/textworld.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../envs/babaisai.html">Baba Is AI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../envs/babaisai.html#baba-is-ai-language-wrapper">Baba Is AI Language Wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/babaisai.html#baba-is-ai-results">Baba Is AI Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/babaisai.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/babaisai.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/babaisai.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../envs/minihack.html">MiniHack</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../envs/minihack.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/minihack.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/minihack.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../envs/nle.html">NetHack Learning Environment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../envs/nle.html#nethack-language-wrapper">NetHack Language Wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/nle.html#new-nethack-progression-system">New NetHack Progression System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/nle.html#nethack-results">NetHack Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/nle.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/nle.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../envs/nle.html#observation">Observation</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">iclbench</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">iclbench package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.agents.html">iclbench.agents package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.html">iclbench.environments package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.prompt_builder.html">iclbench.prompt_builder package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-iclbench.client">iclbench.client module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#iclbench.client.ClaudeWrapper"><code class="docutils literal notranslate"><span class="pre">ClaudeWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#iclbench.client.GoogleGenerativeAIWrapper"><code class="docutils literal notranslate"><span class="pre">GoogleGenerativeAIWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#iclbench.client.LLMClientWrapper"><code class="docutils literal notranslate"><span class="pre">LLMClientWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#iclbench.client.LLMResponse"><code class="docutils literal notranslate"><span class="pre">LLMResponse</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#iclbench.client.OpenAIWrapper"><code class="docutils literal notranslate"><span class="pre">OpenAIWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#iclbench.client.ReplicateWrapper"><code class="docutils literal notranslate"><span class="pre">ReplicateWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#iclbench.client.create_llm_client"><code class="docutils literal notranslate"><span class="pre">create_llm_client()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#iclbench.client.process_image_claude"><code class="docutils literal notranslate"><span class="pre">process_image_claude()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#iclbench.client.process_image_openai"><code class="docutils literal notranslate"><span class="pre">process_image_openai()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-iclbench.dataset">iclbench.dataset module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#iclbench.dataset.InContextDataset"><code class="docutils literal notranslate"><span class="pre">InContextDataset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#iclbench.dataset.choice_excluding"><code class="docutils literal notranslate"><span class="pre">choice_excluding()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#iclbench.dataset.natural_sort_key"><code class="docutils literal notranslate"><span class="pre">natural_sort_key()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-iclbench.evaluator">iclbench.evaluator module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#iclbench.evaluator.Evaluator"><code class="docutils literal notranslate"><span class="pre">Evaluator</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-iclbench.utils">iclbench.utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#iclbench.utils.load_secrets"><code class="docutils literal notranslate"><span class="pre">load_secrets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#iclbench.utils.setup_environment"><code class="docutils literal notranslate"><span class="pre">setup_environment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#iclbench.utils.summarize_env_progressions"><code class="docutils literal notranslate"><span class="pre">summarize_env_progressions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#iclbench.utils.wandb_save_artifact"><code class="docutils literal notranslate"><span class="pre">wandb_save_artifact()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-iclbench">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">BALROG</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">iclbench</a></li>
+      <li class="breadcrumb-item active">iclbench package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/iclbench.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="iclbench-package">
+<h1>iclbench package<a class="headerlink" href="#iclbench-package" title="Link to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="iclbench.agents.html">iclbench.agents package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="iclbench.agents.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="iclbench.agents.html#module-iclbench.agents.base">iclbench.agents.base module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.base.BaseAgent"><code class="docutils literal notranslate"><span class="pre">BaseAgent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.base.BaseAgent.__init__"><code class="docutils literal notranslate"><span class="pre">BaseAgent.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.base.BaseAgent.act"><code class="docutils literal notranslate"><span class="pre">BaseAgent.act()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.base.BaseAgent.reset"><code class="docutils literal notranslate"><span class="pre">BaseAgent.reset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.base.BaseAgent.update_prompt"><code class="docutils literal notranslate"><span class="pre">BaseAgent.update_prompt()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="iclbench.agents.html#module-iclbench.agents.chain_of_thought">iclbench.agents.chain_of_thought module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.chain_of_thought.ChainOfThoughtAgent"><code class="docutils literal notranslate"><span class="pre">ChainOfThoughtAgent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.chain_of_thought.ChainOfThoughtAgent.__init__"><code class="docutils literal notranslate"><span class="pre">ChainOfThoughtAgent.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.chain_of_thought.ChainOfThoughtAgent.act"><code class="docutils literal notranslate"><span class="pre">ChainOfThoughtAgent.act()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="iclbench.agents.html#module-iclbench.agents.dummy">iclbench.agents.dummy module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.dummy.DummyAgent"><code class="docutils literal notranslate"><span class="pre">DummyAgent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.dummy.DummyAgent.__init__"><code class="docutils literal notranslate"><span class="pre">DummyAgent.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.dummy.DummyAgent.act"><code class="docutils literal notranslate"><span class="pre">DummyAgent.act()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.dummy.LLMResponse"><code class="docutils literal notranslate"><span class="pre">LLMResponse</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.dummy.LLMResponse.completion"><code class="docutils literal notranslate"><span class="pre">LLMResponse.completion</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.dummy.LLMResponse.input_tokens"><code class="docutils literal notranslate"><span class="pre">LLMResponse.input_tokens</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.dummy.LLMResponse.model_id"><code class="docutils literal notranslate"><span class="pre">LLMResponse.model_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.dummy.LLMResponse.output_tokens"><code class="docutils literal notranslate"><span class="pre">LLMResponse.output_tokens</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.dummy.LLMResponse.reasoning"><code class="docutils literal notranslate"><span class="pre">LLMResponse.reasoning</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.dummy.LLMResponse.stop_reason"><code class="docutils literal notranslate"><span class="pre">LLMResponse.stop_reason</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.dummy.make_dummy_action"><code class="docutils literal notranslate"><span class="pre">make_dummy_action()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="iclbench.agents.html#module-iclbench.agents.icl">iclbench.agents.icl module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.icl.ICLAgent"><code class="docutils literal notranslate"><span class="pre">ICLAgent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.icl.ICLAgent.__init__"><code class="docutils literal notranslate"><span class="pre">ICLAgent.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.icl.ICLAgent.act"><code class="docutils literal notranslate"><span class="pre">ICLAgent.act()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.icl.ICLAgent.cache_icl"><code class="docutils literal notranslate"><span class="pre">ICLAgent.cache_icl()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.icl.ICLAgent.get_icl_prompt"><code class="docutils literal notranslate"><span class="pre">ICLAgent.get_icl_prompt()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.icl.ICLAgent.update_icl_action"><code class="docutils literal notranslate"><span class="pre">ICLAgent.update_icl_action()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.icl.ICLAgent.update_icl_observation"><code class="docutils literal notranslate"><span class="pre">ICLAgent.update_icl_observation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.icl.ICLAgent.wrap_episode"><code class="docutils literal notranslate"><span class="pre">ICLAgent.wrap_episode()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.icl.Message"><code class="docutils literal notranslate"><span class="pre">Message</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.icl.Message.__init__"><code class="docutils literal notranslate"><span class="pre">Message.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="iclbench.agents.html#module-iclbench.agents.naive">iclbench.agents.naive module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.naive.NaiveAgent"><code class="docutils literal notranslate"><span class="pre">NaiveAgent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.naive.NaiveAgent.__init__"><code class="docutils literal notranslate"><span class="pre">NaiveAgent.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.naive.NaiveAgent.act"><code class="docutils literal notranslate"><span class="pre">NaiveAgent.act()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="iclbench.agents.html#module-iclbench.agents.self_refine">iclbench.agents.self_refine module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.self_refine.SelfRefineAgent"><code class="docutils literal notranslate"><span class="pre">SelfRefineAgent</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.self_refine.SelfRefineAgent.__init__"><code class="docutils literal notranslate"><span class="pre">SelfRefineAgent.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.self_refine.SelfRefineAgent.act"><code class="docutils literal notranslate"><span class="pre">SelfRefineAgent.act()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="iclbench.agents.html#module-iclbench.agents">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.AgentFactory"><code class="docutils literal notranslate"><span class="pre">AgentFactory</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.AgentFactory.create_agent"><code class="docutils literal notranslate"><span class="pre">AgentFactory.create_agent()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.agents.html#iclbench.agents.AgentFactory.__init__"><code class="docutils literal notranslate"><span class="pre">AgentFactory.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.agents.html#id0"><code class="docutils literal notranslate"><span class="pre">AgentFactory.create_agent()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="iclbench.environments.html">iclbench.environments package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="iclbench.environments.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="iclbench.environments.baba_is_ai.html">iclbench.environments.baba_is_ai package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.baba_is_ai.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.baba_is_ai.html#module-iclbench.environments.baba_is_ai.base">iclbench.environments.baba_is_ai.base module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.baba_is_ai.html#module-iclbench.environments.baba_is_ai">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="iclbench.environments.babyai_text.html">iclbench.environments.babyai_text package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.babyai_text.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.babyai_text.html#module-iclbench.environments.babyai_text.clean_lang_wrapper">iclbench.environments.babyai_text.clean_lang_wrapper module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.babyai_text.html#module-iclbench.environments.babyai_text">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="iclbench.environments.craftax.html">iclbench.environments.craftax package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.craftax.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.craftax.html#module-iclbench.environments.craftax.env">iclbench.environments.craftax.env module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.craftax.html#module-iclbench.environments.craftax">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="iclbench.environments.crafter.html">iclbench.environments.crafter package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.crafter.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.crafter.html#module-iclbench.environments.crafter.env">iclbench.environments.crafter.env module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.crafter.html#module-iclbench.environments.crafter">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="iclbench.environments.minihack.html">iclbench.environments.minihack package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.minihack.html#module-iclbench.environments.minihack">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="iclbench.environments.nle.html">iclbench.environments.nle package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.nle.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.nle.html#module-iclbench.environments.nle.base">iclbench.environments.nle.base module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.nle.html#module-iclbench.environments.nle.progress">iclbench.environments.nle.progress module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.nle.html#module-iclbench.environments.nle.render">iclbench.environments.nle.render module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.nle.html#module-iclbench.environments.nle.render_rgb">iclbench.environments.nle.render_rgb module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.nle.html#module-iclbench.environments.nle">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="iclbench.environments.textworld.html">iclbench.environments.textworld package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.textworld.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.textworld.html#module-iclbench.environments.textworld.base">iclbench.environments.textworld.base module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.textworld.html#module-iclbench.environments.textworld">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="iclbench.environments.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="iclbench.environments.html#module-iclbench.environments.env_wrapper">iclbench.environments.env_wrapper module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="iclbench.environments.html#iclbench.environments.env_wrapper.EnvWrapper"><code class="docutils literal notranslate"><span class="pre">EnvWrapper</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.html#iclbench.environments.env_wrapper.EnvWrapper.__init__"><code class="docutils literal notranslate"><span class="pre">EnvWrapper.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.html#iclbench.environments.env_wrapper.EnvWrapper.actions"><code class="docutils literal notranslate"><span class="pre">EnvWrapper.actions</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.html#iclbench.environments.env_wrapper.EnvWrapper.check_action_validity"><code class="docutils literal notranslate"><span class="pre">EnvWrapper.check_action_validity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.html#iclbench.environments.env_wrapper.EnvWrapper.get_instruction_prompt"><code class="docutils literal notranslate"><span class="pre">EnvWrapper.get_instruction_prompt()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.html#iclbench.environments.env_wrapper.EnvWrapper.get_stats"><code class="docutils literal notranslate"><span class="pre">EnvWrapper.get_stats()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.html#iclbench.environments.env_wrapper.EnvWrapper.get_text_action"><code class="docutils literal notranslate"><span class="pre">EnvWrapper.get_text_action()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.html#iclbench.environments.env_wrapper.EnvWrapper.max_steps"><code class="docutils literal notranslate"><span class="pre">EnvWrapper.max_steps</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.html#iclbench.environments.env_wrapper.EnvWrapper.reset"><code class="docutils literal notranslate"><span class="pre">EnvWrapper.reset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.html#iclbench.environments.env_wrapper.EnvWrapper.step"><code class="docutils literal notranslate"><span class="pre">EnvWrapper.step()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="iclbench.environments.html#module-iclbench.environments">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="iclbench.environments.html#iclbench.environments.Strings"><code class="docutils literal notranslate"><span class="pre">Strings</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.html#iclbench.environments.Strings.__init__"><code class="docutils literal notranslate"><span class="pre">Strings.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.html#iclbench.environments.Strings.contains"><code class="docutils literal notranslate"><span class="pre">Strings.contains()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.html#iclbench.environments.Strings.map"><code class="docutils literal notranslate"><span class="pre">Strings.map()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="iclbench.environments.html#iclbench.environments.Strings.sample"><code class="docutils literal notranslate"><span class="pre">Strings.sample()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="iclbench.environments.html#iclbench.environments.make_env"><code class="docutils literal notranslate"><span class="pre">make_env()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="iclbench.prompt_builder.html">iclbench.prompt_builder package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="iclbench.prompt_builder.html#module-iclbench.prompt_builder">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="iclbench.prompt_builder.html#iclbench.prompt_builder.create_prompt_builder"><code class="docutils literal notranslate"><span class="pre">create_prompt_builder()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-iclbench.client">
+<span id="iclbench-client-module"></span><h2>iclbench.client module<a class="headerlink" href="#module-iclbench.client" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="iclbench.client.ClaudeWrapper">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iclbench.client.</span></span><span class="sig-name descname"><span class="pre">ClaudeWrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/client.html#ClaudeWrapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.client.ClaudeWrapper" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#iclbench.client.LLMClientWrapper" title="iclbench.client.LLMClientWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">LLMClientWrapper</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.client.ClaudeWrapper.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/client.html#ClaudeWrapper.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.client.ClaudeWrapper.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.client.ClaudeWrapper.convert_messages">
+<span class="sig-name descname"><span class="pre">convert_messages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">messages</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/client.html#ClaudeWrapper.convert_messages"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.client.ClaudeWrapper.convert_messages" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.client.ClaudeWrapper.generate">
+<span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">messages</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/client.html#ClaudeWrapper.generate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.client.ClaudeWrapper.generate" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="iclbench.client.GoogleGenerativeAIWrapper">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iclbench.client.</span></span><span class="sig-name descname"><span class="pre">GoogleGenerativeAIWrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/client.html#GoogleGenerativeAIWrapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.client.GoogleGenerativeAIWrapper" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#iclbench.client.LLMClientWrapper" title="iclbench.client.LLMClientWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">LLMClientWrapper</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.client.GoogleGenerativeAIWrapper.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/client.html#GoogleGenerativeAIWrapper.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.client.GoogleGenerativeAIWrapper.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.client.GoogleGenerativeAIWrapper.cache_icl_demo">
+<span class="sig-name descname"><span class="pre">cache_icl_demo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">icl_demo</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/client.html#GoogleGenerativeAIWrapper.cache_icl_demo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.client.GoogleGenerativeAIWrapper.cache_icl_demo" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.client.GoogleGenerativeAIWrapper.convert_messages">
+<span class="sig-name descname"><span class="pre">convert_messages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">messages</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/client.html#GoogleGenerativeAIWrapper.convert_messages"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.client.GoogleGenerativeAIWrapper.convert_messages" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.client.GoogleGenerativeAIWrapper.extract_completion">
+<span class="sig-name descname"><span class="pre">extract_completion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/client.html#GoogleGenerativeAIWrapper.extract_completion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.client.GoogleGenerativeAIWrapper.extract_completion" title="Link to this definition"></a></dt>
+<dd><p>Extracts and returns the completion from the response safely.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.client.GoogleGenerativeAIWrapper.generate">
+<span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">messages</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/client.html#GoogleGenerativeAIWrapper.generate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.client.GoogleGenerativeAIWrapper.generate" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.client.GoogleGenerativeAIWrapper.get_completion">
+<span class="sig-name descname"><span class="pre">get_completion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">converted_messages</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_retries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/client.html#GoogleGenerativeAIWrapper.get_completion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.client.GoogleGenerativeAIWrapper.get_completion" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="iclbench.client.LLMClientWrapper">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iclbench.client.</span></span><span class="sig-name descname"><span class="pre">LLMClientWrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/client.html#LLMClientWrapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.client.LLMClientWrapper" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.client.LLMClientWrapper.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/client.html#LLMClientWrapper.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.client.LLMClientWrapper.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.client.LLMClientWrapper.generate">
+<span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">messages</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/client.html#LLMClientWrapper.generate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.client.LLMClientWrapper.generate" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="iclbench.client.LLMResponse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iclbench.client.</span></span><span class="sig-name descname"><span class="pre">LLMResponse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">completion</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop_reason</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_tokens</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_tokens</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reasoning</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iclbench.client.LLMResponse" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iclbench.client.LLMResponse.completion">
+<span class="sig-name descname"><span class="pre">completion</span></span><a class="headerlink" href="#iclbench.client.LLMResponse.completion" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iclbench.client.LLMResponse.input_tokens">
+<span class="sig-name descname"><span class="pre">input_tokens</span></span><a class="headerlink" href="#iclbench.client.LLMResponse.input_tokens" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iclbench.client.LLMResponse.model_id">
+<span class="sig-name descname"><span class="pre">model_id</span></span><a class="headerlink" href="#iclbench.client.LLMResponse.model_id" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iclbench.client.LLMResponse.output_tokens">
+<span class="sig-name descname"><span class="pre">output_tokens</span></span><a class="headerlink" href="#iclbench.client.LLMResponse.output_tokens" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 4</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iclbench.client.LLMResponse.reasoning">
+<span class="sig-name descname"><span class="pre">reasoning</span></span><a class="headerlink" href="#iclbench.client.LLMResponse.reasoning" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 5</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iclbench.client.LLMResponse.stop_reason">
+<span class="sig-name descname"><span class="pre">stop_reason</span></span><a class="headerlink" href="#iclbench.client.LLMResponse.stop_reason" title="Link to this definition"></a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="iclbench.client.OpenAIWrapper">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iclbench.client.</span></span><span class="sig-name descname"><span class="pre">OpenAIWrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/client.html#OpenAIWrapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.client.OpenAIWrapper" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#iclbench.client.LLMClientWrapper" title="iclbench.client.LLMClientWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">LLMClientWrapper</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.client.OpenAIWrapper.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/client.html#OpenAIWrapper.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.client.OpenAIWrapper.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.client.OpenAIWrapper.convert_messages">
+<span class="sig-name descname"><span class="pre">convert_messages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">messages</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/client.html#OpenAIWrapper.convert_messages"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.client.OpenAIWrapper.convert_messages" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.client.OpenAIWrapper.generate">
+<span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">messages</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/client.html#OpenAIWrapper.generate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.client.OpenAIWrapper.generate" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="iclbench.client.ReplicateWrapper">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iclbench.client.</span></span><span class="sig-name descname"><span class="pre">ReplicateWrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/client.html#ReplicateWrapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.client.ReplicateWrapper" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#iclbench.client.LLMClientWrapper" title="iclbench.client.LLMClientWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">LLMClientWrapper</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.client.ReplicateWrapper.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/client.html#ReplicateWrapper.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.client.ReplicateWrapper.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.client.ReplicateWrapper.generate">
+<span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">messages</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/client.html#ReplicateWrapper.generate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.client.ReplicateWrapper.generate" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="iclbench.client.create_llm_client">
+<span class="sig-prename descclassname"><span class="pre">iclbench.client.</span></span><span class="sig-name descname"><span class="pre">create_llm_client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/client.html#create_llm_client"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.client.create_llm_client" title="Link to this definition"></a></dt>
+<dd><p>Factory function to create the appropriate LLM client based on the client name.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="iclbench.client.process_image_claude">
+<span class="sig-prename descclassname"><span class="pre">iclbench.client.</span></span><span class="sig-name descname"><span class="pre">process_image_claude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/client.html#process_image_claude"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.client.process_image_claude" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="iclbench.client.process_image_openai">
+<span class="sig-prename descclassname"><span class="pre">iclbench.client.</span></span><span class="sig-name descname"><span class="pre">process_image_openai</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/client.html#process_image_openai"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.client.process_image_openai" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-iclbench.dataset">
+<span id="iclbench-dataset-module"></span><h2>iclbench.dataset module<a class="headerlink" href="#module-iclbench.dataset" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="iclbench.dataset.InContextDataset">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iclbench.dataset.</span></span><span class="sig-name descname"><span class="pre">InContextDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_cwd</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/dataset.html#InContextDataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.dataset.InContextDataset" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.dataset.InContextDataset.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_cwd</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/iclbench/dataset.html#InContextDataset.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.dataset.InContextDataset.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.dataset.InContextDataset.check_seed">
+<span class="sig-name descname"><span class="pre">check_seed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">demo_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/dataset.html#InContextDataset.check_seed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.dataset.InContextDataset.check_seed" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.dataset.InContextDataset.demo_path">
+<span class="sig-name descname"><span class="pre">demo_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">demo_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/dataset.html#InContextDataset.demo_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.dataset.InContextDataset.demo_path" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.dataset.InContextDataset.demo_task">
+<span class="sig-name descname"><span class="pre">demo_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/dataset.html#InContextDataset.demo_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.dataset.InContextDataset.demo_task" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.dataset.InContextDataset.icl_episodes">
+<span class="sig-name descname"><span class="pre">icl_episodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/dataset.html#InContextDataset.icl_episodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.dataset.InContextDataset.icl_episodes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.dataset.InContextDataset.load_incontext_actions">
+<span class="sig-name descname"><span class="pre">load_incontext_actions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">demo_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/dataset.html#InContextDataset.load_incontext_actions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.dataset.InContextDataset.load_incontext_actions" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.dataset.InContextDataset.override_incontext_config">
+<span class="sig-name descname"><span class="pre">override_incontext_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">demo_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">demo_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/dataset.html#InContextDataset.override_incontext_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.dataset.InContextDataset.override_incontext_config" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="iclbench.dataset.choice_excluding">
+<span class="sig-prename descclassname"><span class="pre">iclbench.dataset.</span></span><span class="sig-name descname"><span class="pre">choice_excluding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lst</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">excluded_element</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/dataset.html#choice_excluding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.dataset.choice_excluding" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="iclbench.dataset.natural_sort_key">
+<span class="sig-prename descclassname"><span class="pre">iclbench.dataset.</span></span><span class="sig-name descname"><span class="pre">natural_sort_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/dataset.html#natural_sort_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.dataset.natural_sort_key" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-iclbench.evaluator">
+<span id="iclbench-evaluator-module"></span><h2>iclbench.evaluator module<a class="headerlink" href="#module-iclbench.evaluator" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="iclbench.evaluator.Evaluator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iclbench.evaluator.</span></span><span class="sig-name descname"><span class="pre">Evaluator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_cwd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/evaluator.html#Evaluator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.evaluator.Evaluator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to evaluate an agent on a set of tasks in a given environment.</p>
+<p>The <cite>Evaluator</cite> class is responsible for orchestrating the evaluation of agents
+across multiple tasks within a specified environment. It manages the setup of
+the environment, runs episodes, logs results, and can execute evaluations in
+parallel or sequentially.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>env_name</strong> (<em>str</em>) – Name of the environment in which the agent operates.</p></li>
+<li><p><strong>config</strong> (<em>Config</em>) – Configuration object containing evaluation parameters.</p></li>
+<li><p><strong>tasks</strong> (<em>list</em>) – List of tasks for the specified environment.</p></li>
+<li><p><strong>num_episodes</strong> (<em>int</em>) – Number of episodes to run for each task.</p></li>
+<li><p><strong>num_workers</strong> (<em>int</em>) – Number of parallel worker processes to use.</p></li>
+<li><p><strong>max_steps_per_episode</strong> (<em>int</em>) – Maximum number of steps per episode.</p></li>
+<li><p><strong>dataset</strong> (<a class="reference internal" href="#iclbench.dataset.InContextDataset" title="iclbench.dataset.InContextDataset"><em>InContextDataset</em></a>) – Dataset object for managing in-context learning tasks.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.evaluator.Evaluator.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_cwd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/evaluator.html#Evaluator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.evaluator.Evaluator.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes the Evaluator with environment name and configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>env_name</strong> (<em>str</em>) – Name of the environment.</p></li>
+<li><p><strong>config</strong> (<em>Config</em>) – Configuration object with evaluation parameters.</p></li>
+<li><p><strong>original_cwd</strong> (<em>str</em><em>, </em><em>optional</em>) – Original current working directory. Defaults to “”.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.evaluator.Evaluator.load_in_context_learning_episode">
+<span class="sig-name descname"><span class="pre">load_in_context_learning_episode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">episode_log</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/evaluator.html#Evaluator.load_in_context_learning_episode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.evaluator.Evaluator.load_in_context_learning_episode" title="Link to this definition"></a></dt>
+<dd><p>Loads and executes an in-context learning episode for the specified task.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>i</strong> (<em>int</em>) – Index of the in-context learning episode.</p></li>
+<li><p><strong>task</strong> (<em>str</em>) – Name of the task to be evaluated.</p></li>
+<li><p><strong>agent</strong> (<a class="reference internal" href="iclbench.agents.html#iclbench.agents.base.BaseAgent" title="iclbench.agents.base.BaseAgent"><em>BaseAgent</em></a>) – The agent being evaluated.</p></li>
+<li><p><strong>episode_log</strong> (<em>dict</em>) – Log to record episode results.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.evaluator.Evaluator.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent_factory</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/evaluator.html#Evaluator.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.evaluator.Evaluator.run" title="Link to this definition"></a></dt>
+<dd><p>Executes the evaluation process either sequentially or in parallel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>agent_factory</strong> (<a class="reference internal" href="iclbench.agents.html#iclbench.agents.AgentFactory" title="iclbench.agents.AgentFactory"><em>AgentFactory</em></a>) – Factory to create instances of the agent.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Summary of the results for all tasks.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iclbench.evaluator.Evaluator.run_episode">
+<span class="sig-name descname"><span class="pre">run_episode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">process_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/evaluator.html#Evaluator.run_episode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.evaluator.Evaluator.run_episode" title="Link to this definition"></a></dt>
+<dd><p>Executes a single evaluation episode for the specified task.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>task</strong> (<em>str</em>) – Name of the task to be evaluated.</p></li>
+<li><p><strong>agent</strong> (<a class="reference internal" href="iclbench.agents.html#iclbench.agents.base.BaseAgent" title="iclbench.agents.base.BaseAgent"><em>BaseAgent</em></a>) – The agent being evaluated.</p></li>
+<li><p><strong>process_num</strong> (<em>int</em><em>, </em><em>optional</em>) – Process number for logging purposes. Defaults to None.</p></li>
+<li><p><strong>position</strong> (<em>int</em><em>, </em><em>optional</em>) – Position for progress bar. Defaults to 0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Log of the episode results including trajectory, action frequency,</dt><dd><p>and performance metrics.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-iclbench.utils">
+<span id="iclbench-utils-module"></span><h2>iclbench.utils module<a class="headerlink" href="#module-iclbench.utils" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="iclbench.utils.load_secrets">
+<span class="sig-prename descclassname"><span class="pre">iclbench.utils.</span></span><span class="sig-name descname"><span class="pre">load_secrets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/utils.html#load_secrets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.utils.load_secrets" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="iclbench.utils.setup_environment">
+<span class="sig-prename descclassname"><span class="pre">iclbench.utils.</span></span><span class="sig-name descname"><span class="pre">setup_environment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">openai_tag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'OPENAI_API_KEY'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gemini_tag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'GEMINI_API_KEY'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anthropic_tag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'ANTHROPIC_API_KEY'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replicate_tag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'REPLICATE_API_KEY'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">organization</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_cwd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/utils.html#setup_environment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.utils.setup_environment" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="iclbench.utils.summarize_env_progressions">
+<span class="sig-prename descclassname"><span class="pre">iclbench.utils.</span></span><span class="sig-name descname"><span class="pre">summarize_env_progressions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results_summaries</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">defaultdict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/iclbench/utils.html#summarize_env_progressions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.utils.summarize_env_progressions" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="iclbench.utils.wandb_save_artifact">
+<span class="sig-prename descclassname"><span class="pre">iclbench.utils.</span></span><span class="sig-name descname"><span class="pre">wandb_save_artifact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/iclbench/utils.html#wandb_save_artifact"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iclbench.utils.wandb_save_artifact" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-iclbench">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-iclbench" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="iclbench" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="iclbench.agents.html" class="btn btn-neutral float-right" title="iclbench.agents package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, BALROG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

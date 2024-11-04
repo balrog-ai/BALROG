@@ -1,0 +1,303 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>iclbench.environments.minihack &mdash; BALROG 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BALROG
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../evaluation.html">Evaluation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../evaluation.html#quickstart">⚡ Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../evaluation.html#evaluate-using-local-vllm-server">Evaluate using local vLLM server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../evaluation.html#evaluate-using-api">Evaluate using API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../evaluation.html#vlm-mode">🖼️ VLM mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../evaluation.html#resume-an-evaluation">▶️ Resume an evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../evaluation.html#configuring-eval">⚙️ Configuring Eval</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../agents.html">Agents</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../agents.html#pre-built-agents">Pre-built agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../agents.html#creating-custom-agents">🤖 Creating Custom Agents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents.html#simple-planning-agent">Simple Planning Agent</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributions.html">Contributions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Environments</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../envs/babyai.html">Baby AI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/babyai.html#babyai-text">BabyAI-Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/babyai.html#babyai-results">BabyAI Results</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../envs/babyai.html#llm-results">LLM results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../envs/babyai.html#vlm-results">VLM results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/babyai.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../envs/crafter.html">Crafter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/crafter.html#crafter-results">Crafter Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/crafter.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/crafter.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/crafter.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../envs/textworld.html">TextWorld</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/textworld.html#tasks">Tasks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../envs/textworld.html#treasure-hunter">Treasure Hunter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../envs/textworld.html#the-cooking-game">The Cooking Game</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../envs/textworld.html#coin-collector">Coin Collector</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/textworld.html#textworld-results">TextWorld Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/textworld.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../envs/babaisai.html">Baba Is AI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/babaisai.html#baba-is-ai-language-wrapper">Baba Is AI Language Wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/babaisai.html#baba-is-ai-results">Baba Is AI Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/babaisai.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/babaisai.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/babaisai.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../envs/minihack.html">MiniHack</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/minihack.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/minihack.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/minihack.html#observations">Observations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../envs/nle.html">NetHack Learning Environment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/nle.html#nethack-language-wrapper">NetHack Language Wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/nle.html#new-nethack-progression-system">New NetHack Progression System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/nle.html#nethack-results">NetHack Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/nle.html#llm-results">LLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/nle.html#vlm-results">VLM results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../envs/nle.html#observation">Observation</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/modules.html">iclbench</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/iclbench.html">iclbench package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/iclbench.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.agents.html">iclbench.agents package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.environments.html">iclbench.environments package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.prompt_builder.html">iclbench.prompt_builder package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/iclbench.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/iclbench.html#module-iclbench.client">iclbench.client module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.client.ClaudeWrapper"><code class="docutils literal notranslate"><span class="pre">ClaudeWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.client.GoogleGenerativeAIWrapper"><code class="docutils literal notranslate"><span class="pre">GoogleGenerativeAIWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.client.LLMClientWrapper"><code class="docutils literal notranslate"><span class="pre">LLMClientWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.client.LLMResponse"><code class="docutils literal notranslate"><span class="pre">LLMResponse</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.client.OpenAIWrapper"><code class="docutils literal notranslate"><span class="pre">OpenAIWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.client.ReplicateWrapper"><code class="docutils literal notranslate"><span class="pre">ReplicateWrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.client.create_llm_client"><code class="docutils literal notranslate"><span class="pre">create_llm_client()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.client.process_image_claude"><code class="docutils literal notranslate"><span class="pre">process_image_claude()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.client.process_image_openai"><code class="docutils literal notranslate"><span class="pre">process_image_openai()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/iclbench.html#module-iclbench.dataset">iclbench.dataset module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.dataset.InContextDataset"><code class="docutils literal notranslate"><span class="pre">InContextDataset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.dataset.choice_excluding"><code class="docutils literal notranslate"><span class="pre">choice_excluding()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.dataset.natural_sort_key"><code class="docutils literal notranslate"><span class="pre">natural_sort_key()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/iclbench.html#module-iclbench.evaluator">iclbench.evaluator module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.evaluator.Evaluator"><code class="docutils literal notranslate"><span class="pre">Evaluator</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/iclbench.html#module-iclbench.utils">iclbench.utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.utils.load_secrets"><code class="docutils literal notranslate"><span class="pre">load_secrets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.utils.setup_environment"><code class="docutils literal notranslate"><span class="pre">setup_environment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.utils.summarize_env_progressions"><code class="docutils literal notranslate"><span class="pre">summarize_env_progressions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/iclbench.html#iclbench.utils.wandb_save_artifact"><code class="docutils literal notranslate"><span class="pre">wandb_save_artifact()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/iclbench.html#module-iclbench">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BALROG</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../environments.html">iclbench.environments</a></li>
+      <li class="breadcrumb-item active">iclbench.environments.minihack</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for iclbench.environments.minihack</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">nle_language_wrapper</span> <span class="kn">import</span> <span class="n">NLELanguageWrapper</span>
+
+<span class="n">ACTIONS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;north&quot;</span><span class="p">:</span> <span class="s2">&quot;move north&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;east&quot;</span><span class="p">:</span> <span class="s2">&quot;move east&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;south&quot;</span><span class="p">:</span> <span class="s2">&quot;move south&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;west&quot;</span><span class="p">:</span> <span class="s2">&quot;move west&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;northeast&quot;</span><span class="p">:</span> <span class="s2">&quot;move northeast&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;southeast&quot;</span><span class="p">:</span> <span class="s2">&quot;move southeast&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;southwest&quot;</span><span class="p">:</span> <span class="s2">&quot;move southwest&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;northwest&quot;</span><span class="p">:</span> <span class="s2">&quot;move northwest&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;far north&quot;</span><span class="p">:</span> <span class="s2">&quot;move far north&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;far east&quot;</span><span class="p">:</span> <span class="s2">&quot;move far east&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;far south&quot;</span><span class="p">:</span> <span class="s2">&quot;move far south&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;far west&quot;</span><span class="p">:</span> <span class="s2">&quot;move far west&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;far northeast&quot;</span><span class="p">:</span> <span class="s2">&quot;move far northeast&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;far southeast&quot;</span><span class="p">:</span> <span class="s2">&quot;move far southeast&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;far southwest&quot;</span><span class="p">:</span> <span class="s2">&quot;move far southwest&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;far northwest&quot;</span><span class="p">:</span> <span class="s2">&quot;move far northwest&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;up&quot;</span><span class="p">:</span> <span class="s2">&quot;go up the stairs&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;down&quot;</span><span class="p">:</span> <span class="s2">&quot;go down the stairs&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;wait&quot;</span><span class="p">:</span> <span class="s2">&quot;rest one move while doing nothing&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;more&quot;</span><span class="p">:</span> <span class="s2">&quot;display more of the message&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;apply&quot;</span><span class="p">:</span> <span class="s2">&quot;apply (use) a tool&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;close&quot;</span><span class="p">:</span> <span class="s2">&quot;close an adjacent door&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;open&quot;</span><span class="p">:</span> <span class="s2">&quot;open an adjacent door&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;eat&quot;</span><span class="p">:</span> <span class="s2">&quot;eat something&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;force&quot;</span><span class="p">:</span> <span class="s2">&quot;force a lock&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;kick&quot;</span><span class="p">:</span> <span class="s2">&quot;kick an enemy or a locked door or chest&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;loot&quot;</span><span class="p">:</span> <span class="s2">&quot;loot a box on the floor&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pickup&quot;</span><span class="p">:</span> <span class="s2">&quot;pick up things at the current location if there are any&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pray&quot;</span><span class="p">:</span> <span class="s2">&quot;pray to the gods for help&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;puton&quot;</span><span class="p">:</span> <span class="s2">&quot;put on an accessory&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;quaff&quot;</span><span class="p">:</span> <span class="s2">&quot;quaff (drink) something&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;search&quot;</span><span class="p">:</span> <span class="s2">&quot;search for hidden doors and passages&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;zap&quot;</span><span class="p">:</span> <span class="s2">&quot;zap a wand&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="get_available_actions">
+<a class="viewcode-back" href="../../../api/iclbench.environments.minihack.html#iclbench.environments.minihack.get_available_actions">[docs]</a>
+<span class="k">def</span> <span class="nf">get_available_actions</span><span class="p">(</span><span class="n">env</span><span class="p">):</span>
+    <span class="n">available_actions</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="n">env</span><span class="o">.</span><span class="n">actions</span><span class="p">:</span>
+        <span class="n">action_key</span> <span class="o">=</span> <span class="n">NLELanguageWrapper</span><span class="o">.</span><span class="n">all_nle_action_map</span><span class="p">[</span><span class="n">action</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">action_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ACTIONS</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">available_actions</span><span class="p">[</span><span class="n">action_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">ACTIONS</span><span class="p">[</span><span class="n">action_key</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">available_actions</span></div>
+
+
+
+<div class="viewcode-block" id="get_instruction_prompt">
+<a class="viewcode-back" href="../../../api/iclbench.environments.minihack.html#iclbench.environments.minihack.get_instruction_prompt">[docs]</a>
+<span class="k">def</span> <span class="nf">get_instruction_prompt</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">task</span><span class="o">=</span><span class="s2">&quot;MiniHack-ExploreMaze-Hard-Mapped-v0&quot;</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="s2">&quot;corridor&quot;</span> <span class="ow">in</span> <span class="n">task</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+        <span class="n">goal</span> <span class="o">=</span> <span class="s2">&quot;Your goal is to explore the level and reach the stairs down&quot;</span>
+    <span class="k">elif</span> <span class="s2">&quot;quest&quot;</span> <span class="ow">in</span> <span class="n">task</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+        <span class="n">goal</span> <span class="o">=</span> <span class="s2">&quot;Your goal is to explore the level, fight monsters, and navigate rooms and mazes to ultimately reach the stairs down.&quot;</span>
+    <span class="k">elif</span> <span class="s2">&quot;boxoban&quot;</span> <span class="ow">in</span> <span class="n">task</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+        <span class="n">goal</span> <span class="o">=</span> <span class="s2">&quot;You are playing Boxoban, a box pushing game inspired by Sokoban. Your goal is to push the boulders to cover all the holes in the floor. You can push the boulders by walking into them if they have no obstacles behind them.&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">goal</span> <span class="o">=</span> <span class="s2">&quot;Your goal is to get as far as possible in the game.&quot;</span>
+
+    <span class="n">available_actions</span> <span class="o">=</span> <span class="n">get_available_actions</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+    <span class="n">action_strings</span> <span class="o">=</span> <span class="s2">&quot;,</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">action</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">description</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">action</span><span class="p">,</span> <span class="n">description</span> <span class="ow">in</span> <span class="n">available_actions</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+    <span class="n">instruction_prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">You are an agent playing MiniHack. The following are the possible actions you can take in the game, followed by a short description of each action:</span>
+
+<span class="si">{</span><span class="n">action_strings</span><span class="si">}</span><span class="s2">.</span>
+
+<span class="s2">In a moment I will present a history of actions and observations from the game.</span>
+
+<span class="s2">Tip: there is no point in outputting the same action over and over if nothing changes.</span>
+
+<span class="si">{</span><span class="n">goal</span><span class="si">}</span>
+
+<span class="s2">PLAY!</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">instruction_prompt</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, BALROG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

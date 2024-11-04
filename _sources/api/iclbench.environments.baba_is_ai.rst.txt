@@ -1,0 +1,21 @@
+iclbench.environments.baba\_is\_ai package
+==========================================
+
+Submodules
+----------
+
+iclbench.environments.baba\_is\_ai.base module
+----------------------------------------------
+
+.. automodule:: iclbench.environments.baba_is_ai.base
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: iclbench.environments.baba_is_ai
+   :members:
+   :undoc-members:
+   :show-inheritance:

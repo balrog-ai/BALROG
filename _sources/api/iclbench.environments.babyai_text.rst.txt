@@ -1,0 +1,21 @@
+iclbench.environments.babyai\_text package
+==========================================
+
+Submodules
+----------
+
+iclbench.environments.babyai\_text.clean\_lang\_wrapper module
+--------------------------------------------------------------
+
+.. automodule:: iclbench.environments.babyai_text.clean_lang_wrapper
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: iclbench.environments.babyai_text
+   :members:
+   :undoc-members:
+   :show-inheritance:
