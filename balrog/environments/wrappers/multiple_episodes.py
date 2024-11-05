@@ -23,10 +23,10 @@ class MultiEpisodeWrapper(gym.Wrapper):
     def reset(self, **kwargs):
         self.current_episode = 0
         self.current_kwargs = kwargs
-        return self.env.reset(**kwargs)
+        return super().reset(**kwargs)
 
     def step(self, action):
-        obs, reward, terminated, truncated, info = self.env.step(action)
+        obs, reward, terminated, truncated, info = super().step(action)
         done = terminated or truncated
 
         if done:
@@ -36,14 +36,14 @@ class MultiEpisodeWrapper(gym.Wrapper):
                 if seed is not None:
                     random.seed(seed)
                     np.random.seed(seed)
-                new_obs, new_info = self.env.reset(**self.current_kwargs)
+                new_obs, new_info = super().reset(**self.current_kwargs)
                 terminated = truncated = False
 
                 stats = self.env.get_stats()
                 self.total_stats.append(stats)
 
-                new_info["final_observation"] = obs
-                new_info["final_info"] = info
+                new_info["final_observation"] = new_obs
+                new_info["final_info"] = new_info
 
                 obs = new_obs
                 info = new_info
