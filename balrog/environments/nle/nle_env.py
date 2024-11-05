@@ -4,7 +4,7 @@ import gym
 import nle  # NOQA: F401
 
 from balrog.environments.nle import NLELanguageWrapper
-from balrog.environments.wrappers import GymV21CompatibilityV0, NLETimeLimit
+from balrog.environments.wrappers import GymV21CompatibilityV0
 
 NETHACK_ENVS = []
 for env_spec in gym.envs.registry.all():
@@ -19,9 +19,6 @@ def make_nle_env(env_name, task, config, render_mode: Optional[str] = None):
     vlm = True if config.agent.max_image_history > 0 else False
     env = gym.make(task, **nle_kwargs)
     env = NLELanguageWrapper(env, vlm=vlm, skip_more=skip_more)
-
-    # wrap NLE with timeout
-    env = NLETimeLimit(env)
 
     env = GymV21CompatibilityV0(env=env, render_mode=render_mode)
 
