@@ -31,18 +31,26 @@ class MultiEpisodeWrapper(gym.Wrapper):
         return self.env.reset(seed=seed, **kwargs)
 
     def step(self, action):
-        observation, reward, terminated, truncated, info = self.env.step(action)
+        obs, reward, terminated, truncated, info = self.env.step(action)
         done = terminated or truncated
 
         if done:
             if self.current_episode <= self.num_episodes:
-                observation, _ = self.env.reset()
+                new_obs, new_info = self.env.reset()
                 terminated = truncated = False
+
                 stats = self.env.get_stats()
                 self.total_stats.append(stats)
+
+                new_info["final_observation"] = obs
+                new_info["final_info"] = info
+
+                obs = new_obs
+                info = new_info
+
             self.current_episode += 1
 
-        return observation, reward, terminated, truncated, info
+        return obs, reward, terminated, truncated, info
 
     def get_stats(self):
         """
