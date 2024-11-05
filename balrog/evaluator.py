@@ -163,7 +163,7 @@ class Evaluator:
         demo_task = self.dataset.demo_task(task)
         demo_path = self.dataset.demo_path(i, demo_task, demo_config)
         self.dataset.override_incontext_config(demo_config, demo_path)
-        env = make_env(self.env_name, demo_task, demo_config)
+        env = make_env(self.env_name, demo_task, demo_config, render_mode=demo_config.envs.render_mode)
         recorded_actions = self.dataset.load_incontext_actions(demo_path)
 
         seed = demo_config.envs.env_kwargs.seed
@@ -194,7 +194,7 @@ class Evaluator:
         agent.wrap_episode()
 
     def run_episode(self, task, agent, process_num=None, position=0, episode_idx=0):
-        env = make_env(self.env_name, task, self.config)
+        env = make_env(self.env_name, task, self.config, render_mode=self.config.envs.render_mode)
         agent.reset()
 
         seed = self.config.envs.env_kwargs.seed
