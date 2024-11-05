@@ -89,3 +89,11 @@ class InContextDataset:
         recorded_actions = data["actions"]
 
         return recorded_actions
+
+    def load_incontext_rewards(self, demo_path):
+        with open(demo_path, "rb") as f:
+            data = pickle.load(f)
+
+        recorded_rewards = data["rewards"]
+
+        return recorded_rewards
