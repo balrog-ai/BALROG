@@ -35,7 +35,7 @@ BABYAI_ENVS += [
 
 
 def make_babyai_env(env_name, task, config, render_mode: Optional[str] = None):
-    babyai_kwargs = dict(config.envs.crafter_kwargs)
+    babyai_kwargs = dict(config.envs.babyai_kwargs)
     max_steps = babyai_kwargs.pop("max_steps", 100)
 
     if task.startswith("BabyAI-MixedTrainLocal-v0/"):
