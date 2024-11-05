@@ -73,6 +73,18 @@ pre-commit install
 pre-commit run --all-files
 ``` 
 
+### download files for minihack and textworld
+We use pregenerated games from https://github.com/conglu1997/intelligent-go-explore/tree/main/textworld/tw_games
+```bash
+curl -L -o tw-games.zip 'https://drive.google.com/uc?export=download&id=1aeT-45-OBxiHzD9Xn99E5OvC86XmqhzA'
+unzip tw-games.zip
+```
+
+Download minihack boxoban levels
+```bash
+python -c "import sys,os,subprocess,minihack; subprocess.run([sys.executable, os.path.join(os.path.dirname(minihack.__file__), 'scripts', 'download_boxoban_levels.py')])"
+```
+
 # Create a SECRETS file
 
 ```txt
