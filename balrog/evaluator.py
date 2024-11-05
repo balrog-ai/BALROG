@@ -197,10 +197,12 @@ class Evaluator:
         env = make_env(self.env_name, task, self.config)
         agent.reset()
 
-        seed = get_seed_from_timestamp() if self.config.envs.env_kwargs.seed is None else seed
-        if seed is not None:
-            random.seed(seed)
-            np.random.seed(seed)
+        seed = self.config.envs.env_kwargs.seed
+        if seed is None:
+            seed = get_seed_from_timestamp()
+
+        random.seed(seed)
+        np.random.seed(seed)
 
         obs, info = env.reset(seed=seed)
         episode_log = {
