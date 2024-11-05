@@ -1,6 +1,8 @@
+import random
 from collections import defaultdict
 
-import gym
+import gymnasium as gym
+import numpy as np
 
 
 class MultiEpisodeWrapper(gym.Wrapper):
@@ -19,24 +21,29 @@ class MultiEpisodeWrapper(gym.Wrapper):
         self.total_stats = defaultdict(list)
         self.max_steps = self.num_episodes * self.env.max_steps
 
-    def reset(self):
-        # TODO: we have to reseed the environments every time we do resets!
+    def reset(self, seed=None, **kwargs):
+        # we have to reseed the environments every time we do resets!
+        if seed is not None:
+            random.seed(seed)
+            np.random.seed(seed)
+
         self.current_episode = 0
-        return self.env.reset()
+        return self.env.reset(seed=seed, **kwargs)
 
     def step(self, action):
-        observation, reward, done, info = self.env.step(action)
+        observation, reward, terminated, truncated, info = self.env.step(action)
+        done = terminated or truncated
 
         if done:
             self.current_episode += 1
-            if self.current_episode < self.num_episodes:
-                observation = self.env.reset()
+            if self.current_episode <= self.num_episodes:
+                observation, _ = self.env.reset()
                 done = False
                 stats = self.env.get_stats()
                 for key, value in stats.items():
                     self.total_stats[key].append(value)
 
-        return observation, reward, done, info
+        return observation, reward, terminated, truncated, info
 
     def get_stats(self):
         """
