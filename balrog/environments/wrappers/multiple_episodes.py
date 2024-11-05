@@ -18,8 +18,8 @@ class MultiEpisodeWrapper(gym.Wrapper):
         self.num_episodes = num_episodes
         self.aggregate_function = aggregate_function
         self.current_episode = 0
-        self.total_stats = defaultdict(list)
-        self.max_steps = self.num_episodes * self.env.max_steps
+        self.total_stats = []
+        self.max_steps = (self.num_episodes + 1) * self.env.max_steps
 
     def reset(self, seed=None, **kwargs):
         # we have to reseed the environments every time we do resets!
@@ -40,8 +40,7 @@ class MultiEpisodeWrapper(gym.Wrapper):
                 observation, _ = self.env.reset()
                 done = False
                 stats = self.env.get_stats()
-                for key, value in stats.items():
-                    self.total_stats[key].append(value)
+                self.total_stats.append(stats)
 
         return observation, reward, terminated, truncated, info
 
