@@ -5,6 +5,7 @@ from .chain_of_thought import ChainOfThoughtAgent
 from .custom import CustomAgent
 from .dummy import DummyAgent
 from .few_shot import FewShotAgent
+from .few_shot_rl import FewShotRLAgent
 from .naive import NaiveAgent
 from .self_refine import SelfRefineAgent
 
@@ -21,6 +22,8 @@ class AgentFactory:
             return NaiveAgent(client_factory, prompt_builder)
         elif self.config.agent.type == "few_shot":
             return FewShotAgent(client_factory, prompt_builder)
+        elif self.config.agent.type == "few_shot_rl":
+            return FewShotRLAgent(client_factory, prompt_builder)
         elif self.config.agent.type == "cot":
             return ChainOfThoughtAgent(client_factory, prompt_builder, config=self.config)
         elif self.config.agent.type == "self_refine":

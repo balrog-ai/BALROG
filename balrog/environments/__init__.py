@@ -6,7 +6,7 @@ import gym
 import numpy as np
 from gym import spaces
 
-from balrog.environments.wrappers import EnvWrapper
+from balrog.environments.wrappers import EnvWrapper, MultiEpisodeWrapper
 
 
 def make_env(env_name, task, config, render_mode=None):
@@ -36,6 +36,10 @@ def make_env(env_name, task, config, render_mode=None):
         base_env = make_babaisai_env(env_name, task, config, render_mode=render_mode)
     else:
         raise ValueError(f"Unknown environment: {env_name}")
+
+    if config.agent.type == "few_shot_rl":
+        base_env = MultiEpisodeWrapper(base_env, config.eval.icl_episodes, aggregate_function=max)
+
     return EnvWrapper(base_env, env_name, task)
 
 
