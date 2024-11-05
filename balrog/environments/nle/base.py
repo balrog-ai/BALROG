@@ -29,7 +29,7 @@ class NLELanguageWrapper(language_wrapper.NLELanguageWrapper):
             self.prompt_mode = "language"
 
         self.progress = get_progress_system(self.env)
-        self.max_steps = self.env.unwrapped._max_episode_steps
+        self.max_steps = self.env.get_wrapper_attr("_max_episode_steps")
 
     def step(self, action):
         obs, reward, done, info = super().step(action)

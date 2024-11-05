@@ -20,7 +20,7 @@ class BabyAITextCleanLangWrapper(gym.Wrapper):
 
     @property
     def max_steps(self):
-        return self.env.unwrapped.max_steps
+        return self.env.get_wrapper_attr("max_steps")
 
     @property
     def interleaving_token(self):
