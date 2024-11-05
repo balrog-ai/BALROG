@@ -10,11 +10,11 @@ class ChainOfThoughtAgent(BaseAgent):
         super().__init__(client_factory, prompt_builder)
         self.remember_cot = config.agent.remember_cot
 
-    def act(self, obs, prev_action=None):
+    def act(self, obs, info, prev_action=None):
         if prev_action:
             self.prompt_builder.update_action(prev_action)
 
-        self.prompt_builder.update_observation(obs)
+        self.prompt_builder.update_observation(obs, info)
 
         messages = self.prompt_builder.get_prompt()
 

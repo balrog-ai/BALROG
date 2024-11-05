@@ -31,7 +31,7 @@ class HistoryPromptBuilder:
     def update_instruction_prompt(self, instruction: str):
         self.system_prompt = instruction
 
-    def update_observation(self, obs: dict):
+    def update_observation(self, obs: dict, info: dict):
         # Extract text and image from the observation
         long_term_context = obs["text"].get("long_term_context", "")
         self._last_short_term_obs = obs["text"].get("short_term_context", "")
@@ -45,6 +45,7 @@ class HistoryPromptBuilder:
                 "type": "observation",
                 "text": text,
                 "image": image,
+                "info": info,
             }
         )
 

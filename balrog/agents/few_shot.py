@@ -84,11 +84,11 @@ class FewShotAgent(BaseAgent):
 
         return icl_messages
 
-    def act(self, obs, prev_action=None):
+    def act(self, obs, info, prev_action=None):
         if prev_action:
             self.prompt_builder.update_action(prev_action)
 
-        self.prompt_builder.update_observation(obs)
+        self.prompt_builder.update_observation(obs, info)
 
         if not self.cached_icl:
             messages = self.get_icl_prompt()

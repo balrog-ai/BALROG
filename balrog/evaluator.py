@@ -249,7 +249,7 @@ class Evaluator:
 
             action = None
             for step in range(max_steps_per_episode):
-                response = agent.act(obs, prev_action=action)
+                response = agent.act(obs, info, prev_action=action)
                 action = env.check_action_validity(response.completion)
                 reasoning = response.reasoning if hasattr(response, "reasoning") else ""
 
