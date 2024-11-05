@@ -214,7 +214,7 @@ class Evaluator:
 
         instructions = None
         if self.env_name == "babyai":
-            instructions = obs["mission"]
+            instructions = env.get_wrapper_attr("_mission")
         agent.prompt_builder.update_instruction_prompt(env.get_instruction_prompt(instructions=instructions))
 
         episode_return = 0.0

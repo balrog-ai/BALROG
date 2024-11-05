@@ -101,7 +101,7 @@ class TextWorldWrapper(gym.Wrapper):
     def get_text_action(self, action):
         return action
 
-    def textworld_process_obsv(self, textworld_obsv):
+    def process_obsv(self, textworld_obsv):
         return {
             "text": {"long_term_context": textworld_obsv, "short_term_context": ""},
             "image": None,
@@ -120,7 +120,7 @@ class TextWorldWrapper(gym.Wrapper):
         obs = self.filter_objective(obs, info)
         self.progression = 0.0
 
-        return self.textworld_process_obsv(obs)
+        return self.process_obsv(obs)
 
     def step(self, action):
         obs, reward, done, info = self.env.step(action)
@@ -129,7 +129,7 @@ class TextWorldWrapper(gym.Wrapper):
         if done:
             self.progression = max(info["score"] / info["max_score"], 1.0 if info["won"] else 0.0)
 
-        return self.textworld_process_obsv(obs), reward, done, info
+        return self.process_obsv(obs), reward, done, info
 
     def get_stats(self):
         return {"progression": self.progression}
