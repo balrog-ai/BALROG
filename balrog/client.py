@@ -179,7 +179,7 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
                 return response
             except Exception as e:
                 retries += 1
-                httpx_logger.error(f"Retryable error during generate_content: {e}. Retry {retries}/{max_retries}")
+                logger.error(f"Retryable error during generate_content: {e}. Retry {retries}/{max_retries}")
                 sleep_time = delay * (2 ** (retries - 1))  # Exponential backoff
                 time.sleep(sleep_time)
 
@@ -189,19 +189,19 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
     def extract_completion(self, response):
         """Extracts and returns the completion from the response safely."""
         if not response:
-            httpx_logger.error("Response is None, cannot extract completion.")
+            logger.error("Response is None, cannot extract completion.")
             return ""
 
         candidates = getattr(response, "candidates", [])
         if not candidates:
-            httpx_logger.error("No candidates found in the response.")
+            logger.error("No candidates found in the response.")
             return ""
 
         candidate = candidates[0]
         content = getattr(candidate, "content", None)
         content_parts = getattr(content, "parts", [])
         if not content_parts:
-            httpx_logger.error("No content parts found in the candidate.")
+            logger.error("No content parts found in the candidate.")
             return ""
 
         text = getattr(content_parts[0], "text", "")
