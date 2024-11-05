@@ -60,6 +60,7 @@ class FewShotAgent(BaseAgent):
         )
 
         self.icl_episodes.append(icl_episode)
+        self.icl_events = []
 
     def get_icl_prompt(self) -> List[Message]:
         icl_instruction = Message(
