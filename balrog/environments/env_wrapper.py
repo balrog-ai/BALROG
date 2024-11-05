@@ -63,7 +63,7 @@ class EnvWrapper(gym.Wrapper):
 
             return get_instruction_prompt(self.env, self.task_name)
         elif self.env_name == "babaisai":
-            from balrog.environments.baba_is_ai import get_instruction_prompt
+            from balrog.environments.babaisai import get_instruction_prompt
 
             return get_instruction_prompt(self.env, self.task_name)
         elif self.env_name == "crafter":
