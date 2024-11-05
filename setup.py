@@ -42,6 +42,7 @@ setup(
         "hydra-core",
         "textworld",
         "craftax",
+        "gym==0.23",
     ],
     extras_require={"dev": ["black", "isort>=5.12", "pytest<8.0", "flake8", "pre-commit", "twine"] + _docs_deps},
     package_dir={"": "./"},
