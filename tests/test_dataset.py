@@ -44,30 +44,25 @@ def test_dataset(environment):
                 demo_path = dataset.demo_path(episode_number, demo_task, demo_config)
                 dataset.override_incontext_config(demo_config, demo_path)
                 recorded_actions = dataset.load_incontext_actions(demo_path)
+                recorded_rewards = dataset.load_incontext_rewards(demo_path)
 
                 episode_seed = demo_config.envs.env_kwargs.seed
 
-                env = make_env(environment, demo_task, demo_config, render_mode="human")
+                env = make_env(environment, demo_task, demo_config, render_mode=None)
 
                 if episode_seed is not None:
                     np.random.seed(episode_seed)
                     random.seed(episode_seed)
-                env.seed(seed=episode_seed)
-                obs, info = env.reset()
 
-                for i, action in enumerate(recorded_actions):
-                    if action is None:
+                obs, info = env.reset(seed=episode_seed)
+                for i, (recorded_action, recorded_reward) in enumerate(zip(recorded_actions, recorded_rewards)):
+                    if recorded_action is None:
                         break
 
-                    obs, reward, terminated, truncated, info = env.step(env.get_text_action(action))
+                    obs, reward, terminated, truncated, info = env.step(env.get_text_action(recorded_action))
                     done = terminated or truncated
+
+                    # assert reward == recorded_reward
 
                     if done:
                         break
-
-                # print(info)
-
-                if not done:
-                    print(
-                        f"environment: {environment}, task: {task}, episode: {dataset.icl_episodes(task)[episode_number]}"
-                    )
