@@ -41,7 +41,7 @@ client:
 
 envs:
   names: babyai-babaisai-textworld-crafter-nle-minihack
-  render_mode: human
+  render_mode: null
   env_kwargs:
     seed: null
   nle_kwargs:
