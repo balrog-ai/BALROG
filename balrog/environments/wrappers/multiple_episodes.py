@@ -35,12 +35,12 @@ class MultiEpisodeWrapper(gym.Wrapper):
         done = terminated or truncated
 
         if done:
-            self.current_episode += 1
             if self.current_episode <= self.num_episodes:
                 observation, _ = self.env.reset()
-                done = False
+                terminated = truncated = False
                 stats = self.env.get_stats()
                 self.total_stats.append(stats)
+            self.current_episode += 1
 
         return observation, reward, terminated, truncated, info
 
