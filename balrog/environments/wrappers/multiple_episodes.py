@@ -50,6 +50,7 @@ class MultiEpisodeWrapper(gym.Wrapper):
 
             self.current_episode += 1
 
+        # TODO: for now episode return will be inflated, since evaluator does `episode_return += reward`
         return obs, reward, terminated, truncated, info
 
     def get_stats(self):
