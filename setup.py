@@ -23,8 +23,8 @@ _docs_deps = [
 
 setup(
     # Information
-    name="BALROG",
-    description="Benchmark for In Context Learning",
+    name="balrog-bench",
+    description="Benchmarking Agentic LLM/VLM Reasoning On Games",
     long_description=long_description,
     long_description_content_type="text/markdown",
     version="2.1.2",
@@ -37,13 +37,22 @@ setup(
         "openai",
         "anthropic",
         "google-generativeai",
-        "replicate",
-        "wandb",
         "hydra-core",
-        "textworld",
-        "craftax",
+        "pytest",
         "gym==0.23",
+        "requests",  # For downloading files
+        "balrog-nle",  # Ensure it's on PyPI or an accessible repository
+        "git+https://github.com/facebookresearch/minihack.git",
+        "git+https://github.com/BartekCupial/Minigrid.git",
+        "git+https://github.com/nacloos/baba-is-ai.git",
+        "textworld",
+        "crafter",
     ],
+    entry_points={
+        "console_scripts": [
+            "balrog-post-install=post_install:main",
+        ],
+    },
     extras_require={"dev": ["black", "isort>=5.12", "pytest<8.0", "flake8", "pre-commit", "twine"] + _docs_deps},
     package_dir={"": "./"},
     packages=setuptools.find_packages(where="./", include=["balrog*"]),
