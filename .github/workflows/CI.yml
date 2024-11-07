@@ -25,7 +25,7 @@ jobs:
         if: ${{ matrix.os == 'ubuntu' }}
         run: |
           sudo apt update
-          sudo apt -y cmake flex bison libgl1 libbz2-dev build-essential libffi-dev
+          sudo apt install -y cmake flex bison libgl1 libbz2-dev build-essential libffi-dev
 
       - name: Setup macos prerequisites
         if: ${{ matrix.os == 'macos' }}
