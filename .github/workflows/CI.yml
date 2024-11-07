@@ -25,7 +25,7 @@ jobs:
         if: ${{ matrix.os == 'ubuntu' }}
         run: |
           sudo apt update
-          sudo apt install -y build-essential libgl1
+          sudo apt install -y libgl1
           
       - name: Setup BALROG
         run: |
