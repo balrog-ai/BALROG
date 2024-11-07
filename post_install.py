@@ -30,6 +30,7 @@ def download_textworld_levels():
     with open("tw-games.zip", "wb") as f:
         f.write(response.content)
     subprocess.run(["unzip", "tw-games.zip"])
+    os.remove("tw-games.zip")
 
 
 def main():
