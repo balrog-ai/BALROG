@@ -7,7 +7,6 @@ on:
 
 jobs:
   Test:
-    runs-on: ${{ matrix.os }}-latest
     strategy:
       fail-fast: false
       max-parallel: 5
