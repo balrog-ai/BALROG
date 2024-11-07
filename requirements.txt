@@ -9,7 +9,7 @@ crafter
 gym==0.23
 requests
 balrog-nle
-minihack @ git+https://github.com/facebookresearch/minihack.git
+minihack @ git+https://github.com/balrog-ai/minihack.git
 minigrid @ git+https://github.com/BartekCupial/Minigrid.git
 baba @ git+https://github.com/nacloos/baba-is-ai.git
 -e .
