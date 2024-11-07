@@ -35,7 +35,7 @@ jobs:
       - name: Setup BALROG
         run: |
           pip install balrog-nle
-          pip install -e . -vv
+          pip install -e . -v
           balrog-post-install
 
       - name: Check code quality
