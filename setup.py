@@ -3,57 +3,34 @@ from setuptools import setup
 
 with open("README.md", "r") as f:
     long_description = f.read()
-    descr_lines = long_description.split("\n")
-    descr_no_gifs = []  # gifs are not supported on PyPI web page
-    for dl in descr_lines:
-        if not ("<img src=" in dl and "gif" in dl):
-            descr_no_gifs.append(dl)
-
-    long_description = "\n".join(descr_no_gifs)
 
 
-_docs_deps = [
-    "mkdocs-material",
-    "mkdocs-minify-plugin",
-    "mkdocs-redirects",
-    "mkdocs-git-revision-date-localized-plugin",
-    "mkdocs-git-committers-plugin-2",
-    "mkdocs-git-authors-plugin",
-]
+def parse_requirements(filename):
+    with open(filename, "r") as f:
+        return [line.strip() for line in f if line.strip() and not line.startswith("#") and not line.startswith("-e")]
+
 
 setup(
     # Information
-    name="balrog-bench",
-    description="Benchmarking Agentic LLM/VLM Reasoning On Games",
+    name="BALROG",
+    description="Benchmark for In Context Learning",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    version="2.1.2",
+    version="0.1.0",
     url="https://github.com/DavidePaglieri/BALROG/",
     author="Davide Paglieri",
     license="MIT",
     keywords="reinforcement learning ai nlp llm",
-    project_urls={},
-    install_requires=[
-        "openai",
-        "anthropic",
-        "google-generativeai",
-        "hydra-core",
-        "pytest",
-        "gym==0.23",
-        "requests",  # For downloading files
-        "balrog-nle",  # Ensure it's on PyPI or an accessible repository
-        "git+https://github.com/facebookresearch/minihack.git",
-        "git+https://github.com/BartekCupial/Minigrid.git",
-        "git+https://github.com/nacloos/baba-is-ai.git",
-        "textworld",
-        "crafter",
-    ],
+    project_urls={
+        "website": "https://www.balrogai.com/",
+    },
+    install_requires=[parse_requirements("requirements.txt")],
     entry_points={
         "console_scripts": [
             "balrog-post-install=post_install:main",
         ],
     },
-    extras_require={"dev": ["black", "isort>=5.12", "pytest<8.0", "flake8", "pre-commit", "twine"] + _docs_deps},
+    extras_require={"dev": ["black", "isort>=5.12", "pytest<8.0", "flake8", "pre-commit", "twine"]},
     package_dir={"": "./"},
     packages=setuptools.find_packages(where="./", include=["balrog*"]),
     include_package_data=True,

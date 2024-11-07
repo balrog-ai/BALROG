@@ -1,0 +1,15 @@
+openai
+anthropic
+google-generativeai
+hydra-core
+wandb
+pytest
+textworld
+crafter
+gym==0.23
+requests
+balrog-nle
+minihack @ git+https://github.com/facebookresearch/minihack.git
+minigrid @ git+https://github.com/BartekCupial/Minigrid.git
+baba @ git+https://github.com/nacloos/baba-is-ai.git
+-e .
