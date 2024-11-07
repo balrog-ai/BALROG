@@ -20,12 +20,6 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: "3.10"
-
-      - name: Setup ubuntu prerequisites
-        if: ${{ matrix.os == 'ubuntu' }}
-        run: |
-          sudo apt update
-          sudo apt install -y libgl1
           
       - name: Setup BALROG
         run: |
