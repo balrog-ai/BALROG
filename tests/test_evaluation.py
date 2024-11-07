@@ -7,7 +7,7 @@ from balrog.evaluator import EvaluatorManager
 from balrog.utils import setup_environment
 
 agents = [
-    "naive",
+    "dummy",
 ]
 
 environments = [
