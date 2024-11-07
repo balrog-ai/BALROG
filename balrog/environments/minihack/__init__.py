@@ -39,7 +39,7 @@ ACTIONS = {
 
 def get_available_actions(env):
     available_actions = {}
-    for action in env.actions:
+    for action in env.get_wrapper_attr("actions"):
         action_key = NLELanguageWrapper.all_nle_action_map[action][0]
         if action_key not in ACTIONS:
             continue

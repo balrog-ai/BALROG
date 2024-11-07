@@ -111,7 +111,7 @@ python eval.py base_url=/your/vllm/server/baseurl
 ```
 
 ### In Context Learning
-We use expert demonstrations for ICL
+We use expert demonstrations for Few Shot experiments
 Download and unzip them
 
     curl -L -o demos.zip 'https://drive.google.com/uc?export=download&id=11vYFclIY4RoJ6Ha7I5rWhuA5lQnhDtPL'

@@ -20,7 +20,7 @@ class BabyAITextCleanLangWrapper(gym.Wrapper):
 
     @property
     def max_steps(self):
-        return self.env.unwrapped.max_steps
+        return self.env.get_wrapper_attr("max_steps")
 
     @property
     def interleaving_token(self):
@@ -44,24 +44,27 @@ class BabyAITextCleanLangWrapper(gym.Wrapper):
 
     def reset(self, **kwargs):
         obs, info = self.env.reset(**kwargs)
-        prompt, image = self.get_prompt(obs, info)
         self._mission = obs["mission"]
-        # Following the convention from NetHack Language Wrapper for specifying
-        # short term vs long term context here. There is no equivalent long term
-        # context like e.g. inventory in BabyAI-Text.
-        obs["text"] = {"long_term_context": prompt, "short_term_context": ""}
-        obs["image"] = image
-        return obs, info
+
+        return self.process_obsv(obs, info), info
 
     def step(self, action):
         action_int = self.language_action_space.index(action)
-        obs, reward, terminated, truncated, infos = self.env.step(action_int)
+        obs, reward, terminated, truncated, info = self.env.step(action_int)
         if reward > 0:
             self.progression = 1.0
-        prompt, image = self.get_prompt(obs, infos)
-        obs["text"] = {"long_term_context": prompt, "short_term_context": ""}
-        obs["image"] = image
-        return obs, reward, terminated, truncated, infos
+
+        return self.process_obsv(obs, info), reward, terminated, truncated, info
+
+    def process_obsv(self, obs, info):
+        prompt, image = self.get_prompt(obs, info)
+        # Following the convention from NetHack Language Wrapper for specifying
+        # short term vs long term context here. There is no equivalent long term
+        # context like e.g. inventory in BabyAI-Text.
+        return {
+            "text": {"long_term_context": prompt, "short_term_context": ""},
+            "image": image,
+        }
 
     def get_stats(self):
         # No special stats tracking implemented for now

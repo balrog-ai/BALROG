@@ -216,15 +216,15 @@ class CrafterLanguageWrapper(gym.Wrapper):
         obs, reward, done, info = self._step_impl(0)
         self.score_tracker = 0
         self.achievements = None
-        return self.process_obs(obs, info)
+        return self.process_obsv(obs, info)
 
     def step(self, action):
         obs, reward, done, info = self._step_impl(self.language_action_space.map(action))
         self.score_tracker = self.update_progress(info)
-        obs = self.process_obs(obs, info)
+        obs = self.process_obsv(obs, info)
         return obs, reward, done, info
 
-    def process_obs(self, obs, info):
+    def process_obsv(self, obs, info):
         img = Image.fromarray(self.env.render()).convert("RGB")
         long_term_context, short_term_context = describe_frame(info)
 

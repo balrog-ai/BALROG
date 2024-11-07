@@ -35,13 +35,16 @@ BABYAI_ENVS += [
 
 
 def make_babyai_env(env_name, task, config, render_mode: Optional[str] = None):
+    babyai_kwargs = dict(config.envs.babyai_kwargs)
+    max_steps = babyai_kwargs.pop("max_steps", 100)
+
     if task.startswith("BabyAI-MixedTrainLocal-v0/"):
         base_task, goal = task.split("/")
         while 1:
-            env = gym.make(base_task, render_mode=render_mode)
+            env = gym.make(base_task, max_steps=max_steps, render_mode=render_mode)
             if env.unwrapped.action_kinds[0].replace(" ", "_") == goal:
                 break
 
-    env = BabyAITextCleanLangWrapper(env, **config.envs.babyai_kwargs)
+    env = BabyAITextCleanLangWrapper(env, **babyai_kwargs)
 
     return env

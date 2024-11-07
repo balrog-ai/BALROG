@@ -142,7 +142,7 @@ class BabaIsAIWrapper(gym.Wrapper):
 
         return text_observation, False
 
-    def textworld_process_obsv(self, textworld_obsv):
+    def process_obsv(self, textworld_obsv):
         ruleset = self.get_ruleset()
         text_observation, reset = self.get_text_observation(textworld_obsv)
         prompt = "" if not reset else "[...] IS YOU rule was broken, environment reset"
@@ -163,7 +163,7 @@ class BabaIsAIWrapper(gym.Wrapper):
         self.target_plan = self.env.target_plan
         self.progression = 0.0
 
-        return self.textworld_process_obsv(obs)
+        return self.process_obsv(obs)
 
     def step(self, action):
         action_int = self.language_action_space.index(action)
@@ -172,7 +172,7 @@ class BabaIsAIWrapper(gym.Wrapper):
         if done and self.env.is_win:
             self.progression = 1.0
 
-        return self.textworld_process_obsv(obs), reward, done, info
+        return self.process_obsv(obs), reward, done, info
 
     def get_stats(self):
         return {"target_plan": self.target_plan, "progression": self.progression}

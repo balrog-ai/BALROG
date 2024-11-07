@@ -41,6 +41,7 @@ client:
 
 envs:
   names: babyai-babaisai-textworld-crafter-nle-minihack
+  render_mode: null
   env_kwargs:
     seed: null
   nle_kwargs:
@@ -62,6 +63,7 @@ envs:
     skip_more: False
   babyai_kwargs:
     num_dists: 0
+    max_steps: 100
   crafter_kwargs:
     area: [64, 64]
     view: [9, 9]

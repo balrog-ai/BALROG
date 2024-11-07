@@ -6,8 +6,8 @@ class BaseAgent:
     def act(self, obs):
         raise NotImplementedError
 
-    def update_prompt(self, observation, action):
-        self.prompt_builder.update_observation(observation)
+    def update_prompt(self, observation, info, action):
+        self.prompt_builder.update_observation(observation, info)
         self.prompt_builder.update_action(action)
 
     def reset(self):

@@ -9,10 +9,10 @@ class CustomAgent(BaseAgent):
         self.client = client_factory()
         self.plan = None
 
-    def act(self, obs, prev_action=None):
+    def act(self, obs, info, prev_action=None):
         if prev_action:
             self.prompt_builder.update_action(prev_action)
-        self.prompt_builder.update_observation(obs)
+        self.prompt_builder.update_observation(obs, info)
 
         plan_text = f"Current Plan:\n{self.plan}\n" if self.plan else "You have no plan yet.\n"
 

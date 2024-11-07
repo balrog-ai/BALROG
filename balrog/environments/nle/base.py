@@ -29,7 +29,7 @@ class NLELanguageWrapper(language_wrapper.NLELanguageWrapper):
             self.prompt_mode = "language"
 
         self.progress = get_progress_system(self.env)
-        self.max_steps = self.env.unwrapped._max_episode_steps
+        self.max_steps = self.env.get_wrapper_attr("_max_episode_steps")
 
     def step(self, action):
         obs, reward, done, info = super().step(action)
@@ -46,7 +46,7 @@ class NLELanguageWrapper(language_wrapper.NLELanguageWrapper):
         return self.post_reset(obsv)
 
     def post_step(self, nle_obsv):
-        return self.nle_process_obsv(nle_obsv)
+        return self.process_obsv(nle_obsv)
 
     @property
     def default_action(self):
@@ -58,7 +58,7 @@ class NLELanguageWrapper(language_wrapper.NLELanguageWrapper):
     def get_text_action(self, action):
         return NLELanguageWrapper.all_nle_action_map[self.env.actions[action]][0]
 
-    def nle_process_obsv(self, nle_obsv):
+    def process_obsv(self, nle_obsv):
         img = Image.fromarray(self.render("tiles")).convert("RGB") if self.vlm else None
         text = self.nle_obsv_type(nle_obsv)
 

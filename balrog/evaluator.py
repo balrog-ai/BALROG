@@ -13,7 +13,7 @@ import numpy as np
 from omegaconf import OmegaConf
 from tqdm import tqdm
 
-from balrog.agents.icl import ICLAgent
+from balrog.agents.few_shot import FewShotAgent
 from balrog.dataset import InContextDataset
 from balrog.environments import make_env
 from balrog.utils import get_seed_from_timestamp
@@ -163,7 +163,7 @@ class Evaluator:
         demo_task = self.dataset.demo_task(task)
         demo_path = self.dataset.demo_path(i, demo_task, demo_config)
         self.dataset.override_incontext_config(demo_config, demo_path)
-        env = make_env(self.env_name, demo_task, demo_config)
+        env = make_env(self.env_name, demo_task, demo_config, render_mode=demo_config.envs.render_mode)
         recorded_actions = self.dataset.load_incontext_actions(demo_path)
 
         seed = demo_config.envs.env_kwargs.seed
@@ -194,7 +194,7 @@ class Evaluator:
         agent.wrap_episode()
 
     def run_episode(self, task, agent, process_num=None, position=0, episode_idx=0):
-        env = make_env(self.env_name, task, self.config)
+        env = make_env(self.env_name, task, self.config, render_mode=self.config.envs.render_mode)
         agent.reset()
 
         seed = self.config.envs.env_kwargs.seed
@@ -214,7 +214,7 @@ class Evaluator:
 
         instructions = None
         if self.env_name == "babyai":
-            instructions = obs["mission"]
+            instructions = env.get_wrapper_attr("_mission")
         agent.prompt_builder.update_instruction_prompt(env.get_instruction_prompt(instructions=instructions))
 
         episode_return = 0.0
@@ -230,8 +230,8 @@ class Evaluator:
             csv_writer = csv.writer(csv_file, escapechar="˘", quoting=csv.QUOTE_MINIMAL)
             csv_writer.writerow(["Step", "Observation", "Action", "Reasoning", "Reward", "Done"])
 
-            # If the agent is an ICLAgent, load the in-context learning episode
-            if isinstance(agent, ICLAgent):
+            # If the agent is an FewShotAgent, load the in-context learning episode
+            if isinstance(agent, FewShotAgent):
                 for icl_episode in range(self.config.eval.icl_episodes):
                     self.load_in_context_learning_episode(icl_episode, task, agent, episode_log)
 
@@ -249,7 +249,7 @@ class Evaluator:
 
             action = None
             for step in range(max_steps_per_episode):
-                response = agent.act(obs, prev_action=action)
+                response = agent.act(obs, info, prev_action=action)
                 action = env.check_action_validity(response.completion)
                 reasoning = response.reasoning if hasattr(response, "reasoning") else ""
 

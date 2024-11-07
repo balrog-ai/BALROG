@@ -75,10 +75,10 @@ class EnvWrapper(gym.Wrapper):
 
     def check_action_validity(self, candidate_action):
         valid_action = None
-        if candidate_action in self.env.language_action_space:
+        if candidate_action in self.env.get_wrapper_attr("language_action_space"):
             valid_action = candidate_action
         else:
-            valid_action = self.env.default_action
+            valid_action = self.env.get_wrapper_attr("default_action")
             self.failed_candidates.append(candidate_action)
         return valid_action
 

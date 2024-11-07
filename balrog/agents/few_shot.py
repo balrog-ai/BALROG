@@ -13,7 +13,7 @@ class Message:
         return f"Message(role={self.role}, content={self.content}, attachment={self.attachment})"
 
 
-class ICLAgent(BaseAgent):
+class FewShotAgent(BaseAgent):
     def __init__(self, client_factory, prompt_builder):
         super().__init__(client_factory, prompt_builder)
         self.client = client_factory()
@@ -60,6 +60,7 @@ class ICLAgent(BaseAgent):
         )
 
         self.icl_episodes.append(icl_episode)
+        self.icl_events = []
 
     def get_icl_prompt(self) -> List[Message]:
         icl_instruction = Message(
@@ -83,11 +84,11 @@ class ICLAgent(BaseAgent):
 
         return icl_messages
 
-    def act(self, obs, prev_action=None):
+    def act(self, obs, info, prev_action=None):
         if prev_action:
             self.prompt_builder.update_action(prev_action)
 
-        self.prompt_builder.update_observation(obs)
+        self.prompt_builder.update_observation(obs, info)
 
         if not self.cached_icl:
             messages = self.get_icl_prompt()
