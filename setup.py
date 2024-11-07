@@ -12,7 +12,7 @@ def parse_requirements(filename):
 
 setup(
     # Information
-    name="BALROG",
+    name="balrog",
     description="Benchmark for In Context Learning",
     long_description=long_description,
     long_description_content_type="text/markdown",
