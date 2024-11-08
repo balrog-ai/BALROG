@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://balrogai.com">
-    <img src="assets/figures/balrog_1.png" width="50%" alt="BALROG Agent" />
+    <img src="assets/figures/balrog_banner.png" width="50%" alt="BALROG Agent" />
   </a>
 </p>
 
