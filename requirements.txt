@@ -4,12 +4,12 @@ google-generativeai
 hydra-core
 wandb
 pytest
-textworld
 crafter
 gym==0.23
 requests
 balrog-nle
 minihack @ git+https://github.com/balrog-ai/minihack.git
+textworld @ git+https://github.com/balrog-ai/TextWorld.git
 minigrid @ git+https://github.com/BartekCupial/Minigrid.git
 baba @ git+https://github.com/nacloos/baba-is-ai.git
 -e .
