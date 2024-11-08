@@ -1,5 +1,3 @@
-# BALROG: Benchmarking Agenting LLM/VLM Reasoning On Games
-
 <p align="center">
   <a href="https://balrogai.com">
     <img src="assets/figures/balrog_1.png" width="50%" alt="BALROG Agent" />
