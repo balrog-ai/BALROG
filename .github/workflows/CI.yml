@@ -17,10 +17,10 @@ jobs:
             runner: ubuntu-latest
           - os: ubuntu-latest
             arch: arm64
-            runner: [ubuntu-latest, ARM64]
+            runner: ubuntu-latest
           - os: macos-latest
             arch: arm64
-            runner: [macos-latest, ARM64]
+            runner: macos-latest
     runs-on: ${{ matrix.runner }}
     continue-on-error: false
     steps:
