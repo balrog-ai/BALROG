@@ -84,7 +84,7 @@ If you use BALROG in any of your work, please cite:
 ```
 @article{paglieri2024balrog,
   title={Benchmarking Agentic LLM and VLM Reasoning On Games},
-  author={Paglieri, Davide and and Cupia{\l}, Bart{\l}omiej and Coward, Sam and Piterbarg, Ulyana and Wo{\l}czyk, Maciej and Khan, Akbir and Pignatelli, Eduardo and Kuci{\'n}ski, {\L}ukasz and Pinto, Lerrel and Fergus, Rob and Foerster, Jakob Nicolaus and Parker-Holder, Jack and Rockt{\"a}schel, Tim},
+  author={Paglieri, Davide and Cupia{\l}, Bart{\l}omiej and Coward, Sam and Piterbarg, Ulyana and Wo{\l}czyk, Maciej and Khan, Akbir and Pignatelli, Eduardo and Kuci{\'n}ski, {\L}ukasz and Pinto, Lerrel and Fergus, Rob and Foerster, Jakob Nicolaus and Parker-Holder, Jack and Rockt{\"a}schel, Tim},
   journal={arXiv preprint arXiv:2411.13543},
   year={2024}
 }
