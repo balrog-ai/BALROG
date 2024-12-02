@@ -14,6 +14,8 @@ import numpy as np
 from omegaconf import OmegaConf
 from tqdm import tqdm
 
+from balrog.agents.few_shot import FewShotAgent
+from balrog.dataset import InContextDataset
 from balrog.environments import make_env
 from balrog.utils import get_unique_seed
 
@@ -43,7 +45,7 @@ class EvaluatorManager:
         self.env_evaluators = {}
         self.tasks = []
         for env_name in self.env_names:
-            evaluator = Evaluator(env_name, config, output_dir=self.output_dir)
+            evaluator = Evaluator(env_name, config, original_cwd=original_cwd, output_dir=self.output_dir)
             self.env_evaluators[env_name] = evaluator
             for task in evaluator.tasks:
                 for episode_idx in range(evaluator.num_episodes):
@@ -219,7 +221,7 @@ class Evaluator:
     including loading in-context learning episodes and running episodes with the agent.
     """
 
-    def __init__(self, env_name, config, output_dir="."):
+    def __init__(self, env_name, config, original_cwd="", output_dir="."):
         """Initialize the Evaluator.
 
         Args:
@@ -236,6 +238,8 @@ class Evaluator:
         self.num_episodes = config.eval.num_episodes[self.env_name]
         self.num_workers = config.eval.num_workers
         self.max_steps_per_episode = config.eval.max_steps_per_episode
+
+        self.dataset = InContextDataset(self.config, self.env_name, original_cwd=original_cwd)
 
     def run_episode(self, task, agent, process_num=None, position=0, episode_idx=0):
         """Run a single evaluation episode.
@@ -283,6 +287,14 @@ class Evaluator:
         with open(csv_filename, mode="w", newline="", encoding="utf-8") as csv_file:
             csv_writer = csv.writer(csv_file, escapechar="˘", quoting=csv.QUOTE_MINIMAL)
             csv_writer.writerow(["Step", "Action", "Reasoning", "Observation", "Reward", "Done"])
+
+            # If the agent is an FewShotAgent, load the in-context learning episode
+            if isinstance(agent, FewShotAgent):
+                for icl_episode in range(self.config.eval.icl_episodes):
+                    self.dataset.load_in_context_learning_episode(icl_episode, task, agent)
+
+                if self.config.agent.cache_icl and self.config.client.client_name == "gemini":
+                    agent.cache_icl()
 
             pbar_desc = f"Task: {task}, Proc: {process_num}"
             pbar = tqdm(

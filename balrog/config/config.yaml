@@ -4,6 +4,7 @@ agent:
   max_history: 16        # Maximum number of previous turns to keep in the dialogue history
   max_image_history: 0   # Maximum number of images to keep in the history
   max_cot_history: 1     # Maximum number of chain-of-thought steps to keep in history (if using 'cot' type of agent)
+  cache_icl: False
 
 eval:
   output_dir: "results"  # Directory where evaluation results will be saved
@@ -19,7 +20,8 @@ eval:
   max_steps_per_episode: null   # Max steps per episode; null uses the environment default
   save_trajectories: True       # Whether to save agent trajectories (text only)
   save_images: False            # Whether to save images from the environment
-
+  icl_episodes: 1
+  icl_dataset: records
 
 client:
   client_name: openai           # LLM client to use (e.g., 'openai', 'gemini', 'claude')

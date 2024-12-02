@@ -75,7 +75,7 @@ class HistoryPromptBuilder:
         """Clear the event history."""
         self._events.clear()
 
-    def get_prompt(self) -> List[Message]:
+    def get_prompt(self, icl_episodes=False) -> List[Message]:
         """Generate a list of Message objects representing the prompt.
 
         Returns:
@@ -83,6 +83,9 @@ class HistoryPromptBuilder:
         """
         messages = []
         if self.system_prompt:
+            messages.append(Message(role="user", content=self.system_prompt))
+
+        if self.system_prompt and not icl_episodes:
             messages.append(Message(role="user", content=self.system_prompt))
 
         # Determine which images to include
