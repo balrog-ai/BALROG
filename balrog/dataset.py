@@ -1,4 +1,3 @@
-import copy
 import glob
 import os
 import random
@@ -27,8 +26,10 @@ class InContextDataset:
         demos_dir = Path(self.original_cwd) / self.config.eval.icl_dataset / self.env_name / task
         return list(sorted(glob.glob(os.path.join(demos_dir, "**/*.npz"), recursive=True), key=natural_sort_key))
 
-    def check_seed(self, demo_path):
-        return int(demo_path.stem.split("seed_")[1])
+    def extract_seed(self, demo_path):
+        # extract seed from record, example format: `20241201T225823-seed13-rew1.00-len47.npz`
+        seed = [part.removeprefix("seed") for part in Path(demo_path).stem.split("-") if "seed" in part]
+        return int(seed[0])
 
     def demo_task(self, task):
         # use different task - avoid the case where we put the solution into the context
@@ -37,23 +38,9 @@ class InContextDataset:
 
         return task
 
-    def demo_path(self, i, task, demo_config):
+    def demo_path(self, i, task):
         icl_episodes = self.icl_episodes(task)
         demo_path = icl_episodes[i % len(icl_episodes)]
-
-        # use the same role
-        if self.env_name == "nle":
-            from balrog.environments.nle import Role
-
-            character = demo_config.envs.nle_kwargs.character
-            if character != "@":
-                for part in character.split("-"):
-                    # check if there is specified role
-                    if part.lower() in [e.value for e in Role]:
-                        # check if we have games played with this role
-                        new_demo_paths = [path for path in icl_episodes if part.lower() in path.stem.lower()]
-                        if new_demo_paths:
-                            demo_path = random.choice(new_demo_paths)
 
         # use different seed - avoid the case where we put the solution into the context
         if self.env_name == "textworld":
@@ -63,7 +50,7 @@ class InContextDataset:
                 tasks=self.config.tasks.textworld_tasks, **self.config.envs.textworld_kwargs
             )
             next_seed = textworld_context.count[task]
-            demo_seed = self.check_seed(demo_path)
+            demo_seed = self.extract_seed(demo_path)
             if next_seed == demo_seed:
                 demo_path = self.icl_episodes(task)[i + 1]
 
@@ -77,9 +64,8 @@ class InContextDataset:
         return episode
 
     def load_in_context_learning_episode(self, i, task, agent):
-        demo_config = copy.deepcopy(self.config)
         demo_task = self.demo_task(task)
-        demo_path = self.demo_path(i, demo_task, demo_config)
+        demo_path = self.demo_path(i, demo_task)
         episode = self.load_episode(demo_path)
 
         actions = episode.pop("action")
