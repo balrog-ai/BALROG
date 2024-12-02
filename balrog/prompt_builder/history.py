@@ -82,6 +82,8 @@ class HistoryPromptBuilder:
             List[Message]: Messages constructed from the event history.
         """
         messages = []
+        if self.system_prompt:
+            messages.append(Message(role="user", content=self.system_prompt))
 
         # Determine which images to include
         images_needed = self.max_image_history
