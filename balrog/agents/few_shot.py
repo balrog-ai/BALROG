@@ -4,8 +4,6 @@ from typing import List, Optional
 
 from balrog.agents.base import BaseAgent
 
-from .dummy import make_dummy_action
-
 
 class Message:
     def __init__(self, role: str, content: str, attachment: Optional[object] = None):
@@ -21,7 +19,7 @@ class FewShotAgent(BaseAgent):
     def __init__(self, client_factory, prompt_builder):
         """Initialize the FewShotAgent with a client and prompt builder."""
         super().__init__(client_factory, prompt_builder)
-        # self.client = client_factory()
+        self.client = client_factory()
         self.icl_episodes = []
         self.icl_events = []
         self.cached_icl = False
@@ -118,8 +116,7 @@ You always have to output one of the above actions at a time and no other text. 
         if messages and messages[-1].role == "user":
             messages[-1].content += "\n\n" + naive_instruction
 
-        response = make_dummy_action(messages)
-        # response = self.client.generate(messages)
+        response = self.client.generate(messages)
 
         final_answer = self._extract_final_answer(response)
 
