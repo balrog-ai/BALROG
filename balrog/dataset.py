@@ -68,20 +68,22 @@ class InContextDataset:
         demo_path = self.demo_path(i, demo_task)
         episode = self.load_episode(demo_path)
 
-        actions = episode.pop("action")
-        rewards = episode.pop("reward")
+        actions = episode.pop("action").tolist()
+        rewards = episode.pop("reward").tolist()
         terminated = episode.pop("terminated")
         truncated = episode.pop("truncated")
-        dones = np.any([terminated, truncated], axis=0)
+        dones = np.any([terminated, truncated], axis=0).tolist()
         observations = [dict(zip(episode.keys(), values)) for values in zip(*episode.values())]
+
+        # first transition only contains observation (like env.reset())
+        observation, action, reward, done = observations.pop(0), actions.pop(0), rewards.pop(0), dones.pop(0)
+        agent.update_icl_observation(observation)
 
         for observation, action, reward, done in zip(observations, actions, rewards, dones):
             action = str(action)
-            if action == "":
-                action = None
 
-            agent.update_icl_observation(observation)
             agent.update_icl_action(action)
+            agent.update_icl_observation(observation)
 
             if done:
                 break
