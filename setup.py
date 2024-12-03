@@ -52,6 +52,15 @@ setup(
     },
     package_dir={"": "./"},
     packages=setuptools.find_packages(where="./", include=["balrog*"]),
+    package_data={
+        "balrog": [
+            "config/config.yaml",
+            "environments/nle/achievements.json",
+            "environments/nle/Hack-Regular.ttf",
+            "environments/nle/tiles.pkl",
+            "environments/nle/Tiles16x16.png",
+        ]
+    },
     include_package_data=True,
     python_requires=">=3.8",
 )
