@@ -5,7 +5,7 @@ The approach enhances model performance by providing examples of expert gameplay
 Download and unzip our expert demonstrations
 ```bash
 pip install gdown
-gdown https://drive.google.com/uc?export=download&id=1TQbrqMSC5K_SNx9tta1Tlhtg8flSIGaJ
+gdown 1TQbrqMSC5K_SNx9tta1Tlhtg8flSIGaJ
 unzip records.zip
 ```
 
