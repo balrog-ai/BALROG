@@ -33,6 +33,6 @@ COPY . /opt/balrog/
 WORKDIR /opt/balrog
 
 RUN pip install '.'
-RUN python post_install.py
+RUN balrog-post-install
 
 CMD ["/bin/bash"]

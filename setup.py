@@ -37,7 +37,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "balrog-post-install=post_install:main",
+            "balrog-post-install=balrog.scripts.post_install:main",
         ],
     },
     extras_require={
