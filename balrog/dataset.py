@@ -1,4 +1,5 @@
 import glob
+import logging
 import os
 import random
 import re
@@ -63,9 +64,15 @@ class InContextDataset:
             episode = {k: data[k] for k in data.files}
         return episode
 
-    def load_in_context_learning_episode(self, i, task, agent):
+    def load_in_context_learning_episodes(self, num_episodes, task, agent):
         demo_task = self.demo_task(task)
-        demo_path = self.demo_path(i, demo_task)
+        demo_paths = [self.demo_path(i, demo_task) for i in range(num_episodes)]
+        random.shuffle(demo_paths)
+
+        for demo_path in demo_paths:
+            self.load_in_context_learning_episode(demo_path, agent)
+
+    def load_in_context_learning_episode(self, demo_path, agent):
         episode = self.load_episode(demo_path)
 
         actions = episode.pop("action").tolist()
@@ -89,6 +96,6 @@ class InContextDataset:
                 break
 
         if not done:
-            print("warning: icl trajectory ended without done")
+            logging.info("icl trajectory ended without done")
 
         agent.wrap_episode()

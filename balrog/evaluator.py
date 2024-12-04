@@ -290,8 +290,7 @@ class Evaluator:
 
             # If the agent is an FewShotAgent, load the in-context learning episode
             if isinstance(agent, FewShotAgent):
-                for icl_episode in range(self.config.eval.icl_episodes):
-                    self.dataset.load_in_context_learning_episode(icl_episode, task, agent)
+                self.dataset.load_in_context_learning_episodes(self.config.eval.icl_episodes, task, agent)
 
                 if self.config.agent.cache_icl and self.config.client.client_name == "gemini":
                     agent.cache_icl()
