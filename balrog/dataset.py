@@ -66,8 +66,9 @@ class InContextDataset:
 
     def load_in_context_learning_episodes(self, num_episodes, task, agent):
         demo_task = self.demo_task(task)
-        demo_paths = [self.demo_path(i, demo_task) for i in range(num_episodes)]
+        demo_paths = [self.demo_path(i, demo_task) for i in range(len(self.icl_episodes(task)))]
         random.shuffle(demo_paths)
+        demo_paths = demo_paths[:num_episodes]
 
         for demo_path in demo_paths:
             self.load_in_context_learning_episode(demo_path, agent)
