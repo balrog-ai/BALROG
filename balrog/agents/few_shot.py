@@ -16,12 +16,13 @@ class Message:
 
 
 class FewShotAgent(BaseAgent):
-    def __init__(self, client_factory, prompt_builder):
+    def __init__(self, client_factory, prompt_builder, max_icl_history):
         """Initialize the FewShotAgent with a client and prompt builder."""
         super().__init__(client_factory, prompt_builder)
         self.client = client_factory()
         self.icl_episodes = []
         self.icl_events = []
+        self.max_icl_history = max_icl_history
         self.cached_icl = False
 
     def update_icl_observation(self, obs: dict):
@@ -76,8 +77,19 @@ class FewShotAgent(BaseAgent):
 
         # unroll the wrapped icl episodes messages
         icl_messages = [icl_instruction]
+        i = 0
         for icl_episode in self.icl_episodes:
-            icl_messages.extend(icl_episode)
+            episode_steps = len(icl_episode) - 2  # not count start and end messages
+            if i + episode_steps <= self.max_icl_history:
+                icl_messages.extend(icl_episode)
+                i += episode_steps
+            else:
+                icl_episode = icl_episode[: self.max_icl_history - i + 1] + [
+                    icl_episode[-1]
+                ]  # +1 for start message -1 for end message
+                icl_messages.extend(icl_episode)
+                i += len(icl_episode) - 2  # not count start and end messages
+                break
 
         end_demo_message = Message(
             role="user",

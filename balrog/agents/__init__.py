@@ -49,7 +49,7 @@ class AgentFactory:
         elif self.config.agent.type == "custom":
             return CustomAgent(client_factory, prompt_builder)
         elif self.config.agent.type == "few_shot":
-            return FewShotAgent(client_factory, prompt_builder)
+            return FewShotAgent(client_factory, prompt_builder, self.config.agent.max_icl_history)
 
         else:
             raise ValueError(f"Unknown agent type: {self.config.agent}")

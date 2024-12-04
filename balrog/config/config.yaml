@@ -4,6 +4,7 @@ agent:
   max_history: 16        # Maximum number of previous turns to keep in the dialogue history
   max_image_history: 0   # Maximum number of images to keep in the history
   max_cot_history: 1     # Maximum number of chain-of-thought steps to keep in history (if using 'cot' type of agent)
+  max_icl_history: 200   # Maximum number of ICL steps to keep in history (if using 'few_shot' type of agent)
   cache_icl: False
 
 eval:
