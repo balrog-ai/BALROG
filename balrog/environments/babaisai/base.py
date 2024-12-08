@@ -117,6 +117,8 @@ class BabaIsAIWrapper(gym.Wrapper):
 
         you = None
         for rule in self.env.grid._ruleset["_rule_"]:
+            if "property" not in rule:  # BabaIsAI bug fix
+                continue
             named_property = name_mapping[rule["property"]]
             if named_property == "you":
                 you = rule["object"]
