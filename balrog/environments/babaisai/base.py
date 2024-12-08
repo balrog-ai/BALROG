@@ -36,6 +36,8 @@ class BabaIsAIWrapper(gym.Wrapper):
         for rule in self.env.grid._ruleset["_rule_"]:
             # all objects start with f, eg `fwall`, `fkey`...
             # are objects that can be manipulated, `wall` is used to indicate end of map
+            if "object" not in rule:  # BabaIsAI bug fix
+                continue
             name = rule["object"].removeprefix("f")
             named_property = name_mapping[rule["property"]]
             rules.append(f"{name} is {named_property}")
@@ -115,6 +117,8 @@ class BabaIsAIWrapper(gym.Wrapper):
 
         you = None
         for rule in self.env.grid._ruleset["_rule_"]:
+            if "property" not in rule:  # BabaIsAI bug fix
+                continue
             named_property = name_mapping[rule["property"]]
             if named_property == "you":
                 you = rule["object"]
