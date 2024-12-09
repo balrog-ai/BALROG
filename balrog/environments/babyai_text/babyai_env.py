@@ -38,7 +38,7 @@ def make_babyai_env(env_name, task, config, render_mode: Optional[str] = None):
     if task.startswith("BabyAI-MixedTrainLocal-v0/"):
         base_task, goal = task.split("/")
         while 1:
-            env = gym.make(base_task, render_mode=render_mode)
+            env = gym.make(base_task, **config.envs.babyai_kwargs)
             if env.unwrapped.action_kinds[0].replace(" ", "_") == goal:
                 break
 
