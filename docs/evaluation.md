@@ -92,4 +92,14 @@ python eval.py \
 | **client.base_url**       | Base URL of the model server for API requests with vllm.                                          | `http://localhost:8080/v1`                       |
 | **client.is_chat_model**  | Indicates if the model follows a chat-based interface.                                            | `True`                                    |
 | **client.generate_kwargs.temperature** | Temperature for model response randomness.                                           | `0.0`                                     |
+| **client.alternate_roles** | If True the instruction prompt will be fused with first observation. Required by some LLMs.      | `False`                                     |
 | **envs.names**            | Dash-separated list of environments to evaluate, e.g., `nle-minihack`.                            | `babyai-babaisai-textworld-crafter-nle-minihack`|
+
+
+
+## FAQ:
+
+- Mac fork error:
+  Mac systems might complain about fork when evaluating in multiprocessing mode (`eval.num_workers > 1`). To fix this export the following before running eval: `export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`
+- Alternate roles:
+  Some LLMs/VLMs require alternating roles. You can fuse the instruction prompt with the first observation to comply with this with the following: `client.alternate_roles=True`
