@@ -6,6 +6,7 @@ from .custom import CustomAgent
 from .dummy import DummyAgent
 from .few_shot import FewShotAgent
 from .naive import NaiveAgent
+from .robust_naive import RobustNaiveAgent
 
 
 class AgentFactory:
@@ -50,6 +51,8 @@ class AgentFactory:
             return CustomAgent(client_factory, prompt_builder)
         elif self.config.agent.type == "few_shot":
             return FewShotAgent(client_factory, prompt_builder, self.config.agent.max_icl_history)
+        elif self.config.agent.type == "robust_naive":
+            return RobustNaiveAgent(client_factory, prompt_builder)
 
         else:
             raise ValueError(f"Unknown agent type: {self.config.agent}")
