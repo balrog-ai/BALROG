@@ -11,7 +11,9 @@ BALROG ships with two pre-built agents:
 | **Agent Type**          | **Description**                                                                 |
 |-------------------------|---------------------------------------------------------------------------------|
 | **naive**          | Outputs actions based on the current action/observation history without any additional reasoning. |
+| **robust_naive**          | Outputs actions based on the current action/observation history without any additional reasoning using a more robust template. |
 | **chain_of_thought** | Generates actions through step-by-step reasoning, providing a final action output. |
+
 
 We encourage the community to open PRs to include more agents to BALROG.
 
