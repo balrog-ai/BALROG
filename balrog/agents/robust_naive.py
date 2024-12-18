@@ -33,9 +33,9 @@ class RobustNaiveAgent(BaseAgent):
         naive_instruction = """
 You must choose exactly one of the listed actions and output it strictly in the following format:
 
-<|ACTION|>YOUR_CHOSEN_ACTION</|ACTION|>
+<|ACTION|>YOUR_CHOSEN_ACTION<|END|>
 
-You must not output any other text before or after these tags. No explanation, no reasoning, just the action within these tags.
+Replace YOUR_CHOSEN_ACTION with the chosen action. Output no other text, explanation, or reasoning.
 """.strip()
 
         if messages and messages[-1].role == "user":
@@ -46,7 +46,7 @@ You must not output any other text before or after these tags. No explanation, n
         return final_answer
 
     def _extract_final_answer(self, answer):
-        """Extract the action from the completion by looking for <|ACTION|> ... </|ACTION|> tags.
+        """Extract the action from the completion by looking for <|ACTION|> and <|END|> tags.
 
         Args:
             answer (LLMResponse): The response from the LLM.
@@ -55,12 +55,12 @@ You must not output any other text before or after these tags. No explanation, n
             LLMResponse: The sanitized response containing just the extracted action.
         """
         completion_text = answer.completion
-        # Use a regex to find the text inside <|ACTION|> and </|ACTION|>
-        match = re.search(r"<\|ACTION\|>(.*?)</\|ACTION\|>", completion_text, re.DOTALL)
+        # Use a regex to find the text inside <|ACTION|> and <|END|>
+        match = re.search(r"<\|ACTION\|>(.*?)<\|END\|>", completion_text, re.DOTALL)
         if match:
             extracted_action = match.group(1).strip()
         else:
-            # If no match is found, fallback to the original completion (or handle error)
+            # If no match is found, fallback to the original completion or handle as needed
             extracted_action = completion_text.strip()
 
         final_answer = copy.deepcopy(answer)
