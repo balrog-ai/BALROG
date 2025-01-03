@@ -79,10 +79,6 @@ We welcome contributions! Please see our [Contributing Guidelines](https://githu
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=balrog-ai/BALROG&type=Date)](https://star-history.com/#balrog-ai/BALROG&Date)
-
 ## Citation
 If you use BALROG in any of your work, please cite:
 
