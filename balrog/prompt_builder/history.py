@@ -114,7 +114,7 @@ class HistoryPromptBuilder:
                 if idx == len(self._events) - 1:
                     content = "Current Observation:\n" + self._last_short_term_obs + "\n" + event["text"] + image_obs
                 else:
-                    content = "Obesrvation:\n" + event["text"] + image_obs
+                    content = "Observation:\n" + event["text"] + image_obs
                 message = Message(role="user", content=content, attachment=image)
 
                 # Clean up the temporary flag

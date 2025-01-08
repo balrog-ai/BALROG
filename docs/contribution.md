@@ -46,7 +46,7 @@ If you would like to work on any of the open Issues:
 4. Set up a development environment by running the following command in a virtual (or conda) environment:
 
 	```bash
-	pip install -e .[dev]
+	pip install -e '.[dev]'
 	```
 
 5. Develop the features on your branch.
