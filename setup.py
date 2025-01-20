@@ -32,6 +32,7 @@ setup(
         "balrog-nle",
         "minihack @ git+https://github.com/balrog-ai/minihack.git",
         "textworld @ git+https://github.com/balrog-ai/TextWorld.git",
+        "tatsu==5.8.0",
         "minigrid @ git+https://github.com/BartekCupial/Minigrid.git",
         "baba @ git+https://github.com/nacloos/baba-is-ai.git",
     ],
