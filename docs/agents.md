@@ -95,7 +95,7 @@ python eval.py \
   agent.max_history=16 \
   eval.num_workers=64 \
   client.client_name=openai \
-  client.model_id=gpt-4o-mini-2024-07-18 \
+  client.model_id=gpt-4o-mini-2024-07-18
 ```
 
 Check our [evaluation tutorial](https://github.com/balrog-ai/BALROG/blob/main/docs/evaluation.md) to learn more on how to evaluate your agents using BALROG.
