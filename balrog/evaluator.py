@@ -321,7 +321,7 @@ class Evaluator:
 
                 # Give feedback on the action (if not valid)
                 obs["text"]["long_term_context"] = (
-                    f"\n\nYour previous output action was not a valid action. Defaulted to action: {action}\n\nObservation:\n"
+                    f"\n\nYour previous output did not contain a valid action. Defaulted to action: {action}\n\nObservation:\n"
                     + obs["text"]["long_term_context"]
                     if (action != response.completion) and (self.config.eval.feedback_on_invalid_action)
                     else obs["text"]["long_term_context"]
