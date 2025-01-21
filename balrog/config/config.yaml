@@ -30,7 +30,7 @@ client:
   base_url: http://localhost:8080/v1   # Base URL for the API (if using a local server)
   generate_kwargs:
     temperature: 0.0            # Sampling temperature; 0.0 makes the output deterministic
-    max_tokens: 1024            # Max tokens to generate in the response
+    max_tokens: 4096            # Max tokens to generate in the response
   timeout: 60                   # Timeout for API requests in seconds
   max_retries: 5                # Max number of retries for failed API calls
   delay: 2                      # Exponential backoff factor between retries in seconds
