@@ -23,6 +23,7 @@ eval:
   save_images: False            # Whether to save images from the environment
   icl_episodes: 1
   icl_dataset: records
+  feedback_on_invalid_action : True       # Whether to provide feedback on invalid actions
 
 client:
   client_name: openai           # LLM client to use (e.g., 'openai', 'gemini', 'claude')
