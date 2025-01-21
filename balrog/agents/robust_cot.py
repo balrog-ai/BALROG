@@ -38,8 +38,8 @@ class RobustCoTAgent(BaseAgent):
 
         # Updated instructions: chain of thought + strict output format
         cot_instructions = """
-First, think step by step about the best course of action.
-You must choose exactly one of the listed actions and output it strictly in the following format:
+First, think about the best course of action.
+Then, you must choose exactly one of the listed actions and output it strictly in the following format:
 
 <|ACTION|>YOUR_CHOSEN_ACTION<|END|>
 
