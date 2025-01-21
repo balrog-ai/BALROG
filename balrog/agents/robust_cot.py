@@ -80,7 +80,7 @@ Replace YOUR_CHOSEN_ACTION with the chosen action.
             extracted_action = match.group(1).strip()
         else:
             # Fallback to the entire completion if not matched
-            extracted_action = completion_text.strip()
+            extracted_action = "Failed to obtain a valid action from the reasoning."
 
         # Replace the final `completion` with only the extracted action
         final_answer = final_answer._replace(completion=extracted_action)
