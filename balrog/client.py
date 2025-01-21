@@ -184,6 +184,7 @@ class OpenAIWrapper(LLMClientWrapper):
             return self.client.chat.completions.create(
                 messages=converted_messages,
                 model=self.model_id,
+                temperature=self.client_kwargs.get("temperature", 0.5),
                 max_tokens=self.client_kwargs.get("max_tokens", 1024),
             )
 
