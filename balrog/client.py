@@ -186,6 +186,7 @@ class OpenAIWrapper(LLMClientWrapper):
                 model=self.model_id,
                 temperature=self.client_kwargs.get("temperature", 0.5),
                 max_tokens=self.client_kwargs.get("max_tokens", 1024),
+                request_timeout=self.timeout,
             )
 
         response = self.execute_with_retries(api_call)
@@ -275,6 +276,7 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
                 response = self.model.generate_content(
                     converted_messages,
                     generation_config=self.generation_config,
+                    request_options={"timeout": self.timeout},
                 )
                 return response
             except Exception as e:
@@ -374,7 +376,7 @@ class ClaudeWrapper(LLMClientWrapper):
     def _initialize_client(self):
         """Initialize the Claude client if not already initialized."""
         if not self._initialized:
-            self.client = Anthropic()
+            self.client = Anthropic(timeout=self.timeout)
             self._initialized = True
 
     def convert_messages(self, messages):
