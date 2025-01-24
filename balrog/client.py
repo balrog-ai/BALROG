@@ -143,9 +143,9 @@ class OpenAIWrapper(LLMClientWrapper):
         """Initialize the OpenAI client if not already initialized."""
         if not self._initialized:
             if self.client_name.lower() == "vllm":
-                self.client = OpenAI(api_key="EMPTY", base_url=self.base_url)
+                self.client = OpenAI(api_key="EMPTY", base_url=self.base_url, timeout=self.timeout)
             elif self.client_name.lower() == "openai":
-                self.client = OpenAI()
+                self.client = OpenAI(timeout=self.timeout)
             self._initialized = True
 
     def convert_messages(self, messages):
@@ -186,7 +186,6 @@ class OpenAIWrapper(LLMClientWrapper):
                 model=self.model_id,
                 temperature=self.client_kwargs.get("temperature", 0.5),
                 max_tokens=self.client_kwargs.get("max_tokens", 1024),
-                request_timeout=self.timeout,
             )
 
         response = self.execute_with_retries(api_call)
