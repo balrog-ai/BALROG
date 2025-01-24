@@ -31,7 +31,7 @@ client:
   generate_kwargs:
     temperature: 0.0            # Sampling temperature; 0.0 makes the output deterministic
     max_tokens: 4096            # Max tokens to generate in the response
-  timeout: 60                   # Timeout for API requests in seconds
+  timeout: 300                  # Timeout for API requests in seconds
   max_retries: 5                # Max number of retries for failed API calls
   delay: 2                      # Exponential backoff factor between retries in seconds
   alternate_roles: False        # Whether the client requires alternating between the agent and the environment
