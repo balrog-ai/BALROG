@@ -46,6 +46,7 @@ class BabyAITextCleanLangWrapper(gym.Wrapper):
         obs, info = self.env.reset(**kwargs)
         prompt, image = self.get_prompt(obs, info)
         self._mission = obs["mission"]
+        self.progression = 0.0
         # Following the convention from NetHack Language Wrapper for specifying
         # short term vs long term context here. There is no equivalent long term
         # context like e.g. inventory in BabyAI-Text.
