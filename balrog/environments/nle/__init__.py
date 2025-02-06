@@ -1,5 +1,6 @@
 import enum
 
+from .auto_more import AutoMore
 from .base import NLELanguageWrapper
 
 
