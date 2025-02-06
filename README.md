@@ -26,6 +26,7 @@ cd BALROG
 pip install -e .
 balrog-post-install
 ```
+On Mac make sure you have `wget` installed for the `balrog-post-install`
 
 ## Docker
 We have provided some docker images. Please see the [relevant README](docker/README.md).
@@ -45,6 +46,11 @@ python eval.py \
   client.client_name=vllm \
   client.model_id=meta-llama/Llama-3.2-1B-Instruct \
   client.base_url=http://0.0.0.0:8080/v1
+```
+
+On Mac you might have to first export the following to suppress some fork() errors:
+```
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 ```
 
 Check out [vLLM](https://github.com/vllm-project/vllm) for more options on how to serve your models fast and efficiently.
