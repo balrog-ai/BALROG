@@ -56,12 +56,14 @@ export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 Check out [vLLM](https://github.com/vllm-project/vllm) for more options on how to serve your models fast and efficiently.
 
 ## 🛜 Evaluate using popular APIs
-We support out of the box clients for OpenAI, Anthropic and Google Gemini APIs. First set up your API key:
+We support out of the box clients for OpenAI, Anthropic and Google Gemini APIs.
+Note that we use a dedicated SECRETS file to store the API keys.
+First enter your API key in the SECRETS file located in the root folder:
 
 ```bash
-export OPENAI_API_KEY=<KEY>
-export ANTHROPIC_API_KEY=<KEY>
-export GEMINI_API_KEY=<KEY>
+OPENAI_API_KEY=<KEY>
+ANTHROPIC_API_KEY=<KEY>
+GEMINI_API_KEY=<KEY>
 ```
 
 Then run the evaluation with:
