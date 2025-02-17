@@ -64,6 +64,8 @@ export ANTHROPIC_API_KEY=<KEY>
 export GEMINI_API_KEY=<KEY>
 ```
 
+Alternatively you can add your API keys to the SECRETS file.
+
 Then run the evaluation with:
 
 ```bash
