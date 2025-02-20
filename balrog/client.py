@@ -143,9 +143,9 @@ class OpenAIWrapper(LLMClientWrapper):
         """Initialize the OpenAI client if not already initialized."""
         if not self._initialized:
             if self.client_name.lower() == "vllm":
-                self.client = OpenAI(api_key="EMPTY", base_url=self.base_url)
+                self.client = OpenAI(api_key="EMPTY", base_url=self.base_url, timeout=self.timeout)
             elif self.client_name.lower() == "openai":
-                self.client = OpenAI()
+                self.client = OpenAI(timeout=self.timeout)
             self._initialized = True
 
     def convert_messages(self, messages):
@@ -275,6 +275,7 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
                 response = self.model.generate_content(
                     converted_messages,
                     generation_config=self.generation_config,
+                    request_options={"timeout": self.timeout},
                 )
                 return response
             except Exception as e:
@@ -374,7 +375,7 @@ class ClaudeWrapper(LLMClientWrapper):
     def _initialize_client(self):
         """Initialize the Claude client if not already initialized."""
         if not self._initialized:
-            self.client = Anthropic()
+            self.client = Anthropic(timeout=self.timeout)
             self._initialized = True
 
     def convert_messages(self, messages):
