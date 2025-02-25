@@ -64,8 +64,7 @@ envs:
     area: [64, 64]              
     view: [9, 9]                
     size: [256, 256]            # Image size in Crafter
-    reward: True                
-    length: 10000               
+    reward: True                            
     seed: null                  
     max_episode_steps: 2000     
   textworld_kwargs:
