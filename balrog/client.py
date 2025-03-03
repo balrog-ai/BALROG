@@ -181,12 +181,19 @@ class OpenAIWrapper(LLMClientWrapper):
         converted_messages = self.convert_messages(messages)
 
         def api_call():
-            return self.client.chat.completions.create(
-                messages=converted_messages,
-                model=self.model_id,
-                temperature=self.client_kwargs.get("temperature", 0.5),
-                max_tokens=self.client_kwargs.get("max_tokens", 1024),
-            )
+            # Create kwargs for the API call
+            api_kwargs = {
+                "messages": converted_messages,
+                "model": self.model_id,
+                "max_tokens": self.client_kwargs.get("max_tokens", 1024),
+            }
+
+            # Only include temperature if it's not None
+            temperature = self.client_kwargs.get("temperature")
+            if temperature is not None:
+                api_kwargs["temperature"] = temperature
+
+            return self.client.chat.completions.create(**api_kwargs)
 
         response = self.execute_with_retries(api_call)
 
@@ -217,10 +224,15 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
         if not self._initialized:
             self.model = genai.GenerativeModel(self.model_id)
 
+            # Create kwargs dictionary for GenerationConfig
             client_kwargs = {
-                "temperature": self.client_kwargs.get("temperature", 0.5),
                 "max_output_tokens": self.client_kwargs.get("max_tokens", 1024),
             }
+
+            # Only include temperature if it's not None
+            temperature = self.client_kwargs.get("temperature")
+            if temperature is not None:
+                client_kwargs["temperature"] = temperature
 
             self.generation_config = genai.types.GenerationConfig(**client_kwargs)
             self._initialized = True
@@ -411,12 +423,19 @@ class ClaudeWrapper(LLMClientWrapper):
         converted_messages = self.convert_messages(messages)
 
         def api_call():
-            return self.client.messages.create(
-                messages=converted_messages,
-                model=self.model_id,
-                temperature=self.client_kwargs.get("temperature", 0.5),
-                max_tokens=self.client_kwargs.get("max_tokens", 1024),
-            )
+            # Create kwargs for the API call
+            api_kwargs = {
+                "messages": converted_messages,
+                "model": self.model_id,
+                "max_tokens": self.client_kwargs.get("max_tokens", 1024),
+            }
+
+            # Only include temperature if it's not None
+            temperature = self.client_kwargs.get("temperature")
+            if temperature is not None:
+                api_kwargs["temperature"] = temperature
+
+            return self.client.messages.create(**api_kwargs)
 
         response = self.execute_with_retries(api_call)
 
