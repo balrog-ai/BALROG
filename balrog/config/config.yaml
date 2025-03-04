@@ -47,7 +47,7 @@ envs:
     no_progress_timeout: 150    # Timeout for no progress in NLE
     savedir: null               # Directory to save NLE data; null disables saving
     save_ttyrec_every: 0        # Frequency of saving TTY recordings
-    skip_more: False            # Whether to skip the 'more' prompt in NLE
+    skip_more: True            # Whether to skip the 'more' prompt in NLE
   minihack_kwargs: 
     character: "@"
     max_episode_steps: 100
@@ -57,7 +57,7 @@ envs:
     savedir: null
     save_ttyrec_every: 0
     autopickup: False           
-    skip_more: False
+    skip_more: True
   babyai_kwargs:
     num_dists: 0                
   crafter_kwargs:
