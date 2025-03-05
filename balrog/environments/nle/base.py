@@ -78,13 +78,13 @@ class NLELanguageWrapper(language_wrapper.NLELanguageWrapper):
 
     def render(self, mode="human"):
         if mode == "tiles":
-            obs = self.env.last_observation
-            glyphs = obs[self.env._observation_keys.index("glyphs")]
+            obs = self.env.unwrapped.last_observation
+            glyphs = obs[self.env.unwrapped._observation_keys.index("glyphs")]
             return rgb_render_image(glyphs)
         elif mode == "tty_image":
-            obs = self.env.last_observation
-            tty_chars = obs[self.env._observation_keys.index("tty_chars")]
-            tty_colors = obs[self.env._observation_keys.index("tty_colors")]
+            obs = self.env.unwrapped.last_observation
+            tty_chars = obs[self.env.unwrapped._observation_keys.index("tty_chars")]
+            tty_colors = obs[self.env.unwrapped._observation_keys.index("tty_colors")]
             return tty_render_image(tty_chars, tty_colors)
         else:
             return super().render(mode)
