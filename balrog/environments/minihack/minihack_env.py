@@ -30,9 +30,9 @@ def make_minihack_env(env_name, task, config, render_mode: Optional[str] = None)
         ],
         **minihack_kwargs,
     )
-    env = NLELanguageWrapper(env, vlm=vlm)
     if skip_more:
         env = AutoMore(env)
+    env = NLELanguageWrapper(env, vlm=vlm)
 
     # wrap NLE with timeout
     env = NLETimeLimit(env)
