@@ -144,7 +144,12 @@ class OpenAIWrapper(LLMClientWrapper):
         if not self._initialized:
             if self.client_name.lower() == "vllm":
                 self.client = OpenAI(api_key="EMPTY", base_url=self.base_url)
+            elif self.client_name.lower() == "nvidia":
+                if not self.base_url or not self.base_url.strip():
+                    raise ValueError("base_url must be provided when using NVIDIA client")
+                self.client = OpenAI(base_url=self.base_url)
             elif self.client_name.lower() == "openai":
+                # For OpenAI, always use the standard API regardless of base_url
                 self.client = OpenAI()
             self._initialized = True
 
@@ -181,12 +186,19 @@ class OpenAIWrapper(LLMClientWrapper):
         converted_messages = self.convert_messages(messages)
 
         def api_call():
-            return self.client.chat.completions.create(
-                messages=converted_messages,
-                model=self.model_id,
-                temperature=self.client_kwargs.get("temperature", 0.5),
-                max_tokens=self.client_kwargs.get("max_tokens", 1024),
-            )
+            # Create kwargs for the API call
+            api_kwargs = {
+                "messages": converted_messages,
+                "model": self.model_id,
+                "max_tokens": self.client_kwargs.get("max_tokens", 1024),
+            }
+
+            # Only include temperature if it's not None
+            temperature = self.client_kwargs.get("temperature")
+            if temperature is not None:
+                api_kwargs["temperature"] = temperature
+
+            return self.client.chat.completions.create(**api_kwargs)
 
         response = self.execute_with_retries(api_call)
 
@@ -217,10 +229,15 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
         if not self._initialized:
             self.model = genai.GenerativeModel(self.model_id)
 
+            # Create kwargs dictionary for GenerationConfig
             client_kwargs = {
-                "temperature": self.client_kwargs.get("temperature", 0.5),
                 "max_output_tokens": self.client_kwargs.get("max_tokens", 1024),
             }
+
+            # Only include temperature if it's not None
+            temperature = self.client_kwargs.get("temperature")
+            if temperature is not None:
+                client_kwargs["temperature"] = temperature
 
             self.generation_config = genai.types.GenerationConfig(**client_kwargs)
             self._initialized = True
@@ -411,12 +428,19 @@ class ClaudeWrapper(LLMClientWrapper):
         converted_messages = self.convert_messages(messages)
 
         def api_call():
-            return self.client.messages.create(
-                messages=converted_messages,
-                model=self.model_id,
-                temperature=self.client_kwargs.get("temperature", 0.5),
-                max_tokens=self.client_kwargs.get("max_tokens", 1024),
-            )
+            # Create kwargs for the API call
+            api_kwargs = {
+                "messages": converted_messages,
+                "model": self.model_id,
+                "max_tokens": self.client_kwargs.get("max_tokens", 1024),
+            }
+
+            # Only include temperature if it's not None
+            temperature = self.client_kwargs.get("temperature")
+            if temperature is not None:
+                api_kwargs["temperature"] = temperature
+
+            return self.client.messages.create(**api_kwargs)
 
         response = self.execute_with_retries(api_call)
 
@@ -443,7 +467,8 @@ def create_llm_client(client_config):
 
     def client_factory():
         client_name_lower = client_config.client_name.lower()
-        if "openai" in client_name_lower or "vllm" in client_name_lower:
+        if "openai" in client_name_lower or "vllm" in client_name_lower or "nvidia" in client_name_lower:
+            # NVIDIA uses OpenAI-compatible API, so we use the OpenAI wrapper
             return OpenAIWrapper(client_config)
         elif "gemini" in client_name_lower:
             return GoogleGenerativeAIWrapper(client_config)

@@ -93,6 +93,7 @@ python eval.py \
 | **client.is_chat_model**  | Indicates if the model follows a chat-based interface.                                            | `True`                                    |
 | **client.generate_kwargs.temperature** | Temperature for model response randomness.                                           | `0.0`                                     |
 | **client.alternate_roles** | If True the instruction prompt will be fused with first observation. Required by some LLMs.      | `False`                                     |
+| **client.temperature** | If set to null will default to the API default temperature. Use a float from 0.0 to 1.0. otherwise.      | `null`                                     |
 | **envs.names**            | Dash-separated list of environments to evaluate, e.g., `nle-minihack`.                            | `babyai-babaisai-textworld-crafter-nle-minihack`|
 
 
