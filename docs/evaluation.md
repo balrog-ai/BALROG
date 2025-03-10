@@ -93,7 +93,7 @@ python eval.py \
 | **client.is_chat_model**  | Indicates if the model follows a chat-based interface.                                            | `True`                                    |
 | **client.generate_kwargs.temperature** | Temperature for model response randomness.                                           | `0.0`                                     |
 | **client.alternate_roles** | If True the instruction prompt will be fused with first observation. Required by some LLMs.      | `False`                                     |
-| **client.temperature**    | If set to null will default to the API default temperature. Use a float from 0.0 to 1.0. otherwise.  | `null`                                     |
+| **client.temperature**    | If set to null will default to the API default temperature. Use a float from 0.0 to 2.0. otherwise.  | `1.0`                                     |
 | **envs.names**            | Dash-separated list of environments to evaluate, e.g., `nle-minihack`.                            | `babyai-babaisai-textworld-crafter-nle-minihack`|
 
 
@@ -105,4 +105,4 @@ python eval.py \
 - Alternate roles:
   Some LLMs/VLMs require alternating roles. You can fuse the instruction prompt with the first observation to comply with this with the following: `client.alternate_roles=True`
 - Temperature:
-  We recommend running models with temperature ranges around 0.5-0.7, or to use the default temperature of the model APIs. Too low temperatures can cause some of the more brittle models to endlessly repeat actions or create incoherent outputs.
+  We recommend running models with temperature ranges around 0.7-1.0, or to use the default temperature of the model APIs. Too low temperatures can cause some of the more brittle models to endlessly repeat actions or create incoherent outputs.
