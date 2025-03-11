@@ -10,7 +10,7 @@ vllm serve meta-llama/Llama-3.2-1B-Instruct --port 8080
 python eval.py \
   agent.type=naive \
   agent.max_image_history=0 \
-  agent.max_history=16 \
+  agent.max_text_history=16 \
   eval.num_workers=16 \
   client.client_name=vllm \
   client.model_id=meta-llama/Llama-3.2-1B-Instruct \
@@ -39,7 +39,7 @@ You can then run the evaluation with:
 python eval.py \
   agent.type=naive \
   agent.max_image_history=0 \
-  agent.max_history=16 \
+  agent.max_text_history=16 \
   eval.num_workers=16 \
   client.client_name=openai \
   client.model_id=gpt-4o-mini-2024-07-18
@@ -52,7 +52,7 @@ You can activate the VLM mode by increasing the `max_image_history` argument, fo
 ```
 python eval.py \
   agent.type=naive \
-  agent.max_history=16 \
+  agent.max_text_history=16 \
   agent.max_image_history=1 \
   eval.num_workers=16 \
   client.client_name=openai \
@@ -66,7 +66,7 @@ To resume an incomplete evaluation, use eval.resume_from. For example, if an eva
 python eval.py \
   agent.type=naive \
   agent.max_image_history=0 \
-  agent.max_history=16 \
+  agent.max_text_history=16 \
   eval.num_workers=16 \
   client.client_name=openai \
   client.model_id=gpt-4o-mini-2024-07-18 \
@@ -81,7 +81,7 @@ python eval.py \
 |---------------------------|---------------------------------------------------------------------------------------------------|-------------------------------------------|
 | **agent.type**            | Type of agent used                                 | `naive`                                      |
 | **agent.remember_cot**    | Whether the agent should remember chain-of-thought (CoT) during episodes.                         | `True`                                    |
-| **agent.max_history**     | Maximum number of dialogue history entries to retain.                                             | `16`                                      |
+| **agent.max_text_history**     | Maximum number of dialogue history entries to retain.                                             | `16`                                      |
 | **agent.max_image_history**| Maximum number of images included in the history. Use >= 1 if you want to use VLM mode           | `0`                                      |
 | **eval.num_workers**      | Number of parallel environment workers for parallel evaluation.                                                        | `1`                                       |
 | **eval.num_episodes**     | Number of episodes per environment for evaluation.                                                | `{nle: 5, minihack: 5, babyai: 25, ...}` |

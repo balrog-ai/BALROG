@@ -48,7 +48,7 @@ vllm serve meta-llama/Llama-3.2-1B-Instruct --port 8080
 python eval.py \
   agent.type=naive \
   agent.max_image_history=0 \
-  agent.max_history=16 \
+  agent.max_text_history=16 \
   eval.num_workers=32 \
   client.client_name=vllm \
   client.model_id=meta-llama/Llama-3.2-1B-Instruct \
@@ -83,7 +83,7 @@ You can then run the evaluation with:
 python eval.py \
   agent.type=naive \
   agent.max_image_history=0 \
-  agent.max_history=16 \
+  agent.max_text_history=16 \
   eval.num_workers=16 \
   client.client_name=openai \
   client.model_id=gpt-4o-mini-2024-07-18
