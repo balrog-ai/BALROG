@@ -87,7 +87,7 @@ python eval.py \
 | **eval.num_episodes**     | Number of episodes per environment for evaluation.                                                | `{nle: 5, minihack: 5, babyai: 25, ...}` |
 | **eval.save_trajectories**| Whether to save agent trajectories during evaluation.                                             | `True`                                    |
 | **eval.save_images**      | Whether to save images of the trajectory  during evaluation.                                      | `False`                                    |
-| **client.client_name**    | Type of the client used, e.g. for vLLM servers you would use `vllm`.                              | `openai`                                  |
+| **client.client_name**    | Type of the client used, `vllm`, `openai`, `gemini`, `claude`                              | `openai`                                  |
 | **client.model_id**       | Name of the model used.                                                                           | `gpt-4o`                                  |
 | **client.base_url**       | Base URL of the model server for API requests with vllm.                                          | `http://localhost:8080/v1`                       |
 | **client.is_chat_model**  | Indicates if the model follows a chat-based interface.                                            | `True`                                    |
