@@ -75,7 +75,7 @@ python eval.py \
 
 ## ⚙️ Configuring Eval
 
-`eval.py` is configured using Hydra. We list some options below. For more details, refer to the [eval config](https://github.com/DavidePaglieri/BALROG/blob/main/config/config.yaml).
+`eval.py` is configured using Hydra. We list some options below. For more details, refer to the [eval config](https://github.com/balrog-ai/BALROG/blob/main/balrog/config/config.yaml).
 
 | Parameter                 | Description                                                                                       | Default Value                             |
 |---------------------------|---------------------------------------------------------------------------------------------------|-------------------------------------------|
