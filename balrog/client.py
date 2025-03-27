@@ -306,24 +306,30 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
 
         Returns:
             str: The extracted completion text.
+            
+        Raises:
+            Exception: If response is None or missing expected fields.
         """
         if not response:
-            logger.error("Response is None, cannot extract completion.")
-            return ""
+            raise Exception("Response is None, cannot extract completion.")
 
         candidates = getattr(response, "candidates", [])
         if not candidates:
-            logger.error("No candidates found in the response.")
-            return ""
+            raise Exception("No candidates found in the response.")
 
         candidate = candidates[0]
         content = getattr(candidate, "content", None)
+        if not content:
+            raise Exception("No content found in the candidate.")
+            
         content_parts = getattr(content, "parts", [])
         if not content_parts:
-            logger.error("No content parts found in the candidate.")
-            return ""
+            raise Exception("No content parts found in the candidate.")
 
-        text = getattr(content_parts[0], "text", "")
+        text = getattr(content_parts[0], "text", None)
+        if text is None:
+            raise Exception("No text found in the content parts.")
+            
         return text.strip()
 
     def generate(self, messages):
@@ -346,8 +352,11 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
             )
 
         response = self.execute_with_retries(api_call)
-
-        completion = self.extract_completion(response)
+        
+        def extract_completion_call():
+            return self.extract_completion(response)
+            
+        completion = self.execute_with_retries(extract_completion_call)
 
         return LLMResponse(
             model_id=self.model_id,
