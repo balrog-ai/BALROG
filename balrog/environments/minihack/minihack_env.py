@@ -3,7 +3,7 @@ from typing import Optional
 import gym
 import minihack  # NOQA: F401
 
-from balrog.environments.nle import NLELanguageWrapper
+from balrog.environments.nle import AutoMore, NLELanguageWrapper
 from balrog.environments.wrappers import GymV21CompatibilityV0, NLETimeLimit
 
 MINIHACK_ENVS = []
@@ -30,7 +30,9 @@ def make_minihack_env(env_name, task, config, render_mode: Optional[str] = None)
         ],
         **minihack_kwargs,
     )
-    env = NLELanguageWrapper(env, vlm=vlm, skip_more=skip_more)
+    if skip_more:
+        env = AutoMore(env)
+    env = NLELanguageWrapper(env, vlm=vlm)
 
     # wrap NLE with timeout
     env = NLETimeLimit(env)

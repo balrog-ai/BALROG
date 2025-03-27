@@ -1,7 +1,7 @@
 agent: 
   type: naive            # Type of agent to use (e.g., 'naive', 'cot', etc.)
   remember_cot: True     # Whether the agent should remember its reasoning across turns
-  max_history: 16        # Maximum number of previous turns to keep in the dialogue history
+  max_text_history: 16   # Maximum number of text messages to keep in the history
   max_image_history: 0   # Maximum number of images to keep in the history
   max_cot_history: 1     # Maximum number of chain-of-thought steps to keep in history (if using 'cot' type of agent)
   max_icl_history: 1000   # Maximum number of ICL steps to keep in history (if using 'few_shot' type of agent)
@@ -30,7 +30,7 @@ client:
   model_id: gpt-4o              # Model identifier (e.g., 'gpt-4', 'gpt-3.5-turbo')
   base_url: http://localhost:8080/v1   # Base URL for the API (if using a local server)
   generate_kwargs:
-    temperature: null           # Sampling temperature. If null the API default temperature is used instead
+    temperature: 1.0            # Sampling temperature. If null the API default temperature is used instead
     max_tokens: 4096            # Max tokens to generate in the response
   timeout: 60                   # Timeout for API requests in seconds
   max_retries: 5                # Max number of retries for failed API calls
@@ -47,7 +47,7 @@ envs:
     no_progress_timeout: 150    # Timeout for no progress in NLE
     savedir: null               # Directory to save NLE data; null disables saving
     save_ttyrec_every: 0        # Frequency of saving TTY recordings
-    skip_more: False            # Whether to skip the 'more' prompt in NLE
+    skip_more: True            # Whether to skip the 'more' prompt in NLE
   minihack_kwargs: 
     character: "@"
     max_episode_steps: 100
@@ -57,15 +57,14 @@ envs:
     savedir: null
     save_ttyrec_every: 0
     autopickup: False           
-    skip_more: False
+    skip_more: True
   babyai_kwargs:
     num_dists: 0                
   crafter_kwargs:
     area: [64, 64]              
     view: [9, 9]                
     size: [256, 256]            # Image size in Crafter
-    reward: True                
-    length: 10000               
+    reward: True                            
     seed: null                  
     max_episode_steps: 2000     
   textworld_kwargs:

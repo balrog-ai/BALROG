@@ -14,14 +14,13 @@ from .render_rgb import rgb_render_image
 
 
 class NLELanguageWrapper(language_wrapper.NLELanguageWrapper):
-    def __init__(self, env, vlm=False, skip_more=False):
+    def __init__(self, env, vlm=False):
         super().__init__(env, use_language_action=True)
         self.nle_language = nle_language_obsv.NLELanguageObsv()
         self.language_action_space = self.create_action_space()
         self.env = env
         self.vlm = vlm
         self.done = False
-        self.skip_more = skip_more
 
         if not vlm:
             self.prompt_mode = "hybrid"
@@ -77,28 +76,15 @@ class NLELanguageWrapper(language_wrapper.NLELanguageWrapper):
         else:
             raise ValueError(f'"{self.prompt_mode}" is not a valid prompt mode.')
 
-    def clean_message(self, nle_obsv):
-        message = self.nle_language.text_message(nle_obsv["tty_chars"]).decode("latin-1")
-        if not self.skip_more:
-            while "--More--" in message and not self.done:
-                message = message.replace("--More--", " ")
-                message = message.replace("\n", " ")
-
-                nle_obsv, reward, self.done, info = self.step("more")
-                add = self.nle_language.text_message(nle_obsv["obs"]["tty_chars"]).decode("latin-1")
-                message += add
-                return message, nle_obsv["obs"]
-        return message, nle_obsv
-
     def render(self, mode="human"):
         if mode == "tiles":
-            obs = self.env.last_observation
-            glyphs = obs[self.env._observation_keys.index("glyphs")]
+            obs = self.env.unwrapped.last_observation
+            glyphs = obs[self.env.unwrapped._observation_keys.index("glyphs")]
             return rgb_render_image(glyphs)
         elif mode == "tty_image":
-            obs = self.env.last_observation
-            tty_chars = obs[self.env._observation_keys.index("tty_chars")]
-            tty_colors = obs[self.env._observation_keys.index("tty_colors")]
+            obs = self.env.unwrapped.last_observation
+            tty_chars = obs[self.env.unwrapped._observation_keys.index("tty_chars")]
+            tty_colors = obs[self.env.unwrapped._observation_keys.index("tty_colors")]
             return tty_render_image(tty_chars, tty_colors)
         else:
             return super().render(mode)
@@ -150,7 +136,11 @@ class NLELanguageWrapper(language_wrapper.NLELanguageWrapper):
             (dict): language observation
         """
 
-        message, nle_obsv = self.clean_message(nle_obsv)
+        message = (
+            nle_obsv["text_message"]
+            if "text_message" in nle_obsv
+            else self.nle_language.text_message(nle_obsv["tty_chars"]).decode("latin-1")
+        )
 
         glyphs = nle_obsv["glyphs"]
         blstats = nle_obsv["blstats"]
