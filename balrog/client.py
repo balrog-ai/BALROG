@@ -351,18 +351,18 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
         converted_messages = self.convert_messages(messages)
 
         def api_call():
-            return self.model.generate_content(
+            response = self.model.generate_content(
                 converted_messages,
                 generation_config=self.generation_config,
             )
+            # Attempt to extract completion immediately after API call
+            completion = self.extract_completion(response)
+            # Return both response and completion if successful
+            return response, completion
 
-        response = self.execute_with_retries(api_call)
+        # Execute the API call and extraction together with retries
+        response, completion = self.execute_with_retries(api_call)
         
-        def extract_completion_call():
-            return self.extract_completion(response)
-            
-        completion = self.execute_with_retries(extract_completion_call)
-
         return LLMResponse(
             model_id=self.model_id,
             completion=completion,
