@@ -22,28 +22,6 @@ class BattleshipsWrapper(gym.Wrapper):
     def get_text_action(self, action):
         return self.language_action_space[action]
 
-    def get_text_observation(self, obs):
-        board = np.empty(self.env.board_size, dtype=str)
-
-        # Create a mask for sunk ships
-        sunk_mask = np.zeros_like(self.ships, dtype=bool)
-        for i in self.sunk_ships:
-            sunk_mask = np.logical_or(sunk_mask, self.ships == i)
-
-        board[obs[0] != 0] = "❌"
-        board[obs[1] != 0] = "⚫"
-        board[sunk_mask] = "💥"  # Sunk ships
-
-        num_rows, num_columns = board.shape
-        columns = [chr(i) for i in range(ord("A"), ord("A") + num_columns)]
-        index = [i + 1 for i in range(num_rows)]
-
-        dataframe = pd.DataFrame(board, columns=columns, index=index)
-        dataframe = dataframe.replace([""], "⬜")
-        obsv = str(dataframe)
-
-        return obsv
-
     def get_feedback(self, reward, old_reward):
         if reward is None:
             return ""
@@ -60,7 +38,9 @@ class BattleshipsWrapper(gym.Wrapper):
             return "MISS! Your missile splashed into empty water."
 
     def battleships_process_obsv(self, obs, reward, old_reward):
-        text_observation = self.get_text_observation(obs)
+        dataframe = self.get_dataframe(obs)
+
+        text_observation = self.get_text_observation(dataframe)
         feedback = self.get_feedback(reward, old_reward)
 
         prompt = (
@@ -72,7 +52,7 @@ class BattleshipsWrapper(gym.Wrapper):
         obs = defaultdict(lambda: None)
 
         obs["text"] = {"long_term_context": prompt, "short_term_context": ""}
-        image = None  # TODO add rendering
+        image = self.get_image_observation(dataframe)
         obs["image"] = image
 
         return obs
@@ -125,3 +105,89 @@ class BattleshipsWrapper(gym.Wrapper):
 
     def get_stats(self):
         return {"progression": self.progression}
+
+    def get_dataframe(self, obs):
+        board = np.empty(self.env.board_size, dtype=str)
+
+        # Create a mask for sunk ships
+        sunk_mask = np.zeros_like(self.ships, dtype=bool)
+        for i in self.sunk_ships:
+            sunk_mask = np.logical_or(sunk_mask, self.ships == i)
+
+        board[obs[0] != 0] = "❌"
+        board[obs[1] != 0] = "⚫"
+        board[sunk_mask] = "💥"  # Sunk ships
+
+        num_rows, num_columns = board.shape
+        columns = [chr(i) for i in range(ord("A"), ord("A") + num_columns)]
+        index = [i + 1 for i in range(num_rows)]
+
+        dataframe = pd.DataFrame(board, columns=columns, index=index)
+        dataframe = dataframe.replace([""], "⬜")
+
+        return dataframe
+
+    def get_text_observation(self, dataframe):
+        obsv = str(dataframe)
+
+        return obsv
+
+    def get_image_observation(self, dataframe):
+        # import matplotlib.pyplot as plt
+        # from matplotlib.colors import LinearSegmentedColormap
+        # from matplotlib.figure import Figure
+        # from matplotlib.backends.backend_agg import FigureCanvasAgg
+        # import io
+        # from PIL import Image
+
+        # # Define colors for each cell type
+        # color_map = {
+        #     "⬜": [0.9, 0.9, 1.0],    # Light blue for empty water
+        #     "❌": [1.0, 0.0, 0.0],    # Red for hits
+        #     "⚫": [0.3, 0.3, 0.3],    # Dark gray for misses
+        #     "💥": [1.0, 0.6, 0.0]     # Orange for sunk ships
+        # }
+
+        # # Create a numerical representation for colormapping
+        # numeric_board = np.zeros(dataframe.shape + (3,), dtype=float)
+
+        # for i in range(dataframe.shape[0]):
+        #     for j in range(dataframe.shape[1]):
+        #         cell_value = dataframe.iloc[i, j]
+        #         numeric_board[i, j] = color_map.get(cell_value, [1, 1, 1])
+
+        # # Create a figure with the right dimensions and no padding
+        # fig_width = dataframe.shape[1] + 1  # +1 for row labels
+        # fig_height = dataframe.shape[0] + 1  # +1 for column labels
+        # fig = Figure(figsize=(fig_width, fig_height), dpi=72)
+        # canvas = FigureCanvasAgg(fig)
+        # ax = fig.add_subplot(111)
+
+        # # Plot the board
+        # ax.imshow(numeric_board, aspect='equal')
+
+        # # Add grid lines
+        # ax.set_xticks(np.arange(-0.5, dataframe.shape[1], 1), minor=True)
+        # ax.set_yticks(np.arange(-0.5, dataframe.shape[0], 1), minor=True)
+        # ax.grid(which='minor', color='black', linestyle='-', linewidth=1)
+
+        # # Add column labels (A, B, C, ...)
+        # ax.set_xticks(np.arange(dataframe.shape[1]))
+        # ax.set_xticklabels(dataframe.columns)
+
+        # # Add row labels (1, 2, 3, ...)
+        # ax.set_yticks(np.arange(dataframe.shape[0]))
+        # ax.set_yticklabels(dataframe.index)
+
+        # # Remove axis padding
+        # ax.set_xlim(-0.5, dataframe.shape[1] - 0.5)
+        # ax.set_ylim(-0.5, dataframe.shape[0] - 0.5)
+
+        # # Render the figure to a numpy array
+        # canvas.draw()
+        # buf = io.BytesIO()
+        # fig.savefig(buf, format='png', bbox_inches='tight', pad_inches=0.1)
+        # buf.seek(0)
+
+        # return Image.open(buf)
+        return None

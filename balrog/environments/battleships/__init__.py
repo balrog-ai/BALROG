@@ -39,7 +39,9 @@ Tips:
 - When you get a hit, explore adjacent cells to determine ship orientation
 - Avoid targeting cells adjacent to sunken ships
 
-For each turn, provide the coordinate you wish to attack (e.g., "E5")
+IMPORTANT: Your response must be EXACTLY one coordinate in the format of a letter followed by a number (e.g., "E5", "A1", "J10"). Do not provide any explanation or reasoning in your response.
+Valid responses: "A1", "B3", "J10"
+Invalid responses: "A", "1", "Attack A1", "I choose A1"
 
 PLAY
 """.strip()
