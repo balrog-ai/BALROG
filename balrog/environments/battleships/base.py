@@ -24,8 +24,15 @@ class BattleshipsWrapper(gym.Wrapper):
 
     def get_text_observation(self, obs):
         board = np.empty(self.env.board_size, dtype=str)
+
+        # Create a mask for sunk ships
+        sunk_mask = np.zeros_like(self.ships, dtype=bool)
+        for i in self.sunk_ships:
+            sunk_mask = np.logical_or(sunk_mask, self.ships == i)
+
         board[obs[0] != 0] = "❌"
         board[obs[1] != 0] = "⚫"
+        board[sunk_mask] = "💥"  # Sunk ships
 
         num_rows, num_columns = board.shape
         columns = [chr(i) for i in range(ord("A"), ord("A") + num_columns)]
