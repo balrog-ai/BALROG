@@ -77,7 +77,7 @@ class BattleshipsWrapper(gym.Wrapper):
 
             for i in range(1, self.num_ships + 1):
                 ship = (self.ships == i).astype(int)
-                ship_sunk = np.all(np.bitwise_and(ship, hits[0].astype(int)) == ship)
+                ship_sunk = np.all(np.bitwise_and(ship, hits.astype(int)) == ship)
                 if ship_sunk and i not in self.sunk_ships:
                     self.sunk_ships.add(i)
                     return 10  # +10 reward for sinking the ship
