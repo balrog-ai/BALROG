@@ -33,15 +33,16 @@ Game Rules:
 The enemy has the following ships:
 {ships_strings}
 
-In a moment I will present you an observation.
+In a moment I will present you an observation grid. This grid represents the current state of a Battleship game. The format uses the following notation:
+- O: Water (missed shot)
+- X: Hit (part of a ship that has been hit)
+- Z: Sunk (indicates that the entire ship has been sunk)
 
 Tips:
-- When you get a hit, explore adjacent cells to determine ship orientation
-- Avoid targeting cells adjacent to sunken ships
+- When you get a hit, try to sunk the ship as you get more reward for that.
+- Avoid targeting cells adjacent to sunken ships.
 
 IMPORTANT: Your response must be EXACTLY one coordinate in the format of a letter followed by a number (e.g., "E5", "A1", "J10"). Do not provide any explanation or reasoning in your response.
-Valid responses: "A1", "B3", "J10"
-Invalid responses: "A", "1", "Attack A1", "I choose A1"
 
 PLAY
 """.strip()

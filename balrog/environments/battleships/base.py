@@ -43,11 +43,7 @@ class BattleshipsWrapper(gym.Wrapper):
         text_observation = self.get_text_observation(dataframe)
         feedback = self.get_feedback(reward, old_reward)
 
-        prompt = (
-            f"Objects on the map:\n{text_observation}\n{feedback}"
-            if feedback
-            else f"Objects on the map:\n{text_observation}"
-        )
+        prompt = f"{text_observation}\n{feedback}" if feedback else f"Objects on the map:\n{text_observation}"
 
         obs = defaultdict(lambda: None)
 
@@ -114,16 +110,16 @@ class BattleshipsWrapper(gym.Wrapper):
         for i in self.sunk_ships:
             sunk_mask = np.logical_or(sunk_mask, self.ships == i)
 
-        board[obs[0] != 0] = "❌"
-        board[obs[1] != 0] = "⚫"
-        board[sunk_mask] = "💥"  # Sunk ships
+        board[obs[0] != 0] = "X"
+        board[obs[1] != 0] = "O"
+        board[sunk_mask] = "Z"  # Sunk ships
 
         num_rows, num_columns = board.shape
         columns = [chr(i) for i in range(ord("A"), ord("A") + num_columns)]
         index = [i + 1 for i in range(num_rows)]
 
         dataframe = pd.DataFrame(board, columns=columns, index=index)
-        dataframe = dataframe.replace([""], "⬜")
+        dataframe = dataframe.replace([""], " ")
 
         return dataframe
 
