@@ -87,7 +87,7 @@ class BattleshipsWrapper(gym.Wrapper):
 
         return self.battleships_process_obsv(obs, None, None)
 
-    def _reward_shaping(self, action, obs, reward):
+    def _reward_shaping(self, obs, reward):
         # If the reward is for a hit (touched)
         if reward == self.env.reward_dictionary["touched"]:
             hits = obs[0]
@@ -107,7 +107,7 @@ class BattleshipsWrapper(gym.Wrapper):
         action_int = self.language_action_space.index(action)
         obs, old_reward, done, info = self.env.step(action_int)
 
-        reward = self._reward_shaping(action_int, obs, old_reward)
+        reward = self._reward_shaping(obs, old_reward)
 
         self.total_reward += reward
 
@@ -118,23 +118,3 @@ class BattleshipsWrapper(gym.Wrapper):
 
     def get_stats(self):
         return {"progression": self.progression}
-
-
-# TODO json representation
-#     {
-#   "board": {
-#     "rows": 10,
-#     "columns": 10,
-#     "cells": [
-#       {"row": "A", "col": 1, "state": "water"},
-#       {"row": "A", "col": 2, "state": "water"},
-#       // … additional cells …
-#       {"row": "B", "col": 2, "state": "ship"},
-#       {"row": "B", "col": 3, "state": "ship"},
-#       {"row": "B", "col": 8, "state": "miss"}
-#     ]
-#   },
-#   "ships": [
-#     {"name": "Destroyer", "length": 3, "positions": ["E4", "E5", "E6"]}
-#   ]
-# }
