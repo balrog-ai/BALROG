@@ -38,6 +38,8 @@ class EnvWrapper(gym.Wrapper):
             obs = obs
         elif self.env_name == "crafter":
             obs = obs
+        elif self.env_name == "battleships":
+            obs = obs
         else:
             raise ValueError(f"Unknown environment: {self.env_name}")
 
@@ -76,6 +78,10 @@ class EnvWrapper(gym.Wrapper):
             from balrog.environments.crafter import get_instruction_prompt
 
             return get_instruction_prompt(self.task_name)
+        elif self.env_name == "battleships":
+            from balrog.environments.battleships import get_instruction_prompt
+
+            return get_instruction_prompt(self.env, self.task_name)
         else:
             raise ValueError(f"Unknown environment: {self.env_namee}")
 

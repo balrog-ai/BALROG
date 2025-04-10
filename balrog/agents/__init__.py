@@ -1,13 +1,14 @@
 from balrog.client import create_llm_client
 
 from ..prompt_builder import create_prompt_builder
+from .battleships_naive import NaiveAgent as BattleshipsNaive
 from .chain_of_thought import ChainOfThoughtAgent
 from .custom import CustomAgent
 from .dummy import DummyAgent
 from .few_shot import FewShotAgent
 from .naive import NaiveAgent
-from .robust_naive import RobustNaiveAgent
 from .robust_cot import RobustCoTAgent
+from .robust_naive import RobustNaiveAgent
 
 
 class AgentFactory:
@@ -44,6 +45,8 @@ class AgentFactory:
 
         if self.config.agent.type == "naive":
             return NaiveAgent(client_factory, prompt_builder)
+        if self.config.agent.type == "battleships_naive":
+            return BattleshipsNaive(client_factory, prompt_builder)
         elif self.config.agent.type == "cot":
             return ChainOfThoughtAgent(client_factory, prompt_builder, config=self.config)
         elif self.config.agent.type == "dummy":

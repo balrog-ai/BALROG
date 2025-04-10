@@ -15,6 +15,7 @@ eval:
     nle: 5               # Number of episodes for the 'nle' environment
     minihack: 5          # Number of episodes for each 'minihack' task
     babyai: 10           # Number of episodes for each 'babyai' task
+    battleships: 10
     crafter: 10          # Number of episodes for the 'crafter' environment
     babaisai: 3          # Number of episodes for each 'babaisai' task
     textworld: 10        # Number of episodes for each 'textworld' task
@@ -58,6 +59,14 @@ envs:
     save_ttyrec_every: 0
     autopickup: False           
     skip_more: True
+  battleships_kwargs:
+    episode_steps: 50
+    board_size: [10, 10]
+    ship_sizes: 
+      5: 1
+      4: 1
+      3: 2
+      2: 1
   babyai_kwargs:
     num_dists: 0                
   crafter_kwargs:
@@ -101,6 +110,9 @@ tasks:
     - "BabyAI-MixedTrainLocal-v0/open"
     - "BabyAI-MixedTrainLocal-v0/putnext"
     - "BabyAI-MixedTrainLocal-v0/pick_up_seq_go_to"
+
+  battleships_tasks:
+    - "Battleship-v0"
 
   textworld_tasks:
     - "treasure_hunter"
