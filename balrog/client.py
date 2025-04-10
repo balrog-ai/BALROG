@@ -2,6 +2,9 @@ import base64
 import datetime
 import logging
 import time
+import json
+import csv
+import os
 from collections import namedtuple
 from io import BytesIO
 
@@ -360,29 +363,54 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
             # Return both response and completion if successful
             return response, completion
 
-        # Execute the API call and extraction together with retries
-        response, completion = self.execute_with_retries(api_call)
-        
-        return LLMResponse(
-            model_id=self.model_id,
-            completion=completion,
-            stop_reason=(
-                getattr(response.candidates[0], "finish_reason", "unknown")
-                if response and getattr(response, "candidates", [])
-                else "unknown"
-            ),
-            input_tokens=(
-                getattr(response.usage_metadata, "prompt_token_count", 0)
-                if response and getattr(response, "usage_metadata", None)
-                else 0
-            ),
-            output_tokens=(
-                getattr(response.usage_metadata, "candidates_token_count", 0)
-                if response and getattr(response, "usage_metadata", None)
-                else 0
-            ),
-            reasoning=None,
-        )
+        try:
+            # Execute the API call and extraction together with retries
+            response, completion = self.execute_with_retries(api_call)
+
+            # Check if the successful response contains an empty completion
+            if not completion or completion.strip() == "":
+                logger.warning(f"Gemini returned an empty completion for model {self.model_id}. Returning default empty response.")
+                return LLMResponse(
+                    model_id=self.model_id,
+                    completion="",
+                    stop_reason="empty_response",
+                    input_tokens=getattr(response.usage_metadata, "prompt_token_count", 0) if response and getattr(response, "usage_metadata", None) else 0,
+                    output_tokens=getattr(response.usage_metadata, "candidates_token_count", 0) if response and getattr(response, "usage_metadata", None) else 0,
+                    reasoning=None,
+                )
+            else:
+                # If completion is not empty, return the normal response
+                return LLMResponse(
+                    model_id=self.model_id,
+                    completion=completion,
+                    stop_reason=(
+                        getattr(response.candidates[0], "finish_reason", "unknown")
+                        if response and getattr(response, "candidates", [])
+                        else "unknown"
+                    ),
+                    input_tokens=(
+                        getattr(response.usage_metadata, "prompt_token_count", 0)
+                        if response and getattr(response, "usage_metadata", None)
+                        else 0
+                    ),
+                    output_tokens=(
+                        getattr(response.usage_metadata, "candidates_token_count", 0)
+                        if response and getattr(response, "usage_metadata", None)
+                        else 0
+                    ),
+                    reasoning=None,
+                )
+        except Exception as e:
+            logger.error(f"API call failed after {self.max_retries} retries: {e}. Returning empty completion.")
+            # Return a default response indicating failure
+            return LLMResponse(
+                model_id=self.model_id,
+                completion="",
+                stop_reason="error_max_retries",
+                input_tokens=0, # Assuming 0 tokens consumed if call failed
+                output_tokens=0,
+                reasoning=None,
+            )
 
 
 class ClaudeWrapper(LLMClientWrapper):
