@@ -112,7 +112,7 @@ def describe_env(info):
     target_y = center[1] + facing[1]
 
     if 0 <= target_x < max_x and 0 <= target_y < max_y:
-        target_id = semantic[int(target_y), int(target_x)]
+        target_id = semantic[int(target_x), int(target_y)]
         target_item = id_to_item[target_id]
         obs = "You face {} at your front.".format(target_item)
     else:
