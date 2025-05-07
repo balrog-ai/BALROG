@@ -7,7 +7,7 @@ with open("README.md", "r") as f:
 setup(
     # Information
     name="balrog",
-    description="Benchmark for In Context Learning",
+    description="Benchmark for Agentic LLM and VLM Reasoning On Games",
     long_description=long_description,
     long_description_content_type="text/markdown",
     version="0.1.0",
