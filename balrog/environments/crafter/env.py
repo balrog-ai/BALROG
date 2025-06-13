@@ -78,17 +78,25 @@ def rotation_matrix(v1, v2):
 
 
 def describe_loc(ref, P):
+    """
+    Describe the location of P relative to ref.
+    Example: `1 step south and 4 steps west`
+    """
     desc = []
-    if ref[1] > P[1]:
-        desc.append("north")
-    elif ref[1] < P[1]:
-        desc.append("south")
-    if ref[0] > P[0]:
-        desc.append("west")
-    elif ref[0] < P[0]:
-        desc.append("east")
 
-    return "-".join(desc)
+    def distange_to_string(distance, direction):
+        return f"{abs(distance)} step{'s' if abs(distance) > 1 else ''} {direction}"
+
+    if ref[1] > P[1]:
+        desc.append(distange_to_string(ref[1] - P[1], "north"))
+    elif ref[1] < P[1]:
+        desc.append(distange_to_string(ref[1] - P[1], "south"))
+    if ref[0] > P[0]:
+        desc.append(distange_to_string(ref[0] - P[0], "west"))
+    elif ref[0] < P[0]:
+        desc.append(distange_to_string(ref[0] - P[0], "east"))
+
+    return " and ".join(desc) if desc else "at your location"
 
 
 def describe_env(info):
@@ -99,11 +107,6 @@ def describe_env(info):
     ]
     center = np.array([info["view"][0] // 2, info["view"][1] // 2 - 1])
     result = ""
-    x = np.arange(semantic.shape[1])
-    y = np.arange(semantic.shape[0])
-    x1, y1 = np.meshgrid(x, y)
-    loc = np.stack((y1, x1), axis=-1)
-    dist = np.absolute(center - loc).sum(axis=-1)
     obj_info_list = []
 
     facing = info["player_facing"]
@@ -114,27 +117,29 @@ def describe_env(info):
     if 0 <= target_x < max_x and 0 <= target_y < max_y:
         target_id = semantic[int(target_x), int(target_y)]
         target_item = id_to_item[target_id]
+
+        # skip grass, sand or path so obs here, since we are not displaying them
+        if target_id in [id_to_item.index(o) for o in ["grass", "sand", "path"]]:
+            target_item = "nothing"
+
         obs = "You face {} at your front.".format(target_item)
     else:
         obs = "You face nothing at your front."
 
-    for idx in np.unique(semantic):
-        if idx == player_idx:
-            continue
+    for i in range(semantic.shape[0]):
+        for j in range(semantic.shape[1]):
+            idx = semantic[i, j]
+            if idx == player_idx:
+                continue
 
-        smallest = np.unravel_index(np.argmin(np.where(semantic == idx, dist, np.inf)), semantic.shape)
-        obj_info_list.append(
-            (
-                id_to_item[idx],
-                dist[smallest],
-                describe_loc(np.array([0, 0]), smallest - center),
-            )
-        )
+            # skip grass, sand or path so obs is not too long
+            if idx in [id_to_item.index(o) for o in ["grass", "sand", "path"]]:
+                continue
+
+            obj_info_list.append((id_to_item[idx], describe_loc(np.array([0, 0]), np.array([i, j]) - center)))
 
     if len(obj_info_list) > 0:
-        status_str = "You see:\n{}".format(
-            "\n".join(["- {} {} steps to your {}".format(name, dist, loc) for name, dist, loc in obj_info_list])
-        )
+        status_str = "You see:\n{}".format("\n".join(["- {} {}".format(name, loc) for name, loc in obj_info_list]))
     else:
         status_str = "You see nothing away from you."
     result += status_str + "\n\n"
