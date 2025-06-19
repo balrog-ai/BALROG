@@ -66,7 +66,11 @@ envs:
     size: [256, 256]            # Image size in Crafter
     reward: True                            
     seed: null                  
-    max_episode_steps: 2000     
+    max_episode_steps: 2000
+    unique_items: True
+    precise_location: False
+    skip_items: []
+    edge_only_items: []
   textworld_kwargs:
     objective: True             
     description: True           

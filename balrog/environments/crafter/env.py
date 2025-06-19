@@ -1,4 +1,5 @@
 import itertools
+from collections import defaultdict
 
 import crafter
 import gym
@@ -78,7 +79,7 @@ def rotation_matrix(v1, v2):
     return rotation_matrix
 
 
-def describe_loc(ref, P):
+def describe_loc_precise(ref, P):
     """
     Describe the location of P relative to ref.
     Example: `1 step south and 4 steps west`
@@ -100,6 +101,23 @@ def describe_loc(ref, P):
     return " and ".join(desc) if desc else "at your location"
 
 
+def describe_loc_old(ref, P):
+    desc = []
+    if ref[1] > P[1]:
+        desc.append("north")
+    elif ref[1] < P[1]:
+        desc.append("south")
+    if ref[0] > P[0]:
+        desc.append("west")
+    elif ref[0] < P[0]:
+        desc.append("east")
+
+    distance = abs(ref[1] - P[1]) + abs(ref[0] - P[0])
+    distance_str = f"{distance} step{'s' if distance > 1 else ''} to your {'-'.join(desc)}"
+
+    return distance_str
+
+
 def get_edge_items(semantic, item_idx):
     item_mask = semantic == item_idx
     not_item_mask = semantic != item_idx
@@ -107,7 +125,13 @@ def get_edge_items(semantic, item_idx):
     return item_edge
 
 
-def describe_env(info):
+def describe_env(
+    info,
+    unique_items=True,
+    precise_location=True,
+    skip_items=["grass", "sand", "path"],
+    edge_only_items=["water"],
+):
     assert info["semantic"][info["player_pos"][0], info["player_pos"][1]] == player_idx
     semantic = info["semantic"][
         info["player_pos"][0] - info["view"][0] // 2 : info["player_pos"][0] + info["view"][0] // 2 + 1,
@@ -115,6 +139,7 @@ def describe_env(info):
     ]
     center = np.array([info["view"][0] // 2, info["view"][1] // 2 - 1])
     result = ""
+    describe_loc = describe_loc_precise if precise_location else describe_loc_old
     obj_info_list = []
 
     facing = info["player_facing"]
@@ -127,7 +152,7 @@ def describe_env(info):
         target_item = id_to_item[target_id]
 
         # skip grass, sand or path so obs here, since we are not displaying them
-        if target_id in [id_to_item.index(o) for o in ["grass", "sand", "path"]]:
+        if target_id in [id_to_item.index(o) for o in skip_items]:
             target_item = "nothing"
 
         obs = "You face {} at your front.".format(target_item)
@@ -135,9 +160,7 @@ def describe_env(info):
         obs = "You face nothing at your front."
 
     # Edge detection
-    edge_only_items = ["water"]
     edge_masks = {}
-
     for item_name in edge_only_items:
         item_idx = id_to_item.index(item_name)
         edge_masks[item_idx] = get_edge_items(semantic, item_idx)
@@ -153,10 +176,25 @@ def describe_env(info):
                 continue
 
             # skip grass, sand or path so obs is not too long
-            if idx in [id_to_item.index(o) for o in ["grass", "sand", "path"]]:
+            if idx in [id_to_item.index(o) for o in skip_items]:
                 continue
 
             obj_info_list.append((id_to_item[idx], describe_loc(np.array([0, 0]), np.array([i, j]) - center)))
+
+    # filter out items, so we only display closest item of each type
+    if unique_items:
+        closest_obj_info_list = defaultdict(str)
+        for item_name, loc in obj_info_list:
+            loc_dist = int(loc.split(" ")[0])
+            current_dist = (
+                int(closest_obj_info_list[item_name].split(" ")[0])
+                if closest_obj_info_list[item_name]
+                else float("inf")
+            )
+
+            if current_dist > loc_dist:
+                closest_obj_info_list[item_name] = loc
+        obj_info_list = [(name, loc) for name, loc in closest_obj_info_list.items()]
 
     if len(obj_info_list) > 0:
         status_str = "You see:\n{}".format("\n".join(["- {} {}".format(name, loc) for name, loc in obj_info_list]))
@@ -192,13 +230,25 @@ def describe_status(info):
         return ""
 
 
-def describe_frame(info):
+def describe_frame(
+    info,
+    unique_items=True,
+    precise_location=True,
+    skip_items=["grass", "sand", "path"],
+    edge_only_items=["water"],
+):
     try:
         result = ""
 
         result += describe_status(info)
         result += "\n\n"
-        result += describe_env(info)
+        result += describe_env(
+            info,
+            unique_items=unique_items,
+            precise_location=precise_location,
+            skip_items=skip_items,
+            edge_only_items=edge_only_items,
+        )
         result += "\n\n"
 
         return result.strip(), describe_inventory(info)
@@ -216,6 +266,10 @@ class CrafterLanguageWrapper(gym.Wrapper):
         env,
         task="",
         max_episode_steps=2,
+        unique_items=True,
+        precise_location=True,
+        skip_items=["grass", "sand", "path"],
+        edge_only_items=["water"],
     ):
         super().__init__(env)
         self.score_tracker = 0
@@ -223,6 +277,11 @@ class CrafterLanguageWrapper(gym.Wrapper):
         self.default_action = "Noop"
         self.max_steps = max_episode_steps
         self.achievements = None
+
+        self.unique_items = unique_items
+        self.precise_location = precise_location
+        self.skip_items = skip_items
+        self.edge_only_items = edge_only_items
 
     def get_text_action(self, action):
         return self.language_action_space._values[action]
@@ -257,7 +316,13 @@ class CrafterLanguageWrapper(gym.Wrapper):
 
     def process_obs(self, obs, info):
         img = Image.fromarray(self.env.render()).convert("RGB")
-        long_term_context, short_term_context = describe_frame(info)
+        long_term_context, short_term_context = describe_frame(
+            info,
+            unique_items=self.unique_items,
+            precise_location=self.precise_location,
+            skip_items=self.skip_items,
+            edge_only_items=self.edge_only_items,
+        )
 
         return {
             "text": {
