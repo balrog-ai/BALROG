@@ -128,9 +128,9 @@ def get_edge_items(semantic, item_idx):
 def describe_env(
     info,
     unique_items=True,
-    precise_location=True,
-    skip_items=["grass", "sand", "path"],
-    edge_only_items=["water"],
+    precise_location=False,
+    skip_items=[],
+    edge_only_items=[],
 ):
     assert info["semantic"][info["player_pos"][0], info["player_pos"][1]] == player_idx
     semantic = info["semantic"][
@@ -233,9 +233,9 @@ def describe_status(info):
 def describe_frame(
     info,
     unique_items=True,
-    precise_location=True,
-    skip_items=["grass", "sand", "path"],
-    edge_only_items=["water"],
+    precise_location=False,
+    skip_items=[],
+    edge_only_items=[],
 ):
     try:
         result = ""
@@ -267,9 +267,9 @@ class CrafterLanguageWrapper(gym.Wrapper):
         task="",
         max_episode_steps=2,
         unique_items=True,
-        precise_location=True,
-        skip_items=["grass", "sand", "path"],
-        edge_only_items=["water"],
+        precise_location=False,
+        skip_items=[],
+        edge_only_items=[],
     ):
         super().__init__(env)
         self.score_tracker = 0
