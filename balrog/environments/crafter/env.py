@@ -4,6 +4,7 @@ import crafter
 import gym
 import numpy as np
 from PIL import Image
+from scipy import ndimage
 
 from balrog.environments import Strings
 
@@ -99,6 +100,13 @@ def describe_loc(ref, P):
     return " and ".join(desc) if desc else "at your location"
 
 
+def get_edge_items(semantic, item_idx):
+    item_mask = semantic == item_idx
+    not_item_mask = semantic != item_idx
+    item_edge = ndimage.binary_dilation(not_item_mask) & item_mask
+    return item_edge
+
+
 def describe_env(info):
     assert info["semantic"][info["player_pos"][0], info["player_pos"][1]] == player_idx
     semantic = info["semantic"][
@@ -126,10 +134,22 @@ def describe_env(info):
     else:
         obs = "You face nothing at your front."
 
+    # Edge detection
+    edge_only_items = ["water"]
+    edge_masks = {}
+
+    for item_name in edge_only_items:
+        item_idx = id_to_item.index(item_name)
+        edge_masks[item_idx] = get_edge_items(semantic, item_idx)
+
     for i in range(semantic.shape[0]):
         for j in range(semantic.shape[1]):
             idx = semantic[i, j]
             if idx == player_idx:
+                continue
+
+            # only display the edge of items that are in edge_only_items
+            if idx in edge_masks and not edge_masks[idx][i, j]:
                 continue
 
             # skip grass, sand or path so obs is not too long
