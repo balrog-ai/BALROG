@@ -1,4 +1,5 @@
 import itertools
+import re
 from collections import defaultdict
 
 import crafter
@@ -181,18 +182,22 @@ def describe_env(
 
             obj_info_list.append((id_to_item[idx], describe_loc(np.array([0, 0]), np.array([i, j]) - center)))
 
+    def extract_numbers(s):
+        """Extract all numbers from a string."""
+        return [int(num) for num in re.findall(r"\d+", s)]
+
     # filter out items, so we only display closest item of each type
     if unique_items:
         closest_obj_info_list = defaultdict(str)
         for item_name, loc in obj_info_list:
-            loc_dist = int(loc.split(" ")[0])
+            loc_dist = sum(extract_numbers(loc))
             current_dist = (
-                int(closest_obj_info_list[item_name].split(" ")[0])
+                sum(extract_numbers(closest_obj_info_list[item_name]))
                 if closest_obj_info_list[item_name]
                 else float("inf")
             )
 
-            if current_dist > loc_dist:
+            if loc_dist < current_dist:
                 closest_obj_info_list[item_name] = loc
         obj_info_list = [(name, loc) for name, loc in closest_obj_info_list.items()]
 
