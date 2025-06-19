@@ -67,10 +67,10 @@ envs:
     reward: True                            
     seed: null                  
     max_episode_steps: 2000
-    unique_items: True
-    precise_location: False
-    skip_items: []
-    edge_only_items: []
+    unique_items: True # False
+    precise_location: False # True
+    skip_items: [] # ["grass", "sand", "path"]
+    edge_only_items: [] # ["water", "lava"]
   textworld_kwargs:
     objective: True             
     description: True           
