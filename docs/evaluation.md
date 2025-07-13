@@ -31,7 +31,7 @@ export ANTHROPIC_API_KEY=<KEY>
 export GEMINI_API_KEY=<KEY>
 ```
 
-Or you can modify the `SECRETS` file, adding your api keys.
+Or you can modify the `SECRETS` file, adding your api keys. xAI or Nvidia API keys need to be added as OpenAI API keys, with client_name=xai or nvidia, together with their baseurl.
 
 You can then run the evaluation with:
 
