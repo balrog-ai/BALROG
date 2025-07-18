@@ -32,7 +32,7 @@ These are the game achievements you can get:
 1. Collect Wood
 2. Place Table
 3. Eat Cow
-4. Collect Sampling
+4. Collect Sapling
 5. Collect Drink
 6. Make Wood Pickaxe
 7. Make Wood Sword
