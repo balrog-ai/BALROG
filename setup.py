@@ -26,6 +26,7 @@ setup(
         "opencv-python-headless",
         "wandb",
         "pytest",
+        "scipy",
         "crafter",
         "gym==0.23",
         "requests",
