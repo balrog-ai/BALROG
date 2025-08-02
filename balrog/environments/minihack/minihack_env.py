@@ -1,16 +1,13 @@
 from typing import Optional
 
-import gym
+import gymnasium as gym
+from gymnasium import registry
+
 import minihack  # NOQA: F401
-
+from balrog.environments.minihack.minihack_progress import MiniHackProgressWrapper
 from balrog.environments.nle import AutoMore, NLELanguageWrapper
-from balrog.environments.wrappers import GymV21CompatibilityV0, NLETimeLimit
 
-MINIHACK_ENVS = []
-for env_spec in gym.envs.registry.all():
-    id = env_spec.id
-    if id.split("-")[0] == "MiniHack":
-        MINIHACK_ENVS.append(id)
+MINIHACK_ENVS = [env_spec.id for env_spec in registry.values() if "MiniHack" in env_spec.id]
 
 
 def make_minihack_env(env_name, task, config, render_mode: Optional[str] = None):
@@ -32,11 +29,8 @@ def make_minihack_env(env_name, task, config, render_mode: Optional[str] = None)
     )
     if skip_more:
         env = AutoMore(env)
+
+    env = MiniHackProgressWrapper(env, progression_on_done_only=False)
     env = NLELanguageWrapper(env, vlm=vlm)
-
-    # wrap NLE with timeout
-    env = NLETimeLimit(env)
-
-    env = GymV21CompatibilityV0(env=env, render_mode=render_mode)
 
     return env

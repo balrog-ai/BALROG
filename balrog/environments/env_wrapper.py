@@ -16,7 +16,7 @@ class EnvWrapper(gym.Wrapper):
 
     @property
     def max_steps(self):
-        return self.env.max_steps
+        return int(self.env.max_steps)
 
     def reset(self, **kwargs):
         obs, info = self.env.reset(**kwargs)
@@ -55,7 +55,7 @@ class EnvWrapper(gym.Wrapper):
         if self.env_name == "nle":
             from balrog.environments.nle import get_instruction_prompt
 
-            return get_instruction_prompt()
+            return get_instruction_prompt(self.env, self.task_name)
         elif self.env_name == "minihack":
             from balrog.environments.minihack import get_instruction_prompt
 
