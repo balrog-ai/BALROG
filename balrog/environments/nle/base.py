@@ -90,17 +90,14 @@ class NLELanguageWrapper(gym.Wrapper):
             raise ValueError(f'"{self.prompt_mode}" is not a valid prompt mode.')
 
     def render(self, mode="human"):
-        if mode == "tiles":
+        if mode in ("tiles", "tty_image"):
             obs = self.env.unwrapped.last_observation
-            glyphs = obs[self.env.unwrapped._observation_keys.index("glyphs")]
-            return rgb_render_image(glyphs)
-        elif mode == "tty_image":
-            obs = self.env.unwrapped.last_observation
-            tty_chars = obs[self.env.unwrapped._observation_keys.index("tty_chars")]
-            tty_colors = obs[self.env.unwrapped._observation_keys.index("tty_colors")]
-            return tty_render_image(tty_chars, tty_colors)
-        else:
-            return self.env.render(mode)
+            key_idx = self.env.unwrapped._observation_keys.index
+            if mode == "tiles":
+                return rgb_render_image(obs[key_idx("glyphs")])
+            else:
+                return tty_render_image(obs[key_idx("tty_chars")], obs[key_idx("tty_colors")])
+        return self.env.render(mode)
 
     def get_stats(self):
         return self.progress.__dict__
