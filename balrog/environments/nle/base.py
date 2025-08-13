@@ -1,4 +1,5 @@
 import random
+from typing import Any, Dict
 
 import gymnasium as gym
 from nle import nle_language_obsv
@@ -16,7 +17,6 @@ class NLELanguageWrapper(gym.Wrapper):
     def __init__(self, env, vlm=False):
         super().__init__(env)
         self.nle_language = nle_language_obsv.NLELanguageObsv()
-        self.language_action_space = self.create_action_space()
         self.vlm = vlm
         self.done = False
 
@@ -25,8 +25,50 @@ class NLELanguageWrapper(gym.Wrapper):
         else:
             self.prompt_mode = "language"
 
+        self._setup_action_space()
         self.progress = get_progress_system(self.env)
         self.max_steps = self.env.unwrapped._max_episode_steps
+
+    def _setup_action_space(self):
+        """Determines the action set and initializes the action space."""
+        env_id_lower = self.env.spec.id.lower()
+        if "minihack" in env_id_lower:
+            actions_to_descr = MINIHACK_ACTIONS_TO_DESCR
+        elif "nethack" in env_id_lower:
+            actions_to_descr = NLE_ACTIONS_TO_DESCR
+        else:
+            raise ValueError(f"Unsupported environment: {self.env.spec.id}")
+
+        self._initialize_action_mappings(actions_to_descr)
+        self.language_action_space = Strings(list(self.action_str_enum_map.keys()))
+
+    def _initialize_action_mappings(self, actions_to_descr: Dict[str, str]):
+        """Builds mappings from action strings to NLE enums and indices."""
+        self.action_str_enum_map: Dict[str, Any] = {}
+        self.action_enum_index_map: Dict[Any, int] = {}
+        self.action_str_desc_map: Dict[str, str] = {}
+
+        # Pre-calculate all possible action strings from the base environment
+        all_action_strs = {
+            action_str
+            for action_strs in nle_language_wrapper.NLELanguageWrapper.all_nle_action_map.values()
+            for action_str in action_strs
+        }
+
+        # Validate that all keys in our description map are valid actions
+        missing_keys = [key for key in actions_to_descr if key not in all_action_strs]
+        if missing_keys:
+            raise KeyError(f"Action keys not found in NLE's action map: {', '.join(missing_keys)}")
+
+        for action_enum in self.env.unwrapped.actions:
+            action_index = self.env.unwrapped.actions.index(action_enum)
+            possible_strs = nle_language_wrapper.NLELanguageWrapper.all_nle_action_map.get(action_enum, [])
+
+            for action_str in possible_strs:
+                if action_str in actions_to_descr:
+                    self.action_str_enum_map[action_str] = action_enum
+                    self.action_enum_index_map[action_enum] = action_index
+                    self.action_str_desc_map[action_str] = actions_to_descr[action_str]
 
     def pre_reset(self):
         self.progress = get_progress_system(self.env)
@@ -101,55 +143,6 @@ class NLELanguageWrapper(gym.Wrapper):
 
     def get_stats(self):
         return self.progress.__dict__
-
-    def create_action_space(self):
-        self.action_str_enum_map = {}
-        self.action_enum_index_map = {}
-        self.action_str_desc_map = {}
-
-        if "minihack" in self.env.spec.id.lower():
-            all_action_strs = [
-                action_str
-                for action_strs in nle_language_wrapper.NLELanguageWrapper.all_nle_action_map.values()
-                for action_str in action_strs
-            ]
-            assert all(key in all_action_strs for key in MINIHACK_ACTIONS_TO_DESCR), ", ".join(
-                [key for key in MINIHACK_ACTIONS_TO_DESCR if key not in all_action_strs]
-            )
-
-            for action_enum in self.env.unwrapped.actions:
-                for action_str in nle_language_wrapper.NLELanguageWrapper.all_nle_action_map[action_enum]:
-                    if action_str not in MINIHACK_ACTIONS_TO_DESCR:
-                        continue
-
-                    self.action_str_enum_map[action_str] = action_enum
-                    self.action_enum_index_map[action_enum] = self.env.unwrapped.actions.index(action_enum)
-                    self.action_str_desc_map[action_str] = MINIHACK_ACTIONS_TO_DESCR[action_str]
-
-        elif "nethack" in self.env.spec.id.lower():
-            all_action_strs = [
-                action_str
-                for action_strs in nle_language_wrapper.NLELanguageWrapper.all_nle_action_map.values()
-                for action_str in action_strs
-            ]
-            assert all(key in all_action_strs for key in NLE_ACTIONS_TO_DESCR), ", ".join(
-                [key for key in NLE_ACTIONS_TO_DESCR if key not in all_action_strs]
-            )
-
-            for action_enum in self.env.unwrapped.actions:
-                for action_str in nle_language_wrapper.NLELanguageWrapper.all_nle_action_map[action_enum]:
-                    if action_str not in NLE_ACTIONS_TO_DESCR:
-                        continue
-
-                    self.action_str_enum_map[action_str] = action_enum
-                    self.action_enum_index_map[action_enum] = self.env.unwrapped.actions.index(action_enum)
-                    self.action_str_desc_map[action_str] = NLE_ACTIONS_TO_DESCR[action_str]
-
-        else:
-            raise ValueError(f"Unsupported environment: {self.env.spec.id}")
-
-        all_actions = list(self.action_str_enum_map.keys())
-        return Strings(all_actions)
 
     def ascii_render(self, chars):
         rows, cols = chars.shape
