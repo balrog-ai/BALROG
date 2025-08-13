@@ -4,7 +4,6 @@ import gymnasium as gym
 import nle  # NOQA: F401
 import nle_progress  # NOQA: F401
 from gymnasium import registry
-from nle_progress import NLEProgressWrapper
 
 from balrog.environments.nle import AutoMore, NLELanguageWrapper
 
@@ -19,7 +18,6 @@ def make_nle_env(env_name, task, config, render_mode: Optional[str] = None):
     if skip_more:
         env = AutoMore(env)
 
-    env = NLEProgressWrapper(env, progression_on_done_only=False)
     env = NLELanguageWrapper(env, vlm=vlm)
 
     return env

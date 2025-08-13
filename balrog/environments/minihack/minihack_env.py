@@ -4,7 +4,6 @@ import gymnasium as gym
 from gymnasium import registry
 
 import minihack  # NOQA: F401
-from balrog.environments.minihack.minihack_progress import MiniHackProgressWrapper
 from balrog.environments.nle import AutoMore, NLELanguageWrapper
 
 MINIHACK_ENVS = [env_spec.id for env_spec in registry.values() if "MiniHack" in env_spec.id]
@@ -30,7 +29,6 @@ def make_minihack_env(env_name, task, config, render_mode: Optional[str] = None)
     if skip_more:
         env = AutoMore(env)
 
-    env = MiniHackProgressWrapper(env, progression_on_done_only=False)
     env = NLELanguageWrapper(env, vlm=vlm)
 
     return env

@@ -29,7 +29,6 @@ setup(
         "crafter",
         "gym==0.23",
         "requests",
-        "nle-progress @ git+https://github.com/BartekCupial/nle-progress.git",
         "balrog-nle",
         "minihack @ git+https://github.com/BartekCupial/minihack.git",
         "textworld @ git+https://github.com/balrog-ai/TextWorld.git",
