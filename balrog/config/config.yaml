@@ -41,6 +41,7 @@ envs:
   names: babyai-babaisai-textworld-crafter-nle-minihack   # Environments to evaluate, separated by hyphens
   env_kwargs:
     seed: null                # Random seed; null means a random seed is used
+    render_mode: null
   nle_kwargs:
     character: "@"            # Character representing the agent in NLE
     max_episode_steps: 100_000  # Max steps per episode in NLE

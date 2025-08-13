@@ -254,7 +254,7 @@ class Evaluator:
         Returns:
             dict: Log of the episode containing statistics and results.
         """
-        env = make_env(self.env_name, task, self.config)
+        env = make_env(self.env_name, task, self.config, render_mode=self.config.envs.env_kwargs.render_mode)
         agent.reset()
 
         seed = self.config.envs.env_kwargs.seed

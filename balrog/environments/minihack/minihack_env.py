@@ -25,6 +25,7 @@ def make_minihack_env(env_name, task, config, render_mode: Optional[str] = None)
             "tty_colors",
         ],
         **minihack_kwargs,
+        render_mode=render_mode,
     )
     if skip_more:
         env = AutoMore(env)

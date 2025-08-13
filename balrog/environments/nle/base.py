@@ -102,6 +102,16 @@ class NLELanguageWrapper(gym.Wrapper):
     def post_step(self, nle_obs):
         return self.nle_process_obs(nle_obs)
 
+    def render(self):
+        mode = self.env.render_mode
+
+        if mode == "tiles":
+            return self.render_tiles_from_obs(self.env.unwrapped._last_obs)
+        elif mode == "tty_image":
+            return self.render_tty_from_obs(self.env.unwrapped._last_obs)
+        else:
+            return self.env.render()
+
     @property
     def default_action(self):
         if "minihack" in self.env.spec.id.lower():
@@ -113,7 +123,7 @@ class NLELanguageWrapper(gym.Wrapper):
         return self.action_str_enum_map[action]
 
     def nle_process_obs(self, nle_obs):
-        img = Image.fromarray(self.render("tiles")).convert("RGB") if self.vlm else None
+        img = Image.fromarray(self.render_tiles_from_obs(nle_obs)).convert("RGB") if self.vlm else None
         text = self.nle_obs_type(nle_obs)
 
         return {
@@ -131,15 +141,14 @@ class NLELanguageWrapper(gym.Wrapper):
         else:
             raise ValueError(f'"{self.prompt_mode}" is not a valid prompt mode.')
 
-    def render(self, mode="human"):
-        if mode in ("tiles", "tty_image"):
-            obs = self.env.unwrapped.last_observation
-            key_idx = self.env.unwrapped._observation_keys.index
-            if mode == "tiles":
-                return rgb_render_image(obs[key_idx("glyphs")])
-            else:
-                return tty_render_image(obs[key_idx("tty_chars")], obs[key_idx("tty_colors")])
-        return self.env.render(mode)
+    def render_tiles_from_obs(self, obs):
+        # Custom tiles rendering from latest observation
+        key_idx = self.env.unwrapped._observation_keys.index
+        return rgb_render_image(obs[key_idx("glyphs")])
+
+    def render_tty_from_obs(self, obs):
+        key_idx = self.env.unwrapped._observation_keys.index
+        return tty_render_image(obs[key_idx("tty_chars")], obs[key_idx("tty_colors")])
 
     def get_stats(self):
         return self.progress.__dict__
