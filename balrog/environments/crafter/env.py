@@ -144,7 +144,7 @@ def describe_env(
     obj_info_list = []
 
     facing = info["player_facing"]
-    max_y, max_x = semantic.shape
+    max_x, max_y = semantic.shape
     target_x = center[0] + facing[0]
     target_y = center[1] + facing[1]
 
@@ -258,8 +258,7 @@ def describe_frame(
 
         return result.strip(), describe_inventory(info)
     except Exception:
-        breakpoint()
-        return "Error, you are out of the map."
+        return "Error, you are out of the map.", describe_inventory(info)
 
 
 class CrafterLanguageWrapper(gym.Wrapper):
