@@ -31,7 +31,7 @@ setup(
         "gym==0.23",
         "requests",
         "balrog-nle",
-        "minihack @ git+https://github.com/balrog-ai/minihack.git",
+        "minihack @ git+https://github.com/BartekCupial/minihack.git",
         "textworld @ git+https://github.com/balrog-ai/TextWorld.git",
         "tatsu==5.8.3",
         "minigrid @ git+https://github.com/BartekCupial/Minigrid.git",
