@@ -8,7 +8,9 @@ import os
 from collections import namedtuple
 from io import BytesIO
 
-import google.generativeai as genai
+from google import genai
+from google.genai import types
+
 from anthropic import Anthropic
 from google.generativeai import caching
 from openai import OpenAI
@@ -230,7 +232,8 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
     def _initialize_client(self):
         """Initialize the Generative AI client if not already initialized."""
         if not self._initialized:
-            self.model = genai.GenerativeModel(self.model_id)
+            self.client = genai.Client()
+            self.model = None
 
             # Create kwargs dictionary for GenerationConfig
             client_kwargs = {
@@ -241,70 +244,45 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
             temperature = self.client_kwargs.get("temperature")
             if temperature is not None:
                 client_kwargs["temperature"] = temperature
+                
+            thinking_budget = self.client_kwargs.get("thinking_budget", -1)
 
-            self.generation_config = genai.types.GenerationConfig(**client_kwargs)
+            self.generation_config = genai.types.GenerateContentConfig(
+                **client_kwargs, 
+                thinking_config=types.ThinkingConfig(thinking_budget=)
+            )
             self._initialized = True
 
     def convert_messages(self, messages):
-        """Convert messages to the format expected by the Generative AI API.
+        """Convert messages to the format expected by the new Google GenAI SDK.
 
         Args:
             messages (list): A list of message objects.
 
         Returns:
-            list: A list of messages formatted for the Generative AI API.
+            list[types.Content]: A list of Content objects formatted for the API.
         """
-        # Convert standard Message objects to Gemini's format
         converted_messages = []
+        
         for msg in messages:
             parts = []
+            
             role = msg.role
             if role == "assistant":
                 role = "model"
             elif role == "system":
                 role = "user"
+                
             if msg.content:
-                parts.append(msg.content)
+                parts.append(types.Part(text=msg.content))
+
             if msg.attachment is not None:
-                parts.append(msg.attachment)
+                parts.append(types.Part(image=msg.attachment))
+
             converted_messages.append(
-                {
-                    "role": role,
-                    "parts": parts,
-                }
+                types.Content(role=role, parts=parts)
             )
         return converted_messages
-
-    def get_completion(self, converted_messages, max_retries=5, delay=5):
-        """Get the completion from the model with retries upon failure.
-
-        Args:
-            converted_messages (list): Messages formatted for the Generative AI API.
-            max_retries (int, optional): Maximum number of retries. Defaults to 5.
-            delay (int, optional): Delay between retries in seconds. Defaults to 5.
-
-        Returns:
-            Response object from the API.
-
-        Raises:
-            Exception: If the API call fails after the maximum number of retries.
-        """
-        retries = 0
-        while retries < max_retries:
-            try:
-                response = self.model.generate_content(
-                    converted_messages,
-                    generation_config=self.generation_config,
-                )
-                return response
-            except Exception as e:
-                retries += 1
-                logger.error(f"Retryable error during generate_content: {e}. Retry {retries}/{max_retries}")
-                sleep_time = delay * (2 ** (retries - 1))  # Exponential backoff
-                time.sleep(sleep_time)
-
-        # If maximum retries are reached and still no valid response
-        raise Exception(f"Failed to get a valid completion after {max_retries} retries.")
 
     def extract_completion(self, response):
         """Extract the completion text from the API response.
@@ -354,9 +332,10 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
         converted_messages = self.convert_messages(messages)
 
         def api_call():
-            response = self.model.generate_content(
-                converted_messages,
-                generation_config=self.generation_config,
+            response = self.client.models.generate_content(
+                model=self.model_id,
+                contents=converted_messages,
+                config=self.generation_config,
             )
             # Attempt to extract completion immediately after API call
             completion = self.extract_completion(response)

@@ -32,6 +32,7 @@ client:
   generate_kwargs:
     temperature: 1.0            # Sampling temperature. If null the API default temperature is used instead
     max_tokens: 4096            # Max tokens to generate in the response
+  thinking_budget: null         # Thinking budget. Set to a number of tokens to control.
   timeout: 60                   # Timeout for API requests in seconds
   max_retries: 5                # Max number of retries for failed API calls
   delay: 2                      # Exponential backoff factor between retries in seconds
