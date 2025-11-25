@@ -7,7 +7,6 @@ import time
 from collections import defaultdict
 from pathlib import Path
 
-from google import genai
 import openai
 
 
