@@ -7,7 +7,7 @@ import time
 from collections import defaultdict
 from pathlib import Path
 
-import google.generativeai as genai
+from google import genai
 import openai
 
 
@@ -206,7 +206,7 @@ def setup_environment(
     """
     secrets = load_secrets(os.path.join(original_cwd, "SECRETS"))
     if secrets[gemini_tag]:
-        genai.configure(api_key=secrets[gemini_tag])
+        os.environ["GEMINI_API_KEY"] = secrets[gemini_tag]
     if secrets[anthropic_tag]:
         os.environ["ANTHROPIC_API_KEY"] = secrets[anthropic_tag]
     if secrets[openai_tag]:
