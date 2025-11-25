@@ -249,7 +249,7 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
 
             self.generation_config = genai.types.GenerateContentConfig(
                 **client_kwargs, 
-                thinking_config=types.ThinkingConfig(thinking_budget=)
+                thinking_config=types.ThinkingConfig(thinking_budget=thinking_budget)
             )
             self._initialized = True
 
