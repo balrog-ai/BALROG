@@ -12,7 +12,6 @@ from google import genai
 from google.genai import types
 
 from anthropic import Anthropic
-from google.generativeai import caching
 from openai import OpenAI
 
 LLMResponse = namedtuple(
