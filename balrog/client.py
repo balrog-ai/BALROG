@@ -131,6 +131,23 @@ def process_image_claude(image):
     }
 
 
+def process_image_bedrock(image):
+    """Process an image for AWS Bedrock Converse API.
+
+    Notes:
+        The Bedrock Runtime Converse API accepts image content blocks with raw bytes.
+        Not all models support images; users can disable image history if needed.
+    """
+    buffered = BytesIO()
+    image.save(buffered, format="PNG")
+    return {
+        "image": {
+            "format": "png",
+            "source": {"bytes": buffered.getvalue()},
+        }
+    }
+
+
 class OpenAIWrapper(LLMClientWrapper):
     """Wrapper for interacting with the OpenAI API."""
 
@@ -469,6 +486,195 @@ class ClaudeWrapper(LLMClientWrapper):
         )
 
 
+class AWSBedrockWrapper(LLMClientWrapper):
+    """Wrapper for interacting with Amazon AWS Bedrock Runtime Converse API."""
+
+    def __init__(self, client_config):
+        super().__init__(client_config)
+        self._initialized = False
+
+    def _initialize_client(self):
+        if self._initialized:
+            return
+
+        try:
+            import boto3
+            from botocore.config import Config as BotocoreConfig
+        except Exception as e:
+            raise ImportError(
+                "AWS Bedrock client requires 'boto3' (and botocore). Install it and ensure AWS credentials are configured."
+            ) from e
+
+        # Allow passing AWS-specific settings via generate_kwargs for convenience.
+        region_name = (
+            self.client_kwargs.get("region_name")
+            or os.environ.get("AWS_REGION")
+            or os.environ.get("AWS_DEFAULT_REGION")
+            or "us-east-1"
+        )
+        profile_name = self.client_kwargs.get("profile_name") or self.client_kwargs.get("aws_profile_name")
+
+        session = boto3.Session(profile_name=profile_name) if profile_name else boto3.Session()
+
+        endpoint_url = self.base_url.strip() if isinstance(self.base_url, str) and self.base_url.strip() else None
+
+        botocore_config = BotocoreConfig(
+            connect_timeout=self.timeout,
+            read_timeout=self.timeout,
+            retries={"max_attempts": max(1, int(self.max_retries)), "mode": "standard"},
+        )
+
+        self.client = session.client(
+            "bedrock-runtime",
+            region_name=region_name,
+            endpoint_url=endpoint_url,
+            config=botocore_config,
+        )
+        self._initialized = True
+
+    def convert_messages(self, messages):
+        """Convert internal Message objects to Bedrock Converse message format."""
+        converted_messages = []
+        for msg in messages:
+            role = msg.role
+            if role == "system":
+                # Keep compatibility with prompt builders that may emit system messages.
+                role = "user"
+
+            content_blocks = []
+            if msg.content:
+                content_blocks.append({"text": msg.content})
+            if msg.attachment is not None:
+                content_blocks.append(process_image_bedrock(msg.attachment))
+
+            if (
+                self.alternate_roles
+                and converted_messages
+                and converted_messages[-1]["role"] == role
+            ):
+                converted_messages[-1]["content"].extend(content_blocks)
+            else:
+                converted_messages.append({"role": role, "content": content_blocks})
+        return converted_messages
+
+    def _extract_text(self, response):
+        try:
+            blocks = response["output"]["message"]["content"]
+        except Exception as e:
+            raise KeyError(f"Unexpected Bedrock response shape: {response}") from e
+
+        parts = []
+        for block in blocks or []:
+            text = block.get("text")
+            if isinstance(text, str):
+                parts.append(text)
+        return "\n".join(parts).strip()
+
+    def _extract_reasoning(self, response):
+        """Extract extended thinking / reasoning content from Bedrock responses.
+
+        Supports both Claude extended thinking (`type: thinking`) and Nova-style
+        `reasoningContent` blocks when present.
+        """
+        try:
+            blocks = response["output"]["message"]["content"]
+        except Exception:
+            return None
+
+        reasoning_parts = []
+
+        for block in blocks or []:
+            if not isinstance(block, dict):
+                continue
+
+            # Claude 4.x extended thinking via Messages API (proxied by Converse).
+            if block.get("type") == "thinking":
+                thinking_text = block.get("thinking")
+                if isinstance(thinking_text, str) and thinking_text.strip():
+                    reasoning_parts.append(thinking_text.strip())
+
+            # Amazon Nova extended reasoning via reasoningContent.
+            reasoning_content = block.get("reasoningContent")
+            if isinstance(reasoning_content, dict):
+                reasoning_text = reasoning_content.get("reasoningText")
+                if isinstance(reasoning_text, dict):
+                    txt = reasoning_text.get("text")
+                    if isinstance(txt, str) and txt.strip():
+                        reasoning_parts.append(txt.strip())
+
+        if not reasoning_parts:
+            return None
+
+        return "\n".join(reasoning_parts)
+
+    def generate(self, messages):
+        self._initialize_client()
+        converted_messages = self.convert_messages(messages)
+
+        def api_call():
+            # Map OpenAI-style kwargs to Bedrock Converse parameters.
+            inference_config = {}
+            additional_model_request_fields = {}
+
+            max_tokens = self.client_kwargs.get("max_tokens", 1024)
+            if max_tokens is not None:
+                inference_config["maxTokens"] = int(max_tokens)
+
+            thinking_budget = self.client_kwargs.get("thinking_budget")
+            thinking_enabled = False
+            if thinking_budget is not None:
+                if isinstance(thinking_budget, int):
+                    # Extended thinking for Claude 4.x models on Bedrock.
+                    # Per AWS docs, this must be sent as a model-specific field.
+                    additional_model_request_fields["thinking"] = {
+                        "type": "enabled",
+                        "budget_tokens": thinking_budget,
+                    }
+                    thinking_enabled = True
+                else:
+                    logger.warning(
+                        "Ignoring non-integer thinking_budget=%r for AWS Bedrock client; "
+                        "expected an int number of tokens.",
+                        thinking_budget,
+                    )
+
+            # Extended thinking is not compatible with temperature/top_p tweaks.
+            if not thinking_enabled:
+                temperature = self.client_kwargs.get("temperature")
+                if temperature is not None:
+                    inference_config["temperature"] = float(temperature)
+
+                top_p = self.client_kwargs.get("top_p")
+                if top_p is not None:
+                    inference_config["topP"] = float(top_p)
+
+            return self.client.converse(
+                modelId=self.model_id,
+                messages=converted_messages,
+                inferenceConfig=inference_config,
+                additionalModelRequestFields=additional_model_request_fields,
+            )
+
+        response = self.execute_with_retries(api_call)
+        completion = self._extract_text(response)
+        reasoning = self._extract_reasoning(response)
+
+        usage = response.get("usage", {}) if isinstance(response, dict) else {}
+        input_tokens = usage.get("inputTokens", 0) or 0
+        output_tokens = usage.get("outputTokens", 0) or 0
+
+        stop_reason = response.get("stopReason") if isinstance(response, dict) else None
+
+        return LLMResponse(
+            model_id=self.model_id,
+            completion=completion,
+            stop_reason=stop_reason,
+            input_tokens=input_tokens,
+            output_tokens=output_tokens,
+            reasoning=reasoning,
+        )
+
+
 def create_llm_client(client_config):
     """
     Factory function to create the appropriate LLM client based on the client name.
@@ -489,6 +695,8 @@ def create_llm_client(client_config):
             return GoogleGenerativeAIWrapper(client_config)
         elif "claude" in client_name_lower:
             return ClaudeWrapper(client_config)
+        elif "aws-bedrock" in client_name_lower:
+            return AWSBedrockWrapper(client_config)
         else:
             raise ValueError(f"Unsupported client name: {client_config.client_name}")
 
