@@ -26,13 +26,13 @@ eval:
   feedback_on_invalid_action : True       # Whether to provide feedback on invalid actions
 
 client:
-  client_name: openai           # LLM client to use (e.g., 'openai', 'gemini', 'claude')
+  client_name: openai           # LLM client to use (e.g., 'openai', 'gemini', 'claude', 'aws-bedrock')
   model_id: gpt-4o              # Model identifier (e.g., 'gpt-4', 'gpt-3.5-turbo')
   base_url: http://localhost:8080/v1   # Base URL for the API (if using a local server)
   generate_kwargs:
     temperature: 1.0            # Sampling temperature. If null the API default temperature is used instead
-    max_tokens: 4096            # Max tokens to generate in the response
-  thinking_budget: null         # Thinking budget. Set to a number of tokens to control.
+    max_tokens: 8192            # Max tokens to generate in the response
+    thinking_budget: null       # Thinking budget. Set to a number of tokens to control.
   timeout: 60                   # Timeout for API requests in seconds
   max_retries: 5                # Max number of retries for failed API calls
   delay: 2                      # Exponential backoff factor between retries in seconds
