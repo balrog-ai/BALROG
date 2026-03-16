@@ -250,7 +250,6 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
         if not self._initialized:
             self.client = genai.Client()
             self.model = None
-
             # Create kwargs dictionary for GenerationConfig
             client_kwargs = {
                 "max_output_tokens": self.client_kwargs.get("max_tokens", 1024),
@@ -260,13 +259,31 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
             temperature = self.client_kwargs.get("temperature")
             if temperature is not None:
                 client_kwargs["temperature"] = temperature
-                
-            thinking_budget = self.client_kwargs.get("thinking_budget", -1)
 
-            self.generation_config = genai.types.GenerateContentConfig(
-                **client_kwargs, 
-                thinking_config=types.ThinkingConfig(thinking_budget=thinking_budget)
-            )
+            # Configure thinking / reasoning if an integer budget is provided.
+            thinking_config = None
+            thinking_budget = self.client_kwargs.get("thinking_budget", -1)
+            if isinstance(thinking_budget, int):
+                thinking_config = types.ThinkingConfig(
+                    thinking_budget=thinking_budget,
+                    include_thoughts=True,
+                )
+            elif thinking_budget is not None:
+                logger.warning(
+                    "Ignoring non-integer thinking_budget=%r for Google Generative AI client; "
+                    "expected an int number of tokens.",
+                    thinking_budget,
+                )
+
+            if thinking_config is not None:
+                self.generation_config = genai.types.GenerateContentConfig(
+                    **client_kwargs,
+                    thinking_config=thinking_config,
+                )
+            else:
+                self.generation_config = genai.types.GenerateContentConfig(
+                    **client_kwargs,
+                )
             self._initialized = True
 
     def convert_messages(self, messages):
@@ -301,14 +318,16 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
         return converted_messages
 
     def extract_completion(self, response):
-        """Extract the completion text from the API response.
+        """Extract the completion text (answer) from the API response.
+
+        This concatenates all non-thinking parts from the first candidate.
 
         Args:
             response: The response object from the API.
 
         Returns:
             str: The extracted completion text.
-            
+
         Raises:
             Exception: If response is None or missing expected fields.
         """
@@ -323,16 +342,85 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
         content = getattr(candidate, "content", None)
         if not content:
             raise Exception("No content found in the candidate.")
-            
+
         content_parts = getattr(content, "parts", [])
         if not content_parts:
             raise Exception("No content parts found in the candidate.")
 
-        text = getattr(content_parts[0], "text", None)
-        if text is None:
-            raise Exception("No text found in the content parts.")
-            
-        return text.strip()
+        answer_chunks = []
+        for part in content_parts:
+            text = getattr(part, "text", None)
+            if not text:
+                continue
+            # Skip internal thinking / reasoning parts for the user-facing answer.
+            if getattr(part, "thought", False):
+                continue
+            answer_chunks.append(text)
+
+        if not answer_chunks:
+            # Fallback to the response-level text helper if available.
+            text = getattr(response, "text", None)
+            if callable(text):
+                text = text()
+            if isinstance(text, str) and text.strip():
+                return text.strip()
+            raise Exception("No non-thinking text found in the content parts.")
+
+        return "".join(answer_chunks).strip()
+
+    def extract_reasoning(self, response):
+        """Extract the reasoning / thinking trace from the API response, if present."""
+        if not response:
+            return None
+
+        candidates = getattr(response, "candidates", [])
+        if not candidates:
+            return None
+
+        candidate = candidates[0]
+        content = getattr(candidate, "content", None)
+        if not content:
+            return None
+
+        content_parts = getattr(content, "parts", [])
+        if not content_parts:
+            return None
+
+        reasoning_chunks = []
+        for part in content_parts:
+            if not getattr(part, "thought", False):
+                continue
+            text = getattr(part, "text", None)
+            if isinstance(text, str) and text.strip():
+                reasoning_chunks.append(text.strip())
+
+        if not reasoning_chunks:
+            return None
+
+        return "\n".join(reasoning_chunks)
+
+    def _extract_reasoning_token_count(self, response) -> int:
+        """Extract Gemini 'thinking/reasoning' token count from usage metadata.
+
+        Gemini can report reasoning tokens separately from candidate/output tokens.
+        Since downstream code tracks only input/output, we fold reasoning tokens into
+        `output_tokens` so total accounting is correct.
+        """
+        usage = getattr(response, "usage_metadata", None) if response else None
+        if usage is None:
+            return 0
+
+        # Different SDK versions / endpoints may use different names.
+        for attr in (
+            "thoughts_token_count",
+            "thought_token_count",
+            "thinking_token_count",
+            "reasoning_token_count",
+        ):
+            val = getattr(usage, attr, None)
+            if isinstance(val, int):
+                return val
+        return 0
 
     def generate(self, messages):
         """Generate a response from the Generative AI API given a list of messages.
@@ -353,14 +441,27 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
                 contents=converted_messages,
                 config=self.generation_config,
             )
-            # Attempt to extract completion immediately after API call
+            # Attempt to extract completion and reasoning immediately after API call
             completion = self.extract_completion(response)
-            # Return both response and completion if successful
-            return response, completion
+            reasoning = self.extract_reasoning(response)
+            # Return both response and extracted fields if successful
+            return response, completion, reasoning
 
         try:
             # Execute the API call and extraction together with retries
-            response, completion = self.execute_with_retries(api_call)
+            response, completion, reasoning = self.execute_with_retries(api_call)
+            reasoning_tokens = self._extract_reasoning_token_count(response)
+            prompt_tokens = (
+                getattr(response.usage_metadata, "prompt_token_count", 0)
+                if response and getattr(response, "usage_metadata", None)
+                else 0
+            )
+            candidate_tokens = (
+                getattr(response.usage_metadata, "candidates_token_count", 0)
+                if response and getattr(response, "usage_metadata", None)
+                else 0
+            )
+            output_tokens = (candidate_tokens or 0) + (reasoning_tokens or 0)
 
             # Check if the successful response contains an empty completion
             if not completion or completion.strip() == "":
@@ -369,9 +470,9 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
                     model_id=self.model_id,
                     completion="",
                     stop_reason="empty_response",
-                    input_tokens=getattr(response.usage_metadata, "prompt_token_count", 0) if response and getattr(response, "usage_metadata", None) else 0,
-                    output_tokens=getattr(response.usage_metadata, "candidates_token_count", 0) if response and getattr(response, "usage_metadata", None) else 0,
-                    reasoning=None,
+                    input_tokens=prompt_tokens or 0,
+                    output_tokens=output_tokens,
+                    reasoning=reasoning,
                 )
             else:
                 # If completion is not empty, return the normal response
@@ -383,17 +484,9 @@ class GoogleGenerativeAIWrapper(LLMClientWrapper):
                         if response and getattr(response, "candidates", [])
                         else "unknown"
                     ),
-                    input_tokens=(
-                        getattr(response.usage_metadata, "prompt_token_count", 0)
-                        if response and getattr(response, "usage_metadata", None)
-                        else 0
-                    ),
-                    output_tokens=(
-                        getattr(response.usage_metadata, "candidates_token_count", 0)
-                        if response and getattr(response, "usage_metadata", None)
-                        else 0
-                    ),
-                    reasoning=None,
+                    input_tokens=prompt_tokens or 0,
+                    output_tokens=output_tokens,
+                    reasoning=reasoning,
                 )
         except Exception as e:
             logger.error(f"API call failed after {self.max_retries} retries: {e}. Returning empty completion.")
