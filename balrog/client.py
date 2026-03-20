@@ -214,18 +214,33 @@ class OpenAIWrapper(LLMClientWrapper):
                 "max_tokens": self.client_kwargs.get("max_tokens", 1024),
             }
 
-            # Only include temperature if it's not None
             temperature = self.client_kwargs.get("temperature")
             if temperature is not None:
                 api_kwargs["temperature"] = temperature
 
-            return self.client.chat.completions.create(**api_kwargs)
+            response = self.client.chat.completions.create(**api_kwargs)
 
-        response = self.execute_with_retries(api_call)
+            if response is None:
+                raise RuntimeError("LLM response is None")
+
+            if not getattr(response, "choices", None):
+                raise RuntimeError(f"Missing choices in response: {response!r}")
+
+            msg = getattr(response.choices[0], "message", None)
+            if msg is None:
+                raise RuntimeError(f"Missing message in response: {response!r}")
+
+            content = getattr(msg, "content", None)
+            if not content:
+                raise RuntimeError(f"Empty content in response: {response!r}")
+
+            return response, content.strip()
+
+        response, completion = self.execute_with_retries(api_call)
 
         return LLMResponse(
             model_id=self.model_id,
-            completion=response.choices[0].message.content.strip(),
+            completion=completion,
             stop_reason=response.choices[0].finish_reason,
             input_tokens=response.usage.prompt_tokens,
             output_tokens=response.usage.completion_tokens,
