@@ -15,6 +15,9 @@ for env_spec in gym.envs.registry.all():
 
 def make_minihack_env(env_name, task, config, render_mode: Optional[str] = None):
     minihack_kwargs = dict(config.envs.minihack_kwargs)
+    boxoban_budget = minihack_kwargs.pop("boxoban_max_episode_steps", None)
+    if boxoban_budget is not None and task.startswith("MiniHack-Boxoban-"):
+        minihack_kwargs["max_episode_steps"] = boxoban_budget
     skip_more = minihack_kwargs.pop("skip_more", False)
     vlm = True if config.agent.max_image_history > 0 else False
     env = gym.make(

@@ -52,6 +52,7 @@ envs:
   minihack_kwargs: 
     character: "@"
     max_episode_steps: 100
+    boxoban_max_episode_steps: 200  # Set to null to use max_episode_steps for all MiniHack tasks
     penalty_step: -0.01         
     penalty_time: 0.0           
     penalty_mode: constant      
